@@ -1,0 +1,15 @@
+﻿<Command xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+  <Id>8d4acb15-fa90-41b6-bcde-30ac9c5eb015</Id>
+  <Header/>
+  <Title>Patient Questionnaire</Title>
+  <Type>Anonymous_Command</Type>
+  <AppId>Evado_eClinical</AppId>
+  <Object>Subject_Milestone</Object>
+  <Method>Get_Object</Method>
+  <Parameters>
+    <Parameter>
+      <Name>Page_Type</Name>
+      <Value>Questionnaire_Record_Page</Value>
+    </Parameter>
+  </Parameters>
+</Command>

@@ -1,0 +1,323 @@
+/* This style sheet defines the report layout styles. 
+ *
+ */
+
+.Rpt_Title
+{
+  margin: 5px;
+  margin-left: 0;
+	text-align: Left;
+	width: 97%;
+  font-size: 12pt;
+  color: #000000;
+  font-variant:normal;
+  font-weight:bold;
+	text-align: Left;
+}
+
+.Rpt_SubTitle
+{
+  margin: 5px;
+  margin-left: 0;
+	text-align: Left;
+	width: 97%;
+  font-size: 11pt; /* 10pr;  */
+  color: #000000; 
+  font-variant:normal;
+  font-weight:bold;
+	text-align: Left;
+}
+
+.Rpt_MainTable
+{  
+  padding: 0;
+  margin: 0px;
+  margin-left: 10px;
+  color:#000000;
+}
+
+.Rpt_Table
+{  
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color:#000000;
+  
+}
+
+.Rpt_Table100
+{  
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color:#000000;  
+}
+
+.Rpt_Title
+{  
+  width: 97%;
+  margin: 0;
+  padding: 0;
+  color:#000000;
+  background-color: #ffffff;
+
+  margin-left: 10pt; 
+  margin-right: 10pt; 
+}
+
+.Rpt_Parameters
+{  
+  width: 97%;
+  margin: 0;
+  padding: 0;
+  color:#000000;
+
+  margin-left: 10pt; 
+  margin-right: 10pt; 
+  
+}
+.Rpt_Parameters tr
+{
+  height: 22px;
+}
+.Rpt_Parameters tr .Prompt
+{
+  width: 15%;
+  text-align: right;
+}
+.Rpt_Table97 tr
+{
+  height: 22px;
+}
+#Rpt_ContentTable
+{
+  /*border: #0c0c0c 1px solid;*/
+  width: 97%;
+  margin: 0;
+  padding: 0;
+  color: #000000;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.Rpt_Grid
+{  
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color:#000000;
+}
+
+.Rpt_Row
+{  
+ height: 22pt;	
+}
+
+.Rpt_Section
+{  
+  width:100%;
+  margin: 10px;
+  padding: 0px;
+	text-align: Left;
+  vertical-align : top;
+  text-align: center;
+  font-weight: normal;
+  width: 980px;
+  color:#000000;
+	text-align: Left;
+}
+
+.Rpt_Col
+{  
+  margin: 0px;
+  padding: 0px;
+  vertical-align : top;
+  text-align: left;
+}
+
+.Rpt_Col_Center
+{  
+  margin: 0px;
+  padding: 0px;
+  vertical-align : top;
+  text-align: center;
+}
+
+.Rpt_Col_50
+{  
+  width:50%;
+  margin: 0px;
+  padding: 0px;
+  vertical-align : top;
+  text-align: left;
+}
+
+.Rpt_Col_35
+{  
+  width:35%;
+  margin: 0px;
+  padding: 0px;
+  vertical-align : top;
+  text-align: left;
+}
+
+.Rpt_Col_70
+{  
+  width:70%;
+  margin: 0px;
+  padding: 0px;
+  vertical-align : top;
+  text-align: left;
+}
+
+.Rpt_Col_80
+{  
+  width:80%;
+  margin: 0px;
+  padding: 0px;
+  vertical-align : top;
+  
+  text-align: left;
+}
+.Rpt_Header
+{
+  border: #0c0c0c 1px solid;
+  padding-right: 3px;
+  padding-left: 3px;
+  font-weight: bold;
+  font-size: 11pt; /* 10pr;  */
+  padding-bottom: 3px;
+  color: #000000;
+  line-height: normal;
+  padding-top: 3px;
+  font-style: normal;
+  font-family: Arial;
+  height: 16pt;
+  background-color: #ebebeb;
+  vertical-align:middle;
+  text-align:center;
+}
+.Rpt_Item
+{
+	padding: 3px;
+	margin: 0px;
+  Color: #000000;
+  font-Weight: normal;
+  Background-Color: #ffffff; 
+  vertical-align:middle;
+	text-align: Left;
+}
+
+.Rpt_Alt
+{
+	padding: 3px;
+	margin: 0px;
+  font-weight: normal;
+  color: #000000;
+  background-color: #ebebeb;
+  vertical-align:middle;
+	text-align: Left;
+}
+
+.Rpt_border
+{ 
+  border: #000000 1px solid;
+}
+
+.Rpt, .Rpt_field
+{ 
+  padding-left: 10pt;
+  color:#000000;
+}
+
+.Rpt_blnk
+{ 
+  background:#FFFFFF;
+  color:#FFFFFF;
+}
+
+/* Styles added by Andres */
+
+.Rpt_Table97
+{
+  margin: 0px;
+  padding: 0;
+  width: 100%;
+}
+
+
+.Flat_Rpt_Item
+{
+  padding-right: 3px;
+  padding-left: 3px;
+  font-weight: bold;
+  font-size: 11pt; /* 10pr;  */
+  padding-bottom: 3px;
+  color: #000000;
+  line-height: normal;
+  padding-top: 3px;
+  font-style: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 16pt;
+  background-color: #ebebeb;
+  vertical-align:middle;
+	text-align: Left;
+}
+
+.Flat_Rpt_Item_Alt
+{
+  padding-right: 3px;
+  padding-left: 3px;
+  font-weight: bold;
+  font-size: 11pt; /* 10pr;  */
+  padding-bottom: 3px;
+  color: #000000;
+  line-height: normal;
+  padding-top: 3px;
+  font-style: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 16pt;
+  background-color: #ffffff;
+  vertical-align:middle;
+	text-align: Left;
+}
+
+
+.Flat_Rpt_Field_Name
+{
+	padding-right: 3px;
+  padding-left: 3px;
+  font-weight: bold;
+  font-size: 11pt; /* 10pr;  */
+  padding-bottom: 3px;
+  color: #000000;
+  line-height: normal;
+  padding-top: 3px;
+  font-style: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 16pt;
+  vertical-align:middle;
+	text-align: Left;
+}
+
+.Flat_Rpt_Field_Value
+{
+	padding: 3px;
+	margin: 0px;
+  Color: black;
+  font-Weight: normal;
+  vertical-align:middle;
+	text-align: Left;
+}
+
+
+.Rpt_Total
+{
+  font-weight: bold;
+  line-height: normal;
+  font-style: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  vertical-align:middle;
+  text-align:right;
+  color: #bf382f;
+}
