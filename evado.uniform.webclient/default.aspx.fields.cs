@@ -220,10 +220,9 @@ namespace Evado.UniForm.WebClient
       {
         stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
 
-        if ( PageField.Layout == Evado.Model.UniForm.FieldLayoutCodes.Center_Justified )
+        if ( PageField.Layout != Evado.Model.UniForm.FieldLayoutCodes.Column_Layout )
         {
-          stFieldRowStyling = "class='group-row field layout-center " + this.fieldBackgroundColorClass ( PageField ) + "' ";
-          stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
+          stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
         }
       }
 
@@ -270,33 +269,33 @@ namespace Evado.UniForm.WebClient
       //
       // Error message
       //
-      //TODO: replace <span> with <label for="id_of_input-element"> tag
       Global.LogDebug ( "Formattted title: " + PageField.Title );
 
-      //stHtml.Append ( "<div " + stFieldTitleStyling + "> "
-      // + "<label for='" + PageField.FieldId + stField_Suffix + "'>" + PageField.Title );
+      stHtml.AppendLine ( "<div " + stFieldTitleStyling + "> ");
 
-      stHtml.Append ( "<div " + stFieldTitleStyling + "> "
-       + "<label>" + PageField.Title );
-
-      if ( PageField.Mandatory == true && PageField.EditAccess != Evado.Model.UniForm.EditAccess.Disabled )
+      if ( PageField.Title != String.Empty )
       {
-        stHtml.Append ( "<span class='required'> * </span>" );
-      }
+        stHtml.AppendLine ( "<label>" + PageField.Title );
 
-      stHtml.Append ( "</label>\r\n " );
+        if ( PageField.Mandatory == true && PageField.EditAccess != Evado.Model.UniForm.EditAccess.Disabled )
+        {
+          stHtml.Append ( "<span class='required'> * </span>" );
+        }
 
-      if ( PageField.IsEnabled == true )
-      {
-        stHtml.AppendLine ( "<div class='error-container '>" );
-        stHtml.AppendLine ( "<div id='" + PageField.Id + "-err-row' class='cell cell-error-value'>" );
-        stHtml.AppendLine ( "<span id='sp" + PageField.Id + "-err'></span>" );
-        stHtml.AppendLine ( "</div></div>\r\n" );
+        stHtml.Append ( "</label>\r\n " );
+
+        if ( PageField.IsEnabled == true )
+        {
+          stHtml.AppendLine ( "<div class='error-container '>" );
+          stHtml.AppendLine ( "<div id='" + PageField.Id + "-err-row' class='cell cell-error-value'>" );
+          stHtml.AppendLine ( "<span id='sp" + PageField.Id + "-err'></span>" );
+          stHtml.AppendLine ( "</div></div>\r\n" );
+        }
       }
 
       if ( stDescription != String.Empty )
       {
-        stHtml.Append ( "<div class='description'>" + stDescription + "</div>" );
+        stHtml.AppendLine ( "<div class='description'>" + stDescription + "</div>" );
       }
 
       if ( PageField.Type != Evado.Model.EvDataTypes.Read_Only_Text

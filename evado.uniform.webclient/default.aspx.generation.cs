@@ -1290,7 +1290,7 @@ namespace Evado.UniForm.WebClient
       {
         string iconImagePath = Global.RelativeBinaryDownloadURL + iconImage;
 
-        title = "<img class=\"command-icon\" src=\"" + iconImagePath + "\" height='50px' />&nbsp;" + title;
+        title = "<img class=\"command-icon\" src=\"" + iconImagePath + "\" width='125px' />&nbsp;" + title;
       }
 
       return title;
