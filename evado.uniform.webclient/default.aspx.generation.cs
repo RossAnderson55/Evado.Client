@@ -296,7 +296,7 @@ namespace Evado.UniForm.WebClient
               Global.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:0; width:" + (centreWidthPercentage- 2) + "%' >" );
+              sbMainBody.AppendLine ( "<div style='margin-left:0; width:" + ( centreWidthPercentage - 2 ) + "%' >" );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -312,8 +312,8 @@ namespace Evado.UniForm.WebClient
 
               sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
-              sbMainBody.AppendLine ( "<!-- CLOSING LEFT BODY COLUMN -->" );
               sbMainBody.AppendLine ( "</div>" );
+              sbMainBody.AppendLine ( "<!-- CLOSING LEFT BODY COLUMN -->" );
 
               Global.LogDebug ( "Add right column to body" );
 
@@ -322,22 +322,22 @@ namespace Evado.UniForm.WebClient
 
               sbMainBody.AppendLine ( sbRightBody.ToString ( ) );
 
-              sbMainBody.AppendLine ( "<!-- CLOSING RIGHT BODY COLUMN -->" );
               sbMainBody.AppendLine ( "</div>" );
+              sbMainBody.AppendLine ( "<!-- CLOSING RIGHT BODY COLUMN -->" );
 
               Global.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:" + (leftColumnPercentage + 1) + "%; width:" + (centreWidthPercentage -2) + "%' >" );
+              sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%; width:" + ( centreWidthPercentage - 2 ) + "%' >" );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
-              sbMainBody.AppendLine ( "<!-- CLOSING CENTER BODY COLUMN -->" );
               sbMainBody.AppendLine ( "</div>" );
+              sbMainBody.AppendLine ( "<!-- CLOSING CENTER BODY COLUMN -->" );
             }
           }
-          sbMainBody.AppendLine ( "<!-- CLOSING BODY COLUMNS -->" );
           sbMainBody.AppendLine ( "</div>" );
+          sbMainBody.AppendLine ( "<!-- CLOSING BODY COLUMNS -->" );
         }//END only centre body.
       }
       this.litPageContent.Text = sbMainBody.ToString ( );
@@ -484,6 +484,11 @@ namespace Evado.UniForm.WebClient
         Evado.Model.EvStatics.getStringAsHtml ( this._AppData.Message ),
         Evado.Model.UniForm.EditAccess.Disabled );
       errorGroup.Layout = Evado.Model.UniForm.GroupLayouts.Full_Width;
+
+      if ( this._AppData.Message.ToLower ( ).Contains ( "error" ) == true )
+      {
+        errorGroup.AddParameter ( Model.UniForm.GroupParameterList.BG_Default, Model.UniForm.Background_Colours.Red );
+      }
 
       //
       // set the field set attributes.
@@ -758,7 +763,7 @@ namespace Evado.UniForm.WebClient
 
       this._GroupValueColumWidth = 60;
       Model.UniForm.FieldValueWidths widthValue = this._CurrentGroup.getValueColumnWidth ( );
-      this._GroupValueColumWidth = ( int ) widthValue;
+      this._GroupValueColumWidth = (int) widthValue;
 
       //
       // Set the edit access.
@@ -877,31 +882,31 @@ namespace Evado.UniForm.WebClient
       {
         divFieldGroupStyle += " height:" + inPixelHeight + "px; ";
       }
-      
+
       divFieldGroupStyle += "'";
       divFieldContainerStyle += "'";
 
 
 
-      sbHtml.AppendLine ( "<div id='" + PageGroup.Id + "-grp' "
-        + "class='" + Css_Class_Field_Group + "' " + divFieldGroupStyle );
 
-      string divHideIfFieldId = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.Hide_Group_If_Field_Id );
-      string divHideIfFieldValue = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.Hide_Group_If_Field_Value );
-
-      if ( divHideIfFieldId.Length > 0 )
+      sbHtml.AppendLine ( "<!--- OPENING GROUP --->" );
+      if ( stFieldName != String.Empty
+        && stFieldValue != String.Empty )
       {
-        sbHtml.AppendLine ( " data-hide-group-if-field-id=\"" + divHideIfFieldId + "\"" );
+        sbHtml.AppendLine ( "<div id='" + PageGroup.Id + "-grp' "
+          + "class='" + Css_Class_Field_Group + "' " + divFieldGroupStyle );
+        sbHtml.Append ( " data-hide-group-if-field-id=\"" + stFieldName + "\"" );
+        sbHtml.Append ( " data-hide-group-if-field-value=\"" + stFieldValue + "\"" + "> " );
+      }
+      else
+      {
+        sbHtml.AppendLine ( "<div id='" + PageGroup.Id + "-grp' "
+          + "class='" + Css_Class_Field_Group + "' " + divFieldGroupStyle + "> " );
       }
 
-      if ( divHideIfFieldValue.Length > 0 )
-      {
-        sbHtml.AppendLine ( " data-hide-group-if-field-value=\"" + divHideIfFieldValue + "\"" );
-      }
 
-      sbHtml.AppendLine ( "> \r\n"
-        + "<span class='" + Css_Class_Group_Title + "'> " + PageGroup.Title + "</span>\r\n"
-        + "<div class='" + Css_Class_Field_Group_Container + "' " + divFieldContainerStyle + " >\r\n " );
+      sbHtml.AppendLine ( "<span class='" + Css_Class_Group_Title + "'> " + PageGroup.Title + "</span>" );
+      sbHtml.AppendLine ( "<div class='" + Css_Class_Field_Group_Container + "' " + divFieldContainerStyle + " >\r\n " );
 
       if ( Global.DebugDisplayOn == true )
       {
@@ -928,19 +933,23 @@ namespace Evado.UniForm.WebClient
         string textAlignment = alignment.ToString ( ).Replace ( "_", "-" );
         textAlignment = textAlignment.ToLower ( );
 
+        sbHtml.AppendLine ( "<!--- OPENNING DESCRIPTION --->" );
         sbHtml.AppendLine ( "<div class='description cf " + textAlignment + " '>" );
 
         if ( description.Contains ( "</" ) == true
-          || description.Contains ( "/>" ) == true )
+          || description.Contains ( "/>" ) == true
+          || description.Contains ( "[[/" ) == true
+          || description.Contains ( "/]]" ) == true )
         {
+          description = Evado.Model.EvStatics.decodeHtmlText ( description );
           sbHtml.Append ( description );
         }
         else
         {
           sbHtml.AppendLine ( this.encodeMarkDown ( description ) );
         }
-        sbHtml.AppendLine ( "<!-- close description -->" );
         sbHtml.AppendLine ( "</div>" );
+        sbHtml.AppendLine ( "<!-- CLOSING DESCRIPTION -->" );
       }
     }
 
@@ -954,7 +963,8 @@ namespace Evado.UniForm.WebClient
     private void generateGroupFooter (
       StringBuilder sbHtml )
     {
-      sbHtml.AppendLine ( "</div></div>\r\n" );
+      sbHtml.AppendLine ( "</div>" );
+      sbHtml.AppendLine ( "</div>" );
       sbHtml.AppendLine ( "<!-- GROUP FOOTER -->\r\n" );
     }
 
@@ -1012,6 +1022,14 @@ namespace Evado.UniForm.WebClient
       String stCssValid = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.BG_Validation );
       String stCssAlert = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.BG_Alert );
       String stCssNormal = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.BG_Normal );
+
+      //
+      // if no field exit method.
+      //
+      if ( PageGroup.FieldList.Count == 0 )
+      {
+        return;
+      }
 
       //
       // Open the group's field and Command table.
@@ -1078,6 +1096,12 @@ namespace Evado.UniForm.WebClient
           case Evado.Model.EvDataTypes.Free_Text:
             {
               this.createFreeTextField ( sbHtml, groupField, groupField.EditAccess );
+              break;
+            }
+
+          case Evado.Model.EvDataTypes.Html_Content:
+            {
+              this.createHtmlField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Boolean:

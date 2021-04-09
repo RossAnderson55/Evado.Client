@@ -579,8 +579,8 @@ namespace Evado.UniForm.WebClient
     public static String concatinateHttpUrl ( String RootUrl, String RelativeUrl )
     {
       RelativeUrl = RelativeUrl.ToLower ( );
-      if ( RelativeUrl.Contains ( "http://" ) == false
-        && RelativeUrl.Contains ( "https://" ) == false )
+      if ( RelativeUrl.Contains ( "http:" ) == false
+        && RelativeUrl.Contains ( "https:" ) == false )
       {
         RelativeUrl = RootUrl + RelativeUrl;
       }

@@ -379,7 +379,9 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Field object.</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void createFieldFooter ( StringBuilder stHtml, Evado.Model.UniForm.Field PageField )
+    private void createFieldFooter ( 
+      StringBuilder stHtml, 
+      Evado.Model.UniForm.Field PageField )
     {
       stHtml.Append ( "</div>\r\n" );
     }
@@ -452,6 +454,58 @@ namespace Evado.UniForm.WebClient
       this.createFieldFooter ( stHtml, PageField );
 
     }
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a read only field markup
+    /// </summary>
+    /// <param name="PageField">Field object.</param>
+    /// <returns>String html</returns>
+    // ----------------------------------------------------------------------------------
+    private void createHtmlField (
+      StringBuilder sbHtml,
+      Evado.Model.UniForm.Field PageField )
+    {
+      Global.LogClientMethod ( "createHtmlField method. " );
+      //
+      // Initialise the methods variables and objects.
+      //
+      int valueColumnWidth = this._GroupValueColumWidth;
+      int titleColumnWidth = 100 - valueColumnWidth;
+      String stContent = String.Empty;
+
+      String stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
+
+      //
+      // Encode the readlonly text value.
+      //
+      if ( PageField.Value != String.Empty )
+      {
+        if ( PageField.Value.Contains ( "[/" ) == true )
+        {
+          Global.LogClientValue ( "No Markup processing" );
+
+          Global.LogDebug ( "HTML: encoded value: " + PageField.Value );
+
+          String html = Evado.Model.EvStatics.decodeHtmlText ( PageField.Value );
+
+          Global.LogDebug ( "HTML: decoded value" + html );
+          sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+          sbHtml.AppendLine ( html );
+          sbHtml.AppendLine ( "</div>" );
+        }
+        else
+        {
+          String value = PageField.Value;
+          value = this.encodeMarkDown ( value );
+          value = value.Replace ( "\r\n", "<br/>" );
+
+          sbHtml.AppendLine ( "<div " + stFieldValueStyling + "> " );
+          sbHtml.AppendLine ( value );
+          sbHtml.AppendLine ( "</div> " );
+        }
+      }
+
+    }//END method
 
     // ===================================================================================
     /// <summary>
