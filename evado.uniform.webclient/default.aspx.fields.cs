@@ -489,9 +489,7 @@ namespace Evado.UniForm.WebClient
           String html = Evado.Model.EvStatics.decodeHtmlText ( PageField.Value );
 
           Global.LogDebug ( "HTML: decoded value" + html );
-          sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
-          sbHtml.AppendLine ( html );
-          sbHtml.AppendLine ( "</div>" );
+          sbHtml.AppendLine ( "<div class='description'>" + html + "</div>" );
         }
         else
         {
@@ -499,9 +497,7 @@ namespace Evado.UniForm.WebClient
           value = this.encodeMarkDown ( value );
           value = value.Replace ( "\r\n", "<br/>" );
 
-          sbHtml.AppendLine ( "<div " + stFieldValueStyling + "> " );
-          sbHtml.AppendLine ( value );
-          sbHtml.AppendLine ( "</div> " );
+          sbHtml.AppendLine ( "<div class='description'>" + value + "</div>" );
         }
       }
 
