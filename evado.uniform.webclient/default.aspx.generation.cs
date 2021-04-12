@@ -816,6 +816,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
+      int inPercentWidth = PageGroup.GetParameterInt ( Evado.Model.UniForm.GroupParameterList.Percent_Width );
       int inPixelWidth = PageGroup.GetParameterInt ( Evado.Model.UniForm.GroupParameterList.Pixel_Width );
       int inPixelHeight = PageGroup.GetParameterInt ( Evado.Model.UniForm.GroupParameterList.Pixel_Height );
       string stFieldName = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.Hide_Group_If_Field_Id );
@@ -876,6 +877,11 @@ namespace Evado.UniForm.WebClient
           {
             divFieldGroupStyle += "width:" + inPixelWidth + "px; ";
           }
+          else
+            if ( inPercentWidth> 0 )
+            {
+              divFieldGroupStyle += "width:" + inPercentWidth + "%; ";
+            }
 
 
       if ( inPixelHeight > 0 )

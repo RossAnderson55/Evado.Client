@@ -404,7 +404,7 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
 
-      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%; ' class='cell value cell-display-text-title' ";
+      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%; padding-top=10px; ' class='cell value cell-display-text-title' ";
       bool fullWidth = false;
 
       if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
@@ -423,6 +423,10 @@ namespace Evado.UniForm.WebClient
       //
       if ( PageField.Value != String.Empty )
       {
+        stHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+        //
+        // process html content.
+        //
         if ( PageField.Value.Contains ( "[/" ) == true )
         {
           Global.LogClientValue ( "No Markup processing" );
@@ -432,20 +436,21 @@ namespace Evado.UniForm.WebClient
           String html = Evado.Model.EvStatics.decodeHtmlText ( PageField.Value );
 
           Global.LogDebug ( "HTML: decoded value" + html );
-          stHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
           stHtml.AppendLine ( html );
-          stHtml.AppendLine ( "</div>" );
         }
         else
         {
           String value = PageField.Value;
-          value = this.encodeMarkDown ( value );
-          value = value.Replace ( "\r\n", "<br/>" );
 
-          stHtml.AppendLine ( "<div " + stFieldValueStyling + "> " );
+          if ( value.Contains ( "\r" ) == true )
+          {
+            value = this.encodeMarkDown ( value );
+            value = value.Replace ( "\r\n", "<br/>" );
+          }
+
           stHtml.AppendLine ( value );
-          stHtml.AppendLine ( "</div> " );
         }
+        stHtml.AppendLine ( "</div> " );
       }
 
       //
@@ -578,7 +583,7 @@ namespace Evado.UniForm.WebClient
           + "type='file' id='" + PageField.FieldId + ImageField_Suffix + "' "
           + "size='80' />" );
       }
-      stHtml.AppendLine ( "<input type='text' "
+      stHtml.AppendLine ( "<input type='hidden' "
            + "id='" + PageField.FieldId + "' "
            + "name='" + PageField.FieldId + "' "
            + "value='" + PageField.Value + "' /> " );

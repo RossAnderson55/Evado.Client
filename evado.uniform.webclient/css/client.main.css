@@ -500,7 +500,7 @@ span.required {
 }
 
 .cell-display-text-title {
-  vertical-align: top;
+  vertical-align: middle;
   margin: none;
   padding: none;
 }
