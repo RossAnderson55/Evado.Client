@@ -411,6 +411,19 @@ span.required {
   vertical-align: top;
 }
 
+.field-group .description table {
+  width: 80%;
+  margin: auto;
+  padding: 10px;
+}
+
+
+.field-group .description td 
+{
+  width: 50%;
+  text-align:left;
+  padding: 10px;
+}
 
 .field-group .description ul,
 .field-group .description ol,
