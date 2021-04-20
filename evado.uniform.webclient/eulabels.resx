@@ -147,6 +147,12 @@
   <data name="Date_Structure" xml:space="preserve">
     <value>Day    -    Month  -  Year</value>
   </data>
+  <data name="Html_Url_Field_title" xml:space="preserve">
+    <value>URL:</value>
+  </data>
+  <data name="Html_Url_Title_Field_Title" xml:space="preserve">
+    <value>Title:</value>
+  </data>
   <data name="Message_Label" xml:space="preserve">
     <value>Message: </value>
   </data>
@@ -203,5 +209,8 @@
   </data>
   <data name="User_Login_Title" xml:space="preserve">
     <value>User Login</value>
+  </data>
+  <data name="Video_Url_Field_Title" xml:space="preserve">
+    <value>Video URL:</value>
   </data>
 </root>

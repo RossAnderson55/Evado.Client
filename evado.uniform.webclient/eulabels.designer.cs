@@ -19,7 +19,7 @@ namespace Evado.UniForm.WebClient {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class EuLabels {
@@ -147,6 +147,24 @@ namespace Evado.UniForm.WebClient {
         internal static string Date_Structure {
             get {
                 return ResourceManager.GetString("Date_Structure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL:.
+        /// </summary>
+        internal static string Html_Url_Field_title {
+            get {
+                return ResourceManager.GetString("Html_Url_Field_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title:.
+        /// </summary>
+        internal static string Html_Url_Title_Field_Title {
+            get {
+                return ResourceManager.GetString("Html_Url_Title_Field_Title", resourceCulture);
             }
         }
         
@@ -318,6 +336,15 @@ namespace Evado.UniForm.WebClient {
         internal static string User_Login_Title {
             get {
                 return ResourceManager.GetString("User_Login_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video URL:.
+        /// </summary>
+        internal static string Video_Url_Field_Title {
+            get {
+                return ResourceManager.GetString("Video_Url_Field_Title", resourceCulture);
             }
         }
     }

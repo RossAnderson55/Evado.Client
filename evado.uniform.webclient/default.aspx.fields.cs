@@ -249,7 +249,7 @@ namespace Evado.UniForm.WebClient
           }
         case Evado.Model.EvDataTypes.Image:
           {
-            stField_Suffix = ImageField_Suffix; break;
+            stField_Suffix = Field.CONST_IMAGE_FIELD_SUFFIX; break;
           }
         case Evado.Model.EvDataTypes.Name:
           {
@@ -271,7 +271,7 @@ namespace Evado.UniForm.WebClient
       //
       Global.LogDebug ( "Formattted title: " + PageField.Title );
 
-      stHtml.AppendLine ( "<div " + stFieldTitleStyling + "> ");
+      stHtml.AppendLine ( "<div " + stFieldTitleStyling + "> " );
 
       if ( PageField.Title != String.Empty )
       {
@@ -303,7 +303,7 @@ namespace Evado.UniForm.WebClient
         && PageField.Type != Evado.Model.EvDataTypes.Video
         && PageField.Type != Evado.Model.EvDataTypes.Sound
         && PageField.Type != Evado.Model.EvDataTypes.Html_Content
-        && PageField.Type != Evado.Model.EvDataTypes.Html_Link
+        && PageField.Type != Evado.Model.EvDataTypes.Http_Link
         && PageField.Type != Evado.Model.EvDataTypes.Streamed_Video
         && PageField.Type != Evado.Model.EvDataTypes.External_Image
         && PageField.Type != Evado.Model.EvDataTypes.Email_Address
@@ -379,11 +379,11 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Field object.</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void createFieldFooter ( 
-      StringBuilder stHtml, 
+    private void createFieldFooter (
+      StringBuilder stHtml,
       Evado.Model.UniForm.Field PageField )
     {
-      stHtml.Append ( "</div>\r\n" );
+      stHtml.Append ( "</div>" );
     }
 
     // ===================================================================================
@@ -403,6 +403,24 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
+      int stWidth = 20;
+      int stHeight = 1;
+
+      if ( PageField.hasParameter ( FieldParameterList.Field_Value_Column_Width ) == true )
+      {
+        Model.UniForm.FieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        valueColumnWidth = (int) widthValue;
+        titleColumnWidth = 100 - valueColumnWidth;
+      }
+
+      if ( PageField.hasParameter ( Evado.Model.UniForm.FieldParameterList.Width ) == true )
+      {
+        stWidth = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Width );
+      }
+      if ( PageField.hasParameter ( Evado.Model.UniForm.FieldParameterList.Height ) == true )
+      {
+        stHeight = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Height );
+      }
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%; padding-top=10px; ' class='cell value cell-display-text-title' ";
       bool fullWidth = false;
@@ -429,7 +447,7 @@ namespace Evado.UniForm.WebClient
         //
         if ( PageField.Value.Contains ( "[/" ) == true )
         {
-          Global.LogClientValue ( "No Markup processing" );
+          Global.LogClient ( "No Markup processing" );
 
           Global.LogDebug ( "HTML: encoded value: " + PageField.Value );
 
@@ -487,7 +505,7 @@ namespace Evado.UniForm.WebClient
       {
         if ( PageField.Value.Contains ( "[/" ) == true )
         {
-          Global.LogClientValue ( "No Markup processing" );
+          Global.LogClient ( "No Markup processing" );
 
           Global.LogDebug ( "HTML: encoded value: " + PageField.Value );
 
@@ -521,7 +539,7 @@ namespace Evado.UniForm.WebClient
     private void createImageField (
       StringBuilder stHtml,
       Evado.Model.UniForm.Field PageField,
-      Evado.Model.UniForm.EditAccess Status )
+      Evado.Model.UniForm.EditAccess EditAccess )
     {
       Global.LogClientMethod ( "createImageField method" );
       Global.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
@@ -549,7 +567,7 @@ namespace Evado.UniForm.WebClient
       stImageUrl = stImageUrl.ToLower ( );
       stImageUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
 
-      Global.LogClientValue ( "stImageUrl: " + stImageUrl );
+      Global.LogClient ( "stImageUrl: " + stImageUrl );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-image-value cf' "; // class='cell value cell-image-value cf' ";
 
@@ -570,17 +588,17 @@ namespace Evado.UniForm.WebClient
       //
       if ( PageField.Value != String.Empty )
       {
-        Global.LogClientValue ( "Image file exists " + PageField.Value );
+        Global.LogClient ( "Image file exists " + PageField.Value );
 
         stHtml.AppendLine ( "<a href='" + stImageUrl + "' target='_blank' > "
           + "<img alt='Image " + PageField.Value + "' " + "src='" + stImageUrl + "' width='" + stSize + "'/></a>" );
       }
 
-      if ( Status == Model.UniForm.EditAccess.Inherited
-        || Status == Evado.Model.UniForm.EditAccess.Enabled )
+      if ( EditAccess == Model.UniForm.EditAccess.Inherited
+        || EditAccess == Evado.Model.UniForm.EditAccess.Enabled )
       {
-        stHtml.AppendLine ( "<input name='" + PageField.FieldId + ImageField_Suffix + "' "
-          + "type='file' id='" + PageField.FieldId + ImageField_Suffix + "' "
+        stHtml.AppendLine ( "<input name='" + PageField.FieldId + Field.CONST_IMAGE_FIELD_SUFFIX + "' "
+          + "type='file' id='" + PageField.FieldId + Field.CONST_IMAGE_FIELD_SUFFIX + "' "
           + "size='80' />" );
       }
       stHtml.AppendLine ( "<input type='hidden' "
@@ -595,7 +613,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
-      Global.LogClientValue ( "END createImageField\r\n" );
+      Global.LogClient ( "END createImageField\r\n" );
     }//END Field Method
 
     // ===================================================================================
@@ -760,57 +778,6 @@ namespace Evado.UniForm.WebClient
 
     // ===================================================================================
     /// <summary>
-    /// This method creates a text field html markup
-    /// </summary>
-    /// <param name="PageField">Field object.</param>
-    /// <param name="TabIndex">THe field index on the page</param>
-    /// <param name="Status">ClientFieldEditCodes enumerated status.</param>
-    /// <returns>String html</returns>
-    // ----------------------------------------------------------------------------------
-    private void createHttpLinkField (
-      StringBuilder stHtml,
-      Evado.Model.UniForm.Field PageField,
-      Evado.Model.UniForm.EditAccess Status )
-    {
-      Global.LogClientMethod ( "createHttpLinkField method. " );
-      //
-      // Initialise the methods variables and objects.
-      //
-      int valueColumnWidth = this._GroupValueColumWidth;
-      int titleColumnWidth = 100 - valueColumnWidth;
-
-      String stUrl = PageField.Value.ToLower ( );
-      String stFieldRowStyling = "class='group-row field layout-normal cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
-      String stFieldTitleStyling = "style='' class='cell title cell-link-value cf'";
-
-      Global.LogDebug ( "Initial URL: " + stUrl );
-      //
-      // Insert the field elements
-      //
-
-      stUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, stUrl );
-
-      Global.LogClientValue ( "Final URL: " + stUrl );
-
-      stHtml.AppendLine ( "<div id='" + PageField.Id + "-row' " + stFieldRowStyling + " >" );
-      stHtml.AppendLine ( "<div " + stFieldTitleStyling + ">" );
-      stHtml.AppendLine ( "<span>" );
-      stHtml.AppendLine ( "<strong>" );
-      stHtml.AppendLine ( "<a href='" + stUrl + "' target='_blank' tabindex = '" + this._TabIndex + "' >" + PageField.Title + "</a>" );
-      stHtml.AppendLine ( "</strong>" );
-      stHtml.AppendLine ( "</span>" );
-      stHtml.AppendLine ( "</div>" );
-
-      this._TabIndex += 2;
-      //
-      // Insert the field footer elemements
-      //
-      this.createFieldFooter ( stHtml, PageField );
-
-    }//END Field Method
-
-    // ===================================================================================
-    /// <summary>
     /// This method creates a free test field html markup
     /// </summary>
     /// <param name="PageField">Field object.</param>
@@ -829,31 +796,21 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-
-      String stSize = PageField.GetParameter ( Evado.Model.UniForm.FieldParameterList.Width );
-      String stRows = PageField.GetParameter ( Evado.Model.UniForm.FieldParameterList.Height );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-textarea-value cf' ";
-      //
-      // Set the normal validation parameters.
-      //
       string stValidationMethod = " onchange=\"Evado.Form.onTextChange( this, this.value )\" ";
 
-      //
-      // Set default width
-      //
-      if ( stSize == String.Empty )
-      {
-        stSize = "20";
-      }
+      int width = 40;
+      int height = 5;
 
-      //
-      // Set default height
-      //
-      if ( stRows == String.Empty )
+      if ( PageField.hasParameter ( Evado.Model.UniForm.FieldParameterList.Width ) == true )
       {
-        stRows = "5";
+        width = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Width );
       }
-
+      if ( PageField.hasParameter ( Evado.Model.UniForm.FieldParameterList.Height ) == true )
+      {
+        height = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Height );
+      }
+      int maxLength = (int) ( width * height * 2 );
 
       //
       // Ineert the field header
@@ -869,8 +826,9 @@ namespace Evado.UniForm.WebClient
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "tabindex = '" + _TabIndex + "' "
-        + "rows='" + stRows + "' "
-        + "cols='" + stSize + "' "
+        + "rows='" + height + "' "
+        + "cols='" + width + "' "
+        + "maxlength='" + maxLength + "' "
         + "class='form-control' "
         + stValidationMethod + " data-parsley-trigger=\"change\" " );
 
@@ -1081,7 +1039,7 @@ namespace Evado.UniForm.WebClient
       int iYear = 0;
       String stFormat = "dd - MMM - yyyy";
 
-      Global.LogClientValue ( "Min_Value: " + stMin_Value + ", Max_Value: " + stMax_Value );
+      Global.LogClient ( "Min_Value: " + stMin_Value + ", Max_Value: " + stMax_Value );
 
       //
       // set the time format structure.
@@ -1165,7 +1123,7 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      Global.LogClientValue ( "minYear: " + minYear + " maxyear: " + maxYear );
+      Global.LogClient ( "minYear: " + minYear + " maxyear: " + maxYear );
 
       //
       // Set the normal validation parameters.
@@ -1932,7 +1890,7 @@ namespace Evado.UniForm.WebClient
       }
       catch ( Exception Ex )
       {
-        Global.LogClientValue ( Evado.Model.EvStatics.getException ( Ex ) );
+        Global.LogClient ( Evado.Model.EvStatics.getException ( Ex ) );
       }
     }//END Field Method
 
@@ -3101,7 +3059,7 @@ namespace Evado.UniForm.WebClient
         }
         catch ( Exception Ex )
         {
-          Global.LogClientValue ( "Row: " + Row + ", Column: " + column + ", " + Evado.Model.EvStatics.getExceptionAsHtml ( Ex ) );
+          Global.LogClient ( "Row: " + Row + ", Column: " + column + ", " + Evado.Model.EvStatics.getExceptionAsHtml ( Ex ) );
           break;
         }
 
@@ -3162,12 +3120,12 @@ namespace Evado.UniForm.WebClient
       {
         stHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
 
-        stHtml.AppendLine ( "<input name='" + PageField.FieldId + ImageField_Suffix + "' "
-          + "type='text' id='" + PageField.FieldId + ImageTitle_Suffix + "' "
+        stHtml.AppendLine ( "<input name='" + PageField.FieldId + Field.CONST_IMAGE_FIELD_SUFFIX + "' "
+          + "type='text' id='" + PageField.FieldId + Field.CONST_IMAGE_FIELD_SUFFIX + "' "
           + "size='80' /><br/>" );
 
-        stHtml.AppendLine ( "<input name='" + PageField.FieldId + ImageField_Suffix + "' "
-          + "type='file' id='" + PageField.FieldId + ImageField_Suffix + "' "
+        stHtml.AppendLine ( "<input name='" + PageField.FieldId + Field.CONST_IMAGE_FIELD_SUFFIX + "' "
+          + "type='file' id='" + PageField.FieldId + Field.CONST_IMAGE_FIELD_SUFFIX + "' "
           + "size='80' />" );
       }
       else
@@ -4104,8 +4062,8 @@ namespace Evado.UniForm.WebClient
       Evado.Model.UniForm.EditAccess GroupStatus )
     {
       Global.LogClientMethod ( "createSignatureField method." );
-      Global.LogClientValue ( "Field.Status: " + PageField.EditAccess );
-      Global.LogClientValue ( "GroupStatus: " + GroupStatus );
+      Global.LogClient ( "Field.Status: " + PageField.EditAccess );
+      Global.LogClient ( "GroupStatus: " + GroupStatus );
       //
       // Initialise the methods variables and objects.
       //
@@ -4128,7 +4086,7 @@ namespace Evado.UniForm.WebClient
         PageField.EditAccess = GroupStatus;
       }
 
-      Global.LogClientValue ( "Set Field.Status: " + PageField.EditAccess );
+      Global.LogClient ( "Set Field.Status: " + PageField.EditAccess );
 
       //
       // Ineert the field header
@@ -4148,7 +4106,7 @@ namespace Evado.UniForm.WebClient
         canvasHeight = PageField.GetParameter ( Evado.Model.UniForm.FieldParameterList.Height );
       }
 
-      Global.LogClientValue ( "Field Value: " + PageField.Value );
+      Global.LogClient ( "Field Value: " + PageField.Value );
 
       if ( PageField.Value != String.Empty )
       {
@@ -4164,10 +4122,10 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      Global.LogClientValue ( "Raster Signature: " + RasterSignature );
-      Global.LogClientValue ( "signature.Name: " + signature.Name );
-      Global.LogClientValue ( "signature.AcceptedBy: " + signature.AcceptedBy );
-      Global.LogClientValue ( "signature.DateStamp: " + signature.DateStamp );
+      Global.LogClient ( "Raster Signature: " + RasterSignature );
+      Global.LogClient ( "signature.Name: " + signature.Name );
+      Global.LogClient ( "signature.AcceptedBy: " + signature.AcceptedBy );
+      Global.LogClient ( "signature.DateStamp: " + signature.DateStamp );
 
       //
       // Insert the field elements
@@ -4256,7 +4214,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.EditAccess == Model.UniForm.EditAccess.Disabled )
       {
-        Global.LogClientValue ( "Setting the signature for display only" );
+        Global.LogClient ( "Setting the signature for display only" );
 
         stHtml.AppendLine ( "<script type=\"text/javascript\">" );
         stHtml.AppendLine ( "$(document).ready(function() { " );
@@ -4295,7 +4253,7 @@ namespace Evado.UniForm.WebClient
       }
       else
       {
-        Global.LogClientValue ( "Setting the signature for draw a signature" );
+        Global.LogClient ( "Setting the signature for draw a signature" );
 
         stHtml.AppendLine ( "<script type=\"text/javascript\">" );
         stHtml.AppendLine ( "$(document).ready(function() { " );
@@ -4797,30 +4755,171 @@ namespace Evado.UniForm.WebClient
 
     // ===================================================================================
     /// <summary>
-    /// This method creates a free test field html markup
+    /// This method creates a text field html markup
     /// </summary>
     /// <param name="PageField">Field object.</param>
     /// <param name="TabIndex">THe field index on the page</param>
-    /// <param name="Status">ClientFieldEditCodes enumerated status.</param>
+    /// <param name="EditAccess">ClientFieldEditCodes enumerated status.</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void createStreamedVideoField (
+    private void createHttpLinkField (
       StringBuilder stHtml,
       Evado.Model.UniForm.Field PageField,
-      Evado.Model.UniForm.EditAccess Status )
+      Evado.Model.UniForm.EditAccess EditAccess )
     {
-      Global.LogClientMethod ( "createStreamedVideoField method. " );
+      Global.LogClientMethod ( "createHttpLinkField method. " );
       //
       // Initialise the methods variables and objects.
       //
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
+      int stWidth = 50;
+      int stHeight = 1;
+
+      if ( PageField.hasParameter ( FieldParameterList.Field_Value_Column_Width ) == true )
+      {
+        Model.UniForm.FieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        valueColumnWidth = (int) widthValue;
+        titleColumnWidth = 100 - valueColumnWidth;
+      }
+
+      if ( PageField.hasParameter ( Evado.Model.UniForm.FieldParameterList.Width ) == true )
+      {
+        stWidth = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Width );
+      }
+      if ( PageField.hasParameter ( Evado.Model.UniForm.FieldParameterList.Height ) == true )
+      {
+        stHeight = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Height );
+      }
+
+      string stValue = PageField.Value;
+      string stUrl = PageField.Value;
+      string stLinkTitle = PageField.Title;
+
+      if ( stValue.Contains ( ";" ) == true )
+      {
+        string [ ] arrValue = stValue.Split ( ';' );
+        stUrl = arrValue [ 0 ];
+        stLinkTitle = arrValue [ 1 ];
+      }
+
+      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-text-value cf' ";
+
+      //
+      // Ineert the field header
+      //
+      this.createFieldHeader ( stHtml, PageField, titleColumnWidth, false );
+
+
+      stHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+
+      if ( stUrl != String.Empty )
+      {
+        //
+        // If in display model display the http link.
+        //
+        stUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, stUrl );
+
+        Global.LogClient ( "Final URL: " + stUrl );
+
+        stHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+
+        stHtml.AppendLine ( "<span>" );
+        stHtml.AppendLine ( "<strong>" );
+        stHtml.AppendLine ( "<a href='" + stUrl + "' target='_blank' tabindex = '" + this._TabIndex + "' >" + stLinkTitle + "</a>" );
+        stHtml.AppendLine ( "</strong>" );
+        stHtml.AppendLine ( "</span>" );
+
+        stHtml.AppendLine ( "</div>" );
+      }
+
+      //
+      // If in edit mode display the data enty fields.
+      //
+      if ( EditAccess == Model.UniForm.EditAccess.Enabled )
+      {
+        //
+        // Insert the field data control
+        //
+        stHtml.AppendLine ( "<table style='width:98%'><tr>" );
+
+        stHtml.AppendLine ( "<td style='width:20%; text-align:right;'>" );
+        stHtml.AppendLine ( EuLabels.Html_Url_Field_title );
+        stHtml.AppendLine ( "</td>" );
+        stHtml.AppendLine ( "<td>" );
+        stHtml.AppendLine ( "<input type='text' "
+           + "id='" + PageField.FieldId + "' "
+           + "name='" + PageField.FieldId + Evado.Model.UniForm.Field.CONST_HTTP_URL_FIELD_SUFFIX + "' "
+           + "value='" + PageField.Value + "' "
+           + "tabindex = '" + _TabIndex + "' "
+           + "maxlength='100' "
+           + "size='100' "
+           + "/>" );
+        stHtml.AppendLine ( "</td></tr>" );
+
+        stHtml.AppendLine ( "<tr><td style='width:20%; text-align:right;'>" );
+        stHtml.AppendLine ( EuLabels.Html_Url_Title_Field_Title );
+        stHtml.AppendLine ( "</td>" );
+        stHtml.AppendLine ( "<td>" );
+        stHtml.AppendLine ( "<input type='text' "
+           + "id='" + PageField.FieldId + "' "
+           + "name='" + PageField.FieldId + Evado.Model.UniForm.Field.CONST_HTTP_TITLE_FIELD_SUFFIX + "' "
+           + "value='" + PageField.Value + "' "
+           + "tabindex = '" + _TabIndex + "' "
+           + "maxlength='100' "
+           + "size='100' " );
+
+        stHtml.AppendLine ( "/>" );
+
+        stHtml.AppendLine ( "</td>" );
+        stHtml.AppendLine ( "</tr></table>" );
+      }
+
+
+      stHtml.AppendLine ( "<input type='hidden' "
+           + "id='" + PageField.FieldId + "' "
+           + "name='" + PageField.FieldId + "' "
+           + "value='" + PageField.Value + "' /> " );
+      this._TabIndex += 2;
+
+      //
+      // Insert the field footer elemements
+      //
+      this.createFieldFooter ( stHtml, PageField );
+
+      Global.LogClientMethodEnd ( "createHttpLinkField method. " );
+
+    }//END Field Method
+
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a free test field html markup
+    /// </summary>
+    /// <param name="PageField">Field object.</param>
+    /// <param name="TabIndex">THe field index on the page</param>
+    /// <param name="EditAccess">ClientFieldEditCodes enumerated status.</param>
+    /// <returns>String html</returns>
+    // ----------------------------------------------------------------------------------
+    private void createStreamedVideoField (
+      StringBuilder stHtml,
+      Evado.Model.UniForm.Field PageField,
+      Evado.Model.UniForm.EditAccess EditAccess )
+    {
+      Global.LogClientMethod ( "createStreamedVideoField method. " );
+      //
+      // Initialise the methods variables and objects.
+      //
+      string value = PageField.Value.ToLower ( );
+      int valueColumnWidth = this._GroupValueColumWidth;
+      int titleColumnWidth = 100 - valueColumnWidth;
       int width = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Width );
       int height = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Height );
+      String videoTitle = PageField.GetParameter ( Evado.Model.UniForm.FieldParameterList.Value_Label );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell cell-display-text-value cf' ";
       String stVideoStreamParameters = String.Empty;
       String stVideoSource = String.Empty;
       bool fullWidth = false;
+
 
       if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
       {
@@ -4828,36 +4927,91 @@ namespace Evado.UniForm.WebClient
         stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
       }
 
+      //
+      // Ineert the field header
+      //
+      createFieldHeader ( stHtml, PageField, titleColumnWidth, fullWidth );
+
+
+      stHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
+      //
+      // get the video iFrame.
+      //
+      stHtml.AppendLine ( this.getVideoIFrame ( PageField ) );
+
+      //
+      // the page is edit enabled display a field to collect the Video Url and title.
+      //
+
+      if ( EditAccess == Model.UniForm.EditAccess.Inherited
+        || EditAccess == Evado.Model.UniForm.EditAccess.Enabled )
+      {
+        //
+        // Insert the field data control
+        //
+        stHtml.AppendLine ( "<table style='width:98%'><tr>" );
+
+        stHtml.AppendLine ( "<td style='width:20%; text-align:right;'>" );
+        stHtml.AppendLine ( "<span>" + EuLabels.Video_Url_Field_Title + "</span>" );
+        stHtml.AppendLine ( "</td>" );
+        stHtml.AppendLine ( "<td>" );
+        stHtml.AppendLine ( "<input type='text' "
+           + "id='" + PageField.FieldId + "' "
+           + "name='" + PageField.FieldId + "' "
+           + "value='" + PageField.Value + "' "
+           + "tabindex = '" + _TabIndex + "' "
+           + "maxlength='100' "
+           + "size='100' "
+           + "/>" );
+        stHtml.AppendLine ( "</td>" );
+        stHtml.AppendLine ( "</tr></table>" );
+      }
+      else
+      {
+        stHtml.AppendLine ( "<input type='hidden' "
+           + "id='" + PageField.FieldId + "' "
+           + "name='" + PageField.FieldId + "' "
+           + "value='" + PageField.Value + "' "
+           + "/>" );
+      }
+      stHtml.AppendLine ( "</div>" );
+
+      this._TabIndex += 2;
+
+      //
+      // Insert the field footer elemements
+      //
+      this.createFieldFooter ( stHtml, PageField );
+
+    }//END createStreamedvideoField Method
+
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a iframe containing a streamed video object
+    /// </summary>
+    /// <param name="PageField">Field object.</param>
+    /// <returns>String html</returns>
+    // ----------------------------------------------------------------------------------
+    private String getVideoIFrame (
+      Evado.Model.UniForm.Field PageField )
+    {
+      Global.LogClientMethod ( "getVideoIFrame" );
+      //
+      // Initialise the methods variables and objects.
+      //
+      StringBuilder sbHtml = new StringBuilder ( );
       string value = PageField.Value.ToLower ( );
+      int width = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Width );
+      int height = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Height );
+      String videoTitle = PageField.GetParameter ( Evado.Model.UniForm.FieldParameterList.Value_Label );
+      String stVideoStreamParameters = String.Empty;
+      String stVideoSource = String.Empty;
 
-      if ( PageField.Value.Contains ( "vimeo.com" ) == true )
+      if ( value == String.Empty )
       {
-        int index = PageField.Value.LastIndexOf ( '/' );
-        value = PageField.Value.Substring ( ( index + 1 ) );
-
-        stVideoSource = Global.VimeoEmbeddedUrl + value;
-
-        stVideoStreamParameters = "frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen ";
-      }
-      if ( PageField.Value.Contains ( "youtube" ) == true
-        || PageField.Value.Contains ( "youtu.be" ) == true )
-      {
-        int index = PageField.Value.LastIndexOf ( '/' );
-
-        value = PageField.Value.Substring ( ( index + 1 ) );
-
-        value = value.Replace ( "watch?v=", "" );
-
-        stVideoSource = Global.YouTubeEmbeddedUrl + value;
-
-        stVideoStreamParameters = "frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen";
+        return String.Empty;
       }
 
-      Global.LogClientValue ( "Video ID: " + value );
-      Global.LogClientValue ( "VideoSource: " + stVideoSource );
-      /*
-       <iframe width="560" height="315" src="https://www.youtube.com/embed/G5hbvrKQaBw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-       */
       //
       // Set default width
       //
@@ -4879,42 +5033,54 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      //
-      // Ineert the field header
-      //
-      createFieldHeader ( stHtml, PageField, titleColumnWidth, fullWidth );
 
-      //
-      // Insert the field elements
-      //
-      stHtml.AppendLine ( "<div " + stFieldValueStyling + " style='position: relative; ' > " );
-      stHtml.AppendLine ( "<iframe "
-        + "id='" + PageField.FieldId + "' "
-        + "name='" + PageField.FieldId + "' "
+      if ( PageField.Value.Contains ( "vimeo.com" ) == true )
+      {
+        int index = PageField.Value.LastIndexOf ( '/' );
+        value = PageField.Value.Substring ( ( index + 1 ) );
+
+        stVideoSource = Global.VimeoEmbeddedUrl + value;
+
+        stVideoStreamParameters = "frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen ";
+      }
+
+      if ( PageField.Value.Contains ( "youtube" ) == true
+        || PageField.Value.Contains ( "youtu.be" ) == true )
+      {
+        int index = PageField.Value.LastIndexOf ( '/' );
+
+        value = PageField.Value.Substring ( ( index + 1 ) );
+
+        value = value.Replace ( "watch?v=", "" );
+
+        stVideoSource = Global.YouTubeEmbeddedUrl + value;
+
+        stVideoStreamParameters = "frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen";
+      }
+
+      Global.LogClient ( "Video ID: " + value );
+      Global.LogClient ( "VideoSource: " + stVideoSource );
+
+      sbHtml.AppendLine ( "<iframe "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_VIDEO_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_VIDEO_SUFFIX + "' "
         + "src='" + stVideoSource + "' " );
 
       if ( width > 0 )
       {
-        stHtml.AppendLine ( "width='" + width + "' " );
+        sbHtml.AppendLine ( "width='" + width + "' " );
       }
       if ( height > 0 )
       {
-        stHtml.AppendLine ( "height='" + height + "' " );
+        sbHtml.AppendLine ( "height='" + height + "' " );
       }
 
-      stHtml.AppendLine ( stVideoStreamParameters
+      sbHtml.AppendLine ( stVideoStreamParameters
        + " style=' display: block; margin-left: auto; margin-right: auto' >"
        + "</iframe>" );
-      stHtml.AppendLine ( "</div>" );
 
-      this._TabIndex += 2;
-
-      //
-      // Insert the field footer elemements
-      //
-      this.createFieldFooter ( stHtml, PageField );
-
-    }//END createStreamedvideoField Method
+      return sbHtml.ToString ( );
+    }//END getVideoIFrame Method
 
     // ===================================================================================
     /// <summary>
@@ -4972,9 +5138,6 @@ namespace Evado.UniForm.WebClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " style='position: relative; ' > " );
 
-      /*
-       <img class="alignright size-full wp-image-322" src="https://www.evado.com/wp-content/uploads/shutterstock_86348098-Muslim-Doctor-213x300.jpg" alt="Doctor using a iPad" />
-       */
       sbHtml.Append ( "<img  " );
       sbHtml.Append ( "id='" + PageField.FieldId + "' " );
       sbHtml.Append ( "name='" + PageField.FieldId + "' " );
@@ -5000,7 +5163,6 @@ namespace Evado.UniForm.WebClient
       this.createFieldFooter ( sbHtml, PageField );
 
     }//END createExternalImageField Method
-
 
     // ===================================================================================
     /// <summary>

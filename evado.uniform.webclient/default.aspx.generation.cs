@@ -647,7 +647,7 @@ namespace Evado.UniForm.WebClient
       }
       else
       {
-        if ( command.Type == Model.UniForm.CommandTypes.Html_Link )
+        if ( command.Type == Model.UniForm.CommandTypes.Http_Link )
         {
           string Link_Url = command.GetParameter ( Model.UniForm.CommandParameters.Link_Url );
 
@@ -1070,7 +1070,8 @@ namespace Evado.UniForm.WebClient
         Global.LogDebug ( "field.Title: " + groupField.Title
           + ", field.FieldId: " + groupField.FieldId
           + ", field.Type: " + groupField.Type
-          + ", Status: " + groupField.EditAccess );
+          + ", Status: " + groupField.EditAccess
+          + ", Layout: " + groupField.Layout );
 
         this._TabIndex++;
 
@@ -1094,7 +1095,7 @@ namespace Evado.UniForm.WebClient
               this.createPasswordField ( sbHtml, groupField, groupField.EditAccess );
               break;
             }
-          case Evado.Model.EvDataTypes.Html_Link:
+          case Evado.Model.EvDataTypes.Http_Link:
             {
               this.createHttpLinkField ( sbHtml, groupField, groupField.EditAccess );
               break;
@@ -1134,7 +1135,7 @@ namespace Evado.UniForm.WebClient
             }
           case Evado.Model.EvDataTypes.Streamed_Video:
             {
-              this.createStreamedVideoField ( sbHtml, groupField, groupField.EditAccess );
+              this.createStreamedVideoField ( sbHtml, groupField, groupField.EditAccess ); // 
               break;
             }
           case Evado.Model.EvDataTypes.External_Image:

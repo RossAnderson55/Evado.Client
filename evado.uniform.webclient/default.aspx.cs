@@ -40,6 +40,7 @@ using System.Text.RegularExpressions;
 ///Evado. namespace references.
 
 using Evado.UniForm.Web;
+using Evado.Model.UniForm;
 
 namespace Evado.UniForm.WebClient
 {
@@ -62,6 +63,7 @@ namespace Evado.UniForm.WebClient
 
     private const string PageField_CommandId = "__CommandId";
 
+    private const string CONST_VIDEO_SUFFIX = "_VIDEO";
 
     private static string Css_Class_Field_Group = "field-group large";
     private static string Css_Class_Group_Title = "group-title";
@@ -69,8 +71,6 @@ namespace Evado.UniForm.WebClient
 
     public const string stField_LowerSuffix = "_Lower";
     public const string stField_UpperSuffix = "_Upper";
-    private const String ImageField_Suffix = "_FILE";
-    private const String ImageTitle_Suffix = "_TITLE";
     private const float WidthPixelFactor = 8F;
 
     private Evado.Model.UniForm.AppData _AppData = new Evado.Model.UniForm.AppData ( );
@@ -135,10 +135,10 @@ namespace Evado.UniForm.WebClient
       Global.LogClientMethod ( "Page_Load event method. " );
       try
       {
-        Global.LogClientValue ( "UserHostAddress: " + Request.UserHostAddress );
-        Global.LogClientValue ( "UserHostName: " + Request.UserHostName );
-        Global.LogClientValue ( "LogonUserIdentity IsAuthenticated: " + Request.LogonUserIdentity.IsAuthenticated );
-        Global.LogClientValue ( "LogonUserIdentity Name: " + Request.LogonUserIdentity.Name );
+        Global.LogClient ( "UserHostAddress: " + Request.UserHostAddress );
+        Global.LogClient ( "UserHostName: " + Request.UserHostName );
+        Global.LogClient ( "LogonUserIdentity IsAuthenticated: " + Request.LogonUserIdentity.IsAuthenticated );
+        Global.LogClient ( "LogonUserIdentity Name: " + Request.LogonUserIdentity.Name );
 
 
         Global.LogDebug ( "User.Identity.Name: " + User.Identity.Name );
@@ -180,7 +180,7 @@ namespace Evado.UniForm.WebClient
         //
         // Read in the Command from the post back event.
         //
-        Global.LogClientValue ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
+        Global.LogClient ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
         Global.LogDebug ( "fsLoginBox.Visible: " + this.fsLoginBox.Visible );
 
         //
@@ -199,7 +199,7 @@ namespace Evado.UniForm.WebClient
               this.sendPageCommand ( );
 
               Global.LogDebug ( "GENERATE PAGE" );
-              Global.LogClientValue ( "GENERATE PAGE" );
+              Global.LogClient ( "GENERATE PAGE" );
               //
               // Generate the page layout.
               //
@@ -235,7 +235,7 @@ namespace Evado.UniForm.WebClient
                 //
                 this.getPageCommandParameters ( );
 
-                Global.LogClientValue ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
+                Global.LogClient ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
 
                 //
                 // Send the Command to the server.
@@ -251,20 +251,20 @@ namespace Evado.UniForm.WebClient
                   if ( Global.AuthenticationMode == System.Web.Configuration.AuthenticationMode.Windows )
                   {
                     Global.LogDebug ( "WINDOW AUTHENTICATION REQUEST LOGIN" );
-                    Global.LogClientValue ( "WINDOW AUTHENTICATION REQUEST LOGIN" );
+                    Global.LogClient ( "WINDOW AUTHENTICATION REQUEST LOGIN" );
                     this.sendWindowsLoginCommand ( );
                   }
                   else
                   {
                     Global.LogDebug ( "REQUEST LOGIN" );
-                    Global.LogClientValue ( "REQUEST LOGIN" );
+                    Global.LogClient ( "REQUEST LOGIN" );
                     this.RequestLogin ( );
                   }
                 }
                 else
                 {
                   Global.LogDebug ( "GENERATE PAGE" );
-                  Global.LogClientValue ( "GENERATE PAGE" );
+                  Global.LogClient ( "GENERATE PAGE" );
                   //
                   // Generate the page layout.
                   //
@@ -291,7 +291,7 @@ namespace Evado.UniForm.WebClient
 
         EvEventLog.LogPageError ( this, Evado.Model.EvStatics.getException ( Ex ) );
 
-        Global.LogClientValue ( Evado.Model.EvStatics.getException ( Ex ) );
+        Global.LogClient ( Evado.Model.EvStatics.getException ( Ex ) );
 
       } // End catch.
 
@@ -450,8 +450,8 @@ namespace Evado.UniForm.WebClient
       Global.LogDebug ( "Command History length: " + this._CommandHistoryList.Count );
       Global.LogDebug ( "Icon list length: " + this._IconList.Count );
 
-      Global.LogClientValue ( "ApplicationData.Id: " + this._AppData.Id );
-      Global.LogClientValue ( "SessionId: " + this._Server_SessionId );
+      Global.LogClient ( "ApplicationData.Id: " + this._AppData.Id );
+      Global.LogClient ( "SessionId: " + this._Server_SessionId );
 
     }//END loadSessionVariables method
 
@@ -531,7 +531,7 @@ namespace Evado.UniForm.WebClient
         Evado.Model.UniForm.CommandHeaderElements.DateTime,
         DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
 
-      Global.LogDebug ( "Command: " + this._PageCommand.getAsString( false, true ) );
+      Global.LogDebug ( "Command: " + this._PageCommand.getAsString ( false, true ) );
       //
       // serialise the Command prior to sending to the web service.
       //
@@ -614,7 +614,7 @@ namespace Evado.UniForm.WebClient
         //
         this._Anonymous_Page_Access = this._AppData.Page.GetAnonymousPageAccess ( );
 
-        Global.LogDebug ( "ExitCommand: " + this._AppData.Page.Exit.getAsString( true, false ) );
+        Global.LogDebug ( "ExitCommand: " + this._AppData.Page.Exit.getAsString ( true, false ) );
         //
         // Add the exit Command to the history.
         //
@@ -656,7 +656,7 @@ namespace Evado.UniForm.WebClient
         }
         else
         {
-          group.Description = "Error Occured Accessing the Web Service - contact your administrator." ;
+          group.Description = "Error Occured Accessing the Web Service - contact your administrator.";
         }
       }
 
@@ -818,9 +818,9 @@ namespace Evado.UniForm.WebClient
       ///
       /// Display a serialised instance of the objec.
       ///
-      serialisedText = Newtonsoft.Json.JsonConvert.SerializeObject ( 
-        this._AppData, 
-        Newtonsoft.Json.Formatting.Indented, 
+      serialisedText = Newtonsoft.Json.JsonConvert.SerializeObject (
+        this._AppData,
+        Newtonsoft.Json.Formatting.Indented,
         jsonSettings );
 
 
@@ -875,7 +875,7 @@ namespace Evado.UniForm.WebClient
 
         foreach ( Evado.Model.UniForm.Field pageField in serialisationGroup.FieldList )
         {
-          if ( pageField.Type == Evado.Model.EvDataTypes.Html_Link )
+          if ( pageField.Type == Evado.Model.EvDataTypes.Http_Link )
           {
             String stUrl = pageField.Value;
             String stFieldRowStyling = "class='group-row field layout-normal cf " + this.fieldBackgroundColorClass ( pageField ) + "' ";
@@ -1529,6 +1529,32 @@ namespace Evado.UniForm.WebClient
               break;
             }
 
+          case Evado.Model.EvDataTypes.Streamed_Video:
+            {
+              // 
+              // Iterate through the option list to compare values.
+              // 
+              string videoUrl = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId  );
+
+              Global.LogDebug ( "videoUrl:" + videoUrl );
+
+              FormField.Value = videoUrl;
+              break;
+            }
+          case Evado.Model.EvDataTypes.Http_Link:
+            {
+              // 
+              // Iterate through the option list to compare values.
+              // 
+              string httpUrl = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + Field.CONST_HTTP_URL_FIELD_SUFFIX );
+              string httpTitle = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + Field.CONST_HTTP_TITLE_FIELD_SUFFIX );
+
+              Global.LogDebug ( "httpUrl:" + httpUrl + " httpTitle:" + httpTitle );
+
+              FormField.Value = httpUrl + ";" + httpTitle;
+              break;
+            }
+
           case Evado.Model.EvDataTypes.Integer_Range:
           case Evado.Model.EvDataTypes.Float_Range:
           case Evado.Model.EvDataTypes.Double_Range:
@@ -1616,7 +1642,7 @@ namespace Evado.UniForm.WebClient
       string htmlDataId )
     {
       Global.LogClientMethod ( "getSignatureFieldValue method. " );
-      Global.LogClientValue ( "htmlDataId: " + htmlDataId );
+      Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
       // 
@@ -1626,8 +1652,8 @@ namespace Evado.UniForm.WebClient
       String stSignature = this.getReturnedFormFieldValue ( ReturnedFormFields, signatureValueFieldId );
       string stName = this.getReturnedFormFieldValue ( ReturnedFormFields, signatureNameFieldId );
 
-      Global.LogClientValue ( "stSignature: " + stSignature );
-      Global.LogClientValue ( "stName: " + stName );
+      Global.LogClient ( "stSignature: " + stSignature );
+      Global.LogClient ( "stName: " + stName );
 
       if ( stSignature == null )
       {
@@ -1643,7 +1669,7 @@ namespace Evado.UniForm.WebClient
         stName = String.Empty;
       }
 
-      Global.LogClientValue ( "Converting signature to signatureBlock object." );
+      Global.LogClient ( "Converting signature to signatureBlock object." );
       Evado.Model.EvSignatureBlock signatureBlock = new Model.EvSignatureBlock ( );
       signatureBlock.Signature = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Evado.Model.EvSegement>> ( stSignature );
       signatureBlock.Name = stName;
@@ -1678,8 +1704,8 @@ namespace Evado.UniForm.WebClient
       int OptionListCount )
     {
       Global.LogClientMethod ( "getCheckButtonListFieldValue method. " );
-      Global.LogClientValue ( "htmlDataId: " + htmlDataId );
-      Global.LogClientValue ( "OptionList: " + OptionListCount );
+      Global.LogClient ( "htmlDataId: " + htmlDataId );
+      Global.LogClient ( "OptionList: " + OptionListCount );
       // 
       // Initialise methods variables and objects.
       // 
@@ -1730,7 +1756,7 @@ namespace Evado.UniForm.WebClient
       string htmlDataId )
     {
       Global.LogClientMethod ( "getNameFieldValue method. " );
-      Global.LogClientValue ( "htmlDataId: " + htmlDataId );
+      Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
       // 
@@ -1752,6 +1778,7 @@ namespace Evado.UniForm.WebClient
       return stTitle + ";" + stFirstName + ";" + stMiddleName + ";" + stFamilyName;
 
     }//END getCheckButtonListFieldValue method
+
     // =============================================================================== 
     /// <summary>
     /// updateNameFieldValue method.
@@ -1771,7 +1798,7 @@ namespace Evado.UniForm.WebClient
       string htmlDataId )
     {
       Global.LogClientMethod ( "getRangeFieldValue method. " );
-      Global.LogClientValue ( "htmlDataId: " + htmlDataId );
+      Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
       // 
@@ -1809,7 +1836,7 @@ namespace Evado.UniForm.WebClient
       string htmlDataId )
     {
       Global.LogClientMethod ( "getNameFieldValue method. " );
-      Global.LogClientValue ( "htmlDataId: " + htmlDataId );
+      Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
       // 
@@ -1859,7 +1886,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields )
     {
       Global.LogClientMethod ( "updateFormTableFields method." );
-      Global.LogClientValue ( " FieldId: " + FormField.FieldId );
+      Global.LogClient ( " FieldId: " + FormField.FieldId );
       // 
       // Iterate through the rows and columns of the table filling the 
       // data object with the test values.
@@ -1890,7 +1917,7 @@ namespace Evado.UniForm.WebClient
             //
             // If NA is entered set to numeric null.
             //
-            if ( FormField.Table.Header [ Col ].TypeId ==  Model.EvDataTypes.Numeric )
+            if ( FormField.Table.Header [ Col ].TypeId == Model.EvDataTypes.Numeric )
             {
               if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
               {
@@ -2099,7 +2126,7 @@ namespace Evado.UniForm.WebClient
         // Retrieve the UniFORM field id.
         // 
         String stFieldId = requestFieldName;
-        int index = stFieldId.LastIndexOf ( ImageField_Suffix );
+        int index = stFieldId.LastIndexOf ( Evado.Model.UniForm.Field.CONST_IMAGE_FIELD_SUFFIX );
         stFieldId = stFieldId.Substring ( 0, index );
         Global.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
 
@@ -2291,14 +2318,11 @@ namespace Evado.UniForm.WebClient
             + ", Status: " + fieldStatus );
 
           if ( field.Type == Evado.Model.EvDataTypes.Read_Only_Text
-            || field.Type == Evado.Model.EvDataTypes.Html_Link
-            || field.Type == Evado.Model.EvDataTypes.Streamed_Video
             || field.Type == Evado.Model.EvDataTypes.External_Image
             || field.Type == Evado.Model.EvDataTypes.Line_Chart
             || field.Type == Evado.Model.EvDataTypes.Null
             || field.Type == Evado.Model.EvDataTypes.Pie_Chart
             || field.Type == Evado.Model.EvDataTypes.Donut_Chart
-            || field.Type == Evado.Model.EvDataTypes.Video
             || field.Type == Evado.Model.EvDataTypes.Sound
             || field.FieldId == String.Empty )
           {
@@ -2360,13 +2384,13 @@ namespace Evado.UniForm.WebClient
         //
         // Iterate through the columns in the table.
         //
-        for ( int iCol = 0; iCol < field.Table.ColumnCount ; iCol++ )
+        for ( int iCol = 0; iCol < field.Table.ColumnCount; iCol++ )
         {
           //
           // If the cel is not readonly and has a value then add it to the parameters.
           //
           if ( field.Table.Rows [ iRow ].Column [ iCol ] != String.Empty
-            && field.Table.Header [ iCol ].TypeId !=  Model.EvDataTypes.Read_Only_Text )
+            && field.Table.Header [ iCol ].TypeId != Model.EvDataTypes.Read_Only_Text )
           {
             string stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
             this._PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].Column [ iCol ] );
@@ -2412,7 +2436,7 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     /// <param name="PageCommand">ClientPageCommand object</param>
     // ---------------------------------------------------------------------------------
-    public void addHistoryCommand ( 
+    public void addHistoryCommand (
       Evado.Model.UniForm.Command PageCommand )
     {
       Global.LogDebugMethod ( "addHistoryCommand method. " );
