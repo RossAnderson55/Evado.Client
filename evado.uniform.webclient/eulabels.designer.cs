@@ -151,6 +151,15 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Powered By Evado Digital.
+        /// </summary>
+        internal static string Footer_Text {
+            get {
+                return ResourceManager.GetString("Footer_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to URL:.
         /// </summary>
         internal static string Html_Url_Field_title {

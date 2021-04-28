@@ -300,6 +300,7 @@ namespace Evado.UniForm.WebClient
       // Write footer
       // 
       this.litCopyright.Text = Global.AssemblyAttributes.Copyright;
+      this.litFooterText.Text = EuLabels.Footer_Text;
       this.litVersion.Text = "Version: " + Global.AssemblyAttributes.FullVersion + Global.DevStage;
 
       //

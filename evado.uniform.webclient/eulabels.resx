@@ -147,6 +147,9 @@
   <data name="Date_Structure" xml:space="preserve">
     <value>Day    -    Month  -  Year</value>
   </data>
+  <data name="Footer_Text" xml:space="preserve">
+    <value>Powered By Evado Digital</value>
+  </data>
   <data name="Html_Url_Field_title" xml:space="preserve">
     <value>URL:</value>
   </data>

@@ -8,7 +8,7 @@ body, h3, .Debug,.plot-container, .font-size10,.e-menu-bar a.btn, .e-menu-bar bu
 {
   font-size: 12pt;
 }
-#form-footer .font-size8,#page-footer-section
+#form-footer, .font-size8,#page-footer-section
 {
   font-size: 8pt;
 }
@@ -77,17 +77,22 @@ body, h3, .Debug,.plot-container, .font-size10,.e-menu-bar a.btn, .e-menu-bar bu
   z-index: 9999;
 }
 
-  #form-footer .left {
-    float: left;
-    text-align: left;
-    padding: 8px;
-  }
+#form-footer .left 
+{
+  width:30%;
+  text-align: left;
+  padding: 8px;
+}
+#form-footer .center {
+  text-align: center;
+  padding: 8px;
+}
 
-  #form-footer .right {
-    float: right;
-    text-align: right;
-    padding: 8px;
-  }
+#form-footer .right {
+  width:30%;
+  text-align: right;
+  padding: 8px;
+}
 
 h1 {
   font-size: 16pt;
