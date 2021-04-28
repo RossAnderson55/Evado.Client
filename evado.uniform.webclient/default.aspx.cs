@@ -1551,7 +1551,7 @@ namespace Evado.UniForm.WebClient
 
               Global.LogDebug ( "httpUrl:" + httpUrl + " httpTitle:" + httpTitle );
 
-              FormField.Value = httpUrl + ";" + httpTitle;
+              FormField.Value = httpUrl + "^" + httpTitle;
               break;
             }
 

@@ -185,6 +185,14 @@ namespace Evado.UniForm.WebClient
         stAnnotation = stAnnotation.Replace ( "\r\n", "<br/>" );
       }
 
+      String stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
+      String stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
+
+      if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
+      {
+        stFieldTitleStyling = "style='width:98%; ' class='cell title cell-display-text-title'";
+      }
+
       //
       // Set the field layout style classes.
       //
@@ -203,6 +211,7 @@ namespace Evado.UniForm.WebClient
         case Evado.Model.UniForm.FieldLayoutCodes.Column_Layout:
           {
             stLayout = "layout-column";
+            stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
             break;
           }
         case Evado.Model.UniForm.FieldLayoutCodes.Left_Justified:
@@ -211,8 +220,6 @@ namespace Evado.UniForm.WebClient
             break;
           }
       }
-      String stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
-      String stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
 
       if ( TitleFullWidth == true
         || PageField.Type == Model.EvDataTypes.Table
@@ -636,8 +643,26 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stSize = PageField.GetParameter ( Evado.Model.UniForm.FieldParameterList.Width );
-      String stRows = PageField.GetParameter ( Evado.Model.UniForm.FieldParameterList.Height );
+      int maxLength = 20;
+
+      if ( PageField.hasParameter ( Evado.Model.UniForm.FieldParameterList.Width ) == true )
+      {
+        maxLength = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Width );
+      }
+
+      //
+      // set the min and max lenght if not set.
+      //
+      if ( maxLength == 0 )
+      {
+        maxLength = 20;
+      }
+
+      int size = maxLength;
+      if ( size > 80 )
+      {
+        size = 80;
+      }
 
       //
       // Set the normal validation parameters.
@@ -650,16 +675,8 @@ namespace Evado.UniForm.WebClient
         valueColumnWidth = (int) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
-
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-text-value cf' ";
 
-      //
-      // Set default width
-      //
-      if ( stSize == String.Empty )
-      {
-        stSize = "20";
-      }
 
       //
       // Ineert the field header
@@ -672,14 +689,14 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       stHtml.AppendLine ( "<div id='sp" + PageField.Id + "' >" );
       stHtml.AppendLine ( "<input type='text' "
-         + "id='" + PageField.FieldId + "' "
-         + "name='" + PageField.FieldId + "' "
-         + "value='" + PageField.Value + "' "
-         + "tabindex = '" + _TabIndex + "' "
-         + "maxlength='" + stSize + "' "
-         + "size='" + stSize + "' " );
-      stHtml.Append ( "data-fieldid='" + PageField.FieldId + "' "
-         + "class='form-control' "
+        + "id='" + PageField.FieldId + "' "
+        + "name='" + PageField.FieldId + "' "
+        + "value='" + PageField.Value + "' "
+        + "tabindex = '" + _TabIndex + "' "
+        + "maxlength='" + maxLength + "' "
+        + "size='" + size + "' " 
+        + "data-fieldid='" + PageField.FieldId + "' "
+        + "class='form-control' "
         + stValidationMethod + " data-parsley-trigger=\"change\" " );
 
       if ( PageField.Mandatory == true && Status != Model.UniForm.EditAccess.Disabled )
@@ -4774,7 +4791,6 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       int stWidth = 50;
-      int stHeight = 1;
 
       if ( PageField.hasParameter ( FieldParameterList.Field_Value_Column_Width ) == true )
       {
@@ -4787,19 +4803,15 @@ namespace Evado.UniForm.WebClient
       {
         stWidth = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Width );
       }
-      if ( PageField.hasParameter ( Evado.Model.UniForm.FieldParameterList.Height ) == true )
-      {
-        stHeight = PageField.GetParameterInt ( Evado.Model.UniForm.FieldParameterList.Height );
-      }
 
       string stValue = PageField.Value;
-      string stUrl = PageField.Value;
-      string stLinkTitle = PageField.Title;
+      string stLinkUrl = PageField.Value;
+      string stLinkTitle = PageField.Value;
 
-      if ( stValue.Contains ( ";" ) == true )
+      if ( stValue.Contains ( "^" ) == true )
       {
-        string [ ] arrValue = stValue.Split ( ';' );
-        stUrl = arrValue [ 0 ];
+        string [ ] arrValue = stValue.Split ( '^' );
+        stLinkUrl = arrValue [ 0 ];
         stLinkTitle = arrValue [ 1 ];
       }
 
@@ -4813,20 +4825,20 @@ namespace Evado.UniForm.WebClient
 
       stHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
 
-      if ( stUrl != String.Empty )
+      if ( stLinkUrl != String.Empty )
       {
         //
         // If in display model display the http link.
         //
-        stUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, stUrl );
+        stLinkUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, stLinkUrl );
 
-        Global.LogClient ( "Final URL: " + stUrl );
+        Global.LogClient ( "Final URL: " + stLinkUrl );
 
         stHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
 
         stHtml.AppendLine ( "<span>" );
         stHtml.AppendLine ( "<strong>" );
-        stHtml.AppendLine ( "<a href='" + stUrl + "' target='_blank' tabindex = '" + this._TabIndex + "' >" + stLinkTitle + "</a>" );
+        stHtml.AppendLine ( "<a href='" + stLinkUrl + "' target='_blank' tabindex = '" + this._TabIndex + "' >" + stLinkTitle + "</a>" );
         stHtml.AppendLine ( "</strong>" );
         stHtml.AppendLine ( "</span>" );
 
@@ -4843,31 +4855,31 @@ namespace Evado.UniForm.WebClient
         //
         stHtml.AppendLine ( "<table style='width:98%'><tr>" );
 
-        stHtml.AppendLine ( "<td style='width:20%; text-align:right;'>" );
+        stHtml.AppendLine ( "<td style='width:10%; text-align:right;'>" );
         stHtml.AppendLine ( EuLabels.Html_Url_Field_title );
         stHtml.AppendLine ( "</td>" );
         stHtml.AppendLine ( "<td>" );
         stHtml.AppendLine ( "<input type='text' "
-           + "id='" + PageField.FieldId + "' "
+           + "id='" + PageField.FieldId + Evado.Model.UniForm.Field.CONST_HTTP_URL_FIELD_SUFFIX + "' "
            + "name='" + PageField.FieldId + Evado.Model.UniForm.Field.CONST_HTTP_URL_FIELD_SUFFIX + "' "
-           + "value='" + PageField.Value + "' "
+           + "value='" + stLinkUrl + "' "
            + "tabindex = '" + _TabIndex + "' "
            + "maxlength='100' "
-           + "size='100' "
+           + "size='50' "
            + "/>" );
         stHtml.AppendLine ( "</td></tr>" );
 
-        stHtml.AppendLine ( "<tr><td style='width:20%; text-align:right;'>" );
+        stHtml.AppendLine ( "<tr><td style='text-align:right;'>" );
         stHtml.AppendLine ( EuLabels.Html_Url_Title_Field_Title );
         stHtml.AppendLine ( "</td>" );
         stHtml.AppendLine ( "<td>" );
         stHtml.AppendLine ( "<input type='text' "
-           + "id='" + PageField.FieldId + "' "
+           + "id='" + PageField.FieldId + Evado.Model.UniForm.Field.CONST_HTTP_TITLE_FIELD_SUFFIX + "' "
            + "name='" + PageField.FieldId + Evado.Model.UniForm.Field.CONST_HTTP_TITLE_FIELD_SUFFIX + "' "
-           + "value='" + PageField.Value + "' "
+           + "value='" + stLinkTitle + "' "
            + "tabindex = '" + _TabIndex + "' "
            + "maxlength='100' "
-           + "size='100' " );
+           + "size='50' " );
 
         stHtml.AppendLine ( "/>" );
 
@@ -4951,7 +4963,7 @@ namespace Evado.UniForm.WebClient
         //
         stHtml.AppendLine ( "<table style='width:98%'><tr>" );
 
-        stHtml.AppendLine ( "<td style='width:20%; text-align:right;'>" );
+        stHtml.AppendLine ( "<td style='width:10%; text-align:right;'>" );
         stHtml.AppendLine ( "<span>" + EuLabels.Video_Url_Field_Title + "</span>" );
         stHtml.AppendLine ( "</td>" );
         stHtml.AppendLine ( "<td>" );
@@ -4961,7 +4973,7 @@ namespace Evado.UniForm.WebClient
            + "value='" + PageField.Value + "' "
            + "tabindex = '" + _TabIndex + "' "
            + "maxlength='100' "
-           + "size='100' "
+           + "size='50' "
            + "/>" );
         stHtml.AppendLine ( "</td>" );
         stHtml.AppendLine ( "</tr></table>" );

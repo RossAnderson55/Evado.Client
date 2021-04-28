@@ -698,6 +698,35 @@ namespace Evado.UniForm.WebClient
 
     // ==================================================================================
     /// <summary>
+    /// This mehod generates the HTMl for a page group.
+    /// </summary>
+    /// <param name="Command">Evado.Model.UniForm.Command command object</param>
+    /// <param name="cssClass">String: Css classes</param>
+    /// <returns>Html string</returns>
+    // ---------------------------------------------------------------------------------
+    private String createHttpCommandLink (
+      Evado.Model.UniForm.Command Command,
+      string cssClass = "btn btn-danger cmd-button" )
+    {
+      //Global.LogDebugMethod ( "createCommandLink method. " );
+      //
+      // Initialise methods variables and objects.
+      //
+      string html = String.Empty;
+      string linkUrl = Command.GetParameter ( Model.UniForm.CommandParameters.Link_Url );
+
+      if ( linkUrl != String.Empty )
+      {
+        html = "<a "
+             + "class='" + cssClass + "' "
+             + "href=\"" + linkUrl + "\" target=\"_blank\" "
+             + ">" + Command.Title + "</a>\r\n";
+      }
+      return html;
+    }
+
+    // ==================================================================================
+    /// <summary>
     /// This method generates the HTMl for a menu pills.
     /// </summary>
     // ---------------------------------------------------------------------------------
@@ -878,7 +907,7 @@ namespace Evado.UniForm.WebClient
             divFieldGroupStyle += "width:" + inPixelWidth + "px; ";
           }
           else
-            if ( inPercentWidth> 0 )
+            if ( inPercentWidth > 0 )
             {
               divFieldGroupStyle += "width:" + inPercentWidth + "%; ";
             }
@@ -1291,7 +1320,6 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       List<Model.UniForm.Parameter> parameters = this._AppData.Page.Parameters;
-      string iconImage = GroupCommand.GetParameter ( Model.UniForm.CommandParameters.Image_Url );
 
       string title = GroupCommand.Title;
 
@@ -1371,16 +1399,20 @@ namespace Evado.UniForm.WebClient
       switch ( PageGroup.CmdLayout )
       {
         case Evado.Model.UniForm.GroupCommandListLayouts.Vertical_Orientation:
-          this.generateVerticalCommandGroup ( sbHtml, PageGroup );
-          break;
-
+          {
+            this.generateVerticalCommandGroup ( sbHtml, PageGroup );
+            break;
+          }
         case Evado.Model.UniForm.GroupCommandListLayouts.Tiled_Commands:
-          this.generateTiledCommandGroup ( sbHtml, PageGroup );
-          break;
-
+          {
+            this.generateTiledCommandGroup ( sbHtml, PageGroup );
+            break;
+          }
         default:
-          this.generateDefaultCommandGroup ( sbHtml, PageGroup );
-          break;
+          {
+            this.generateDefaultCommandGroup ( sbHtml, PageGroup );
+            break;
+          }
       }
 
       Global.LogDebugMethodEnd ( "generateGroupCommands" );
@@ -1788,10 +1820,16 @@ namespace Evado.UniForm.WebClient
           Global.LogDebug ( "Command is null" );
           continue;
         }
-        if ( command.Type != Evado.Model.UniForm.CommandTypes.Null )
+        if ( command.Type == Evado.Model.UniForm.CommandTypes.Http_Link )
+        {
+          sbHtml.Append ( this.createHttpCommandLink ( command ) );
+          GroupCommandIndex++;
+        }
+        else if ( command.Type != Evado.Model.UniForm.CommandTypes.Null )
         {
           sbHtml.Append ( this.createCommandLink ( command ) );
           GroupCommandIndex++;
+
         }
 
       }//END page object iteration loop
