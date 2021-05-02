@@ -1060,8 +1060,14 @@ namespace Evado.UniForm.WebClient
 
           if ( guid != Guid.Empty )
           {
-            command.SetGuid ( guid );
-
+            if ( command.Type == CommandTypes.Token_Login_Command )
+            {
+              command.AddParameter ( Evado.Model.UniForm.EuStatics.PARAMETER_LOGIN_USER_TOKEN, guid.ToString ( ) );
+            }
+            else
+            {
+              command.SetGuid ( guid );
+            }
             this._PageCommand = command;
             this._UserNetworkId = this.Session.SessionID;
             Session [ Global.SESSION_USER_ID ] = this._UserNetworkId;

@@ -2313,9 +2313,7 @@ namespace Evado.UniForm.WebClient
          + "tabindex = '" + _TabIndex + "' "
          + "value='" + option.Value + "' " );
 
-
-        if ( PageField.Value.Contains ( option.Value ) == true
-          || PageField.Value.Contains ( option.Description ) == true )
+        if ( option.hasValue( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
