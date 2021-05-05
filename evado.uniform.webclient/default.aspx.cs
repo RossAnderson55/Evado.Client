@@ -337,6 +337,7 @@ namespace Evado.UniForm.WebClient
       this.litHeaderTitle.Text = String.Empty;
       this.litExitCommand.Text = String.Empty;
       this.litCommandContent.Text = String.Empty;
+      this.litHistory.Text = String.Empty;
       this.litPageMenu.Text = String.Empty;
       this._CommandGuid = Guid.Empty;
       this.litCommandContent.Visible = true;
@@ -369,7 +370,14 @@ namespace Evado.UniForm.WebClient
         this.__CommandId.Value = this.LoginCommandId.ToString ( );
 
         this.litPageContent.Visible = true;
-        this.litPageMenu.Visible = true;
+        if ( Global.EnablePageHistory == true )
+        {
+          this.litHistory.Visible = true;
+        }
+        if ( Global.EnablePageMenu == true )
+        {
+          this.litPageMenu.Visible = true;
+        }
 
         Global.LogDebug ( "END IsPostBack == FALSE " );
       }
@@ -406,9 +414,9 @@ namespace Evado.UniForm.WebClient
         this._AppData = (Evado.Model.UniForm.AppData) Session [ SESSION_ApplictionDataObject ];
       }
 
-      if ( Session [ SESSION_ServerSesionId ] != null )
+      if ( Session [ Service_CommandHistoryList ] != null )
       {
-        this._Server_SessionId = (String) Session [ SESSION_ServerSesionId ];
+        this._CommandHistoryList = (List<Evado.Model.UniForm.Command>) Session [ Service_CommandHistoryList ];
       }
 
 
@@ -2497,6 +2505,8 @@ namespace Evado.UniForm.WebClient
 
       if ( PageCommand.Type == Model.UniForm.CommandTypes.Login_Command
         || PageCommand.Type == Model.UniForm.CommandTypes.Logout_Command
+        || PageCommand.Type == Model.UniForm.CommandTypes.Token_Login_Command
+        || PageCommand.Type == Model.UniForm.CommandTypes.Anonymous_Command
         || PageCommand.Type == Model.UniForm.CommandTypes.Register_Device_Client
         || PageCommand.Type == Model.UniForm.CommandTypes.Offline_Command
         || PageCommand.Type == Model.UniForm.CommandTypes.Synchronise_Add
@@ -2771,6 +2781,7 @@ namespace Evado.UniForm.WebClient
       this.litExitCommand.Visible = false;
       this.litCommandContent.Visible = false;
       this.litPageContent.Visible = false;
+      this.litHistory.Visible = false;
       this.litPageMenu.Visible = false;
 
       this._AppData.Page.Exit = new Evado.Model.UniForm.Command ( );
@@ -2858,7 +2869,14 @@ namespace Evado.UniForm.WebClient
       //
       this.fsLoginBox.Visible = false;
       this.litPageContent.Visible = true;
-      this.litPageMenu.Visible = true;
+      if ( Global.EnablePageHistory == true )
+      {
+        this.litHistory.Visible = true;
+      }
+      if ( Global.EnablePageMenu == true )
+      {
+        this.litPageMenu.Visible = true;
+      }
 
       Global.LogDebug ( "AppData: " + this._AppData.getAtString ( ) );
       if ( this._AppData.Page.Exit != null )

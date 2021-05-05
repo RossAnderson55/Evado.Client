@@ -41,6 +41,8 @@ namespace Evado.UniForm.WebClient
 
     public const String SESSION_A1 = "EUWC_A1";
     public const String CONFIG_EVENT_LOG_SOURCE_KEY = "EventLogSource";
+    public const String CONFIG_ENABLE_PAGE_MENU_KEY = "ENABLE_MENU";
+    public const String CONFIG_ENABLE_PAGE_HISTORY_KEY = "ENABLE_HISTORY";
 
     // Variable containing the application path.  Used to generate the base URL.
     public static string EventLogSource = ConfigurationManager.AppSettings [ Global.CONFIG_EVENT_LOG_SOURCE_KEY ];
@@ -134,6 +136,14 @@ namespace Evado.UniForm.WebClient
     /// This boolean enables the debug display.
     /// </summary>
     public static bool DebugDisplayOn = false;
+    /// <summary>
+    /// This boolean enables page group menu.
+    /// </summary>
+    public static bool EnablePageMenu = false;
+    /// <summary>
+    /// This boolean enables page group menu.
+    /// </summary>
+    public static bool EnablePageHistory = false;
 
     /// <summary>
     /// This boolean enables the Java debug display.
@@ -304,6 +314,28 @@ namespace Evado.UniForm.WebClient
 
       Global.LogClient ( "Default Logo URL: " + Global.DefaultLogoUrl );
 
+      // 
+      // Set the web service URlCONFIG_ENABLE_PAGE_HISTORY_KEY
+      // 
+      if ( ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_MENU_KEY ] != null )
+      {
+         String value = ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_MENU_KEY ].Trim ( );
+
+         Global.EnablePageMenu = Evado.Model.EvStatics.getBool ( value );
+      }
+
+      Global.LogClient ( "EnablePageMenu: " + Global.EnablePageMenu );
+
+      // Set the web service URl
+      // 
+      if ( ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_HISTORY_KEY ] != null )
+      {
+        String value = ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_HISTORY_KEY ].Trim ( );
+
+        Global.EnablePageHistory = Evado.Model.EvStatics.getBool ( value );
+      }
+
+      Global.LogClient ( "EnablePageHistory: " + Global.EnablePageHistory );
       // 
       // Set the web service URl
       // 

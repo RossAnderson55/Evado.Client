@@ -97,6 +97,7 @@
           <li class="active">Data</li>
         </ol>
         -->
+        <asp:Literal ID="litHistory" runat="server" />
         <asp:Literal ID="litPageMenu" runat="server" />
       </div>
     </div>

@@ -45,7 +45,16 @@ namespace Evado.UniForm.WebClient
       // initialise method variables and objects.
       //
       this.litPageContent.Visible = true;
-      this.litPageMenu.Visible = true;
+
+      if ( Global.EnablePageMenu == true )
+      {
+        this.litPageMenu.Visible = true;
+      }
+
+      if ( Global.EnablePageHistory == true )
+      {
+        this.litHistory.Visible = true;
+      }
       this.litExitCommand.Visible = true;
       this.litCommandContent.Visible = true;
       this.litHeaderTitle.Visible = true;
@@ -54,6 +63,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder sbCentreBody = new StringBuilder ( );
       StringBuilder sbRightBody = new StringBuilder ( );
       StringBuilder sbPageMenuPills = new StringBuilder ( );
+      StringBuilder sbPageHistoryPills = new StringBuilder ( );
       int leftColumnPercentage = 0;
       int rightColumnPercentage = 0;
       this.Title = Global.TitlePrefix + this._AppData.Title;
@@ -98,17 +108,17 @@ namespace Evado.UniForm.WebClient
         //
         if ( this._CommandHistoryList.Count > 0 )
         {
-          sbPageMenuPills.Append ( "<ol class='breadcrumb'>" );
+          sbPageHistoryPills.Append ( "<ol class='breadcrumb'>" );
 
           //
           // Iterate through the Command history to create the breadcrumbs.
           //
           foreach ( Evado.Model.UniForm.Command command in this._CommandHistoryList )
           {
-            this.generateHistoryMenuPills ( sbPageMenuPills, command );
+            this.generateHistoryMenuPills ( sbPageHistoryPills, command );
           }
 
-          sbPageMenuPills.Append ( "</ol>" );
+          sbPageHistoryPills.Append ( "</ol>" );
         }
       }//END Anonymous_Page_Access control.
 
@@ -342,6 +352,7 @@ namespace Evado.UniForm.WebClient
       }
       this.litPageContent.Text = sbMainBody.ToString ( );
 
+      this.litHistory.Text = sbPageHistoryPills.ToString ( );
       this.litPageMenu.Text = sbPageMenuPills.ToString ( );
 
       Global.LogDebugMethodEnd ( "generatePage" );
