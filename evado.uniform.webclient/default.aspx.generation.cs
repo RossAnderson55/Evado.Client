@@ -113,7 +113,7 @@ namespace Evado.UniForm.WebClient
           //
           // Iterate through the Command history to create the breadcrumbs.
           //
-          foreach ( Evado.Model.UniForm.Command command in this._CommandHistoryList )
+          foreach ( Evado.UniForm.Model.Command command in this._CommandHistoryList )
           {
             this.generateHistoryMenuPills ( sbPageHistoryPills, command );
           }
@@ -132,8 +132,8 @@ namespace Evado.UniForm.WebClient
       }
 
 
-      string leftColumn = this._AppData.Page.GetParameter ( Model.UniForm.PageParameterList.Left_Column_Width );
-      string rightColumn = this._AppData.Page.GetParameter ( Model.UniForm.PageParameterList.Right_Column_Width );
+      string leftColumn = this._AppData.Page.GetParameter ( Evado.UniForm.Model.PageParameterList.Left_Column_Width );
+      string rightColumn = this._AppData.Page.GetParameter ( Evado.UniForm.Model.PageParameterList.Right_Column_Width );
 
       if ( int.TryParse ( leftColumn, out leftColumnPercentage ) == false )
       {
@@ -162,7 +162,7 @@ namespace Evado.UniForm.WebClient
       {
         for ( int count = 0; count < this._AppData.Page.GroupList.Count; count++ )
         {
-          Evado.Model.UniForm.Group group = this._AppData.Page.GroupList [ count ];
+          Evado.UniForm.Model.Group group = this._AppData.Page.GroupList [ count ];
 
           //
           // skip null objects.
@@ -172,14 +172,14 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
-          String pageColumn = group.GetParameter ( Model.UniForm.GroupParameterList.Page_Column );
+          String pageColumn = group.GetParameter ( Evado.UniForm.Model.GroupParameterList.Page_Column );
 
           Global.LogDebug ( group.Title + " in column: " + pageColumn );
 
           //
           // Header fields are always at the top of the page.
           //
-          if ( group.Layout == Model.UniForm.GroupLayouts.Page_Header
+          if ( group.Layout == Evado.UniForm.Model.GroupLayouts.Page_Header
             || ( leftColumnPercentage == 0
               && rightColumnPercentage == 0 ) )
           {
@@ -195,12 +195,12 @@ namespace Evado.UniForm.WebClient
           // if the left column exists and the group is allocated to the left column
           // place the group html in the left body.
           //
-          if ( pageColumn == Evado.Model.UniForm.PageColumnCodes.Left.ToString ( )
+          if ( pageColumn == Evado.UniForm.Model.PageColumnCodes.Left.ToString ( )
             && leftColumnPercentage > 0 )
           {
             Global.LogDebug ( "ADD: " + group.Title + " to left column" );
 
-            this._AppData.Page.GroupList [ count ].Layout = Evado.Model.UniForm.GroupLayouts.Full_Width;
+            this._AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
 
             this.generateGroup ( sbLeftBody, count, true, false );
 
@@ -212,12 +212,12 @@ namespace Evado.UniForm.WebClient
           // if the right column exists and the group is allocated to the right column
           // place the group html in the right body.
           //
-          if ( pageColumn == Evado.Model.UniForm.PageColumnCodes.Right.ToString ( )
+          if ( pageColumn == Evado.UniForm.Model.PageColumnCodes.Right.ToString ( )
             && rightColumnPercentage > 0 )
           {
             Global.LogDebug ( "ADD: " + group.Title + " to right column" );
 
-            this._AppData.Page.GroupList [ count ].Layout = Evado.Model.UniForm.GroupLayouts.Full_Width;
+            this._AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
 
             this.generateGroup ( sbRightBody, count, false, false );
 
@@ -412,7 +412,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This mehod generates the HTMl for a page group.
     /// </summary>
-    /// <param name="command">Evado.Model.UniForm.Command command object</param>
+    /// <param name="command">Evado.UniForm.Model.Command command object</param>
     /// <param name="cssClass">String: Css classes</param>
     /// <returns>Html string</returns>
     // ---------------------------------------------------------------------------------
@@ -490,15 +490,15 @@ namespace Evado.UniForm.WebClient
       //
       // Define the error group.
       //
-      Evado.Model.UniForm.Group errorGroup = new Evado.Model.UniForm.Group (
+      Evado.UniForm.Model.Group errorGroup = new Evado.UniForm.Model.Group (
         "Message",
         Evado.Model.EvStatics.getStringAsHtml ( this._AppData.Message ),
-        Evado.Model.UniForm.EditAccess.Disabled );
-      errorGroup.Layout = Evado.Model.UniForm.GroupLayouts.Full_Width;
+        Evado.UniForm.Model.EditAccess.Disabled );
+      errorGroup.Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
 
       if ( this._AppData.Message.ToLower ( ).Contains ( "error" ) == true )
       {
-        errorGroup.AddParameter ( Model.UniForm.GroupParameterList.BG_Default, Model.UniForm.Background_Colours.Red );
+        errorGroup.AddParameter ( Evado.UniForm.Model.GroupParameterList.BG_Default, Evado.UniForm.Model.Background_Colours.Red );
       }
 
       //
@@ -554,7 +554,7 @@ namespace Evado.UniForm.WebClient
         if ( this._AppData.Page.Exit.Id != Guid.Empty
           || this._AppData.Page.Exit.Title != String.Empty )
         {
-          if ( this._AppData.Page.Exit.Type != Evado.Model.UniForm.CommandTypes.Logout_Command )
+          if ( this._AppData.Page.Exit.Type != Evado.UniForm.Model.CommandTypes.Logout_Command )
           {
             this.litExitCommand.Text = this.createCommandLink ( this._AppData.Page.Exit );
             this.litExitCommand.Visible = true;
@@ -575,7 +575,7 @@ namespace Evado.UniForm.WebClient
         else
         {
           if ( Global.AuthenticationMode != System.Web.Configuration.AuthenticationMode.Windows
-            && this._AppData.Status == Evado.Model.UniForm.AppData.StatusCodes.Login_Authenticated
+            && this._AppData.Status == Evado.UniForm.Model.AppData.StatusCodes.Login_Authenticated
             && this._AppData.Page.Exit.Title == String.Empty )
           {
             this.litExitCommand.Text = "<a "
@@ -609,7 +609,7 @@ namespace Evado.UniForm.WebClient
       //
       // Iterate through the page Command list.
       //
-      foreach ( Evado.Model.UniForm.Command command in this._AppData.Page.CommandList )
+      foreach ( Evado.UniForm.Model.Command command in this._AppData.Page.CommandList )
       {
         //
         // skip null commands
@@ -641,7 +641,7 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     // ---------------------------------------------------------------------------------
     private String createPageCommandLink (
-      Evado.Model.UniForm.Command command )
+      Evado.UniForm.Model.Command command )
     {
       //Global.LogDebugMethod ( "createPageCommandLink method. " );
       //
@@ -658,9 +658,9 @@ namespace Evado.UniForm.WebClient
       }
       else
       {
-        if ( command.Type == Model.UniForm.CommandTypes.Http_Link )
+        if ( command.Type == Evado.UniForm.Model.CommandTypes.Http_Link )
         {
-          string Link_Url = command.GetParameter ( Model.UniForm.CommandParameters.Link_Url );
+          string Link_Url = command.GetParameter ( Evado.UniForm.Model.CommandParameters.Link_Url );
 
           Global.LogDebug ( "Link_Url: " + Link_Url );
 
@@ -685,12 +685,12 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This mehod generates the HTMl for a page group.
     /// </summary>
-    /// <param name="command">Evado.Model.UniForm.Command command object</param>
+    /// <param name="command">Evado.UniForm.Model.Command command object</param>
     /// <param name="cssClass">String: Css classes</param>
     /// <returns>Html string</returns>
     // ---------------------------------------------------------------------------------
     private String createCommandLink (
-      Evado.Model.UniForm.Command command,
+      Evado.UniForm.Model.Command command,
       string cssClass = "btn btn-danger cmd-button" )
     {
       //Global.LogDebugMethod ( "createCommandLink method. " );
@@ -711,12 +711,12 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This mehod generates the HTMl for a page group.
     /// </summary>
-    /// <param name="Command">Evado.Model.UniForm.Command command object</param>
+    /// <param name="Command">Evado.UniForm.Model.Command command object</param>
     /// <param name="cssClass">String: Css classes</param>
     /// <returns>Html string</returns>
     // ---------------------------------------------------------------------------------
     private String createHttpCommandLink (
-      Evado.Model.UniForm.Command Command,
+      Evado.UniForm.Model.Command Command,
       string cssClass = "btn btn-danger cmd-button" )
     {
       //Global.LogDebugMethod ( "createCommandLink method. " );
@@ -724,7 +724,7 @@ namespace Evado.UniForm.WebClient
       // Initialise methods variables and objects.
       //
       string html = String.Empty;
-      string linkUrl = Command.GetParameter ( Model.UniForm.CommandParameters.Link_Url );
+      string linkUrl = Command.GetParameter ( Evado.UniForm.Model.CommandParameters.Link_Url );
 
       if ( linkUrl != String.Empty )
       {
@@ -743,7 +743,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void generateHistoryMenuPills (
       StringBuilder stHtml,
-      Evado.Model.UniForm.Command command )
+      Evado.UniForm.Model.Command command )
     {
       stHtml.Append ( "<li><a href=\"javascript:onPostBack('" + command.Id + "')\">" + command.Title + "</a></li>" );
     }
@@ -753,7 +753,7 @@ namespace Evado.UniForm.WebClient
     /// This method generates the HTMl for a menu pills.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void generatePageMenuPills ( StringBuilder sbHtml, Evado.Model.UniForm.Group group )
+    private void generatePageMenuPills ( StringBuilder sbHtml, Evado.UniForm.Model.Group group )
     {
       Global.LogDebugMethod ( "generatePageMenuPills method. " );
 
@@ -787,7 +787,7 @@ namespace Evado.UniForm.WebClient
       Global.LogDebug ( "Title: " + this._CurrentGroup.Title );
       Global.LogDebug ( "Group.Status: " + this._CurrentGroup.EditAccess );
 
-      if ( this._CurrentGroup.EditAccess == Model.UniForm.EditAccess.Inherited )
+      if ( this._CurrentGroup.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
       {
         this._CurrentGroup.EditAccess = this._AppData.Page.EditAccess;
       }
@@ -802,15 +802,15 @@ namespace Evado.UniForm.WebClient
       }
 
       this._GroupValueColumWidth = 60;
-      Model.UniForm.FieldValueWidths widthValue = this._CurrentGroup.getValueColumnWidth ( );
+      Evado.UniForm.Model.FieldValueWidths widthValue = this._CurrentGroup.getValueColumnWidth ( );
       this._GroupValueColumWidth = (int) widthValue;
 
       //
       // Set the edit access.
       //
-      Evado.Model.UniForm.EditAccess groupStatus = this._CurrentGroup.EditAccess;
+      Evado.UniForm.Model.EditAccess groupStatus = this._CurrentGroup.EditAccess;
 
-      if ( this._CurrentGroup.EditAccess == Evado.Model.UniForm.EditAccess.Inherited )
+      if ( this._CurrentGroup.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
       {
         groupStatus = this._AppData.Page.EditAccess;
       }
@@ -846,7 +846,7 @@ namespace Evado.UniForm.WebClient
     // ----------------------------------------------------------------------------------
     private void generateGroupHeader (
       StringBuilder sbHtml,
-      Evado.Model.UniForm.Group PageGroup,
+      Evado.UniForm.Model.Group PageGroup,
       bool EnableBodyColumns )
     {
       Global.LogClientMethod ( "generateGroupHeader method." );
@@ -856,11 +856,11 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int inPercentWidth = PageGroup.GetParameterInt ( Evado.Model.UniForm.GroupParameterList.Percent_Width );
-      int inPixelWidth = PageGroup.GetParameterInt ( Evado.Model.UniForm.GroupParameterList.Pixel_Width );
-      int inPixelHeight = PageGroup.GetParameterInt ( Evado.Model.UniForm.GroupParameterList.Pixel_Height );
-      string stFieldName = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.Hide_Group_If_Field_Id );
-      string stFieldValue = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.Hide_Group_If_Field_Value );
+      int inPercentWidth = PageGroup.GetParameterInt ( Evado.UniForm.Model.GroupParameterList.Percent_Width );
+      int inPixelWidth = PageGroup.GetParameterInt ( Evado.UniForm.Model.GroupParameterList.Pixel_Width );
+      int inPixelHeight = PageGroup.GetParameterInt ( Evado.UniForm.Model.GroupParameterList.Pixel_Height );
+      string stFieldName = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.Hide_Group_If_Field_Id );
+      string stFieldValue = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.Hide_Group_If_Field_Value );
 
       Global.LogDebug ( "stFieldName: " + stFieldName );
 
@@ -884,10 +884,10 @@ namespace Evado.UniForm.WebClient
       //
       // Group the page header divs together
       //
-      if ( PageGroup.Layout == Evado.Model.UniForm.GroupLayouts.Page_Header
-        && PageGroup.GetParameterInt ( Evado.Model.UniForm.GroupParameterList.Pixel_Width ) == 0 )
+      if ( PageGroup.Layout == Evado.UniForm.Model.GroupLayouts.Page_Header
+        && PageGroup.GetParameterInt ( Evado.UniForm.Model.GroupParameterList.Pixel_Width ) == 0 )
       {
-        PageGroup.Layout = Evado.Model.UniForm.GroupLayouts.Full_Width;
+        PageGroup.Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
       }
 
       //
@@ -896,12 +896,12 @@ namespace Evado.UniForm.WebClient
       string divFieldContainerStyle = " style='";
       string divFieldGroupStyle = " style='";
 
-      if ( PageGroup.Layout == Evado.Model.UniForm.GroupLayouts.Page_Header )
+      if ( PageGroup.Layout == Evado.UniForm.Model.GroupLayouts.Page_Header )
       {
         divFieldGroupStyle += "width:98%; ";
       }
       else
-        if ( PageGroup.Layout == Evado.Model.UniForm.GroupLayouts.Full_Width )
+        if ( PageGroup.Layout == Evado.UniForm.Model.GroupLayouts.Full_Width )
         {
           if ( EnableBodyColumns == false )
           {
@@ -974,7 +974,7 @@ namespace Evado.UniForm.WebClient
       }
       if ( description != String.Empty )
       {
-        Evado.Model.UniForm.GroupDescriptionAlignments alignment = PageGroup.DescriptionAlignment;
+        Evado.UniForm.Model.GroupDescriptionAlignments alignment = PageGroup.DescriptionAlignment;
 
         string textAlignment = alignment.ToString ( ).Replace ( "_", "-" );
         textAlignment = textAlignment.ToLower ( );
@@ -1026,9 +1026,9 @@ namespace Evado.UniForm.WebClient
       //
       // Iterate through group fields to find the field's Id 
       //
-      foreach ( Evado.Model.UniForm.Group group in this._AppData.Page.GroupList )
+      foreach ( Evado.UniForm.Model.Group group in this._AppData.Page.GroupList )
       {
-        foreach ( Evado.Model.UniForm.Field field in group.FieldList )
+        foreach ( Evado.UniForm.Model.Field field in group.FieldList )
         {
           if ( field.FieldId == FieldId )
           {
@@ -1052,7 +1052,7 @@ namespace Evado.UniForm.WebClient
     private void generateGroupFields (
       StringBuilder sbHtml,
       int GroupIndex,
-      Evado.Model.UniForm.Group PageGroup )
+      Evado.UniForm.Model.Group PageGroup )
     {
       //
       // Initialise the methods variables and objects.
@@ -1064,10 +1064,10 @@ namespace Evado.UniForm.WebClient
       Global.LogDebug ( "PageGroup.CmdLayout: " + PageGroup.CmdLayout );
       Global.LogDebug ( "PageGroup.Status: " + PageGroup.EditAccess );
 
-      String stCssDefault = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.BG_Default );
-      String stCssValid = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.BG_Validation );
-      String stCssAlert = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.BG_Alert );
-      String stCssNormal = PageGroup.GetParameter ( Evado.Model.UniForm.GroupParameterList.BG_Normal );
+      String stCssDefault = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.BG_Default );
+      String stCssValid = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.BG_Validation );
+      String stCssAlert = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.BG_Alert );
+      String stCssNormal = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.BG_Normal );
 
       //
       // if no field exit method.
@@ -1088,7 +1088,7 @@ namespace Evado.UniForm.WebClient
       //
       for ( int count = 0; count < PageGroup.FieldList.Count; count++ )
       {
-        Evado.Model.UniForm.Field groupField = PageGroup.FieldList [ count ];
+        Evado.UniForm.Model.Field groupField = PageGroup.FieldList [ count ];
 
         //
         // continue for null field objects.
@@ -1102,7 +1102,7 @@ namespace Evado.UniForm.WebClient
         //
         // Set the edit access.
         //
-        if ( groupField.EditAccess == Evado.Model.UniForm.EditAccess.Inherited )
+        if ( groupField.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
         {
           groupField.EditAccess = PageGroup.EditAccess;
         }
@@ -1201,7 +1201,7 @@ namespace Evado.UniForm.WebClient
           case Evado.Model.EvDataTypes.Bar_Code:
             {
               this.createTextField ( sbHtml, groupField,
-                Evado.Model.UniForm.EditAccess.Enabled );
+                Evado.UniForm.Model.EditAccess.Enabled );
               break;
             }
           case Evado.Model.EvDataTypes.Radio_Button_List:
@@ -1287,7 +1287,7 @@ namespace Evado.UniForm.WebClient
             }
           case Evado.Model.EvDataTypes.Computed_Field:
             {
-              this.createComputedField ( sbHtml, groupField, Evado.Model.UniForm.EditAccess.Disabled );
+              this.createComputedField ( sbHtml, groupField, Evado.UniForm.Model.EditAccess.Disabled );
               break;
             }
           case Evado.Model.EvDataTypes.Donut_Chart:
@@ -1319,18 +1319,18 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This mehtoid renders a Command title to include icons values in the title
     /// </summary>
-    /// <param name="GroupCommand">Evado.Model.UniForm.Command object</param>
+    /// <param name="GroupCommand">Evado.UniForm.Model.Command object</param>
     /// <returns>String Title with embedded html</returns>
     //-----------------------------------------------------------------------------------
     private String renderCommandTitleNoImage (
-      Evado.Model.UniForm.Command GroupCommand )
+      Evado.UniForm.Model.Command GroupCommand )
     {
       //Global.LogDebugMethod ( "renderCommandTitle method. " );
       //Global.LogDebugValue ( "Command.Title: " + Command.Title );
       //
       // Initialise the methods variables and objects.
       //
-      List<Model.UniForm.Parameter> parameters = this._AppData.Page.Parameters;
+      List<Evado.UniForm.Model.Parameter> parameters = this._AppData.Page.Parameters;
 
       string title = GroupCommand.Title;
 
@@ -1340,19 +1340,19 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This mehtoid renders a Command title to include icons values in the title
     /// </summary>
-    /// <param name="GroupCommand">Evado.Model.UniForm.Command object</param>
+    /// <param name="GroupCommand">Evado.UniForm.Model.Command object</param>
     /// <returns>String Title with embedded html</returns>
     //-----------------------------------------------------------------------------------
     private String renderCommandTitle (
-      Evado.Model.UniForm.Command GroupCommand )
+      Evado.UniForm.Model.Command GroupCommand )
     {
       //Global.LogDebugMethod ( "renderCommandTitle method. " );
       //Global.LogDebugValue ( "Command.Title: " + Command.Title );
       //
       // Initialise the methods variables and objects.
       //
-      List<Model.UniForm.Parameter> parameters = this._AppData.Page.Parameters;
-      string iconImage = GroupCommand.GetParameter ( Model.UniForm.CommandParameters.Image_Url );
+      List<Evado.UniForm.Model.Parameter> parameters = this._AppData.Page.Parameters;
+      string iconImage = GroupCommand.GetParameter ( Evado.UniForm.Model.CommandParameters.Image_Url );
 
       string title = GroupCommand.Title;
 
@@ -1375,14 +1375,14 @@ namespace Evado.UniForm.WebClient
     // ----------------------------------------------------------------------------------
     private void generateGroupCommands (
       StringBuilder sbHtml,
-      Evado.Model.UniForm.Group PageGroup )
+      Evado.UniForm.Model.Group PageGroup )
     {
       //
       // Initialise the methods variables and objects.
       //
       Global.LogDebugMethod ( "generateGroupCommands method. " );
-      Global.LogDebug ( "Evado.Model.UniForm.Group.Title: " + PageGroup.Title );
-      Global.LogDebug ( "Evado.Model.UniForm.Group.CmdLayout: " + PageGroup.CmdLayout );
+      Global.LogDebug ( "Evado.UniForm.Model.Group.Title: " + PageGroup.Title );
+      Global.LogDebug ( "Evado.UniForm.Model.Group.CmdLayout: " + PageGroup.CmdLayout );
 
       //
       // If the page group is null exit .
@@ -1409,12 +1409,12 @@ namespace Evado.UniForm.WebClient
       //
       switch ( PageGroup.CmdLayout )
       {
-        case Evado.Model.UniForm.GroupCommandListLayouts.Vertical_Orientation:
+        case Evado.UniForm.Model.GroupCommandListLayouts.Vertical_Orientation:
           {
             this.generateVerticalCommandGroup ( sbHtml, PageGroup );
             break;
           }
-        case Evado.Model.UniForm.GroupCommandListLayouts.Tiled_Commands:
+        case Evado.UniForm.Model.GroupCommandListLayouts.Tiled_Commands:
           {
             this.generateTiledCommandGroup ( sbHtml, PageGroup );
             break;
@@ -1438,7 +1438,7 @@ namespace Evado.UniForm.WebClient
     //-----------------------------------------------------------------------------------
     private void generateVerticalCommandGroup (
       StringBuilder sbHtml,
-      Evado.Model.UniForm.Group PageGroup )
+      Evado.UniForm.Model.Group PageGroup )
     {
       Global.LogDebugMethod ( "generateGroupCommandsVertical method. " );
       Global.LogDebug ( "Group.Title: " + PageGroup.Title );
@@ -1462,17 +1462,17 @@ namespace Evado.UniForm.WebClient
       //
       // Update the colour if it is in the group settings.
       //
-      if ( PageGroup.hasParameter ( Model.UniForm.GroupParameterList.BG_Default ) == true )
+      if ( PageGroup.hasParameter ( Evado.UniForm.Model.GroupParameterList.BG_Default ) == true )
       {
-        background_Default = PageGroup.GetParameter ( Model.UniForm.GroupParameterList.BG_Default );
+        background_Default = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.BG_Default );
       }
-      if ( PageGroup.hasParameter ( Model.UniForm.GroupParameterList.BG_Alternative ) == true )
+      if ( PageGroup.hasParameter ( Evado.UniForm.Model.GroupParameterList.BG_Alternative ) == true )
       {
-        background_Alternative = PageGroup.GetParameter ( Model.UniForm.GroupParameterList.BG_Alternative );
+        background_Alternative = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.BG_Alternative );
       }
-      if ( PageGroup.hasParameter ( Model.UniForm.GroupParameterList.BG_Highlighted ) == true )
+      if ( PageGroup.hasParameter ( Evado.UniForm.Model.GroupParameterList.BG_Highlighted ) == true )
       {
-        background_Highlighted = PageGroup.GetParameter ( Model.UniForm.GroupParameterList.BG_Highlighted );
+        background_Highlighted = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.BG_Highlighted );
       }
 
       Global.LogDebug ( "2 background_Default: " + background_Default );
@@ -1483,7 +1483,7 @@ namespace Evado.UniForm.WebClient
       //
       sbHtml.Append ( "<table  class='NavigationTable'>" );
 
-      foreach ( Evado.Model.UniForm.Command command in PageGroup.CommandList )
+      foreach ( Evado.UniForm.Model.Command command in PageGroup.CommandList )
       {
         //
         // skip null commands
@@ -1496,11 +1496,11 @@ namespace Evado.UniForm.WebClient
 
         Global.LogDebug ( "Command:" + command.Title );
 
-        if ( command.Type != Evado.Model.UniForm.CommandTypes.Null )
+        if ( command.Type != Evado.UniForm.Model.CommandTypes.Null )
         {
-          String background = command.GetParameter ( Model.UniForm.CommandParameters.BG_Default );
-          String alternative = command.GetParameter ( Model.UniForm.CommandParameters.BG_Alternative );
-          String highlighted = command.GetParameter ( Model.UniForm.CommandParameters.BG_Highlighted );
+          String background = command.GetParameter ( Evado.UniForm.Model.CommandParameters.BG_Default );
+          String alternative = command.GetParameter ( Evado.UniForm.Model.CommandParameters.BG_Alternative );
+          String highlighted = command.GetParameter ( Evado.UniForm.Model.CommandParameters.BG_Highlighted );
 
           if ( alternative == "" ) alternative = background;
           if ( background == "" ) background = background_Default;
@@ -1563,22 +1563,22 @@ namespace Evado.UniForm.WebClient
     //-----------------------------------------------------------------------------------
     private void generateTiledCommandGroup (
       StringBuilder sbHtml,
-      Evado.Model.UniForm.Group PageGroup )
+      Evado.UniForm.Model.Group PageGroup )
     {
       Global.LogDebugMethod ( "generateTiledCommandGroup method. " );
       Global.LogDebug ( "Group.Title: " + PageGroup.Title );
       //
       // Initialise the methods variables and objects.
       //
-      string columnHeaders = PageGroup.GetParameter ( Model.UniForm.GroupParameterList.Tiled_Column_Header );
+      string columnHeaders = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.Tiled_Column_Header );
       string [ ] headers;
       int columnPercentage = 0;
       int columnCount = 0;
-      String defaultColor = Model.UniForm.Background_Colours.Default.ToString ( );
+      String defaultColor = Evado.UniForm.Model.Background_Colours.Default.ToString ( );
 
-      if ( PageGroup.hasParameter ( Model.UniForm.GroupParameterList.BG_Default ) == true )
+      if ( PageGroup.hasParameter ( Evado.UniForm.Model.GroupParameterList.BG_Default ) == true )
       {
-        defaultColor = PageGroup.GetParameter ( Model.UniForm.GroupParameterList.BG_Default );
+        defaultColor = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.BG_Default );
       }
       Global.LogDebug ( "Default" + defaultColor );
 
@@ -1597,7 +1597,7 @@ namespace Evado.UniForm.WebClient
 
         if ( columnCount > 0 )
         {
-          List<Evado.Model.UniForm.Command> [ ] columns = new List<Evado.Model.UniForm.Command> [ columnCount ];
+          List<Evado.UniForm.Model.Command> [ ] columns = new List<Evado.UniForm.Model.Command> [ columnCount ];
 
           columnPercentage = 100 / columnCount;
           tileWidth = columnPercentage.ToString ( ) + "%";
@@ -1615,7 +1615,7 @@ namespace Evado.UniForm.WebClient
           int columnPos;
           int rowCount = 0;
 
-          foreach ( Evado.Model.UniForm.Command command in PageGroup.CommandList )
+          foreach ( Evado.UniForm.Model.Command command in PageGroup.CommandList )
           {
             //
             // skip null commands
@@ -1626,7 +1626,7 @@ namespace Evado.UniForm.WebClient
               continue;
             }
 
-            string tiledColumn = command.GetParameter ( Model.UniForm.CommandParameters.Tiled_Column );
+            string tiledColumn = command.GetParameter ( Evado.UniForm.Model.CommandParameters.Tiled_Column );
 
             if ( tiledColumn != "" )
             {
@@ -1639,7 +1639,7 @@ namespace Evado.UniForm.WebClient
 
             if ( columns [ columnPos ] == null )
             {
-              columns [ columnPos ] = new List<Evado.Model.UniForm.Command> ( );
+              columns [ columnPos ] = new List<Evado.UniForm.Model.Command> ( );
             }
 
             columns [ columnPos ].Add ( command );
@@ -1656,7 +1656,7 @@ namespace Evado.UniForm.WebClient
           {
             for ( int j = 0; j < columnCount; j++ )
             {
-              Evado.Model.UniForm.Command command = null;
+              Evado.UniForm.Model.Command command = null;
 
               if ( columns [ j ].Count >= ( i + 1 ) )
               {
@@ -1689,10 +1689,10 @@ namespace Evado.UniForm.WebClient
       //
       if ( columnHeaders == "" || columnCount == 0 )
       {
-        tileWidth = PageGroup.GetParameter ( Model.UniForm.GroupParameterList.Command_Width );
+        tileWidth = PageGroup.GetParameter ( Evado.UniForm.Model.GroupParameterList.Command_Width );
         Global.LogDebug ( "tileWidth" + tileWidth );
 
-        foreach ( Evado.Model.UniForm.Command command in PageGroup.CommandList )
+        foreach ( Evado.UniForm.Model.Command command in PageGroup.CommandList )
         {
           //
           // skip null commands
@@ -1715,13 +1715,13 @@ namespace Evado.UniForm.WebClient
     /// This method creates a command title html content.
     /// </summary>
     /// <param name="sbHtml">StringBuilding containing the html contnet.</param>
-    /// <param name="groupCommand">Evado.Model.UniForm.Command object</param>
+    /// <param name="groupCommand">Evado.UniForm.Model.Command object</param>
     /// <param name="tileWidth">String: title width </param>
     /// <param name="defaultColor">String the default colour</param>
     //-----------------------------------------------------------------------------------
     private void generateCommandTile (
       StringBuilder sbHtml,
-      Evado.Model.UniForm.Command groupCommand,
+      Evado.UniForm.Model.Command groupCommand,
       string tileWidth,
        String defaultColor )
     {
@@ -1733,7 +1733,7 @@ namespace Evado.UniForm.WebClient
       //
       // If command is null then exit.
       //
-      if ( groupCommand.Type == Evado.Model.UniForm.CommandTypes.Null )
+      if ( groupCommand.Type == Evado.UniForm.Model.CommandTypes.Null )
       {
         return;
       }
@@ -1741,15 +1741,15 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      string iconImage = groupCommand.GetParameter ( Model.UniForm.CommandParameters.Image_Url );
+      string iconImage = groupCommand.GetParameter ( Evado.UniForm.Model.CommandParameters.Image_Url );
       string iconImagePath = Global.RelativeBinaryDownloadURL + iconImage;
-      string color = groupCommand.GetParameter ( Model.UniForm.CommandParameters.BG_Default );
+      string color = groupCommand.GetParameter ( Evado.UniForm.Model.CommandParameters.BG_Default );
 
       Global.LogDebug ( "Command iconImage: " + iconImage );
       Global.LogDebug ( "Command BG Color: " + color );
 
       if ( color == "" ) { color = defaultColor; }
-      if ( color == "" ) { color = Model.UniForm.Background_Colours.Default.ToString ( ); }
+      if ( color == "" ) { color = Evado.UniForm.Model.Background_Colours.Default.ToString ( ); }
 
       Global.LogDebug ( "BG Color: " + color );
 
@@ -1805,7 +1805,7 @@ namespace Evado.UniForm.WebClient
     //-----------------------------------------------------------------------------------
     private void generateDefaultCommandGroup (
       StringBuilder sbHtml,
-      Evado.Model.UniForm.Group PageGroup )
+      Evado.UniForm.Model.Group PageGroup )
     {
       Global.LogDebugMethod ( "generateDefaultCommandGroup method. " );
       Global.LogDebug ( "Group.Title: " + PageGroup.Title );
@@ -1824,19 +1824,19 @@ namespace Evado.UniForm.WebClient
 
       sbHtml.Append ( "<div class='menu links'>" );
 
-      foreach ( Evado.Model.UniForm.Command command in PageGroup.CommandList )
+      foreach ( Evado.UniForm.Model.Command command in PageGroup.CommandList )
       {
         if ( command == null )
         {
           Global.LogDebug ( "Command is null" );
           continue;
         }
-        if ( command.Type == Evado.Model.UniForm.CommandTypes.Http_Link )
+        if ( command.Type == Evado.UniForm.Model.CommandTypes.Http_Link )
         {
           sbHtml.Append ( this.createHttpCommandLink ( command ) );
           GroupCommandIndex++;
         }
-        else if ( command.Type != Evado.Model.UniForm.CommandTypes.Null )
+        else if ( command.Type != Evado.UniForm.Model.CommandTypes.Null )
         {
           sbHtml.Append ( this.createCommandLink ( command ) );
           GroupCommandIndex++;

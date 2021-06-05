@@ -126,7 +126,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This field contains a list of external commands.
     /// </summary>
-    public static Dictionary<String, Evado.Model.UniForm.Command> ExternalCommands = new Dictionary<String, Model.UniForm.Command> ( );
+    public static Dictionary<String, Evado.UniForm.Model.Command> ExternalCommands = new Dictionary<String, Evado.UniForm.Model.Command> ( );
 
     /// <summary>
     /// This boolean enables the debug display.
@@ -315,28 +315,6 @@ namespace Evado.UniForm.WebClient
       Global.LogClient ( "Default Logo URL: " + Global.DefaultLogoUrl );
 
       // 
-      // Set the web service URlCONFIG_ENABLE_PAGE_HISTORY_KEY
-      // 
-      if ( ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_MENU_KEY ] != null )
-      {
-         String value = ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_MENU_KEY ].Trim ( );
-
-         Global.EnablePageMenu = Evado.Model.EvStatics.getBool ( value );
-      }
-
-      Global.LogClient ( "EnablePageMenu: " + Global.EnablePageMenu );
-
-      // Set the web service URl
-      // 
-      if ( ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_HISTORY_KEY ] != null )
-      {
-        String value = ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_HISTORY_KEY ].Trim ( );
-
-        Global.EnablePageHistory = Evado.Model.EvStatics.getBool ( value );
-      }
-
-      Global.LogClient ( "EnablePageHistory: " + Global.EnablePageHistory );
-      // 
       // Set the web service URl
       // 
       if ( ConfigurationManager.AppSettings [ "WebServiceUrl" ] != null )
@@ -451,6 +429,29 @@ namespace Evado.UniForm.WebClient
       }
       Global.LogClient ( "DisplaySerialisation: " + Global.DisplaySerialisation );
 
+      // 
+      // Set the web service URlCONFIG_ENABLE_PAGE_HISTORY_KEY
+      // 
+      if ( ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_MENU_KEY ] != null )
+      {
+        String value = ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_MENU_KEY ].Trim ( );
+
+        Global.EnablePageMenu = Evado.Model.EvStatics.getBool ( value );
+      }
+
+      Global.LogClient ( "EnablePageMenu: " + Global.EnablePageMenu );
+
+      // Set the web service URl
+      // 
+      if ( ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_HISTORY_KEY ] != null )
+      {
+        String value = ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_HISTORY_KEY ].Trim ( );
+
+        Global.EnablePageHistory = Evado.Model.EvStatics.getBool ( value );
+      }
+
+      Global.LogClient ( "EnablePageHistory: " + Global.EnablePageHistory );
+  
 
       // 
       // Set the debug mode.
@@ -530,8 +531,8 @@ namespace Evado.UniForm.WebClient
         string commandTitle = String.Empty;
         string commandApplication = String.Empty;
         string commandObject = String.Empty;
-        string commandType = Model.UniForm.CommandTypes.Anonymous_Command.ToString ( );
-        string commandMethod = Model.UniForm.ApplicationMethods.Get_Object.ToString ( );
+        string commandType = Evado.UniForm.Model.CommandTypes.Anonymous_Command.ToString ( );
+        string commandMethod = Evado.UniForm.Model.ApplicationMethods.Get_Object.ToString ( );
         string pageId = String.Empty;
 
         for ( int i = 0; i < arrCommandValue.Length; i++ )
@@ -573,10 +574,10 @@ namespace Evado.UniForm.WebClient
             String.Format ( "P: {0}, T: {1}, A: {2}, CT: {3}, CO: {4}, CM: {5}, P: {5} ",
             parameter, commandTitle, commandApplication, commandType, commandObject, commandMethod, pageId ) );
           */
-          Model.UniForm.CommandTypes type = Evado.Model.EvStatics.parseEnumValue<Model.UniForm.CommandTypes> ( commandType );
-          Model.UniForm.ApplicationMethods method = Evado.Model.EvStatics.parseEnumValue<Model.UniForm.ApplicationMethods> ( commandMethod );
+          Evado.UniForm.Model.CommandTypes type = Evado.Model.EvStatics.parseEnumValue<Evado.UniForm.Model.CommandTypes> ( commandType );
+          Evado.UniForm.Model.ApplicationMethods method = Evado.Model.EvStatics.parseEnumValue<Evado.UniForm.Model.ApplicationMethods> ( commandMethod );
 
-          Evado.Model.UniForm.Command newCommand = new Model.UniForm.Command (
+          Evado.UniForm.Model.Command newCommand = new Evado.UniForm.Model.Command (
             commandTitle, commandApplication, commandObject, method );
           newCommand.Type = type;
 

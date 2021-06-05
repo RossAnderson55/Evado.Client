@@ -1,5 +1,5 @@
 /***************************************************************************************
- * <copyright file="Evado.Model.UniForm\BLL\EvApplicationEvents.cs" company="EVADO HOLDING PTY. LTD.">
+ * <copyright file="Evado.UniForm.Model.\BLL\EvApplicationEvents.cs" company="EVADO HOLDING PTY. LTD.">
  *     
  *      Copyright (c) 2001 - 2012 EVADO HOLDING PTY. LTD..  All rights reserved.
  *     
@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 
-namespace Evado.Model.UniForm
+namespace Evado.UniForm.Model
 {
   /// <summary>
   /// A business to manage EvApplicationEvents. This class uses EvApplicationEvent data object for its content.

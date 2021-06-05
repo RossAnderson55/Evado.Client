@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evado.UniForm.WebClient", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.model", "..\Evado.Digital\evado.model\evado.model.csproj", "{93EA9387-1172-48EC-B26E-C4D48D827976}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.model.uniform", "..\Evado.Digital\evado.model.uniform\evado.model.uniform.csproj", "{EB6A905C-2E28-4A70-B791-DC807165BCD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evado.UniForm.Model", "..\Evado.Digital\evado.model.uniform\Evado.UniForm.Model.csproj", "{EB6A905C-2E28-4A70-B791-DC807165BCD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

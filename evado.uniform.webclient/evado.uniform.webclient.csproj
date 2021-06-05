@@ -190,9 +190,9 @@
     <Folder Include="logs\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Evado.Digital\evado.model.uniform\evado.model.uniform.csproj">
+    <ProjectReference Include="..\..\Evado.Digital\evado.model.uniform\Evado.UniForm.Model.csproj">
       <Project>{EB6A905C-2E28-4A70-B791-DC807165BCD7}</Project>
-      <Name>evado.model.uniform</Name>
+      <Name>Evado.UniForm.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Evado.Digital\evado.model\evado.model.csproj">
       <Project>{93EA9387-1172-48EC-B26E-C4D48D827976}</Project>

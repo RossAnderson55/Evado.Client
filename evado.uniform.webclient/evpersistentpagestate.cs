@@ -58,7 +58,7 @@ namespace Evado.UniForm.Web
       }
       catch ( Exception Ex )
       {
-        Evado.Model.UniForm.EvApplicationEvents.LogError( Evado.Model.EvStatics.getException( Ex ) );
+        Evado.UniForm.Model.EvApplicationEvents.LogError( Evado.Model.EvStatics.getException( Ex ) );
       }
     }//END SavePageStateToPersistenceMedium Method
 
