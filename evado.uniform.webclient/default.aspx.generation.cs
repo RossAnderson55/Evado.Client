@@ -38,7 +38,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void generatePage ( )
     {
-      Global.LogClientMethod ( "generatePage method. " );
+      Global.LogMethod ( "generatePage method. " );
       Global.LogDebug ( "PageStatus: " + this._AppData.Page.EditAccess );
       Global.LogDebug ( "Page command list count: " + this._AppData.Page.CommandList.Count );
       //
@@ -393,14 +393,13 @@ namespace Evado.UniForm.WebClient
         //
         // reset the JS library value.
         //
-        this.litJsLibrary.Text = String.Empty;
-
+        this.litJsLibrary.Text =  "<script type=\"text/javascript\">computedScript = true;</script>\r\n";
         //
         // Iterate through teh library references adding them to the store.
         //
         for ( int i = 0; i < arJsLibraries.Length; i++ )
         {
-          string stJsLibaryUrl = Global.RelativeBinaryDownloadURL + arJsLibraries [ i ].Trim ( );
+          string stJsLibaryUrl = Global.RelativeBinaryDownloadURL + arJsLibraries [ i ].Trim ( );  //computedScript = false;
 
           this.litJsLibrary.Text += "<script type=\"text/javascript\" src=\"" + stJsLibaryUrl + "\"></script>\r\n";
         }
@@ -410,95 +409,25 @@ namespace Evado.UniForm.WebClient
 
     // ==================================================================================
     /// <summary>
-    /// This mehod generates the HTMl for a page group.
-    /// </summary>
-    /// <param name="command">Evado.UniForm.Model.Command command object</param>
-    /// <param name="cssClass">String: Css classes</param>
-    /// <returns>Html string</returns>
-    // ---------------------------------------------------------------------------------
-    private String encodeMarkDown (
-      String MarkDownText )
-    {
-      Global.LogDebugMethod ( "encodeMarkDown method. " );
-      //Global.LogDebugValue ( "Text length: " + MarkDownText.Length );
-      //
-      // Initialise the methods variables and objects.
-      //
-      String stMarkDown = String.Empty;
-
-      //
-      // Process the text to remove spaces.
-      //
-      MarkDownText = MarkDownText.Replace ( "\r\n", "~" );
-      MarkDownText = MarkDownText.Replace ( "\r", "~" );
-      MarkDownText = MarkDownText.Replace ( "\n", "~" );
-      MarkDownText = MarkDownText.Replace ( "~~", "~" );
-
-      string [ ] arrMarkDownText = MarkDownText.Split ( '~' );
-      foreach ( String str in arrMarkDownText )
-      {
-        stMarkDown += str.Trim ( ) + "\r\n";
-      }
-      //Global.LogDebugValue ( stMarkDown );
-      //Global.LogDebugValue ( "Processed test length: " + stMarkDown.Length );
-
-      //
-      // Initialise the markdown options object.
-      //
-      MarkdownSharp.MarkdownOptions markDownOptions = new MarkdownSharp.MarkdownOptions ( );
-      markDownOptions.AutoHyperlink = true;
-      markDownOptions.AutoNewlines = true;
-      markDownOptions.EmptyElementSuffix = "/>";
-      markDownOptions.EncodeProblemUrlCharacters = true;
-      markDownOptions.LinkEmails = true;
-      markDownOptions.StrictBoldItalic = true;
-
-      //
-      // Initialise the markdown object.
-      //
-      MarkdownSharp.Markdown markDown = new MarkdownSharp.Markdown ( markDownOptions );
-
-      string stHtml = markDown.Transform ( stMarkDown );
-
-      //
-      // convert old markup to html.
-      //
-      stHtml = stHtml.Replace ( "[i]", "<i>" );
-      stHtml = stHtml.Replace ( "[/i]", "</i>" );
-      stHtml = stHtml.Replace ( "[b]", "<b>" );
-      stHtml = stHtml.Replace ( "[/b]", "</b>" );
-      stHtml = stHtml.Replace ( "[u]", "<u>" );
-      stHtml = stHtml.Replace ( "[/u]", "</u>" );
-      stHtml = stHtml.Replace ( "<blockquote>", "" );
-      stHtml = stHtml.Replace ( "</blockquote>", "" );
-
-      //Global.LogDebugValue ( "MarkDown HTML: " + stHtml );
-
-      return stHtml;
-
-    }//END encodeMarkDown method.
-
-    // ==================================================================================
-    /// <summary>
     /// Write Debug comments property.
     /// </summary>
     // ---------------------------------------------------------------------------------
     private void generateErrorMessge ( StringBuilder sbHtml )
     {
       Global.LogDebugMethod ( "generateErrorMessge method. " );
-
+      String message = this._AppData.Message.ToLower();
       //
       // Define the error group.
       //
       Evado.UniForm.Model.Group errorGroup = new Evado.UniForm.Model.Group (
-        "Message",
+       EuLabels.Page_Message_Group_Title,
         Evado.Model.EvStatics.getStringAsHtml ( this._AppData.Message ),
         Evado.UniForm.Model.EditAccess.Disabled );
       errorGroup.Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
 
-      if ( this._AppData.Message.ToLower ( ).Contains ( "error" ) == true )
+      if ( message.Contains ( "error" ) == true )
       {
-        errorGroup.AddParameter ( Evado.UniForm.Model.GroupParameterList.BG_Default, Evado.UniForm.Model.Background_Colours.Red );
+        errorGroup.Title = EuLabels.Page_Message_Error_Group_Title;
       }
 
       //
@@ -773,7 +702,7 @@ namespace Evado.UniForm.WebClient
       bool EnableBodyColumns,
       bool EnablePanelDisplay )
     {
-      Global.LogClientMethod ( "generateGroup method. " );
+      Global.LogMethod ( "generateGroup method. " );
       Global.LogDebug ( "Index: " + Index );
       //
       // Initialise the methods variables and objects.
@@ -849,7 +778,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Group PageGroup,
       bool EnableBodyColumns )
     {
-      Global.LogClientMethod ( "generateGroupHeader method." );
+      Global.LogMethod ( "generateGroupHeader method." );
       Global.LogDebug ( "Group: " + PageGroup.Title );
       Global.LogDebug ( "Group.Layout: " + PageGroup.Layout );
       Global.LogDebug ( "EnableBodyColumns: " + EnableBodyColumns );
@@ -992,7 +921,7 @@ namespace Evado.UniForm.WebClient
         }
         else
         {
-          sbHtml.AppendLine ( this.encodeMarkDown ( description ) );
+          sbHtml.AppendLine ( Evado.Model.EvStatics.EncodeMarkDown ( description ) );
         }
         sbHtml.AppendLine ( "</div>" );
         sbHtml.AppendLine ( "<!-- CLOSING DESCRIPTION -->" );
@@ -1057,7 +986,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      Global.LogClientMethod ( "generateGroupFields method. " );
+      Global.LogMethod ( "generateGroupFields method. " );
       Global.LogDebug ( "PageGroup.Title: " + PageGroup.Title );
       Global.LogDebug ( "PageGroup.GroupType: " + PageGroup.GroupType );
       Global.LogDebug ( "PageGroup.Status: " + PageGroup.EditAccess );

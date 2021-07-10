@@ -194,11 +194,11 @@ namespace Evado.UniForm.WebClient
         //
         // get the application path from the runtime.
         //
-        Global._ApplicationLog = new System.Text.StringBuilder ( );
+        Global._ClientLog = new System.Text.StringBuilder ( );
         Global._DebuLog = new System.Text.StringBuilder ( );
         Global.ApplicationPath = HttpRuntime.AppDomainAppPath;
 
-        Global.LogClientMethod ( "Evado.UniForm.Service.Global.Application_Start event method STARTED. " );
+        Global.LogMethod ( "Evado.UniForm.Service.Global.Application_Start event method STARTED. " );
         Global.LogDebug ( "Startup Log:" );
 
         Global.LogDebug ( "eventLogSource: " + Global.EventLogSource );
@@ -259,7 +259,7 @@ namespace Evado.UniForm.WebClient
         // 
         // Log the start up log.
         // 
-        EventLog.WriteEntry ( EventLogSource, Global._ApplicationLog.ToString ( ), EventLogEntryType.Information );
+        EventLog.WriteEntry ( EventLogSource, Global._ClientLog.ToString ( ), EventLogEntryType.Information );
 
         Global.OutputClientLog ( );
 
@@ -268,11 +268,11 @@ namespace Evado.UniForm.WebClient
       {
         Global.LogDebug ( "Application Startup error.\r\n" + Ex.ToString ( ) );
 
-        EventLog.WriteEntry ( EventLogSource, Global._ApplicationLog.ToString ( ), EventLogEntryType.Error );
+        EventLog.WriteEntry ( EventLogSource, Global._ClientLog.ToString ( ), EventLogEntryType.Error );
 
       } // Close catch   
 
-      Global.LogClientMethodEnd ( "Application_Start" );
+      Global.LogMethodEnd ( "Application_Start" );
 
       Global.OutputClientLog ( );
 
@@ -498,7 +498,7 @@ namespace Evado.UniForm.WebClient
     // -----------------------------------------------------------------------------------
     private void LoadExternalCommands ( )
     {
-      Global.LogClientMethod ( "LoadExternalCommands" );
+      Global.LogMethod ( "LoadExternalCommands" );
       //
       // Set the application log path  LogPath
       //
@@ -596,7 +596,7 @@ namespace Evado.UniForm.WebClient
 
       Global.LogClient ( "External Command count: " + Global.ExternalCommands.Count );
 
-      Global.LogClientMethodEnd ( "LoadExternalCommands" );
+      Global.LogMethodEnd ( "LoadExternalCommands" );
 
 
     }//ENd LoadExternalCommands method
@@ -632,7 +632,7 @@ namespace Evado.UniForm.WebClient
       /// 
       /// Initialise the methods variables and objects.
       /// 
-      Global.LogClientMethod ( "Evado.UniForm.WebClient.Session_Start event method. STARTED" );
+      Global.LogMethod ( "Evado.UniForm.WebClient.Session_Start event method. STARTED" );
       String stUserId = String.Empty;
       try
       {
@@ -664,7 +664,7 @@ namespace Evado.UniForm.WebClient
         Global.LogClient ( "Domain User: " + stUserId );
         Global.LogClient ( Ex.ToString ( ) );
 
-        EventLog.WriteEntry ( EventLogSource, Global._ApplicationLog.ToString ( ), EventLogEntryType.Error );
+        EventLog.WriteEntry ( EventLogSource, Global._ClientLog.ToString ( ), EventLogEntryType.Error );
 
       } // Close catch   
 
@@ -744,19 +744,18 @@ namespace Evado.UniForm.WebClient
     //
     // Define the debug lot string builder.
     //
-    private static System.Text.StringBuilder _ApplicationLog = new System.Text.StringBuilder ( );
+    private static System.Text.StringBuilder _ClientLog = new System.Text.StringBuilder ( );
 
     private const String CONST_SERVICE_LOG_FILE_NAME = @"web-client-log-";
 
     //  =================================================================================
     /// <summary>
     ///   This static method removes a user from the online user list.
-    /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogClientMethod ( String Value )
+    public static void LogMethod ( String Value )
     {
-      Global._ApplicationLog.AppendLine ( Evado.Model.EvStatics.CONST_METHOD_START
+      Global._ClientLog.AppendLine ( Evado.Model.EvStatics.CONST_METHOD_START
         + DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
         + Value + " Method" );
 
@@ -769,14 +768,24 @@ namespace Evado.UniForm.WebClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogClientMethodEnd ( String Value )
+    public static void LogMethodEnd ( String Value )
     {
-
       String value = Evado.Model.EvStatics.CONST_METHOD_END;
 
       value = value.Replace ( " END OF METHOD ", " END OF " + Value + " METHOD " );
 
       Global.LogClient ( value );
+    }
+
+    //  =================================================================================
+    /// <summary>
+    ///   This static method logs an event 
+    /// 
+    /// </summary>
+    //   ---------------------------------------------------------------------------------
+    public static void LogEvent ( String Value )
+    {
+      Global.LogClient ( "EVENT: " + Value );
     }
 
     //  =================================================================================
@@ -787,7 +796,7 @@ namespace Evado.UniForm.WebClient
     //   ---------------------------------------------------------------------------------
     public static void LogClient ( String Value )
     {
-      Global._ApplicationLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
+      Global._ClientLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
         + Value );
 
       Global.LogDebug ( Value );
@@ -802,13 +811,8 @@ namespace Evado.UniForm.WebClient
     // ----------------------------------------------------------------------------------
     public static void LogClient ( String Format, params object [ ] args )
     {
-      if ( Global.DebugLogOn == false )
-      {
-        return;
-      }
-      Global._ApplicationLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": " +
-          String.Format ( Format, args ) );
-
+      Global._ClientLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": " +
+          String.Format ( Format, args ) ); 
     }
 
     //  =================================================================================
@@ -822,7 +826,7 @@ namespace Evado.UniForm.WebClient
       String ServiceLogFileName = Global.LogFilePath + CONST_SERVICE_LOG_FILE_NAME
         + DateTime.Now.ToString ( "yy-MM-dd" ) + ".log";
 
-      String stContent = Evado.Model.EvStatics.getHtmlAsString ( Global._ApplicationLog.ToString ( ) );
+      String stContent = Evado.Model.EvStatics.getHtmlAsString ( Global._ClientLog.ToString ( ) );
 
       // 
       // Open the stream to the file.

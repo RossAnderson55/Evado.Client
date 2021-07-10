@@ -313,6 +313,24 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Page_Message_Error_Group_Title {
+            get {
+                return ResourceManager.GetString("Page_Message_Error_Group_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        internal static string Page_Message_Group_Title {
+            get {
+                return ResourceManager.GetString("Page_Message_Group_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not selected.
         /// </summary>
         internal static string Radio_Button_Not_Selected {

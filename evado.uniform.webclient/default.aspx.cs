@@ -132,7 +132,7 @@ namespace Evado.UniForm.WebClient
     protected void Page_Load ( object sender, System.EventArgs E )
     {
       Global.ClearDebugLog ( );
-      Global.LogClientMethod ( "Page_Load event method. " );
+      Global.LogMethod ( "Page_Load event method. " );
       try
       {
         Global.LogClient ( "UserHostAddress: " + Request.UserHostAddress );
@@ -180,7 +180,7 @@ namespace Evado.UniForm.WebClient
         //
         // Read in the Command from the post back event.
         //
-        Global.LogClient ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
+        Global.LogEvent ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
         Global.LogDebug ( "fsLoginBox.Visible: " + this.fsLoginBox.Visible );
 
         //
@@ -968,7 +968,7 @@ namespace Evado.UniForm.WebClient
     // --------------------------------------------------------------------------------
     public void getPageCommand ( )
     {
-      Global.LogDebugMethod ( "getPageCommand method. " );
+      Global.LogMethod ( "getPageCommand" );
 
       //
       // read in the posted back Command id
@@ -992,15 +992,14 @@ namespace Evado.UniForm.WebClient
 
           this._PageCommand = this.getCommandObject ( this._CommandGuid );
         }
-
         else
         {
           Global.LogDebug ( "Current and previous CommandId match." );
         }
       }
-      Global.LogDebug ( "PageCommand: " + this._PageCommand.getAsString ( false, true ) );
+      Global.LogClient ( "PageCommand: " + this._PageCommand.getAsString ( false, true ) );
 
-      Global.LogDebugMethodEnd ( "getPageCommand" );
+      Global.LogMethodEnd ( "getPageCommand" );
 
     }//END getPageCommand method
 
@@ -1674,7 +1673,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
-      Global.LogClientMethod ( "getSignatureFieldValue method. " );
+      Global.LogMethod ( "getSignatureFieldValue method. " );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
@@ -1736,7 +1735,7 @@ namespace Evado.UniForm.WebClient
       string CurrentValue,
       int OptionListCount )
     {
-      Global.LogClientMethod ( "getCheckButtonListFieldValue method. " );
+      Global.LogMethod ( "getCheckButtonListFieldValue method. " );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       Global.LogClient ( "OptionList: " + OptionListCount );
       // 
@@ -1788,7 +1787,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
-      Global.LogClientMethod ( "getNameFieldValue method. " );
+      Global.LogMethod ( "getNameFieldValue method. " );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
@@ -1830,7 +1829,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
-      Global.LogClientMethod ( "getRangeFieldValue method. " );
+      Global.LogMethod ( "getRangeFieldValue method. " );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
@@ -1868,7 +1867,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
-      Global.LogClientMethod ( "getNameFieldValue method. " );
+      Global.LogMethod ( "getNameFieldValue method. " );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
@@ -1918,7 +1917,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field FormField,
       NameValueCollection ReturnedFormFields )
     {
-      Global.LogClientMethod ( "updateFormTableFields method." );
+      Global.LogMethod ( "updateFormTableFields method." );
       Global.LogClient ( " FieldId: " + FormField.FieldId );
       // 
       // Iterate through the rows and columns of the table filling the 
@@ -2422,8 +2421,7 @@ namespace Evado.UniForm.WebClient
           //
           // If the cel is not readonly and has a value then add it to the parameters.
           //
-          if ( field.Table.Rows [ iRow ].Column [ iCol ] != String.Empty
-            && field.Table.Header [ iCol ].TypeId != Evado.Model.EvDataTypes.Read_Only_Text )
+          if ( field.Table.Rows [ iRow ].Column [ iCol ] != String.Empty )
           {
             string stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
             this._PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].Column [ iCol ] );
