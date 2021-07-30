@@ -41,6 +41,7 @@ namespace Evado.UniForm.WebClient
 
     public const String SESSION_A1 = "EUWC_A1";
     public const String CONFIG_EVENT_LOG_SOURCE_KEY = "EventLogSource";
+    public const String CONST_ENABLE_DETAILED_LOGGING = "ENABLE_DETAILED_LOGGING";
     public const String CONFIG_ENABLE_PAGE_MENU_KEY = "ENABLE_MENU";
     public const String CONFIG_ENABLE_PAGE_HISTORY_KEY = "ENABLE_HISTORY";
 
@@ -132,6 +133,10 @@ namespace Evado.UniForm.WebClient
     /// This boolean enables the debug display.
     /// </summary>
     public static bool DebugLogOn = false;
+    /// <summary>
+    /// This boolean enables the debug display.
+    /// </summary>
+    public static bool EnableDetailedLogging = false;
     /// <summary>
     /// This boolean enables the debug display.
     /// </summary>
@@ -389,6 +394,19 @@ namespace Evado.UniForm.WebClient
       // 
       // Set the debug mode.
       // 
+      if ( ConfigurationManager.AppSettings [ CONST_ENABLE_DETAILED_LOGGING ] != null )
+      {
+        string value = ConfigurationManager.AppSettings [ CONST_ENABLE_DETAILED_LOGGING ].ToLower ( );
+        if ( Evado.Model.EvStatics.getBool ( value ) == true )
+        {
+          Global.EnableDetailedLogging = true;
+        }
+      }
+      Global.LogClient ( "EnableDetailedLogging: " + Global.EnableDetailedLogging );
+
+      // 
+      // Set the debug mode.
+      // 
       if ( ConfigurationManager.AppSettings [ "DebugLogOn" ] != null )
       {
         string value = ConfigurationManager.AppSettings [ "DebugLogOn" ].ToLower ( );
@@ -418,7 +436,6 @@ namespace Evado.UniForm.WebClient
         }
       }
       Global.LogClient ( "JavaDebug: " + Global.JavaDebug );
-
 
       if ( ConfigurationManager.AppSettings [ "DisplaySerialisation" ] != null )
       {
@@ -824,7 +841,13 @@ namespace Evado.UniForm.WebClient
     public static void OutputClientLog ( )
     {
       String ServiceLogFileName = Global.LogFilePath + CONST_SERVICE_LOG_FILE_NAME
-        + DateTime.Now.ToString ( "yy-MM-dd" ) + ".log";
+        + DateTime.Now.ToString ( "yy-MM" ) + ".log";
+
+      if ( Global.EnableDetailedLogging == true )
+      {
+        ServiceLogFileName = Global.LogFilePath + CONST_SERVICE_LOG_FILE_NAME
+         + DateTime.Now.ToString ( "yy-MM_dd" ) + ".log";
+      }
 
       String stContent = Evado.Model.EvStatics.getHtmlAsString ( Global._ClientLog.ToString ( ) );
 

@@ -1324,7 +1324,6 @@ namespace Evado.UniForm.WebClient
 
           this._TabIndex++;
         }
-        stHtml.Append ( "<br/><span style='margin:10pt;'>" + stFormat + "</span>" );
 
         stHtml.Append ( "<input type='hidden' "
           + "id='" + PageField.FieldId + "' "
@@ -1605,6 +1604,11 @@ namespace Evado.UniForm.WebClient
       Global.LogDebug ( "valueColumnWidth: " + valueColumnWidth );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-check-value cf' ";
+
+      if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
+      {
+        stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+      }
 
       //
       // Set the normal validation parameters.
@@ -2117,7 +2121,6 @@ namespace Evado.UniForm.WebClient
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-bool-value cf' ";
 
-
       //
       // Ineert the field header
       //
@@ -2277,6 +2280,11 @@ namespace Evado.UniForm.WebClient
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-check-value cf' ";
 
+      if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
+      {
+         stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+      }
+
       //
       // Set the normal validation parameters.
       //
@@ -2345,7 +2353,7 @@ namespace Evado.UniForm.WebClient
         }
 
         sbHtml.AppendLine ( "/>" );
-        sbHtml.AppendLine ( "<span class='label' style='width:80%'>" + option.Description + "</span>" );
+        sbHtml.AppendLine ( "<span class='label' >" + option.Description + "</span>" );
         sbHtml.AppendLine ( "</label>" );
         sbHtml.AppendLine ( "</div>" );
 
@@ -2397,6 +2405,11 @@ namespace Evado.UniForm.WebClient
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-select-value cf' ";
       String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Snd_Cmd_On_Change );
       String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Validation_Callback );
+
+      if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
+      {
+        stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+      }
 
       Global.LogDebug ( "stCmdOnChange: " + stCmdOnChange );
       Global.LogDebug ( "stCustomValidation: " + stCustomValidation );
@@ -4812,7 +4825,7 @@ namespace Evado.UniForm.WebClient
 
       string stValue = PageField.Value;
       string stLinkUrl = PageField.Value;
-      string stLinkTitle = PageField.Value;
+      string stLinkTitle = PageField.Title;
 
       if ( stValue.Contains ( "^" ) == true )
       {

@@ -1838,9 +1838,9 @@ input[type="date"] {
  {
   margin: 0px;
   padding: 10px;
-  display:inline-block ;
-  width: 90%;
   text-align: left;
+  display:inline-block ;
+  width: 95%;
   /*font-size: 11pt;*/
   font-weight: normal;
   background-color: #F8F8F8;
