@@ -1841,7 +1841,18 @@ input[type="date"] {
   text-align: left;
   display:inline-block ;
   width: 95%;
-  /*font-size: 11pt;*/
+  font-weight: normal;
+  background-color: #F8F8F8;
+  color: #000000;
+}
+.radio .label-20,
+.checkbox .label-20
+ {
+  margin: 0px;
+  padding: 10px;
+  text-align: left;
+  display:inline-block ;
+  width: 90%;
   font-weight: normal;
   background-color: #F8F8F8;
   color: #000000;
@@ -1853,7 +1864,6 @@ input[type="date"] {
   padding: 10px;
   display:inline-block ;
   text-align: left;
-  /*font-size: 11pt;*/
   font-weight: normal;
   background-color: #F8F8F8;
   color: #000000;
