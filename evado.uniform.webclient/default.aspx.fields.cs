@@ -1704,7 +1704,14 @@ namespace Evado.UniForm.WebClient
         }
 
         sbHtml.AppendLine ( "/>" );
-        sbHtml.AppendLine ( "<span class='label'>" + option.Description + "</span>" );
+        if ( valueColumnWidth < 40 )
+        {
+          sbHtml.AppendLine ( "<span class='label-20' >" + option.Description + "</span>" );
+        }
+        else
+        {
+          sbHtml.AppendLine ( "<span class='label' >" + option.Description + "</span>" );
+        }
         sbHtml.AppendLine ( "</label>" );
         sbHtml.AppendLine ( "</div>" );
 
@@ -1870,7 +1877,14 @@ namespace Evado.UniForm.WebClient
             }
 
             sbHtml.AppendLine ( "/>" );
-            sbHtml.AppendLine ( "<span class='label'>" + option.Description + "</span>" );
+            if ( valueColumnWidth < 40 )
+            {
+              sbHtml.AppendLine ( "<span class='label-20' >" + option.Description + "</span>" );
+            }
+            else
+            {
+              sbHtml.AppendLine ( "<span class='label' >" + option.Description + "</span>" );
+            }
             sbHtml.AppendLine ( "</label>" );
             sbHtml.AppendLine ( "</div>" );
 
