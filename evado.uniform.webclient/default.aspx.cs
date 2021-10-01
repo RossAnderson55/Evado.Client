@@ -103,8 +103,6 @@ namespace Evado.UniForm.WebClient
 
     private bool _PlotScriptLoaded = false;
 
-    private bool _Anonymous_Page_Access = false;
-
     private Guid LoginCommandId
     {
       get
@@ -621,7 +619,6 @@ namespace Evado.UniForm.WebClient
         // - History commands
         // - Page Commands
         //
-        this._Anonymous_Page_Access = this._AppData.Page.GetAnonymousPageAccess ( );
 
         Global.LogDebug ( "ExitCommand: " + this._AppData.Page.Exit.getAsString ( true, false ) );
         //
@@ -772,13 +769,14 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void outputSerialisedData ( )
     {
-      Global.LogDebugMethod ( "outSerialisedData method. "
-        + " Global.ApplicationPath: '" + Global.ApplicationPath + "' " );
+      Global.LogDebugMethod ( "outSerialisedData" );
+      Global.LogDebug ( " Global.ApplicationPath: '" + Global.ApplicationPath + "' " );
 
       if ( Global.DisplaySerialisation == false )
       {
         Global.LogDebug ( "serialisation is false" );
 
+        Global.LogDebugMethodEnd ( "outSerialisedData " );
         return;
       }
 
@@ -913,7 +911,7 @@ namespace Evado.UniForm.WebClient
         this.litSerialisedLinks.Text = stHtml;
       }
 
-      Global.LogDebug ( "End serialisation output." );
+      Global.LogDebugMethodEnd ( "outSerialisedData " );
 
 
     }//END outSerialisedData method
@@ -2487,7 +2485,7 @@ namespace Evado.UniForm.WebClient
       //
       // If the anonoyous access mode exit.
       //
-      if ( this._Anonymous_Page_Access == true )
+      if ( this._AppData.Page.GetAnonymousPageAccess ( ) == true )
       {
         Global.LogDebug ( "Anonyous_Page_Access = true" );
 

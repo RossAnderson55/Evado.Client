@@ -1043,7 +1043,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogDebugMethod ( "createDateField2 Method" );
+      Global.LogDebugMethod ( "createDateField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -1051,10 +1051,8 @@ namespace Evado.UniForm.WebClient
       int titleColumnWidth = 100 - valueColumnWidth;
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-date-value ' "; //cf
-      String stMin_Value = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Min_Value );
-      String stMax_Value = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Max_Value );
-      String stMinAlert = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Min_Alert );
-      String stMaxAlert = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Max_Alert );
+      int minYear = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Min_Value );
+      int maxYear = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Max_Value );
       String stCssValid = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.BG_Validation );
       String stCssAlert = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.BG_Alert );
       String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Validation_Callback );
@@ -1063,12 +1061,18 @@ namespace Evado.UniForm.WebClient
       String stDay = String.Empty;
       String stMonth = String.Empty;
       String stYear = String.Empty;
-      int maxYear = DateTime.Now.Year + 4;
-      int minYear = DateTime.Now.Year - 100;
-      int iYear = 0;
-      String stFormat = "dd - MMM - yyyy";
+      if ( maxYear == 0 )
+      {
+        maxYear = DateTime.Now.Year + 4;
+      }
+      if ( minYear == 0 )
+      {
+        minYear = DateTime.Now.Year - 100;
+      }
 
-      Global.LogClient ( "Min_Value: " + stMin_Value + ", Max_Value: " + stMax_Value );
+      Global.LogClient ( "minYear: " + minYear + " maxYear: " + maxYear );
+
+      String stFormat = "dd - MMM - yyyy";
 
       //
       // set the time format structure.
@@ -1097,62 +1101,6 @@ namespace Evado.UniForm.WebClient
           stFormat = format;
         }
       }
-      //
-      // get the maximum year.
-      //
-      stMax_Value = stMax_Value.Replace ( " ", "-" );
-      String [ ] arDate = stMax_Value.Split ( '-' );
-      if ( arDate.Length > 2 )
-      {
-        stYear = arDate [ 2 ];
-      }
-      else
-        if ( arDate.Length > 1 )
-        {
-          stYear = arDate [ 1 ];
-        }
-        else
-        {
-          stYear = PageField.Value;
-        }
-
-      if ( stYear != String.Empty )
-      {
-        if ( int.TryParse ( stYear, out iYear ) == true )
-        {
-          maxYear = iYear;
-        }
-      }
-
-      //
-      // get the maximum year.
-      //
-      stYear = String.Empty;
-      stMin_Value = stMin_Value.Replace ( " ", "-" );
-      arDate = stMin_Value.Split ( '-' );
-      if ( arDate.Length > 2 )
-      {
-        stYear = arDate [ 2 ];
-      }
-      else
-        if ( arDate.Length > 1 )
-        {
-          stYear = arDate [ 1 ];
-        }
-        else
-        {
-          stYear = PageField.Value;
-        }
-
-      if ( stYear != String.Empty )
-      {
-        if ( int.TryParse ( stYear, out iYear ) == true )
-        {
-          minYear = iYear;
-        }
-      }
-
-      Global.LogClient ( "minYear: " + minYear + " maxyear: " + maxYear );
 
       //
       // Set the normal validation parameters.
@@ -1167,7 +1115,7 @@ namespace Evado.UniForm.WebClient
       stDate = PageField.Value;
       stDate = stDate.Replace ( " ", "-" );
 
-      arDate = stDate.Split ( '-' );
+      String [ ] arDate = stDate.Split ( '-' );
       if ( arDate.Length > 2 )
       {
         stDay = arDate [ 0 ];
@@ -1345,6 +1293,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
+      Global.LogDebugMethodEnd ( "createDateField" );
     }//END Field Method
 
     // ===================================================================================
@@ -1589,6 +1538,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
+      Evado.UniForm.Model.FieldValueWidths widthValue = FieldValueWidths.Default;
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Field_Value_Legend );
@@ -1597,7 +1547,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( FieldParameterList.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.FieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        widthValue = PageField.getValueColumnWidth ( );
         valueColumnWidth = (int) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -1608,6 +1558,10 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
       {
         stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+      }
+      if ( widthValue == FieldValueWidths.Twenty_Percent )
+      {
+        stFieldValueStyling = "style='width:285px' class='cell value cell-check-value cf' ";
       }
 
       //
@@ -2277,6 +2231,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
+      Evado.UniForm.Model.FieldValueWidths widthValue = FieldValueWidths.Default;
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Field_Value_Legend );
@@ -2285,7 +2240,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( FieldParameterList.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.FieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        widthValue = PageField.getValueColumnWidth ( );
         valueColumnWidth = (int) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -2296,7 +2251,11 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
       {
-         stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+        stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+      }
+      if ( widthValue == FieldValueWidths.Twenty_Percent )
+      {
+        stFieldValueStyling = "style='width:20%' class='cell value cell-check-value cf' ";
       }
 
       //

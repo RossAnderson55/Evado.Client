@@ -92,9 +92,9 @@ namespace Evado.UniForm.WebClient
       // If the anonymous access mode exit.
       //
 
-      Global.LogDebug ( "Anonymous_Page_Access: " + this._Anonymous_Page_Access );
+      Global.LogDebug ( "Anonymous_Page_Access: " + this._AppData.Page.GetAnonymousPageAccess ( ) );
 
-      if ( this._Anonymous_Page_Access == false )
+      if ( this._AppData.Page.GetAnonymousPageAccess ( ) == false )
       {
         Global.LogDebug ( "Anonyous_Page_Access = false" );
 
@@ -452,7 +452,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void generatePageCommands ( )
     {
-      Global.LogDebugMethod ( "generateCommands method. " );
+      Global.LogDebugMethod ( "generateCommands" );
       Global.LogDebug ( "CommandList.Count: " + this._AppData.Page.CommandList.Count );
 
       //
@@ -562,6 +562,7 @@ namespace Evado.UniForm.WebClient
 
       this.litCommandContent.Text = stHtml.ToString ( );
 
+      Global.LogDebugMethodEnd ( "generateCommands" );
     }//END generatePageCommands method
 
     // ==================================================================================
