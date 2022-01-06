@@ -1,6 +1,23 @@
 /* This style sheet defines the report layout styles. 
  *
  */
+ 
+#Rpt_ContentTable
+{
+  /*border: #0c0c0c 1px solid;*/
+  width: 97%;
+  margin: 0;
+  padding: 0;
+  color: #000000;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+ 
+#Rpt_ContentTable td, #Rpt_ContentTable th
+{
+  text-align:left;
+  padding: 10px;
+}
 
 .Rpt_Title
 {
@@ -90,16 +107,6 @@
 .Rpt_Table97 tr
 {
   height: 22px;
-}
-#Rpt_ContentTable
-{
-  /*border: #0c0c0c 1px solid;*/
-  width: 97%;
-  margin: 0;
-  padding: 0;
-  color: #000000;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 .Rpt_Grid
