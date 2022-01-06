@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evado.UniForm.WebClient", "Evado.UniForm.WebClient\Evado.UniForm.WebClient.csproj", "{3C8822B1-D194-449E-A155-CF9E8BD20161}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.model", "..\Evado.Digital\evado.model\evado.model.csproj", "{93EA9387-1172-48EC-B26E-C4D48D827976}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.model", "..\evado.uniform\evado.model\evado.model.csproj", "{93EA9387-1172-48EC-B26E-C4D48D827976}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evado.UniForm.Model", "..\Evado.Digital\evado.model.uniform\Evado.UniForm.Model.csproj", "{EB6A905C-2E28-4A70-B791-DC807165BCD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.uniform.model", "..\evado.uniform\evado.uniform.model\evado.uniform.model.csproj", "{EB6A905C-2E28-4A70-B791-DC807165BCD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

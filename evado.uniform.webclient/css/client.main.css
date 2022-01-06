@@ -415,21 +415,24 @@ span.required {
   padding: 4px 4px 10px 4px;
   vertical-align: top;
 }
+.field-group .description td 
+{
+  text-align:left;
+  padding: 10px;
+}
 
-.field-group .description table {
+.substition-table {
   width: 80%;
   margin: auto;
   padding: 10px;
 }
 
-
-.field-group .description td 
+.substition-table td 
 {
   width: 50%;
   text-align:left;
   padding: 10px;
 }
-
 .field-group .description ul,
 .field-group .description ol,
 .cell-display-text-title ul, 

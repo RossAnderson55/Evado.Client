@@ -13,6 +13,7 @@
   font-variant:normal;
   font-weight:bold;
 	text-align: Left;
+  padding: 10px;
 }
 
 .Rpt_SubTitle
@@ -26,6 +27,7 @@
   font-variant:normal;
   font-weight:bold;
 	text-align: Left;
+  padding: 10px;
 }
 
 .Rpt_MainTable
@@ -74,7 +76,7 @@
 
   margin-left: 10pt; 
   margin-right: 10pt; 
-  
+  padding: 10px;
 }
 .Rpt_Parameters tr
 {
@@ -111,6 +113,7 @@
 .Rpt_Row
 {  
  height: 22pt;	
+ padding: 10px;
 }
 
 .Rpt_Section
@@ -206,6 +209,7 @@
   Background-Color: #ffffff; 
   vertical-align:middle;
 	text-align: Left;
+  padding: 10px;
 }
 
 .Rpt_Alt
@@ -217,6 +221,7 @@
   background-color: #ebebeb;
   vertical-align:middle;
 	text-align: Left;
+  padding: 10px;
 }
 
 .Rpt_border

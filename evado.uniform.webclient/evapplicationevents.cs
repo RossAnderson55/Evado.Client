@@ -317,8 +317,6 @@ namespace Evado.UniForm.Model
     // -------------------------------------------------------------------------------------
     public static bool LogError( string Category, string Description )
     {
-
-      Evado.Model.EvEventCodes iReturn = Evado.Model.EvEventCodes.Ok;
       // 
       // Initialise a string value Error to the Category if the Caterogy is empty.
       // 

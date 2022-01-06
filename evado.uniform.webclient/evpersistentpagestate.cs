@@ -22,7 +22,6 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 
 using Evado.Model;
-using Evado.Model;
 
 namespace Evado.UniForm.Web
 {
@@ -178,8 +177,6 @@ namespace Evado.UniForm.Web
           throw ( Ex );
 
         }//END try-catch
-
-        return String.Empty;
 
       }//END get
 

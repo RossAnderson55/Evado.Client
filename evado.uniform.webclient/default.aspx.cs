@@ -1082,7 +1082,7 @@ namespace Evado.UniForm.WebClient
 
             Global.LogDebugMethodEnd ( "ReadUrlParameters" );
             return true;
-          
+
           }//END guid found.
 
         }//END external commands found
@@ -1221,7 +1221,7 @@ namespace Evado.UniForm.WebClient
           //
           foreach ( Evado.UniForm.Model.Command command in group.CommandList )
           {
-            Global.LogDebug ( "Group {0}, command: id {1} - {2}", group.Title,command.Id, command.Title );
+            Global.LogDebug ( "Group {0}, command: id {1} - {2}", group.Title, command.Id, command.Title );
 
             if ( command.Id == CommandId )
             {
@@ -1564,7 +1564,7 @@ namespace Evado.UniForm.WebClient
               // 
               // Iterate through the option list to compare values.
               // 
-              string videoUrl = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId  );
+              string videoUrl = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
 
               Global.LogDebug ( "videoUrl:" + videoUrl );
 
@@ -2179,7 +2179,7 @@ namespace Evado.UniForm.WebClient
         //
         // set the image to the image service.
         //
-        this.sendPageFieldImage ( stFilePath, uploadedFileObject.ContentType );
+        this.sendBinaryFileToImageService ( stFilePath, uploadedFileObject.ContentType );
 
         string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
           + stFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
@@ -2216,11 +2216,11 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     /// <param name="ImageFilePath">Field: The field object.</param>
     // ---------------------------------------------------------------------------------
-    private void sendPageFieldImage ( String ImageFilePath, String MimeType )
+    private void sendBinaryFileToImageService ( String ImageFilePath, String MimeType )
     {
-      Global.LogDebugMethod ( "sendPageFieldImage method."
-        + "\r\n ImageUploadServiceUrl: " + Global.RelativeBinaryUploadURL
-        + "\r\n FileName: " + ImageFilePath );
+      Global.LogDebugMethod ( "sendBinaryFileToImageService" );
+      Global.LogDebug ( "ImageUploadServiceUrl: " + Global.RelativeBinaryUploadURL );
+      Global.LogDebug ( "FileName: " + ImageFilePath );
 
       string stUploadUrl = Global.RelativeBinaryUploadURL;
 
@@ -2231,6 +2231,7 @@ namespace Evado.UniForm.WebClient
         || ImageFilePath == String.Empty )
       {
         Global.LogDebug ( "Service Url or data id are null. " );
+        Global.LogDebugMethodEnd ( "sendBinaryFileToImageService" );
         return;
       }
 
@@ -2242,18 +2243,26 @@ namespace Evado.UniForm.WebClient
 
       Global.LogDebug ( "Upload Url: " + stUploadUrl );
 
-      Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes uploadStatus = Evado.UniForm.Model.EuStatics.HttpUploadFile (
-        stUploadUrl,
-        ImageFilePath, "file", MimeType );
-
-      if ( uploadStatus != Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes.Completed )
+      try
       {
-        Global.LogDebug ( "Image " + ImageFilePath + " upload failed. Error Messge: " + uploadStatus );
+        Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes uploadStatus = Evado.UniForm.Model.EuStatics.HttpUploadFile (
+          stUploadUrl,
+          ImageFilePath, "file", MimeType );
 
-        EventLog.WriteEntry ( Global.EventLogSource,
-          "Image " + ImageFilePath + " upload failed. Error Messge: " + uploadStatus,
-          EventLogEntryType.Error );
+        if ( uploadStatus != Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes.Completed )
+        {
+          Global.LogDebug ( "Image " + ImageFilePath + " upload failed. Error Messge: " + uploadStatus );
+
+          EventLog.WriteEntry ( Global.EventLogSource,
+            "Image " + ImageFilePath + " upload failed. Error Messge: " + uploadStatus,
+            EventLogEntryType.Error );
+        }
       }
+      catch ( Exception Ex )
+      {
+        Global.LogEvent ( Evado.Model.EvStatics.getException ( Ex ) );
+      }
+      Global.LogDebugMethodEnd ( "sendBinaryFileToImageService" );
 
     }//END getImagePageField method
 

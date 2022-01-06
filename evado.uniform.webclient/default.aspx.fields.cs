@@ -485,6 +485,7 @@ namespace Evado.UniForm.WebClient
       this.createFieldFooter ( stHtml, PageField );
 
     }
+
     // ===================================================================================
     /// <summary>
     /// This method creates a read only field markup
@@ -520,7 +521,9 @@ namespace Evado.UniForm.WebClient
           String html = Evado.Model.EvStatics.decodeHtmlText ( PageField.Value );
 
           Global.LogDebug ( "HTML: decoded value" + html );
+          sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
           sbHtml.AppendLine ( "<div class='description'>" + html + "</div>" );
+          sbHtml.AppendLine ( "</div>" );
         }
         else
         {
@@ -528,7 +531,9 @@ namespace Evado.UniForm.WebClient
           value = Evado.Model.EvStatics.EncodeMarkDown ( value );
           value = value.Replace ( "\r\n", "<br/>" );
 
+          sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
           sbHtml.AppendLine ( "<div class='description'>" + value + "</div>" );
+          sbHtml.AppendLine ( "</div>" );
         }
       }
 
@@ -1646,8 +1651,7 @@ namespace Evado.UniForm.WebClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( PageField.Value == option.Value
-          || PageField.Value == option.Description )
+        if ( PageField.Value == option.Value )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -1819,8 +1823,7 @@ namespace Evado.UniForm.WebClient
               //sbHtml.Append ( " required " );
             }
 
-            if ( PageField.Value == option.Value
-              || PageField.Value == option.Description )
+            if ( PageField.Value == option.Value )
             {
               sbHtml.Append ( " checked='checked' " );
             }
@@ -1981,8 +1984,7 @@ namespace Evado.UniForm.WebClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( PageField.Value == option.Value
-          || PageField.Value == option.Description )
+        if ( PageField.Value == option.Value )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -2288,12 +2290,16 @@ namespace Evado.UniForm.WebClient
 
       sbHtml.AppendLine ( "<div>" );
 
+
+      Global.LogDebug ( "PageField.Value: {0}.", PageField.Value );
       //
       // Generate the html code 
       //
       for ( int i = 0; i < PageField.OptionList.Count; i++ )
       {
         Evado.Model.EvOption option = PageField.OptionList [ i ];
+
+        Global.LogDebug ( "V: {0}, D {1}.", option.Value, option.Description );
 
         int count = i + 1;
 
@@ -2305,6 +2311,8 @@ namespace Evado.UniForm.WebClient
          + "name='" + PageField.FieldId + "' "
          + "tabindex = '" + _TabIndex + "' "
          + "value='" + option.Value + "' " );
+
+        Global.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.hasValue ( PageField.Value ) );
 
         if ( option.hasValue ( PageField.Value ) == true )
         {
