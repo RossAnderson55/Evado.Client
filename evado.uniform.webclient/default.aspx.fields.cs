@@ -153,7 +153,7 @@ namespace Evado.UniForm.WebClient
       int TitleWidth,
       bool TitleFullWidth )
     {
-      Global.LogMethod ( "createFieldHeader method. " );
+      Global.LogDebugMethod ( "createFieldHeader method. " );
       Global.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       Global.LogDebug ( "PageField.Title: " + PageField.Title );
       Global.LogDebug ( "PageField.Type: " + PageField.Type );
@@ -405,7 +405,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder stHtml,
       Evado.UniForm.Model.Field PageField )
     {
-      Global.LogMethod ( "createReadOnlyField method. " );
+      Global.LogDebugMethod ( "createReadOnlyField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -497,7 +497,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.Field PageField )
     {
-      Global.LogMethod ( "createHtmlField method. " );
+      Global.LogDebugMethod ( "createHtmlField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -554,7 +554,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess EditAccess )
     {
-      Global.LogMethod ( "createImageField method" );
+      Global.LogDebugMethod ( "createImageField method" );
       Global.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
       Global.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       Global.LogDebug ( "PageField.Layout: " + PageField.Layout );
@@ -643,7 +643,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createTextField method. " );
+      Global.LogDebugMethod ( "createTextField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -748,7 +748,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createComputedField method. " );
+      Global.LogDebugMethod ( "createComputedField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -817,7 +817,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createFreeTextField method. " );
+      Global.LogDebugMethod ( "createFreeTextField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -900,7 +900,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createNumericField method. " );
+      Global.LogDebugMethod ( "createNumericField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -1075,7 +1075,7 @@ namespace Evado.UniForm.WebClient
         minYear = DateTime.Now.Year - 100;
       }
 
-      Global.LogClient ( "minYear: " + minYear + " maxYear: " + maxYear );
+      Global.LogDebug ( "minYear: " + minYear + " maxYear: " + maxYear );
 
       String stFormat = "dd - MMM - yyyy";
 
@@ -1315,7 +1315,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createTimeField method. " );
+      Global.LogDebugMethod ( "createTimeField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -1538,7 +1538,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createRadioButtonField method. " );
+      Global.LogDebugMethod ( "createRadioButtonField method. " );
       Global.LogDebug ( "PageField.Value: " + PageField.Value );
       //
       // Initialise the methods variables and objects.
@@ -1746,7 +1746,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createQuizRadioButtonField method. " );
+      Global.LogDebugMethod ( "createQuizRadioButtonField method. " );
       Global.LogDebug ( "PageField.Value: " + PageField.Value );
       try
       {
@@ -1913,7 +1913,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createHorizontalRadioButtonField method. " );
+      Global.LogDebugMethod ( "createHorizontalRadioButtonField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -2068,7 +2068,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createBooleanField method. " );
+      Global.LogDebugMethod ( "createBooleanField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -2229,7 +2229,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createCheckboxField method. " );
+      Global.LogDebugMethod ( "createCheckboxField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -2375,7 +2375,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createSelectionListField method. " );
+      Global.LogDebugMethod ( "createSelectionListField method. " );
       Global.LogDebug ( "PageField: Title: " + PageField.Title );
       Global.LogDebug ( "PageField: Value: " + PageField.Value );
       //
@@ -2488,7 +2488,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private String createOnChangeEvent ( )
     {
-      Global.LogMethod ( "createOnChangeEvent method. " );
+      Global.LogDebugMethod ( "createOnChangeEvent method. " );
       //
       // Exit if there are not commands in the group.
       //
@@ -2525,7 +2525,7 @@ namespace Evado.UniForm.WebClient
 
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createTableField method. " );
+      Global.LogDebugMethod ( "createTableField method. " );
       Global.LogDebug ( "PageField.Layout: " + PageField.Layout );
       Global.LogDebug ( "Table Columns: " + PageField.Table.ColumnCount );
       Global.LogDebug ( "Rows: " + PageField.Table.Rows.Count );
@@ -2603,7 +2603,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder stHtml,
       Evado.UniForm.Model.Field PageField )
     {
-      Global.LogMethod ( "getFormFieldTableHeader method." );
+      Global.LogDebugMethod ( "getFormFieldTableHeader" );
       // 
       // Initialise local variables.
       // 
@@ -2706,7 +2706,7 @@ namespace Evado.UniForm.WebClient
 
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "getTableFieldDataRow method. " );
+      Global.LogDebugMethod ( "getTableFieldDataRow method. " );
       Global.LogDebug ( "Row: " + Row );
       // 
       // Initialise local variables.
@@ -3111,9 +3111,9 @@ namespace Evado.UniForm.WebClient
     private void createBinaryField (
       StringBuilder stHtml,
       Evado.UniForm.Model.Field PageField,
-      Evado.UniForm.Model.EditAccess Status )
+      Evado.UniForm.Model.EditAccess EditAccess )
     {
-      Global.LogMethod ( "createBinaryField method." );
+      Global.LogDebugMethod ( "createBinaryField" );
       Global.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
       Global.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       Global.LogDebug ( "PageField.Value: " + PageField.Value );
@@ -3144,7 +3144,7 @@ namespace Evado.UniForm.WebClient
       //
       // Insert the field elements
       //
-      if ( Status == Evado.UniForm.Model.EditAccess.Enabled )
+      if ( EditAccess == Evado.UniForm.Model.EditAccess.Enabled )
       {
         stHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
 
@@ -3157,7 +3157,7 @@ namespace Evado.UniForm.WebClient
         this.createHttpLinkField (
           stHtml,
           PageField,
-          Status );
+          EditAccess );
       }
 
       stHtml.AppendLine ( "<input type='hidden' "
@@ -3187,7 +3187,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createSoundField method." );
+      Global.LogDebugMethod ( "createSoundField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3231,7 +3231,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createCurrencyField method." );
+      Global.LogDebugMethod ( "createCurrencyField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3301,7 +3301,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createEmailAddressField method." );
+      Global.LogDebugMethod ( "createEmailAddressField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3374,7 +3374,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createTelephoneNumberField method." );
+      Global.LogDebugMethod ( "createTelephoneNumberField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3448,7 +3448,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createAnalogueField method." );
+      Global.LogDebugMethod ( "createAnalogueField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3523,7 +3523,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createNameField method." );
+      Global.LogDebugMethod ( "createNameField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3723,7 +3723,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createAddressField method." );
+      Global.LogDebugMethod ( "createAddressField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -4085,7 +4085,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess GroupStatus )
     {
-      Global.LogMethod ( "createSignatureField method." );
+      Global.LogDebugMethod ( "createSignatureField" );
       Global.LogClient ( "Field.Status: " + PageField.EditAccess );
       Global.LogClient ( "GroupStatus: " + GroupStatus );
       //
@@ -4308,7 +4308,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createPasswordField method." );
+      Global.LogDebugMethod ( "createPasswordField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -4386,7 +4386,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createNumericRangeField method." );
+      Global.LogDebugMethod ( "createNumericRangeField" );
       Global.LogDebug ( "Field.Type: " + PageField.Type );
       //
       // Initialise the methods variables and objects.
@@ -4599,7 +4599,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createNumericRangeField method." );
+      Global.LogDebugMethod ( "createNumericRangeField" );
       Global.LogDebug ( "Field.Type: " + PageField.Type );
       //
       // Initialise the methods variables and objects.
@@ -4791,7 +4791,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess EditAccess )
     {
-      Global.LogMethod ( "createHttpLinkField method. " );
+      Global.LogDebugMethod ( "createHttpLinkField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -4906,7 +4906,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
-      Global.LogMethodEnd ( "createHttpLinkField method. " );
+      Global.LogDebugMethodEnd ( "createHttpLinkField method. " );
 
     }//END Field Method
 
@@ -4924,7 +4924,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess EditAccess )
     {
-      Global.LogMethod ( "createStreamedVideoField method. " );
+      Global.LogDebugMethod ( "createStreamedVideoField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -5013,7 +5013,7 @@ namespace Evado.UniForm.WebClient
     private String getVideoIFrame (
       Evado.UniForm.Model.Field PageField )
     {
-      Global.LogMethod ( "getVideoIFrame" );
+      Global.LogDebugMethod ( "getVideoIFrame" );
       //
       // Initialise the methods variables and objects.
       //
@@ -5114,7 +5114,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Field PageField,
       Evado.UniForm.Model.EditAccess Status )
     {
-      Global.LogMethod ( "createExternalImageField method. " );
+      Global.LogDebugMethod ( "createExternalImageField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -5194,7 +5194,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder stHtml,
       Evado.UniForm.Model.Field PageField )
     {
-      Global.LogMethod ( "createPlotChartField method. " );
+      Global.LogDebugMethod ( "createPlotChartField method. " );
       //
       // Initialise the methods variables and objects.
       //
@@ -5273,7 +5273,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
-      Global.LogMethodEnd ( "createPlotChartField" );
+      Global.LogDebugMethodEnd ( "createPlotChartField" );
 
     }//END createPlotChartField Method
 
@@ -5288,7 +5288,7 @@ namespace Evado.UniForm.WebClient
       String PlaceHolder,
       Evado.UniForm.Model.Field PageField )
     {
-      Global.LogMethod ( "generatePlotCode method. " );
+      Global.LogDebugMethod ( "generatePlotCode method. " );
       StringBuilder code = new StringBuilder ( );
       string legend = String.Empty;
 
@@ -5421,7 +5421,7 @@ namespace Evado.UniForm.WebClient
       code.AppendLine ( "</script>" );
 
       Global.LogDebug ( code.ToString ( ) );
-      Global.LogMethodEnd ( "generatePlotCode" );
+      Global.LogDebugMethodEnd ( "generatePlotCode" );
 
       return code.ToString ( );
     }

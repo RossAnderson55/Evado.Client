@@ -191,7 +191,7 @@ namespace Evado.UniForm.WebClient
 
     #region Application Start step
 
-    protected void Application_Start ( Object sender, EventArgs e )
+    protected void Application_OnStart ( Object sender, EventArgs e )
     {
       try
       {
@@ -203,7 +203,7 @@ namespace Evado.UniForm.WebClient
         Global._DebuLog = new System.Text.StringBuilder ( );
         Global.ApplicationPath = HttpRuntime.AppDomainAppPath;
 
-        Global.LogMethod ( "Evado.UniForm.Service.Global.Application_Start event method STARTED. " );
+        Global.LogMethod ( "Evado.UniForm.Service.Global.Application_OnStart event method STARTED. " );
         Global.LogDebug ( "Startup Log:" );
 
         Global.LogDebug ( "eventLogSource: " + Global.EventLogSource );
@@ -531,16 +531,16 @@ namespace Evado.UniForm.WebClient
 
         string externalCommandString = ConfigurationManager.AppSettings [ conFigKey ];
 
-        Global.LogClient ( String.Format ( "Key: {0}, Value: {1} ",
+        Global.LogDebug ( String.Format ( "Key: {0}, Value: {1} ",
          conFigKey,
          externalCommandString ) );
 
         string [ ] arrCommandValue = externalCommandString.Split ( ';' );
-        Global.LogClient ( "CommandValue.Length:" + arrCommandValue.Length );
+        Global.LogDebug ( "CommandValue.Length:" + arrCommandValue.Length );
 
         if ( arrCommandValue.Length < 6 )
         {
-          Global.LogClient ( "incorrect number of parameters" );
+          Global.LogEvent ( "incorrect number of parameters" );
           continue;
         }
 
@@ -587,9 +587,8 @@ namespace Evado.UniForm.WebClient
         try
         {
           /*
-          Global.LogClientValue (
-            String.Format ( "P: {0}, T: {1}, A: {2}, CT: {3}, CO: {4}, CM: {5}, P: {5} ",
-            parameter, commandTitle, commandApplication, commandType, commandObject, commandMethod, pageId ) );
+          Global.LogDebug ("P: {0}, T: {1}, A: {2}, CT: {3}, CO: {4}, CM: {5}, P: {5} ",
+            parameter, commandTitle, commandApplication, commandType, commandObject, commandMethod, pageId );
           */
           Evado.UniForm.Model.CommandTypes type = Evado.Model.EvStatics.parseEnumValue<Evado.UniForm.Model.CommandTypes> ( commandType );
           Evado.UniForm.Model.ApplicationMethods method = Evado.Model.EvStatics.parseEnumValue<Evado.UniForm.Model.ApplicationMethods> ( commandMethod );
@@ -600,7 +599,7 @@ namespace Evado.UniForm.WebClient
 
           newCommand.SetPageId ( pageId );
 
-          Global.LogClient ( newCommand.getAsString ( false, true ) + "\r\n" );
+          Global.LogClient ( newCommand.getAsString ( false, true ) );
 
           Global.ExternalCommands.Add ( parameter.ToLower ( ), newCommand );
 
@@ -791,7 +790,7 @@ namespace Evado.UniForm.WebClient
 
       value = value.Replace ( " END OF METHOD ", " END OF " + Value + " METHOD " );
 
-      Global.LogClient ( value );
+      Global.LogDebugMethodEnd ( value );
     }
 
     //  =================================================================================
@@ -829,7 +828,9 @@ namespace Evado.UniForm.WebClient
     public static void LogClient ( String Format, params object [ ] args )
     {
       Global._ClientLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": " +
-          String.Format ( Format, args ) ); 
+          String.Format ( Format, args ) );
+
+      Global.LogDebug ( Format, args );
     }
 
     //  =================================================================================
@@ -849,6 +850,11 @@ namespace Evado.UniForm.WebClient
          + DateTime.Now.ToString ( "yy-MM_dd" ) + ".log";
       }
 
+      if ( Global._ClientLog.Length == 0 )
+      {
+        return;
+      }
+
       String stContent = Evado.Model.EvStatics.getHtmlAsString ( Global._ClientLog.ToString ( ) );
 
       // 
@@ -859,6 +865,8 @@ namespace Evado.UniForm.WebClient
         sw.Write ( stContent );
 
       }// End StreamWriter.
+
+      Global._ClientLog = new System.Text.StringBuilder ( );
 
     }//END writeOutDebugLog method
 

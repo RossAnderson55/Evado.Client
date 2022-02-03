@@ -130,15 +130,14 @@ namespace Evado.UniForm.WebClient
     protected void Page_Load ( object sender, System.EventArgs E )
     {
       Global.ClearDebugLog ( );
-      Global.LogMethod ( "Page_Load event method. " );
+      Global.LogMethod ( "Page_Load event" );
       try
       {
         Global.LogClient ( "UserHostAddress: " + Request.UserHostAddress );
-        Global.LogClient ( "UserHostName: " + Request.UserHostName );
-        Global.LogClient ( "LogonUserIdentity IsAuthenticated: " + Request.LogonUserIdentity.IsAuthenticated );
-        Global.LogClient ( "LogonUserIdentity Name: " + Request.LogonUserIdentity.Name );
+        Global.LogDebug ( "UserHostName: " + Request.UserHostName );
 
-
+        Global.LogDebug ( "LogonUserIdentity IsAuthenticated: " + Request.LogonUserIdentity.IsAuthenticated );
+        Global.LogDebug ( "LogonUserIdentity Name: " + Request.LogonUserIdentity.Name );
         Global.LogDebug ( "User.Identity.Name: " + User.Identity.Name );
         Global.LogDebug ( "Authentication Type: " + Global.AuthenticationMode );
         // 
@@ -178,7 +177,7 @@ namespace Evado.UniForm.WebClient
         //
         // Read in the Command from the post back event.
         //
-        Global.LogEvent ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
+        Global.LogDebug ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
         Global.LogDebug ( "fsLoginBox.Visible: " + this.fsLoginBox.Visible );
 
         //
@@ -196,8 +195,7 @@ namespace Evado.UniForm.WebClient
               //
               this.sendPageCommand ( );
 
-              Global.LogDebug ( "GENERATE PAGE" );
-              Global.LogClient ( "GENERATE PAGE" );
+              Global.LogClient ( "Commence page generation" );
               //
               // Generate the page layout.
               //
@@ -233,7 +231,7 @@ namespace Evado.UniForm.WebClient
                 //
                 this.getPageCommandParameters ( );
 
-                Global.LogClient ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
+                Global.LogDebug ( "CURRENT PageCommand: " + this._PageCommand.getAsString ( false, true ) );
 
                 //
                 // Send the Command to the server.
@@ -248,21 +246,18 @@ namespace Evado.UniForm.WebClient
                 {
                   if ( Global.AuthenticationMode == System.Web.Configuration.AuthenticationMode.Windows )
                   {
-                    Global.LogDebug ( "WINDOW AUTHENTICATION REQUEST LOGIN" );
                     Global.LogClient ( "WINDOW AUTHENTICATION REQUEST LOGIN" );
                     this.sendWindowsLoginCommand ( );
                   }
                   else
                   {
-                    Global.LogDebug ( "REQUEST LOGIN" );
                     Global.LogClient ( "REQUEST LOGIN" );
                     this.RequestLogin ( );
                   }
                 }
                 else
                 {
-                  Global.LogDebug ( "GENERATE PAGE" );
-                  Global.LogClient ( "GENERATE PAGE" );
+                  Global.LogClient ( "Commence page generation" );
                   //
                   // Generate the page layout.
                   //
@@ -279,8 +274,6 @@ namespace Evado.UniForm.WebClient
 
         }//END switch statement
 
-        Global.LogDebugMethodEnd ( "Page_Load" );
-
       } // End Try
       catch ( Exception Ex )
       {
@@ -289,11 +282,11 @@ namespace Evado.UniForm.WebClient
 
         EvEventLog.LogPageError ( this, Evado.Model.EvStatics.getException ( Ex ) );
 
-        Global.LogClient ( Evado.Model.EvStatics.getException ( Ex ) );
+        Global.LogEvent ( "PAGE GENERATION ERROR: " + Evado.Model.EvStatics.getException ( Ex ) );
 
       } // End catch.
 
-
+      Global.LogClient ( "Page generation completed." );
       // 
       // Write footer
       // 
@@ -301,10 +294,17 @@ namespace Evado.UniForm.WebClient
       this.litFooterText.Text = EuLabels.Footer_Text;
       this.litVersion.Text = "Version: " + Global.AssemblyAttributes.FullVersion + Global.DevStage;
 
+
+      Global.LogDebugMethodEnd ( "Page_Load" );
+
       //
       // write out the debug log.
       //
       Global.OutputtDebugLog ( );
+      //
+      // write out the client log.
+      //
+      Global.OutputClientLog();
 
       //
       // Save the icon list.
@@ -327,7 +327,7 @@ namespace Evado.UniForm.WebClient
     // --------------------------------------------------------------------------------
     public void initialiseGlobalVariables ( )
     {
-      Global.LogDebugMethod ( "initialiseGlobalVariables method. " );
+      Global.LogDebugMethod ( "initialiseGlobalVariables" );
       // 
       // Initialise the method variables and objects.
       // 
@@ -403,7 +403,7 @@ namespace Evado.UniForm.WebClient
     // --------------------------------------------------------------------------------
     public void loadSessionVariables ( )
     {
-      Global.LogDebugMethod ( "loadSessionVariables method. " );
+      Global.LogDebugMethod ( "loadSessionVariables" );
       //
       // Retrieve the application data object.
       //
@@ -457,8 +457,7 @@ namespace Evado.UniForm.WebClient
       Global.LogDebug ( "Command History length: " + this._CommandHistoryList.Count );
       Global.LogDebug ( "Icon list length: " + this._IconList.Count );
 
-      Global.LogClient ( "ApplicationData.Id: " + this._AppData.Id );
-      Global.LogClient ( "SessionId: " + this._Server_SessionId );
+      Global.LogDebugMethodEnd ( "loadSessionVariables" );
 
     }//END loadSessionVariables method
 
@@ -469,7 +468,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void sendPageCommand ( )
     {
-      Global.LogDebugMethod ( "sendPageCommand method. " );
+      Global.LogDebugMethod ( "sendPageCommand" );
       Global.LogDebug ( "Sessionid: " + this._Server_SessionId );
       Global.LogDebug ( "User NetworkId: " + this._UserNetworkId );
       Global.LogDebug ( "AppDate Url: " + this._AppData.Url );
@@ -538,7 +537,7 @@ namespace Evado.UniForm.WebClient
         Evado.UniForm.Model.CommandHeaderElements.DateTime,
         DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
 
-      Global.LogDebug ( "Command: " + this._PageCommand.getAsString ( false, true ) );
+      Global.LogEvent ( "SENT: PageCommand: " + this._PageCommand.getAsString ( false, false ) );
       //
       // serialise the Command prior to sending to the web service.
       //
@@ -585,7 +584,7 @@ namespace Evado.UniForm.WebClient
         //
         serialisedText = this.ConvertResponseToString ( response );
 
-        Global.LogDebugMethod ( "JSON Serialised text length: " + serialisedText.Length );
+        Global.LogDebug ( "JSON Serialised text length: " + serialisedText.Length );
 
         if ( Global.DebugLogOn == true )
         {
@@ -620,7 +619,7 @@ namespace Evado.UniForm.WebClient
         // - Page Commands
         //
 
-        Global.LogDebug ( "ExitCommand: " + this._AppData.Page.Exit.getAsString ( true, false ) );
+        Global.LogDebug ( "ExitCommand: " + this._AppData.Page.Exit.getAsString ( false, false ) );
         //
         // Add the exit Command to the history.
         //
@@ -672,7 +671,7 @@ namespace Evado.UniForm.WebClient
       Session [ SESSION_ApplictionDataObject ] = this._AppData;
       Session [ SESSION_LastPageCommand ] = this._PageCommand;
 
-      Global.LogDebug ( "sendPageCommand method. FINISHED" );
+      Global.LogDebugMethodEnd( "sendPageCommand" );
 
     }//END sendPageCommand method
 
@@ -709,7 +708,7 @@ namespace Evado.UniForm.WebClient
     String ConvertResponseToString (
       HttpWebResponse response )
     {
-      Global.LogDebugMethod ( "ConvertResponseToString method. " );
+      Global.LogDebugMethod ( "ConvertResponseToString" );
       //
       // Extract the header for debug.
       //
@@ -738,7 +737,7 @@ namespace Evado.UniForm.WebClient
     private void getImagePageField (
       Evado.UniForm.Model.Field Field )
     {
-      Global.LogDebugMethod ( "getImagePageField method. " );
+      Global.LogDebugMethod ( "getImagePageField" );
 
       if ( Field.Type != Evado.Model.EvDataTypes.Image )
       {
@@ -966,7 +965,7 @@ namespace Evado.UniForm.WebClient
     // --------------------------------------------------------------------------------
     public void getPageCommand ( )
     {
-      Global.LogMethod ( "getPageCommand" );
+      Global.LogDebugMethod ( "getPageCommand" );
 
       //
       // read in the posted back Command id
@@ -995,7 +994,7 @@ namespace Evado.UniForm.WebClient
           Global.LogDebug ( "Current and previous CommandId match." );
         }
       }
-      Global.LogClient ( "PageCommand: " + this._PageCommand.getAsString ( false, true ) );
+      Global.LogDebug ( "PageCommand: " + this._PageCommand.getAsString ( false, true ) );
 
       Global.LogMethodEnd ( "getPageCommand" );
 
@@ -1009,7 +1008,7 @@ namespace Evado.UniForm.WebClient
     // --------------------------------------------------------------------------------
     private bool ReadUrlParameters ( )
     {
-      Global.LogDebugMethod ( "ReadUrlParameters method. " );
+      Global.LogDebugMethod ( "ReadUrlParameters" );
       // 
       // Extract the URL parameters and instantiate the local variables.
       // 
@@ -1115,7 +1114,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void readinCommandId ( )
     {
-      Global.LogDebugMethod ( "readinCommandId method. " );
+      Global.LogDebugMethod ( "readinCommandId" );
 
       if ( this.__CommandId.Value.ToLower ( ) == "login" )
       {
@@ -1258,7 +1257,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void getPageCommandParameters ( )
     {
-      Global.LogDebugMethod ( "getPageCommandParameters method. " );
+      Global.LogDebugMethod ( "getPageCommandParameters" );
       //
       // If the Command method is to upate the page then update the data object with 
       // Page field values.
@@ -1301,7 +1300,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void getPageDataValues ( )
     {
-      Global.LogDebugMethod ( "getPageDataValues method. " );
+      Global.LogDebugMethod ( "getPageDataValues" );
       //
       // Get the field collection.
       //
@@ -1364,7 +1363,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void updateFieldAnnotations ( )
     {
-      Global.LogDebugMethod ( "updateFieldAnnotations method. " );
+      Global.LogDebugMethod ( "updateFieldAnnotations" );
       ///
       /// Get the field collection.
       ///
@@ -1493,7 +1492,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       Evado.UniForm.Model.EditAccess GroupStatus )
     {
-      Global.LogDebugMethod ( "updateFormField method. " );
+      Global.LogDebugMethod ( "updateFormField" );
       Global.LogDebug ( "FormField.DataId: " + FormField.FieldId );
       Global.LogDebug ( "FormField.DataType: " + FormField.Type );
       Global.LogDebug ( "FormField.Status: " + FormField.EditAccess );
@@ -1671,7 +1670,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
-      Global.LogMethod ( "getSignatureFieldValue method. " );
+      Global.LogMethod ( "getSignatureFieldValue" );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
@@ -1733,7 +1732,7 @@ namespace Evado.UniForm.WebClient
       string CurrentValue,
       int OptionListCount )
     {
-      Global.LogMethod ( "getCheckButtonListFieldValue method. " );
+      Global.LogMethod ( "getCheckButtonListFieldValue" );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       Global.LogClient ( "OptionList: " + OptionListCount );
       // 
@@ -1785,7 +1784,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
-      Global.LogMethod ( "getNameFieldValue method. " );
+      Global.LogMethod ( "getNameFieldValue" );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
@@ -1827,7 +1826,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
-      Global.LogMethod ( "getRangeFieldValue method. " );
+      Global.LogMethod ( "getRangeFieldValue" );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
@@ -1865,7 +1864,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
-      Global.LogMethod ( "getNameFieldValue method. " );
+      Global.LogMethod ( "getNameFieldValue" );
       Global.LogClient ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
@@ -2403,7 +2402,7 @@ namespace Evado.UniForm.WebClient
         this._PageCommand.AddParameter ( arrAnnotation.Key, arrAnnotation.Value );
       }
 
-      Global.LogDebug ( "\r\nList command: " + this._PageCommand.getAsString ( true, true ) );
+      Global.LogDebug ( "Page command: " + this._PageCommand.getAsString ( true, true ) );
 
     }//END updateWebPageCommandObject method
 
@@ -2454,7 +2453,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     public void initialiseHistory ( )
     {
-      Global.LogDebugMethod ( "InitialiseHistory method. " );
+      Global.LogDebugMethod ( "InitialiseHistory" );
       //
       // Initialise the home page Command.
       //
@@ -2477,7 +2476,7 @@ namespace Evado.UniForm.WebClient
     public void addHistoryCommand (
       Evado.UniForm.Model.Command PageCommand )
     {
-      Global.LogDebugMethod ( "addHistoryCommand method. " );
+      Global.LogDebugMethod ( "addHistoryCommand" );
 
       //
       // If the Command identifier is empty then exit.
@@ -2644,7 +2643,7 @@ namespace Evado.UniForm.WebClient
     public Evado.UniForm.Model.Command getHistoryCommand (
       Guid CommandId )
     {
-      Global.LogDebugMethod ( "getHistoryCommand method. " );
+      Global.LogDebugMethod ( "getHistoryCommand" );
       Global.LogDebug ( "CommandId: " + CommandId );
       Evado.UniForm.Model.Command command = new Evado.UniForm.Model.Command ( );
 
@@ -3090,8 +3089,6 @@ namespace Evado.UniForm.WebClient
         "Default",
         "Default",
         Evado.UniForm.Model.ApplicationMethods.Null );
-
-      Global.LogDebug ( " _PageCommand: " + this._PageCommand.getAsString ( false, false ) );
 
       //
       // get a Command object from the server.

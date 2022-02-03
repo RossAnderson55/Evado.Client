@@ -75,13 +75,19 @@
 .Rpt_Title
 {  
   width: 97%;
-  margin: 0;
   padding: 0;
-  color:#000000;
-  background-color: #ffffff;
-
+  margin: 0;
   margin-left: 10pt; 
   margin-right: 10pt; 
+  color:#000000;
+  background-color: #ffffff;
+  font-size: 10pt;
+} 
+.Rpt_Title p
+{
+  font-size: 12pt;
+  font-variant:normal;
+  font-weight:bold;
 }
 
 .Rpt_Parameters

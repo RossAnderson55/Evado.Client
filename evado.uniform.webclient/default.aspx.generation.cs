@@ -38,7 +38,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void generatePage ( )
     {
-      Global.LogMethod ( "generatePage method. " );
+      Global.LogDebugMethod ( "generatePage" );
       Global.LogDebug ( "PageStatus: " + this._AppData.Page.EditAccess );
       Global.LogDebug ( "Page command list count: " + this._AppData.Page.CommandList.Count );
       //
@@ -365,7 +365,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void loadJavaScriptLibraries ( )
     {
-      Global.LogDebugMethod ( "loadJavaScriptLibraries method. " );
+      Global.LogDebugMethod ( "loadJavaScriptLibraries" );
       Global.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
 
       //
@@ -414,7 +414,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void generateErrorMessge ( StringBuilder sbHtml )
     {
-      Global.LogDebugMethod ( "generateErrorMessge method. " );
+      Global.LogDebugMethod ( "generateErrorMessge" );
       String message = this._AppData.Message.ToLower();
       //
       // Define the error group.
@@ -573,7 +573,7 @@ namespace Evado.UniForm.WebClient
     private String createPageCommandLink (
       Evado.UniForm.Model.Command command )
     {
-      //Global.LogDebugMethod ( "createPageCommandLink method. " );
+      //Global.LogDebugMethod ( "createPageCommandLink" );
       //
       // Initialise methods variables and objects.
       //
@@ -623,7 +623,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Command command,
       string cssClass = "btn btn-danger cmd-button" )
     {
-      //Global.LogDebugMethod ( "createCommandLink method. " );
+      //Global.LogDebugMethod ( "createCommandLink" );
       //
       // Initialise methods variables and objects.
       //
@@ -649,7 +649,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Command Command,
       string cssClass = "btn btn-danger cmd-button" )
     {
-      //Global.LogDebugMethod ( "createCommandLink method. " );
+      //Global.LogDebugMethod ( "createCommandLink" );
       //
       // Initialise methods variables and objects.
       //
@@ -685,7 +685,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void generatePageMenuPills ( StringBuilder sbHtml, Evado.UniForm.Model.Group group )
     {
-      Global.LogDebugMethod ( "generatePageMenuPills method. " );
+      Global.LogDebugMethod ( "generatePageMenuPills" );
 
       sbHtml.Append ( "<li><a href='#" + group.Id + "-grp'>" + group.Title + "</a></li>" );
 
@@ -703,7 +703,7 @@ namespace Evado.UniForm.WebClient
       bool EnableBodyColumns,
       bool EnablePanelDisplay )
     {
-      Global.LogMethod ( "generateGroup method. " );
+      Global.LogDebugMethod ( "generateGroup" );
       Global.LogDebug ( "Index: " + Index );
       //
       // Initialise the methods variables and objects.
@@ -779,7 +779,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Group PageGroup,
       bool EnableBodyColumns )
     {
-      Global.LogMethod ( "generateGroupHeader method." );
+      Global.LogDebugMethod ( "generateGroupHeader method." );
       Global.LogDebug ( "Group: " + PageGroup.Title );
       Global.LogDebug ( "Group.Layout: " + PageGroup.Layout );
       Global.LogDebug ( "EnableBodyColumns: " + EnableBodyColumns );
@@ -987,7 +987,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      Global.LogMethod ( "generateGroupFields method. " );
+      Global.LogDebugMethod ( "generateGroupFields" );
       Global.LogDebug ( "PageGroup.Title: " + PageGroup.Title );
       Global.LogDebug ( "PageGroup.GroupType: " + PageGroup.GroupType );
       Global.LogDebug ( "PageGroup.Status: " + PageGroup.EditAccess );
@@ -1255,7 +1255,7 @@ namespace Evado.UniForm.WebClient
     private String renderCommandTitleNoImage (
       Evado.UniForm.Model.Command GroupCommand )
     {
-      //Global.LogDebugMethod ( "renderCommandTitle method. " );
+      //Global.LogDebugMethod ( "renderCommandTitle" );
       //Global.LogDebugValue ( "Command.Title: " + Command.Title );
       //
       // Initialise the methods variables and objects.
@@ -1276,7 +1276,7 @@ namespace Evado.UniForm.WebClient
     private String renderCommandTitle (
       Evado.UniForm.Model.Command GroupCommand )
     {
-      //Global.LogDebugMethod ( "renderCommandTitle method. " );
+      //Global.LogDebugMethod ( "renderCommandTitle" );
       //Global.LogDebugValue ( "Command.Title: " + Command.Title );
       //
       // Initialise the methods variables and objects.
@@ -1310,7 +1310,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      Global.LogDebugMethod ( "generateGroupCommands method. " );
+      Global.LogDebugMethod ( "generateGroupCommands" );
       Global.LogDebug ( "Evado.UniForm.Model.Group.Title: " + PageGroup.Title );
       Global.LogDebug ( "Evado.UniForm.Model.Group.CmdLayout: " + PageGroup.CmdLayout );
 
@@ -1370,7 +1370,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.Group PageGroup )
     {
-      Global.LogDebugMethod ( "generateGroupCommandsVertical method. " );
+      Global.LogDebugMethod ( "generateGroupCommandsVertical" );
       Global.LogDebug ( "Group.Title: " + PageGroup.Title );
       //
       // Initialise the methods variables and objects.
@@ -1495,7 +1495,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.Group PageGroup )
     {
-      Global.LogDebugMethod ( "generateTiledCommandGroup method. " );
+      Global.LogDebugMethod ( "generateTiledCommandGroup" );
       Global.LogDebug ( "Group.Title: " + PageGroup.Title );
       //
       // Initialise the methods variables and objects.
@@ -1655,7 +1655,7 @@ namespace Evado.UniForm.WebClient
       string tileWidth,
        String defaultColor )
     {
-      Global.LogDebugMethod ( "generateCommandTile method. " );
+      Global.LogDebugMethod ( "generateCommandTile" );
       Global.LogDebug ( "Command.Title: " + groupCommand.Title );
       Global.LogDebug ( "tileWidth: " + tileWidth );
       Global.LogDebug ( "defaultColor: " + defaultColor );
@@ -1737,7 +1737,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.Group PageGroup )
     {
-      Global.LogDebugMethod ( "generateDefaultCommandGroup method. " );
+      Global.LogDebugMethod ( "generateDefaultCommandGroup" );
       Global.LogDebug ( "Group.Title: " + PageGroup.Title );
       //
       // Initialise the methods variables and objects.
