@@ -47,6 +47,12 @@
         //console.log("Post has been sent.");
         return;
       }
+
+      console.log("window.width" + window.innerWidth);
+      console.log("window.height" + window.innerHeight);
+
+      document.getElementById("windowWidth").value = window.innerWidth;
+      document.getElementById("windowHeight").value = window.innerHeight;
       postSent = true;
       //get the form element's document to create the input control with
       //(this way will work across windows in IE8)
@@ -60,11 +66,14 @@
       //if it was prevented, make sure we don't get a build up of buttons
       form.removeChild(button);
 
+
     }
 
     function onPostBack(commandIdentifier) {
       console.log("onPostBack function");
+
       console.log(" commandIdentifier" + commandIdentifier);
+
       if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
         theForm.__CommandId.value = commandIdentifier;
         submitForm(theForm);
@@ -73,6 +82,8 @@
     // -->
   </script>
   <asp:Literal ID="litJsLibrary" runat="server" />
+  <input id="windowWidth" type="hidden" runat="server" />
+  <input id="windowHeight" type="hidden" runat="server" />
   <!--  EVADO FORM PAGE -->
   <div id="page">
     <!-- HEADER -->

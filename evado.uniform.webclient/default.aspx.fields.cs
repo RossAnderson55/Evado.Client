@@ -453,7 +453,7 @@ namespace Evado.UniForm.WebClient
         //
         // process html content.
         //
-        if ( PageField.Value.Contains ( "[/" ) == true )
+        if ( PageField.Value.Contains ( @"[[" ) == true )
         {
           Global.LogClient ( "No Markup processing" );
 
@@ -467,10 +467,10 @@ namespace Evado.UniForm.WebClient
         else
         {
           String value = PageField.Value;
+          value = Evado.Model.EvStatics.EncodeMarkDown ( value );
 
           if ( value.Contains ( "\r" ) == true )
           {
-            value = Evado.Model.EvStatics.EncodeMarkDown ( value );
             value = value.Replace ( "\r\n", "<br/>" );
           }
 
@@ -1153,7 +1153,7 @@ namespace Evado.UniForm.WebClient
         ":;JAN:" + EuLabels.Month_JAN + ";FEB:" + EuLabels.Month_FEB + ";MAR:" + EuLabels.Month_MAR
         + ";APR:" + EuLabels.Month_APR + ";MAY:" + EuLabels.Month_MAY + ";JUN:" + EuLabels.Month_JUN
         + ";JUL:" + EuLabels.Month_JUL + ";AUG:" + EuLabels.Month_AUG + ";SEP:" + EuLabels.Month_SEP
-        + ";OCT:" + EuLabels.Month_OCT + ";NOV:" + EuLabels.Month_NOV + ";DEC:" + EuLabels.Month_DEC );
+        + ";OCT:" + EuLabels.Month_OCT + ";NOV:" + EuLabels.Month_NOV + ";DEC:" + EuLabels.Month_DEC, true );
 
       List<Evado.Model.EvOption> yearList = new List<Evado.Model.EvOption> ( );
       yearList.Add ( new Evado.Model.EvOption ( ) );

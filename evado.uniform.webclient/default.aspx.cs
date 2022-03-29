@@ -1064,14 +1064,7 @@ namespace Evado.UniForm.WebClient
 
           if ( guid != Guid.Empty )
           {
-            if ( command.Type == CommandTypes.Token_Login_Command )
-            {
-              command.AddParameter ( Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_TOKEN, guid.ToString ( ) );
-            }
-            else
-            {
-              command.SetGuid ( guid );
-            }
+            command.SetGuid ( guid );
             this._PageCommand = command;
             this._UserNetworkId = this.Session.SessionID;
             Session [ Global.SESSION_USER_ID ] = this._UserNetworkId;
@@ -2527,7 +2520,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageCommand.Type == Evado.UniForm.Model.CommandTypes.Login_Command
         || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Logout_Command
-        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Token_Login_Command
+        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Meeting_Command
         || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Anonymous_Command
         || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Register_Device_Client
         || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Offline_Command
