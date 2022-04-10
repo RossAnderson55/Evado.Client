@@ -1082,37 +1082,45 @@ namespace Evado.UniForm.WebClient
       //
       // set the time format structure.
       //
-      if ( PageField.hasParameter ( Evado.UniForm.Model.FieldParameterList.Format ) )
+
+      if ( PageField.Type == Evado.Model.EvDataTypes.Year )
       {
-        string value = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Format );
-        value = value.ToLower ( );
-
-        if ( value.Length <= 8 )
+        stFormat = "yyyy";
+      }
+      else
+      {
+        if ( PageField.hasParameter ( Evado.UniForm.Model.FieldParameterList.Format ) )
         {
-          String format = String.Empty;
+          string value = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Format );
+          value = value.ToLower ( );
 
-          if ( value.Contains ( "dd" ) == true )
+          if ( value.Length <= 8 )
           {
-            format = "dd";
-          }
-          if ( value.Contains ( "mmm" ) == true )
-          {
-            if ( format != String.Empty )
+            String format = String.Empty;
+
+            if ( value.Contains ( "dd" ) == true )
             {
-              format += " - ";
+              format = "dd";
             }
-            format += " MMM";
-          }
-          if ( value.Contains ( "yy" ) == true
-            || value.Contains ( "yyyy" ) == true )
-          {
-            if ( format != String.Empty )
+            if ( value.Contains ( "mmm" ) == true )
             {
-              format += " - ";
+              if ( format != String.Empty )
+              {
+                format += " - ";
+              }
+              format += " MMM";
             }
-            format += "yyyy";
+            if ( value.Contains ( "yy" ) == true
+              || value.Contains ( "yyyy" ) == true )
+            {
+              if ( format != String.Empty )
+              {
+                format += " - ";
+              }
+              format += "yyyy";
+            }
+            stFormat = format;
           }
-          stFormat = format;
         }
       }
 

@@ -1088,6 +1088,7 @@ namespace Evado.UniForm.WebClient
               break;
             }
           case Evado.Model.EvDataTypes.Date:
+          case Evado.Model.EvDataTypes.Year:
             {
               this.createDateField ( sbHtml, groupField, groupField.EditAccess );
               break;
