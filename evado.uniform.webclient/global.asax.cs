@@ -790,7 +790,9 @@ namespace Evado.UniForm.WebClient
 
       value = value.Replace ( " END OF METHOD ", " END OF " + Value + " METHOD " );
 
-      Global.LogDebugMethodEnd ( value );
+      Global._ClientLog.AppendLine ( value );
+
+      Global.LogDebugMethodEnd ( Value );
     }
 
     //  =================================================================================
