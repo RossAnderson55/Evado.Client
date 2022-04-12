@@ -479,7 +479,7 @@ namespace Evado.UniForm.WebClient
             Global.LogDebug ( "Processing markup" );
 
             value = Evado.Model.EvStatics.EncodeMarkDown ( value );
-            value = value.Replace ( "\n", "<br/>" );
+            //value = value.Replace ( "\n", "<br/>" );
 
             Global.LogDebug ( "HTML: decoded value" + value );
           }
