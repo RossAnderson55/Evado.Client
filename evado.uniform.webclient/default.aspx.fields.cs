@@ -173,17 +173,21 @@ namespace Evado.UniForm.WebClient
 
       if ( stDescription != String.Empty )
       {
-        //stDescription = stDescription.Replace ( "\r\n", "<br/>" );
         stDescription = Evado.Model.EvStatics.EncodeMarkDown ( stDescription );
-        stDescription = stDescription.Replace ( "\r\n", "<br/>" );
+
+        if ( stDescription.Contains ( "/]" ) == true )
+        {
+          stDescription = stDescription.Replace ( "{images}", Global.RelativeBinaryDownloadURL );
+          stDescription = stDescription.Replace ( "[", "<" );
+          stDescription = stDescription.Replace ( "]", ">" );
+
+          Global.LogDebug ( "stDescription: {0}.", stDescription );
+        }
       }
 
       if ( stAnnotation != String.Empty )
       {
-        //stAnnotation = stAnnotation.Replace ( "\r\n", "<br/>" );
-        //stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
         stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
-        stAnnotation = stAnnotation.Replace ( "\r\n", "<br/>" );
       }
 
       String stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
