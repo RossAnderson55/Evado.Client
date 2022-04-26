@@ -794,7 +794,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.Group serialisationGroup = new Evado.UniForm.Model.Group ( "Serialisation", String.Empty, Evado.UniForm.Model.EditAccess.Disabled );
       serialisationGroup.Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
 
-      serialisedText = Evado.Model.EvStatics.SerialiseObject<Evado.UniForm.Model.AppData> ( this._AppData );
+      serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.AppData> ( this._AppData );
 
       /// 
       /// Open the stream to the file.
@@ -808,11 +808,11 @@ namespace Evado.UniForm.WebClient
 
       Evado.UniForm.Model.Field groupField = serialisationGroup.createHtmlLinkField ( "lnkxmllad", "XML Serialised Application Data Object", "temp/serialised_application_data.xml" );
 
-      serialisedText = Evado.Model.EvStatics.SerialiseObject<Evado.UniForm.Model.Command> ( this._PageCommand );
+      serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.Command> ( this._PageCommand );
 
-      /// 
-      /// Open the stream to the file.
-      /// 
+      // 
+      // Open the stream to the file.
+      //
       using ( StreamWriter sw = new StreamWriter ( Global.ApplicationPath + @"temp\serialised_command.xml" ) )
       {
         sw.Write ( serialisedText );

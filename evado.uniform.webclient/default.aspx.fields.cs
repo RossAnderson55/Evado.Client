@@ -579,7 +579,7 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      string stImageUrl = Global.RelativeBinaryDownloadURL + PageField.Value;
+      string stImageUrl = PageField.Value;
       String stSize = "400";
       this.TestFileUpload.Visible = true;
       bool fullWidth = false;
@@ -859,7 +859,13 @@ namespace Evado.UniForm.WebClient
       {
         height = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Height );
       }
+
       int maxLength = (int) ( width * height * 2 );
+
+      if ( PageField.hasParameter ( Evado.UniForm.Model.FieldParameterList.Max_Value ) == true )
+      {
+        maxLength = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Max_Value );
+      }
 
       //
       // Ineert the field header
@@ -5173,6 +5179,7 @@ namespace Evado.UniForm.WebClient
       int height = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Height );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell cell-display-text-value cf' ";
       String stVideoStreamParameters = String.Empty;
+      String stImageUrl = PageField.Value.ToLower ( );
       bool fullWidth = false;
 
       if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
@@ -5181,7 +5188,7 @@ namespace Evado.UniForm.WebClient
         stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
       }
 
-      PageField.Value = PageField.Value.ToLower ( );
+      stImageUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
 
       //
       // Set default width
@@ -5198,7 +5205,7 @@ namespace Evado.UniForm.WebClient
       //
       // Ineert the field header
       //
-      createFieldHeader ( sbHtml, PageField, titleColumnWidth, fullWidth );
+      this.createFieldHeader ( sbHtml, PageField, titleColumnWidth, fullWidth );
 
       //
       // Insert the field elements
@@ -5208,7 +5215,7 @@ namespace Evado.UniForm.WebClient
       sbHtml.Append ( "<img  " );
       sbHtml.Append ( "id='" + PageField.FieldId + "' " );
       sbHtml.Append ( "name='" + PageField.FieldId + "' " );
-      sbHtml.Append ( "src='" + PageField.Value + "' " );
+      sbHtml.Append ( "src='" + stImageUrl + "' " );
 
       if ( width > 0 )
       {
