@@ -5175,8 +5175,8 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this._GroupValueColumWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      int width = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Width );
-      int height = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Height );
+      string width = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
+      string height = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Height );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell cell-display-text-value cf' ";
       String stVideoStreamParameters = String.Empty;
       String stImageUrl = PageField.Value.ToLower ( );
@@ -5189,18 +5189,6 @@ namespace Evado.UniForm.WebClient
       }
 
       stImageUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
-
-      //
-      // Set default width
-      //
-      if ( width == 0 )
-      {
-        width = 450;
-      }
-      if ( height == 0 )
-      {
-        height = width * 10 / 17;
-      }
 
       //
       // Ineert the field header
@@ -5217,11 +5205,11 @@ namespace Evado.UniForm.WebClient
       sbHtml.Append ( "name='" + PageField.FieldId + "' " );
       sbHtml.Append ( "src='" + stImageUrl + "' " );
 
-      if ( width > 0 )
+      if ( width != String.Empty  )
       {
         sbHtml.Append ( "width='" + width + "' " );
       }
-      if ( height > 0 )
+      if ( height != String.Empty )
       {
         sbHtml.Append ( "height='" + height + "' " );
       }
