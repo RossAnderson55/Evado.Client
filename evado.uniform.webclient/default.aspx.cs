@@ -52,7 +52,6 @@ namespace Evado.UniForm.WebClient
     #region Class variable initialisations
 
     private const string SESSION_USER = "EUWC_SESSION";
-    private const string SESSION_ICON_URL_LIST = "EUWC_IUL";
 
     private const string PageField_CommandId = "__CommandId";
 
@@ -269,9 +268,9 @@ namespace Evado.UniForm.WebClient
       Global.OutputClientLog();
 
       //
-      // Save the icon list.
+      // Save the session object
       //
-      Session [ SESSION_ICON_URL_LIST ] = this.UserSession.IconList;
+      Session [ SESSION_USER ] = this.UserSession;
 
     }//END Page_Load event method
 
