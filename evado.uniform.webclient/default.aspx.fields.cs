@@ -157,7 +157,7 @@ namespace Evado.UniForm.WebClient
       Global.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       Global.LogDebug ( "PageField.Title: " + PageField.Title );
       Global.LogDebug ( "PageField.Type: " + PageField.Type );
-      Global.LogDebug ( "CurrentGroupType: " + this._CurrentGroup.GroupType );
+      Global.LogDebug ( "CurrentGroupType: " + this.UserSession.CurrentGroup.GroupType );
       //
       // initialise method variables and objects.
       //
@@ -326,8 +326,8 @@ namespace Evado.UniForm.WebClient
         //
         // Display the annotatin if it exists.
         //
-        if ( this._CurrentGroup.GroupType != Evado.UniForm.Model.GroupTypes.Annotated_Fields
-          && this._CurrentGroup.GroupType != Evado.UniForm.Model.GroupTypes.Review_Fields
+        if ( this.UserSession.CurrentGroup.GroupType != Evado.UniForm.Model.GroupTypes.Annotated_Fields
+          && this.UserSession.CurrentGroup.GroupType != Evado.UniForm.Model.GroupTypes.Review_Fields
           && stAnnotation != String.Empty )
         {
           stHtml.Append ( "<div class='description'>" + stAnnotation + "</div>" );
@@ -336,7 +336,7 @@ namespace Evado.UniForm.WebClient
         //
         // Display the annotation field
         //
-        else if ( this._CurrentGroup.GroupType == Evado.UniForm.Model.GroupTypes.Annotated_Fields )
+        else if ( this.UserSession.CurrentGroup.GroupType == Evado.UniForm.Model.GroupTypes.Annotated_Fields )
         {
           stHtml.Append ( "<div class='description'>" + stAnnotation
            + "<input type='text' "
@@ -354,7 +354,7 @@ namespace Evado.UniForm.WebClient
         //
         // Display the review fields.
         //
-        else if ( this._CurrentGroup.GroupType == Evado.UniForm.Model.GroupTypes.Review_Fields )
+        else if ( this.UserSession.CurrentGroup.GroupType == Evado.UniForm.Model.GroupTypes.Review_Fields )
         {
           stHtml.Append ( "<div class='description'>" + stAnnotation
            + "<br/> Query: "
@@ -416,7 +416,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       int stWidth = 20;
       int stHeight = 1;
@@ -516,7 +516,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stContent = String.Empty;
 
@@ -577,7 +577,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string stImageUrl = PageField.Value;
       String stSize = "400";
@@ -662,7 +662,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       int maxLength = 20;
 
@@ -767,7 +767,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stWidth = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
       String stRows = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Height );
@@ -837,7 +837,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       String fieldMarginStyle = String.Empty;
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-textarea-value cf' ";
       string stValidationMethod = " onchange=\"Evado.Form.onTextChange( this, this.value )\" ";
@@ -925,7 +925,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-number-value cf' ";
@@ -1073,7 +1073,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-date-value ' "; //cf
@@ -1362,7 +1362,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-date-value ' "; //cf
@@ -1599,7 +1599,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       Evado.UniForm.Model.FieldValueWidths widthValue = FieldValueWidths.Default;
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Field_Value_Legend );
       String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Validation_Callback ); ;
@@ -1808,7 +1808,7 @@ namespace Evado.UniForm.WebClient
         //
         // Initialise the methods variables and objects.
         //
-        int valueColumnWidth = this._GroupValueColumWidth;
+        int valueColumnWidth = this.UserSession.GroupFieldWidth;
         int titleColumnWidth = 100 - valueColumnWidth;
         String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-radio-value cf' ";
         String stQuizValue = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Quiz_Value );
@@ -1972,7 +1972,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:98%;' class='cell value cell-radio-value' ";
       String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Validation_Callback );
@@ -2127,7 +2127,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Field_Value_Legend );
       String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Snd_Cmd_On_Change );
@@ -2289,7 +2289,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       Evado.UniForm.Model.FieldValueWidths widthValue = FieldValueWidths.Default;
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Field_Value_Legend );
       String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Snd_Cmd_On_Change );
@@ -2436,7 +2436,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
 
       if ( PageField.hasParameter ( FieldParameterList.Field_Value_Column_Width ) == true )
@@ -2547,7 +2547,7 @@ namespace Evado.UniForm.WebClient
       //
       // Exit if there are not commands in the group.
       //
-      if ( this._CurrentGroup.CommandList == null )
+      if ( this.UserSession.CurrentGroup.CommandList == null )
       {
         return String.Empty;
       }
@@ -2555,9 +2555,9 @@ namespace Evado.UniForm.WebClient
       //
       // Return the onChange event attribute for the first command.
       //
-      if ( this._CurrentGroup.CommandList.Count > 0 )
+      if ( this.UserSession.CurrentGroup.CommandList.Count > 0 )
       {
-        Evado.UniForm.Model.Command command = this._CurrentGroup.CommandList [ 0 ];
+        Evado.UniForm.Model.Command command = this.UserSession.CurrentGroup.CommandList [ 0 ];
 
         return "onchange=\"javascript:onPostBack('" + command.Id + "')\"";
       }
@@ -2589,7 +2589,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       bool fullWidth = false;
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       if ( PageField.Layout == FieldLayoutCodes.Column_Layout )
       {
@@ -3175,7 +3175,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string stBinaryUrl = Global.RelativeBinaryDownloadURL + PageField.Value;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
@@ -3246,7 +3246,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-sound-value cf' ";
 
@@ -3290,7 +3290,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-currency-value cf' ";
@@ -3360,7 +3360,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-email-value cf' ";
@@ -3433,7 +3433,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-telephones-value cf' ";
@@ -3507,7 +3507,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:100%;' class='cell value cell-input-telephones-value cf' ";
       //
@@ -3582,7 +3582,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       int fieldSize = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Width );
       String stFormat = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Format );
@@ -3782,7 +3782,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-address-value cf' ";
@@ -4146,7 +4146,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String fieldId = PageField.FieldId.ToLower ( );
       Evado.Model.EvSignatureBlock signature = new Evado.Model.EvSignatureBlock ( );
@@ -4367,7 +4367,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
       String stRows = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Height );
@@ -4446,7 +4446,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = "15"; ;
       String stFieldValueStyling = "style='' class='cell value cell-input-name-value' "; //
@@ -4549,8 +4549,8 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( "<div id='sp" + PageField.Id + "' class='form-field-container-inline' >" );
 
       stHtml.AppendLine ( "<input type='text' "
-        + "id='" + PageField.FieldId + DefaultPage.stField_LowerSuffix + "' "
-        + "name='" + PageField.FieldId + DefaultPage.stField_LowerSuffix + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "value='" + stLowerValue + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "maxlength='" + stSize + "' "
@@ -4591,8 +4591,8 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( " - " );
 
       stHtml.AppendLine ( "<input type='text' "
-        + "id='" + PageField.FieldId + DefaultPage.stField_UpperSuffix + "' "
-        + "name='" + PageField.FieldId + DefaultPage.stField_UpperSuffix + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "value='" + stUpperValue + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "maxlength='" + stSize + "' "
@@ -4659,7 +4659,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = "15"; ;
       String stFieldValueStyling = "style='' class='cell value cell-date-value' "; //
@@ -4744,8 +4744,8 @@ namespace Evado.UniForm.WebClient
         + " class='fform-field-container-inline' style='width:100%' >" );
 
       stHtml.Append ( "<input type='text' "
-        + "id='" + PageField.FieldId + DefaultPage.stField_LowerSuffix + "' "
-        + "name='" + PageField.FieldId + DefaultPage.stField_LowerSuffix + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "value='" + stLowerValue + "' "
         + "maxlength='" + stSize + "' "
@@ -4785,8 +4785,8 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( " - " );
 
       stHtml.Append ( "<input type='text' "
-        + "id='" + PageField.FieldId + DefaultPage.stField_UpperSuffix + "' "
-        + "name='" + PageField.FieldId + DefaultPage.stField_UpperSuffix + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "value='" + stUpperValue + "' "
         + "maxlength='" + stSize + "' "
@@ -4850,7 +4850,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       int stWidth = 50;
 
@@ -4984,7 +4984,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       string value = PageField.Value.ToLower ( );
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       int width = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Width );
       int height = PageField.GetParameterInt ( Evado.UniForm.Model.FieldParameterList.Height );
@@ -5173,7 +5173,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string width = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
       string height = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Height );
@@ -5242,7 +5242,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      int valueColumnWidth = this._GroupValueColumWidth;
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string placeHolder = PageField.FieldId.ToLower ( );
       String stWidth = PageField.GetParameter ( Evado.UniForm.Model.FieldParameterList.Width );
@@ -5346,7 +5346,7 @@ namespace Evado.UniForm.WebClient
       }
       Global.LogDebug ( "Display Legend: " + plotObject.DisplayLegend + ", legend: " + legend );
 
-      if ( this._PlotScriptLoaded == false )
+      if ( this.UserSession.PlotScriptLoaded == false )
       {
         code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.js\"></script>" );
         code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.canvaswrapper.js\"></script>" );
@@ -5359,7 +5359,7 @@ namespace Evado.UniForm.WebClient
         code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.legend.js\"></script>" );
         code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.pie.js\"></script> " );
         code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.stack.js\"></script> " );
-        this._PlotScriptLoaded = true;
+        this.UserSession.PlotScriptLoaded = true;
       }
 
       code.AppendLine ( "<script type=\"text/javascript\">" );

@@ -77,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\webattributes.cs" />
+    <Compile Include="EucEnumerators.cs" />
+    <Compile Include="EucKeyValuePair.cs" />
+    <Compile Include="EucSession.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

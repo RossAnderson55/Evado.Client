@@ -39,8 +39,8 @@ namespace Evado.UniForm.WebClient
     private void generatePage ( )
     {
       Global.LogDebugMethod ( "generatePage" );
-      Global.LogDebug ( "PageStatus: " + this._AppData.Page.EditAccess );
-      Global.LogDebug ( "Page command list count: " + this._AppData.Page.CommandList.Count );
+      Global.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
+      Global.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
       //
       // initialise method variables and objects.
       //
@@ -66,9 +66,9 @@ namespace Evado.UniForm.WebClient
       StringBuilder sbPageHistoryPills = new StringBuilder ( );
       int leftColumnPercentage = 0;
       int rightColumnPercentage = 0;
-      this.Title = Global.TitlePrefix + this._AppData.Title;
+      this.Title = Global.TitlePrefix + this.UserSession.AppData.Title;
       this.litCommandContent.Visible = true;
-      bool displayGroupsAsPanels = this._AppData.Page.GetDisplayGroupsAsPanels ( );
+      bool displayGroupsAsPanels = this.UserSession.AppData.Page.GetDisplayGroupsAsPanels ( );
 
       //
       // Groups are displayed a panels enable and initialise the page objects.
@@ -77,9 +77,9 @@ namespace Evado.UniForm.WebClient
       {
         this.PagedGroups.Visible = true;
 
-        if ( this._PanelDisplayGroupIndex == -1 )
+        if ( this.UserSession.PanelDisplayGroupIndex == -1 )
         {
-          this._PanelDisplayGroupIndex = 0;
+          this.UserSession.PanelDisplayGroupIndex = 0;
         }
       }
 
@@ -92,9 +92,9 @@ namespace Evado.UniForm.WebClient
       // If the anonymous access mode exit.
       //
 
-      Global.LogDebug ( "Anonymous_Page_Access: " + this._AppData.Page.GetAnonymousPageAccess ( ) );
+      Global.LogDebug ( "Anonymous_Page_Access: " + this.UserSession.AppData.Page.GetAnonymousPageAccess ( ) );
 
-      if ( this._AppData.Page.GetAnonymousPageAccess ( ) == false )
+      if ( this.UserSession.AppData.Page.GetAnonymousPageAccess ( ) == false )
       {
         Global.LogDebug ( "Anonyous_Page_Access = false" );
 
@@ -106,14 +106,14 @@ namespace Evado.UniForm.WebClient
         //
         // Generate the Page History menu
         //
-        if ( this._CommandHistoryList.Count > 0 )
+        if ( this.UserSession.CommandHistoryList.Count > 0 )
         {
           sbPageHistoryPills.Append ( "<ol class='breadcrumb'>" );
 
           //
           // Iterate through the Command history to create the breadcrumbs.
           //
-          foreach ( Evado.UniForm.Model.Command command in this._CommandHistoryList )
+          foreach ( Evado.UniForm.Model.Command command in this.UserSession.CommandHistoryList )
           {
             this.generateHistoryMenuPills ( sbPageHistoryPills, command );
           }
@@ -126,14 +126,14 @@ namespace Evado.UniForm.WebClient
       // If an error message has been generated display it at the top of the 
       // page.
       //
-      if ( this._AppData.Message != String.Empty )
+      if ( this.UserSession.AppData.Message != String.Empty )
       {
         this.generateErrorMessge ( sbMainBody );
       }
 
 
-      string leftColumn = this._AppData.Page.GetParameter ( Evado.UniForm.Model.PageParameterList.Left_Column_Width );
-      string rightColumn = this._AppData.Page.GetParameter ( Evado.UniForm.Model.PageParameterList.Right_Column_Width );
+      string leftColumn = this.UserSession.AppData.Page.GetParameter ( Evado.UniForm.Model.PageParameterList.Left_Column_Width );
+      string rightColumn = this.UserSession.AppData.Page.GetParameter ( Evado.UniForm.Model.PageParameterList.Right_Column_Width );
 
       if ( int.TryParse ( leftColumn, out leftColumnPercentage ) == false )
       {
@@ -158,11 +158,11 @@ namespace Evado.UniForm.WebClient
       //
       // Generate the html for each group in the page object.
       //
-      if ( this._AppData.Page.GroupList.Count > 0 )
+      if ( this.UserSession.AppData.Page.GroupList.Count > 0 )
       {
-        for ( int count = 0; count < this._AppData.Page.GroupList.Count; count++ )
+        for ( int count = 0; count < this.UserSession.AppData.Page.GroupList.Count; count++ )
         {
-          Evado.UniForm.Model.Group group = this._AppData.Page.GroupList [ count ];
+          Evado.UniForm.Model.Group group = this.UserSession.AppData.Page.GroupList [ count ];
 
           //
           // skip null objects.
@@ -200,7 +200,7 @@ namespace Evado.UniForm.WebClient
           {
             Global.LogDebug ( "ADD: " + group.Title + " to left column" );
 
-            this._AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
+            this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
 
             this.generateGroup ( sbLeftBody, count, true, false );
 
@@ -217,7 +217,7 @@ namespace Evado.UniForm.WebClient
           {
             Global.LogDebug ( "ADD: " + group.Title + " to right column" );
 
-            this._AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
+            this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
 
             this.generateGroup ( sbRightBody, count, false, false );
 
@@ -370,7 +370,7 @@ namespace Evado.UniForm.WebClient
 
       //
       // Exit if there is not Js Library
-      if ( this._AppData.Page.JsLibrary == String.Empty )
+      if ( this.UserSession.AppData.Page.JsLibrary == String.Empty )
       {
         return;
       }
@@ -378,15 +378,15 @@ namespace Evado.UniForm.WebClient
       //
       // load the page id for the java scripts.
       //
-      this.pageId.Value = this._AppData.Page.PageId;
+      this.pageId.Value = this.UserSession.AppData.Page.PageId;
 
       //
       // Get an array of library file references.
       // it is assumed these files are residing in the image or binary file URL.
       //
-      if ( this._AppData.Page.JsLibrary != null )
+      if ( this.UserSession.AppData.Page.JsLibrary != null )
       {
-        string [ ] arJsLibraries = this._AppData.Page.JsLibrary.Split ( ';' );
+        string [ ] arJsLibraries = this.UserSession.AppData.Page.JsLibrary.Split ( ';' );
 
         Global.LogDebug ( "Libary count: " + arJsLibraries.Length );
 
@@ -415,13 +415,13 @@ namespace Evado.UniForm.WebClient
     private void generateErrorMessge ( StringBuilder sbHtml )
     {
       Global.LogDebugMethod ( "generateErrorMessge" );
-      String message = this._AppData.Message.ToLower();
+      String message = this.UserSession.AppData.Message.ToLower();
       //
       // Define the error group.
       //
       Evado.UniForm.Model.Group errorGroup = new Evado.UniForm.Model.Group (
        EuLabels.Page_Message_Group_Title,
-        Evado.Model.EvStatics.getStringAsHtml ( this._AppData.Message ),
+        Evado.Model.EvStatics.getStringAsHtml ( this.UserSession.AppData.Message ),
         Evado.UniForm.Model.EditAccess.Disabled );
       errorGroup.Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
 
@@ -453,7 +453,7 @@ namespace Evado.UniForm.WebClient
     private void generatePageCommands ( )
     {
       Global.LogDebugMethod ( "generateCommands" );
-      Global.LogDebug ( "CommandList.Count: " + this._AppData.Page.CommandList.Count );
+      Global.LogDebug ( "CommandList.Count: " + this.UserSession.AppData.Page.CommandList.Count );
 
       //
       // Initialise the methods variables and objects.
@@ -464,14 +464,14 @@ namespace Evado.UniForm.WebClient
       //
       // Set page header title.
       //
-      this.litHeaderTitle.Text = this._AppData.Page.Title;
+      this.litHeaderTitle.Text = this.UserSession.AppData.Page.Title;
 
       //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       //
       // IF the exit command object is null then no exit page or logout page is to be 
       // displayed.
       //
-      if ( this._AppData.Page.Exit == null )
+      if ( this.UserSession.AppData.Page.Exit == null )
       {
         this.litExitCommand.Text = String.Empty;
       }
@@ -480,12 +480,12 @@ namespace Evado.UniForm.WebClient
         //
         // Add a link to previous page.
         //
-        if ( this._AppData.Page.Exit.Id != Guid.Empty
-          || this._AppData.Page.Exit.Title != String.Empty )
+        if ( this.UserSession.AppData.Page.Exit.Id != Guid.Empty
+          || this.UserSession.AppData.Page.Exit.Title != String.Empty )
         {
-          if ( this._AppData.Page.Exit.Type != Evado.UniForm.Model.CommandTypes.Logout_Command )
+          if ( this.UserSession.AppData.Page.Exit.Type != Evado.UniForm.Model.CommandTypes.Logout_Command )
           {
-            this.litExitCommand.Text = this.createCommandLink ( this._AppData.Page.Exit );
+            this.litExitCommand.Text = this.createCommandLink ( this.UserSession.AppData.Page.Exit );
             this.litExitCommand.Visible = true;
             linkIndex++;
           }
@@ -504,8 +504,8 @@ namespace Evado.UniForm.WebClient
         else
         {
           if ( Global.AuthenticationMode != System.Web.Configuration.AuthenticationMode.Windows
-            && this._AppData.Status == Evado.UniForm.Model.AppData.StatusCodes.Login_Authenticated
-            && this._AppData.Page.Exit.Title == String.Empty )
+            && this.UserSession.AppData.Status == Evado.UniForm.Model.AppData.StatusCodes.Login_Authenticated
+            && this.UserSession.AppData.Page.Exit.Title == String.Empty )
           {
             this.litExitCommand.Text = "<a "
               + "class='btn btn-danger' "
@@ -523,7 +523,7 @@ namespace Evado.UniForm.WebClient
       //
       // Edit if there are not page commands.
       //
-      if ( this._AppData.Page.CommandList.Count == 0 )
+      if ( this.UserSession.AppData.Page.CommandList.Count == 0 )
       {
         return;
       }
@@ -538,7 +538,7 @@ namespace Evado.UniForm.WebClient
       //
       // Iterate through the page Command list.
       //
-      foreach ( Evado.UniForm.Model.Command command in this._AppData.Page.CommandList )
+      foreach ( Evado.UniForm.Model.Command command in this.UserSession.AppData.Page.CommandList )
       {
         //
         // skip null commands
@@ -712,53 +712,53 @@ namespace Evado.UniForm.WebClient
       //
       // Extract the group object from the list.
       //
-      this._CurrentGroup = this._AppData.Page.GroupList [ Index ];
+      this.UserSession.CurrentGroup = this.UserSession.AppData.Page.GroupList [ Index ];
 
-      Global.LogDebug ( "Title: " + this._CurrentGroup.Title );
-      Global.LogDebug ( "Group.Status: " + this._CurrentGroup.EditAccess );
+      Global.LogDebug ( "Title: " + this.UserSession.CurrentGroup.Title );
+      Global.LogDebug ( "Group.Status: " + this.UserSession.CurrentGroup.EditAccess );
 
-      if ( this._CurrentGroup.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
+      if ( this.UserSession.CurrentGroup.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
       {
-        this._CurrentGroup.EditAccess = this._AppData.Page.EditAccess;
+        this.UserSession.CurrentGroup.EditAccess = this.UserSession.AppData.Page.EditAccess;
       }
-      Global.LogDebug ( "Update Group.Status: " + this._CurrentGroup.EditAccess );
+      Global.LogDebug ( "Update Group.Status: " + this.UserSession.CurrentGroup.EditAccess );
 
-      if ( this._CurrentGroup.FieldList.Count == 0
-        && this._CurrentGroup.CommandList.Count == 0
-        && this._CurrentGroup.Description == null )
+      if ( this.UserSession.CurrentGroup.FieldList.Count == 0
+        && this.UserSession.CurrentGroup.CommandList.Count == 0
+        && this.UserSession.CurrentGroup.Description == null )
       {
         Global.LogDebug ( "EXIT METHOD: Empty Group" );
         return;
       }
 
-      this._GroupValueColumWidth = 60;
-      Evado.UniForm.Model.FieldValueWidths widthValue = this._CurrentGroup.getValueColumnWidth ( );
-      this._GroupValueColumWidth = (int) widthValue;
+      this.UserSession.GroupFieldWidth = 60;
+      Evado.UniForm.Model.FieldValueWidths widthValue = this.UserSession.CurrentGroup.getValueColumnWidth ( );
+      this.UserSession.GroupFieldWidth = (int) widthValue;
 
       //
       // Set the edit access.
       //
-      Evado.UniForm.Model.EditAccess groupStatus = this._CurrentGroup.EditAccess;
+      Evado.UniForm.Model.EditAccess groupStatus = this.UserSession.CurrentGroup.EditAccess;
 
-      if ( this._CurrentGroup.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
+      if ( this.UserSession.CurrentGroup.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
       {
-        groupStatus = this._AppData.Page.EditAccess;
+        groupStatus = this.UserSession.AppData.Page.EditAccess;
       }
 
       //
       // set the field set attributes.
       //
-      this.generateGroupHeader ( sbHtml, this._CurrentGroup, EnableBodyColumns );
+      this.generateGroupHeader ( sbHtml, this.UserSession.CurrentGroup, EnableBodyColumns );
 
       //
       // Generate the groupd fields.
       //
-      this.generateGroupFields ( sbHtml, Index, this._CurrentGroup );
+      this.generateGroupFields ( sbHtml, Index, this.UserSession.CurrentGroup );
 
       //
       // Generate the groups commands.
       //
-      this.generateGroupCommands ( sbHtml, this._CurrentGroup );
+      this.generateGroupCommands ( sbHtml, this.UserSession.CurrentGroup );
 
       //
       // Close the field set tag.
@@ -956,7 +956,7 @@ namespace Evado.UniForm.WebClient
       //
       // Iterate through group fields to find the field's Id 
       //
-      foreach ( Evado.UniForm.Model.Group group in this._AppData.Page.GroupList )
+      foreach ( Evado.UniForm.Model.Group group in this.UserSession.AppData.Page.GroupList )
       {
         foreach ( Evado.UniForm.Model.Field field in group.FieldList )
         {
@@ -1261,7 +1261,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      List<Evado.UniForm.Model.Parameter> parameters = this._AppData.Page.Parameters;
+      List<Evado.UniForm.Model.Parameter> parameters = this.UserSession.AppData.Page.Parameters;
 
       string title = GroupCommand.Title;
 
@@ -1282,7 +1282,7 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      List<Evado.UniForm.Model.Parameter> parameters = this._AppData.Page.Parameters;
+      List<Evado.UniForm.Model.Parameter> parameters = this.UserSession.AppData.Page.Parameters;
       string iconImage = GroupCommand.GetParameter ( Evado.UniForm.Model.CommandParameters.Image_Url );
 
       string title = GroupCommand.Title;

@@ -39,7 +39,6 @@ namespace Evado.UniForm.WebClient
     public const String SESSION_USER_ID = "EUWC_USER_ID";
     public const String SESSION_ROLES = "EUWC_ROLES";
 
-    public const String SESSION_A1 = "EUWC_A1";
     public const String CONFIG_EVENT_LOG_SOURCE_KEY = "EventLogSource";
     public const String CONST_ENABLE_DETAILED_LOGGING = "ENABLE_DETAILED_LOGGING";
     public const String CONFIG_ENABLE_PAGE_MENU_KEY = "ENABLE_MENU";
@@ -266,7 +265,7 @@ namespace Evado.UniForm.WebClient
 
         Evado.Model.EvStatics.Files.DeleteUserPageStateFiles ( viewStatePath );
 
-        Global.LogDebug ( "Delete View State Files: " + Evado.Model.EvStatics.Files.DebugLog );
+        Global.LogDebug ( "Delete View State Files: " + Evado.Model.EvStatics.Files.Log );
         // 
         // Log the start up log.
         // 
