@@ -5190,6 +5190,10 @@ namespace Evado.UniForm.WebClient
 
       stImageUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
 
+      if ( width == String.Empty )
+      {
+        width = "80%";
+      }
       //
       // Ineert the field header
       //
@@ -5204,11 +5208,7 @@ namespace Evado.UniForm.WebClient
       sbHtml.Append ( "id='" + PageField.FieldId + "' " );
       sbHtml.Append ( "name='" + PageField.FieldId + "' " );
       sbHtml.Append ( "src='" + stImageUrl + "' " );
-
-      if ( width != String.Empty  )
-      {
-        sbHtml.Append ( "width='" + width + "' " );
-      }
+      sbHtml.Append ( "width='" + width + "' " );
       if ( height != String.Empty )
       {
         sbHtml.Append ( "height='" + height + "' " );

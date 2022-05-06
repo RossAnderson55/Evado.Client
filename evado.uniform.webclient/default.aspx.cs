@@ -129,7 +129,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void Page_Load ( object sender, System.EventArgs E )
     {
-      Global.ClearDebugLog ( );
+      //Global.ClearDebugLog ( );
       Global.LogMethod ( "Page_Load event" );
       try
       {

@@ -79,6 +79,11 @@ namespace Evado.UniForm.WebClient
     public static string ApplicationPath = String.Empty;
 
     /// <summary>
+    /// This string contains the staic data directory path
+    /// </summary>
+    public static string StaticDataFilePath = String.Empty;
+
+    /// <summary>
     /// This string contains the application directory path
     /// </summary>
     public static string TitlePrefix = String.Empty;
@@ -220,6 +225,7 @@ namespace Evado.UniForm.WebClient
 
         Global.LogDebug ( "TempPath: " + Global.TempPath );
 
+
         //
         // Load the Application Environmental parameters for the application.
         //
@@ -311,6 +317,13 @@ namespace Evado.UniForm.WebClient
       }
 
       Global.LogClient ( "Log file path: " + Global.LogFilePath );
+
+      if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_STATIC_FILE_PATH_KEY ] != null )
+      {
+        Global.StaticDataFilePath = ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_STATIC_FILE_PATH_KEY ];
+      }
+
+      Global.LogClient ( "Static Data File Path: " + Global.StaticDataFilePath );
 
       if ( ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGG ] != null )
       {
@@ -410,7 +423,7 @@ namespace Evado.UniForm.WebClient
       if ( ConfigurationManager.AppSettings [ "DebugLogOn" ] != null )
       {
         string value = ConfigurationManager.AppSettings [ "DebugLogOn" ].ToLower ( );
-        if ( Evado.Model.EvStatics.getBool( value) == true )
+        if ( Evado.Model.EvStatics.getBool ( value ) == true )
         {
           Global.DebugLogOn = true;
         }
@@ -468,7 +481,7 @@ namespace Evado.UniForm.WebClient
       }
 
       Global.LogClient ( "EnablePageHistory: " + Global.EnablePageHistory );
-  
+
 
       // 
       // Set the debug mode.
@@ -516,99 +529,140 @@ namespace Evado.UniForm.WebClient
     private void LoadExternalCommands ( )
     {
       Global.LogMethod ( "LoadExternalCommands" );
+      Global.LogClient ( "Static Data File Path '{0}'.", Global.StaticDataFilePath );
+      //
+      // initialise the methods variables and objects.
+      //
+      String extension = ".JSON";
+      Global.ExternalCommands = new Dictionary<string, Model.Command> ( );
+
+      if ( Global.StaticDataFilePath != String.Empty )
+      {
+        List<String> fileNames = Evado.Model.EvStatics.Files.getDirectoryFileList ( Global.StaticDataFilePath, extension );
+
+        Global.LogClient ( "extension '{0}'.", extension );
+        Global.LogClient ( "fileNames.Count {0}.", fileNames.Count );
+
+        //
+        // iterate through the file list deserialising the JSON to load the external command.
+        //
+        foreach ( String fileName in fileNames )
+        {
+          Global.LogClient ( "fileName '{0}'.", fileName );
+
+          Evado.UniForm.Model.Command newCommand = Evado.Model.EvStatics.Files.readJsonFile<Evado.UniForm.Model.Command> (
+            Global.StaticDataFilePath, fileName );
+
+          String commandKey = fileName.Replace ( extension, String.Empty );
+
+          if ( newCommand != null )
+          {
+            Global.LogClient ( "Key {0} - {1}.", commandKey, newCommand.getAsString ( false, true ) );
+
+            Global.ExternalCommands.Add ( commandKey.ToLower ( ), newCommand );
+          }
+        }
+      }
+
       //
       // Set the application log path  LogPath
       //
-
-      for ( int index = 0; index < 10; index++ )
+      if ( Global.ExternalCommands.Count == 0 )
       {
-        string conFigKey = CONFIG_EXTERNAL_COMMAND_KEY_PREFIX + index.ToString ( "00" );
-
-        if ( ConfigurationManager.AppSettings [ conFigKey ] == null )
+        for ( int index = 0; index < 10; index++ )
         {
-          continue;
-        }
+          string conFigKey = CONFIG_EXTERNAL_COMMAND_KEY_PREFIX + index.ToString ( "00" );
 
-        string externalCommandString = ConfigurationManager.AppSettings [ conFigKey ];
-
-        Global.LogDebug ( String.Format ( "Key: {0}, Value: {1} ",
-         conFigKey,
-         externalCommandString ) );
-
-        string [ ] arrCommandValue = externalCommandString.Split ( ';' );
-        Global.LogDebug ( "CommandValue.Length:" + arrCommandValue.Length );
-
-        if ( arrCommandValue.Length < 6 )
-        {
-          Global.LogEvent ( "incorrect number of parameters" );
-          continue;
-        }
-
-        string parameter = String.Empty;
-        string commandTitle = String.Empty;
-        string commandApplication = String.Empty;
-        string commandObject = String.Empty;
-        string commandType = Evado.UniForm.Model.CommandTypes.Anonymous_Command.ToString ( );
-        string commandMethod = Evado.UniForm.Model.ApplicationMethods.Get_Object.ToString ( );
-        string pageId = String.Empty;
-
-        for ( int i = 0; i < arrCommandValue.Length; i++ )
-        {
-          if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_PARAMETER_PREFIX ) == true )
+          if ( ConfigurationManager.AppSettings [ conFigKey ] == null )
           {
-            parameter = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_PARAMETER_PREFIX, String.Empty ).Trim ( );
+            continue;
           }
-          if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_TITLE_PREFIX ) == true )
-          {
-            commandTitle = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_TITLE_PREFIX, String.Empty ).Trim ( );
-          }
-          if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_APPLICATION_PREFIX ) == true )
-          {
-            commandApplication = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_APPLICATION_PREFIX, String.Empty ).Trim ( );
-          }
-          if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_OBJECT_PREFIX ) == true )
-          {
-            commandObject = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_OBJECT_PREFIX, String.Empty ).Trim ( );
-          }
-          if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_COMMAND_TYPE_PREFIX ) == true )
-          {
-            commandType = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_COMMAND_TYPE_PREFIX, String.Empty ).Trim ( );
-          }
-          if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_METHOD_PREFIX ) == true )
-          {
-            commandMethod = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_METHOD_PREFIX, String.Empty ).Trim ( );
-          }
-          if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_PAGE_PREFIX ) == true )
-          {
-            pageId = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_PAGE_PREFIX, String.Empty ).Trim ( );
-          }
-        }
 
-        try
-        {
-          /*
-          Global.LogDebug ("P: {0}, T: {1}, A: {2}, CT: {3}, CO: {4}, CM: {5}, P: {5} ",
-            parameter, commandTitle, commandApplication, commandType, commandObject, commandMethod, pageId );
-          */
-          Evado.UniForm.Model.CommandTypes type = Evado.Model.EvStatics.parseEnumValue<Evado.UniForm.Model.CommandTypes> ( commandType );
-          Evado.UniForm.Model.ApplicationMethods method = Evado.Model.EvStatics.parseEnumValue<Evado.UniForm.Model.ApplicationMethods> ( commandMethod );
+          string externalCommandString = ConfigurationManager.AppSettings [ conFigKey ];
 
-          Evado.UniForm.Model.Command newCommand = new Evado.UniForm.Model.Command (
-            commandTitle, commandApplication, commandObject, method );
-          newCommand.Type = type;
+          Global.LogDebug ( String.Format ( "Key: {0}, Value: {1} ",
+           conFigKey,
+           externalCommandString ) );
 
-          newCommand.SetPageId ( pageId );
+          string [ ] arrCommandValue = externalCommandString.Split ( ';' );
+          Global.LogDebug ( "CommandValue.Length:" + arrCommandValue.Length );
 
-          Global.LogClient ( newCommand.getAsString ( false, true ) );
+          if ( arrCommandValue.Length < 6 )
+          {
+            Global.LogEvent ( "incorrect number of parameters" );
+            continue;
+          }
 
-          Global.ExternalCommands.Add ( parameter.ToLower ( ), newCommand );
+          string parameter = String.Empty;
+          string commandTitle = String.Empty;
+          string commandApplication = String.Empty;
+          string commandObject = String.Empty;
+          string commandType = Evado.UniForm.Model.CommandTypes.Anonymous_Command.ToString ( );
+          string commandMethod = Evado.UniForm.Model.ApplicationMethods.Get_Object.ToString ( );
+          string pageId = String.Empty;
 
-        }
-        catch ( Exception Ex )
-        {
-          Global.LogClient ( Evado.Model.EvStatics.getException ( Ex ) );
-        }
-      }//END interation loop
+          for ( int i = 0; i < arrCommandValue.Length; i++ )
+          {
+            if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_PARAMETER_PREFIX ) == true )
+            {
+              parameter = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_PARAMETER_PREFIX, String.Empty ).Trim ( );
+            }
+            if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_TITLE_PREFIX ) == true )
+            {
+              commandTitle = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_TITLE_PREFIX, String.Empty ).Trim ( );
+            }
+            if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_APPLICATION_PREFIX ) == true )
+            {
+              commandApplication = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_APPLICATION_PREFIX, String.Empty ).Trim ( );
+            }
+            if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_OBJECT_PREFIX ) == true )
+            {
+              commandObject = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_OBJECT_PREFIX, String.Empty ).Trim ( );
+            }
+            if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_COMMAND_TYPE_PREFIX ) == true )
+            {
+              commandType = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_COMMAND_TYPE_PREFIX, String.Empty ).Trim ( );
+            }
+            if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_METHOD_PREFIX ) == true )
+            {
+              commandMethod = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_METHOD_PREFIX, String.Empty ).Trim ( );
+            }
+            if ( arrCommandValue [ i ].Contains ( Global.CONST_EXTERNAL_PAGE_PREFIX ) == true )
+            {
+              pageId = arrCommandValue [ i ].Replace ( Global.CONST_EXTERNAL_PAGE_PREFIX, String.Empty ).Trim ( );
+            }
+          }
+          try
+          {
+
+            //Global.LogDebug ("P: {0}, T: {1}, A: {2}, CT: {3}, CO: {4}, CM: {5}, P: {5} ",
+            //  parameter, commandTitle, commandApplication, commandType, commandObject, commandMethod, pageId );
+
+            Evado.UniForm.Model.CommandTypes type = Evado.Model.EvStatics.parseEnumValue<Evado.UniForm.Model.CommandTypes> ( commandType );
+            Evado.UniForm.Model.ApplicationMethods method = Evado.Model.EvStatics.parseEnumValue<Evado.UniForm.Model.ApplicationMethods> ( commandMethod );
+
+            Evado.UniForm.Model.Command newCommand = new Evado.UniForm.Model.Command (
+              commandTitle, commandApplication, commandObject, method );
+            newCommand.Type = type;
+
+            newCommand.SetPageId ( pageId );
+
+            Global.LogClient ( newCommand.getAsString ( false, true ) );
+
+            Global.ExternalCommands.Add ( parameter.ToLower ( ), newCommand );
+
+            if ( Global.StaticDataFilePath != String.Empty )
+            {
+              Evado.Model.EvStatics.Files.saveJsonFile<Evado.UniForm.Model.Command> ( Global.StaticDataFilePath, parameter + ".JSON", newCommand );
+            }
+
+          }
+          catch ( Exception Ex )
+          {
+            Global.LogClient ( Evado.Model.EvStatics.getException ( Ex ) );
+          }
+        }//END interation loop
+      }//END retrieve from config file.
 
       Global.LogClient ( "External Command count: " + Global.ExternalCommands.Count );
 
