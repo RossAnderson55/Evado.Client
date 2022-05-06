@@ -157,18 +157,6 @@
     <None Include="images\thumbs.db" />
     <Content Include="js\parsley.js" />
     <Content Include="js\underscore.js" />
-    <Content Include="temp\EventMessage.txt" />
-    <Content Include="temp\jsondata.txt" />
-    <Content Include="temp\json_serialised_application_data.txt" />
-    <Content Include="temp\json_serialised_command.txt" />
-    <Content Include="temp\serialised_application_data.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="temp\serialised_command.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="temp\test.htm" />
-    <Content Include="temp\test1.htm" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -192,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="logs\" />
+    <Folder Include="temp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\evado.uniform\evado.model\evado.model.csproj">

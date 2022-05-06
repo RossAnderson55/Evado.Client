@@ -94,7 +94,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void Page_Load ( object sender, System.EventArgs E )
     {
-      //Global.ClearDebugLog ( );
+     
       Global.LogMethod ( "Page_Load event" );
       try
       {
@@ -105,6 +105,7 @@ namespace Evado.UniForm.WebClient
         Global.LogDebug ( "LogonUserIdentity Name: " + Request.LogonUserIdentity.Name );
         Global.LogDebug ( "User.Identity.Name: " + User.Identity.Name );
         Global.LogDebug ( "Authentication Type: " + Global.AuthenticationMode );
+
         // 
         // Initialise the method variables and objects.
         // 
@@ -265,7 +266,7 @@ namespace Evado.UniForm.WebClient
       //
       // write out the client log.
       //
-      Global.OutputClientLog();
+      Global.OutputClientLog ( );
 
       //
       // Save the session object
@@ -376,7 +377,7 @@ namespace Evado.UniForm.WebClient
       Global.LogDebug ( "ApplicationData.Id: " + this.UserSession.AppData.Id );
       Global.LogDebug ( "SessionId: " + this.UserSession.ServerSessionId );
       Global.LogDebug ( "UserNetworkId: " + this.UserSession.UserId );
-      Global.LogDebug ( "A1: " + this.UserSession.Password );
+      Global.LogDebug ( "Password: " + this.UserSession.Password );
       Global.LogDebug ( "PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
       Global.LogDebug ( "Command History length: " + this.UserSession.CommandHistoryList.Count );
       Global.LogDebug ( "Icon list length: " + this.UserSession.IconList.Count );
@@ -935,6 +936,11 @@ namespace Evado.UniForm.WebClient
         this.UserSession.Password = String.Empty;
       }
 
+      Global.LogDebug ( "Request.RequestType: {0}.", Request.RequestType );
+      Global.LogDebug ( "Request.RequestContext: {0}.", Request.RequestContext );
+      Global.LogDebug ( "Request.Url: {0}.", Request.Url );
+      Global.LogDebug ( "Request.RawUrl: {0}.", Request.RawUrl );
+      Global.LogDebug ( "Request.QueryString.Count: {0}.", Request.QueryString.Count );
       // 
       // Load SpecialisationValueCollection object.
       // 
@@ -2687,12 +2693,14 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void RequestLogin ( )
     {
-      Global.LogDebugMethod ( "RequestLogin method" );
+      Global.LogDebugMethod ( "RequestLogin" );
+      Global.LogDebug ( "DefaultLogo {0}.", Global.DefaultLogoUrl );
       //
       // Initialise the methods variables and object.s
       //
       this.initialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
+      this.imgLogo.Src = Global.DefaultLogoUrl;
 
       this.fsLoginBox.Visible = true;
       this.litExitCommand.Visible = false;
@@ -2709,7 +2717,6 @@ namespace Evado.UniForm.WebClient
       //
       // display the logo if one is defined.
       //
-      this.pLogo.Visible = false;
       if ( this.UserSession.AppData.LogoFilename != String.Empty )
       {
         this.UserSession.AppData.LogoFilename = this.UserSession.AppData.LogoFilename.ToLower ( );
@@ -2721,11 +2728,18 @@ namespace Evado.UniForm.WebClient
         }
         else
         {
-          this.imgLogo.Src = Global.RelativeBinaryDownloadURL + this.UserSession.AppData.LogoFilename;
+          if ( this.UserSession.AppData.LogoFilename != String.Empty )
+          {
+            this.imgLogo.Src = Global.RelativeBinaryDownloadURL + this.UserSession.AppData.LogoFilename;
+          }
         }
-        this.pLogo.Visible = true;
       }
 
+      this.pLogo.Visible = false;
+      if ( this.imgLogo.Src != String.Empty )
+      {
+        this.pLogo.Visible = true;
+      }
       Global.LogDebugMethodEnd ( "RequestLogin" );
     }
 

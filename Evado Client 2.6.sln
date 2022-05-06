@@ -6,6 +6,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.model", "..\evado.uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.uniform.model", "..\evado.uniform\evado.uniform.model\evado.uniform.model.csproj", "{EB6A905C-2E28-4A70-B791-DC807165BCD7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EECC0036-3E01-4C01-9F91-F075D81F8CF8}"
+	ProjectSection(SolutionItems) = preProject
+		StaticData\CREC.JSON = StaticData\CREC.JSON
+		StaticData\DEMO1.JSON = StaticData\DEMO1.JSON
+		StaticData\PECID.JSON = StaticData\PECID.JSON
+		StaticData\PECID1.JSON = StaticData\PECID1.JSON
+		StaticData\QID.JSON = StaticData\QID.JSON
+		StaticData\SREC.JSON = StaticData\SREC.JSON
+		StaticData\TID.JSON = StaticData\TID.JSON
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
