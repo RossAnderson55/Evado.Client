@@ -1,0 +1,14 @@
+{
+  "Id": "9e4aa051-d9a5-4c68-abe3-dc1f2112ecf3",
+  "Title": "Remote Informed Consent",
+  "t": 3,
+  "a": "Evado_Clinical",
+  "o": "Informed_Consent_Remote",
+  "m": 2,
+  "prm": [
+    {
+      "n": "Page_Id",
+      "v": "Informed_Consent_Record_Page"
+    }
+  ]
+}

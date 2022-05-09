@@ -1,0 +1,14 @@
+{
+  "Id": "ebbddd93-6f35-42bd-832a-173b621cc63d",
+  "Title": "Common Record",
+  "t": 3,
+  "a": "Evado_Clinical",
+  "o": "Common_Records",
+  "m": 2,
+  "prm": [
+    {
+      "n": "Page_Id",
+      "v": "Common_Record_Page"
+    }
+  ]
+}

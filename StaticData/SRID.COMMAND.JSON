@@ -1,0 +1,14 @@
+{
+  "Id": "ebbddd93-6f35-42bd-832a-173b621cc63d",
+  "Title": "Schedule Record",
+  "t": 3,
+  "a": "Evado_Clinical",
+  "o": "Scheduled_Record",
+  "m": 2,
+  "prm": [
+    {
+      "n": "Page_Id",
+      "v": "Record_Page"
+    }
+  ]
+}
