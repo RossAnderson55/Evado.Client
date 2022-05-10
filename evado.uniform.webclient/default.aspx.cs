@@ -68,13 +68,6 @@ namespace Evado.UniForm.WebClient
     private EucSession UserSession = new EucSession ( );
 
 
-    private Guid LoginCommandId
-    {
-      get
-      {
-        return new Guid ( "5d79cd52-3c2b-407c-96d9-000000000000" );
-      }
-    }
 
     ///*********************************************************************************
     #endregion
@@ -328,7 +321,7 @@ namespace Evado.UniForm.WebClient
         //
         this.initialiseHistory ( );
 
-        this.__CommandId.Value = this.LoginCommandId.ToString ( );
+        this.__CommandId.Value = EuStatics.LoginCommandId.ToString ( );
 
         this.litPageContent.Visible = true;
         if ( Global.EnablePageHistory == true )
@@ -901,7 +894,7 @@ namespace Evado.UniForm.WebClient
       {
         Global.LogDebug ( "Send empty command to the server. " );
 
-        this.UserSession.CommandGuid = this.LoginCommandId;
+        this.UserSession.CommandGuid = EuStatics.LoginCommandId;
       }
       else
       {
@@ -1072,7 +1065,7 @@ namespace Evado.UniForm.WebClient
       try
       {
 
-        if ( CommandId == this.LoginCommandId )
+        if ( CommandId == EuStatics.LoginCommandId )
         {
           Global.LogDebug ( "Commandid = LoginCommandId return empty command." );
 
@@ -1086,7 +1079,7 @@ namespace Evado.UniForm.WebClient
         Evado.UniForm.Model.Command historyCommand = this.getHistoryCommand ( CommandId );
 
         if ( historyCommand.Id != Guid.Empty
-          && historyCommand.Id != this.LoginCommandId )
+          && historyCommand.Id != EuStatics.LoginCommandId )
         {
           Global.LogDebug ( "Return history command: " + historyCommand.Title );
           Global.LogDebugMethodEnd ( "getCommandObject" );
@@ -2411,7 +2404,7 @@ namespace Evado.UniForm.WebClient
       // If the Command identifier is empty then exit.
       //
       if ( PageCommand.Id == Guid.Empty
-        || PageCommand.Id == this.LoginCommandId )
+        || PageCommand.Id == EuStatics.LoginCommandId )
       {
         Global.LogDebug ( "The command identifier is null or login." );
 
@@ -2713,7 +2706,7 @@ namespace Evado.UniForm.WebClient
       this.UserSession.AppData.Page.Exit = new Evado.UniForm.Model.Command ( );
 
       this.litExitCommand.Text = String.Empty;
-      this.__CommandId.Value = this.LoginCommandId.ToString ( );
+      this.__CommandId.Value = EuStatics.LoginCommandId.ToString ( );
 
       //
       // display the logo if one is defined.
