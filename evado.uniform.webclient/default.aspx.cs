@@ -131,6 +131,10 @@ namespace Evado.UniForm.WebClient
             this.UserSession.PageCommand = new Evado.UniForm.Model.Command ( );
             this.UserSession.PageCommand.Id = Guid.NewGuid ( );
             this.UserSession.PageCommand.Type = Evado.UniForm.Model.CommandTypes.Network_Login_Command;
+            this.UserSession.UserId = Evado.Model.EvStatics.removeDomainName ( User.Identity.Name );
+            this.UserSession.PageCommand.AddParameter ( 
+              Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_ID, 
+              this.UserSession.UserId );
           }
         }
 
