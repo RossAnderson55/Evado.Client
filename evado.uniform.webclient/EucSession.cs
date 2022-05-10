@@ -42,6 +42,14 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     public Evado.UniForm.Model.AppData AppData = new Evado.UniForm.Model.AppData ( );
 
+    public Evado.UniForm.Model.AppData.StatusCodes ServerStatus
+    {
+      get
+      {
+        return AppData.Status;
+      }
+    }
+
     /// <summary>
     /// this field contains the current command object.
     /// </summary>

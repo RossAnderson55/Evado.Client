@@ -121,16 +121,17 @@ namespace Evado.UniForm.WebClient
         //
         if ( this.IsPostBack == true )
         {
-          this.getPageCommand ( );
+          this.getPostBackPageCommand ( );
         }
         else
         {
           //
           // Process non post back events.
           //
-          this.ReadUrlParameters ( );
+          this.GetRequestPageCommand ( );
 
-          if ( Global.AuthenticationMode == System.Web.Configuration.AuthenticationMode.Windows )
+          if ( Global.AuthenticationMode == System.Web.Configuration.AuthenticationMode.Windows
+            && this.UserSession.ServerStatus != AppData.StatusCodes.Login_Authenticated )
           {
             Global.LogDebug ( "Windows Authentication" );
 
@@ -340,6 +341,15 @@ namespace Evado.UniForm.WebClient
         }
 
         Global.LogDebug ( "END IsPostBack == FALSE " );
+      }
+
+      if ( Global.AuthenticationMode != System.Web.Configuration.AuthenticationMode.Windows )
+      {
+        Global.LogDebug ( "NOT Windows Authentication" );
+
+        this.UserSession.PageCommand = new Evado.UniForm.Model.Command ( );
+        this.UserSession.UserId = String.Empty;
+        this.UserSession.Password = String.Empty;
       }
 
       //
@@ -875,7 +885,7 @@ namespace Evado.UniForm.WebClient
     ///	
     /// </summary>
     // --------------------------------------------------------------------------------
-    public void getPageCommand ( )
+    public void getPostBackPageCommand ( )
     {
       Global.LogDebugMethod ( "getPageCommand" );
 
@@ -914,27 +924,18 @@ namespace Evado.UniForm.WebClient
 
     //==================================================================================	
     /// <summary>
-    /// this method reads in the external command parameters.
+    /// this method gets the command Id from the Request URL string.
     /// </summary>
     /// <returns>Bool: true = external command found.</returns>
     // --------------------------------------------------------------------------------
-    private bool ReadUrlParameters ( )
+    private bool GetRequestPageCommand ( )
     {
-      Global.LogDebugMethod ( "ReadUrlParameters" );
+      Global.LogDebugMethod ( "GetRequestPageCommand" );
       // 
       // Extract the URL parameters and instantiate the local variables.
       // 
       int loop1;
       string Key, Value;
-
-      if ( Global.AuthenticationMode != System.Web.Configuration.AuthenticationMode.Windows )
-      {
-        Global.LogDebug ( "NOT Windows Authentication" );
-
-        this.UserSession.PageCommand = new Evado.UniForm.Model.Command ( );
-        this.UserSession.UserId = String.Empty;
-        this.UserSession.Password = String.Empty;
-      }
 
       Global.LogDebug ( "Request.RequestType: {0}.", Request.RequestType );
       Global.LogDebug ( "Request.RequestContext: {0}.", Request.RequestContext );
@@ -1012,10 +1013,10 @@ namespace Evado.UniForm.WebClient
 
       }//END paraemter iteration loop
 
-      Global.LogDebugMethodEnd ( "ReadUrlParameters" );
+      Global.LogDebugMethodEnd ( "GetRequestPageCommand" );
       return false;
 
-    }//END ReadUrlParameters method.
+    }//END GetRequestPageCommand method.
 
     // ==================================================================================
     /// <summary>

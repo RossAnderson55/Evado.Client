@@ -150,7 +150,6 @@
   <ItemGroup>
     <None Include="css\bootstrap-theme.css.map" />
     <None Include="css\bootstrap.css.map" />
-    <None Include="evado.model.csproj" />
     <None Include="js\fonts\glyphicons-halflings-regular.eot" />
     <None Include="js\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="js\fonts\glyphicons-halflings-regular.woff" />

@@ -132,7 +132,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This string contains the relative binary upload url. 
     /// </summary>
-    public static string DefaultLogoUrl = @"/images/default_logo.jpg";
+    public static string DefaultLogoUrl = @"default_logo.jpg";
 
     /// <summary>
     /// This field contains a list of external commands.
@@ -333,6 +333,8 @@ namespace Evado.UniForm.WebClient
       }
 
       Global.LogClient ( "Static Data File Path: " + Global.StaticDataFilePath );
+
+      Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, Global.DefaultLogoUrl );
 
       if ( ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGO ] != null )
       {
