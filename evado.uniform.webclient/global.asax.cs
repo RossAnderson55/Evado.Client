@@ -334,15 +334,6 @@ namespace Evado.UniForm.WebClient
 
       Global.LogClient ( "Static Data File Path: " + Global.StaticDataFilePath );
 
-      Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, Global.DefaultLogoUrl );
-
-      if ( ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGO ] != null )
-      {
-        Global.DefaultLogoUrl = ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGO ];
-      }
-
-      Global.LogClient ( "Default Logo URL: " + Global.DefaultLogoUrl );
-
       // 
       // Set the web service URl
       // 
@@ -394,6 +385,15 @@ namespace Evado.UniForm.WebClient
       Global.RelativeBinaryUploadURL = Global.concatinateHttpUrl ( Global.WebServiceUrl, Global.RelativeBinaryUploadURL );
 
       Global.LogClient ( "Formatted RelativeBinaryUploadUR2: " + Global.RelativeBinaryUploadURL );
+
+      if ( ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGO ] != null )
+      {
+        Global.DefaultLogoUrl = ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGO ];
+      }
+
+      Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, Global.DefaultLogoUrl );
+
+      Global.LogClient ( "Default Logo URL: " + Global.DefaultLogoUrl );
 
       // 
       // Set the You tube embedded URL
