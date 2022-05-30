@@ -124,13 +124,13 @@ namespace Evado.UniForm.WebClient
           this.GetRequestPageCommand ( );
 
           if ( Global.AuthenticationMode == System.Web.Configuration.AuthenticationMode.Windows
-            && this.UserSession.ServerStatus != AppData.StatusCodes.Login_Authenticated )
+            && this.UserSession.ServerStatus != EuAppData.StatusCodes.Login_Authenticated )
           {
             Global.LogDebug ( "Windows Authentication" );
 
-            this.UserSession.PageCommand = new Evado.UniForm.Model.Command ( );
+            this.UserSession.PageCommand = new Evado.UniForm.Model.EuCommand ( );
             this.UserSession.PageCommand.Id = Guid.NewGuid ( );
-            this.UserSession.PageCommand.Type = Evado.UniForm.Model.CommandTypes.Network_Login_Command;
+            this.UserSession.PageCommand.Type = Evado.UniForm.Model.EuCommandTypes.Network_Login_Command;
             this.UserSession.UserId = Evado.Model.EvStatics.removeDomainName ( User.Identity.Name );
             this.UserSession.PageCommand.AddParameter ( 
               Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_ID, 
@@ -150,7 +150,7 @@ namespace Evado.UniForm.WebClient
         Global.LogDebug ( "PageCommand.Type: " + this.UserSession.PageCommand.Type );
         switch ( this.UserSession.PageCommand.Type )
         {
-          case Evado.UniForm.Model.CommandTypes.Anonymous_Command:
+          case Evado.UniForm.Model.EuCommandTypes.Anonymous_Command:
             {
               Global.LogDebug ( "Anonymous_Command" );
 
@@ -167,14 +167,14 @@ namespace Evado.UniForm.WebClient
               break;
 
             }
-          case Evado.UniForm.Model.CommandTypes.Network_Login_Command:
+          case Evado.UniForm.Model.EuCommandTypes.Network_Login_Command:
             {
               Global.LogDebug ( "Network Login_Command" );
 
               this.sendWindowsLoginCommand ( );
               break;
             }
-          case Evado.UniForm.Model.CommandTypes.Login_Command:
+          case Evado.UniForm.Model.EuCommandTypes.Login_Command:
             {
               Global.LogDebug ( "Login_Command" );
 
@@ -202,7 +202,7 @@ namespace Evado.UniForm.WebClient
                 //
                 // The client recieves a login request to display the login page.
                 //
-                if ( this.UserSession.AppData.Status == Evado.UniForm.Model.AppData.StatusCodes.Login_Request )
+                if ( this.UserSession.AppData.Status == Evado.UniForm.Model.EuAppData.StatusCodes.Login_Request )
                 {
                   if ( Global.AuthenticationMode == System.Web.Configuration.AuthenticationMode.Windows )
                   {
@@ -344,7 +344,7 @@ namespace Evado.UniForm.WebClient
       {
         Global.LogDebug ( "NOT Windows Authentication" );
 
-        this.UserSession.PageCommand = new Evado.UniForm.Model.Command ( );
+        this.UserSession.PageCommand = new Evado.UniForm.Model.EuCommand ( );
         this.UserSession.UserId = String.Empty;
         this.UserSession.Password = String.Empty;
       }
@@ -446,27 +446,27 @@ namespace Evado.UniForm.WebClient
       //
 
       this.UserSession.PageCommand.AddHeader (
-        Evado.UniForm.Model.CommandHeaderElements.UserId,
+        Evado.UniForm.Model.EuCommandHeaderParameters.UserId,
         this.UserSession.UserId );
 
       this.UserSession.PageCommand.AddHeader (
-        Evado.UniForm.Model.CommandHeaderElements.DeviceId,
+        Evado.UniForm.Model.EuCommandHeaderParameters.DeviceId,
         Evado.UniForm.Model.EuStatics.CONST_WEB_CLIENT );
 
       this.UserSession.PageCommand.AddHeader (
-        Evado.UniForm.Model.CommandHeaderElements.DeviceName,
+        Evado.UniForm.Model.EuCommandHeaderParameters.DeviceName,
         Evado.UniForm.Model.EuStatics.CONST_WEB_CLIENT );
 
       this.UserSession.PageCommand.AddHeader (
-        Evado.UniForm.Model.CommandHeaderElements.OSVersion,
+        Evado.UniForm.Model.EuCommandHeaderParameters.OSVersion,
         Evado.UniForm.Model.EuStatics.CONST_WEB_NET_VERSION );
 
       this.UserSession.PageCommand.AddHeader (
-        Evado.UniForm.Model.CommandHeaderElements.User_Url,
+        Evado.UniForm.Model.EuCommandHeaderParameters.User_Url,
         Request.UserHostName );
 
       this.UserSession.PageCommand.AddHeader (
-        Evado.UniForm.Model.CommandHeaderElements.DateTime,
+        Evado.UniForm.Model.EuCommandHeaderParameters.DateTime,
         DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
 
       Global.LogEvent ( "SENT: PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
@@ -529,11 +529,11 @@ namespace Evado.UniForm.WebClient
         //
         // deserialise the application data 
         //
-        this.UserSession.AppData = new Evado.UniForm.Model.AppData ( );
+        this.UserSession.AppData = new Evado.UniForm.Model.EuAppData ( );
 
-        Global.LogDebug ( "Deserialising JSON to Evado.UniForm.Model.AppData object." );
+        Global.LogDebug ( "Deserialising JSON to Evado.UniForm.Model.EuAppData object." );
 
-        this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.AppData> ( serialisedText );
+        this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.EuAppData> ( serialisedText );
 
         Global.LogDebug ( "Application object: " + this.UserSession.AppData.getAtString ( ) );
         Global.LogDebug ( "Page Command count: " + this.UserSession.AppData.Page.CommandList.Count );
@@ -572,12 +572,12 @@ namespace Evado.UniForm.WebClient
 
         EvEventLog.LogPageError ( this, Evado.Model.EvStatics.getException ( Ex ) );
 
-        this.UserSession.AppData = new Evado.UniForm.Model.AppData ( );
+        this.UserSession.AppData = new Evado.UniForm.Model.EuAppData ( );
         this.UserSession.AppData.Id = Guid.NewGuid ( );
         this.UserSession.AppData.Page.Id = this.UserSession.AppData.Id;
         this.UserSession.AppData.Page.Title = "Service Access Error.";
-        Evado.UniForm.Model.Group group = this.UserSession.AppData.Page.AddGroup (
-          "Service Access Error Report", Evado.UniForm.Model.EditAccess.Disabled );
+        Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.AddGroup (
+          "Service Access Error Report", Evado.UniForm.Model.EuEditAccess.Disabled );
 
         if ( Global.DebugLogOn == true )
         {
@@ -654,7 +654,7 @@ namespace Evado.UniForm.WebClient
     /// <returns>Field object.</returns>
     // ---------------------------------------------------------------------------------
     private void getImagePageField (
-      Evado.UniForm.Model.Field Field )
+      Evado.UniForm.Model.EuField Field )
     {
       Global.LogDebugMethod ( "getImagePageField" );
 
@@ -710,10 +710,10 @@ namespace Evado.UniForm.WebClient
       ///
       /// Define the error group.
       ///
-      Evado.UniForm.Model.Group serialisationGroup = new Evado.UniForm.Model.Group ( "Serialisation", String.Empty, Evado.UniForm.Model.EditAccess.Disabled );
-      serialisationGroup.Layout = Evado.UniForm.Model.GroupLayouts.Full_Width;
+      Evado.UniForm.Model.EuGroup serialisationGroup = new Evado.UniForm.Model.EuGroup ( "Serialisation", String.Empty, Evado.UniForm.Model.EuEditAccess.Disabled );
+      serialisationGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-      serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.AppData> ( this.UserSession.AppData );
+      serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.EuAppData> ( this.UserSession.AppData );
 
       /// 
       /// Open the stream to the file.
@@ -725,9 +725,9 @@ namespace Evado.UniForm.WebClient
       }/// End StreamWrite
 
 
-      Evado.UniForm.Model.Field groupField = serialisationGroup.createHtmlLinkField ( "lnkxmllad", "XML Serialised Application Data Object", "temp/serialised_application_data.xml" );
+      Evado.UniForm.Model.EuField groupField = serialisationGroup.createHtmlLinkField ( "lnkxmllad", "XML Serialised Application Data Object", "temp/serialised_application_data.xml" );
 
-      serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.Command> ( this.UserSession.PageCommand );
+      serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.EuCommand> ( this.UserSession.PageCommand );
 
       // 
       // Open the stream to the file.
@@ -798,7 +798,7 @@ namespace Evado.UniForm.WebClient
 
         this.generateGroupHeader ( sbHtml, serialisationGroup, false );
 
-        foreach ( Evado.UniForm.Model.Field pageField in serialisationGroup.FieldList )
+        foreach ( Evado.UniForm.Model.EuField pageField in serialisationGroup.FieldList )
         {
           if ( pageField.Type == Evado.Model.EvDataTypes.Http_Link )
           {
@@ -972,7 +972,7 @@ namespace Evado.UniForm.WebClient
 
         if ( Global.ExternalCommands.ContainsKey ( parameter ) == true )
         {
-          Evado.UniForm.Model.Command command = Global.ExternalCommands [ parameter ];
+          Evado.UniForm.Model.EuCommand command = Global.ExternalCommands [ parameter ];
           Guid guid = Evado.Model.EvStatics.getGuid ( Value );
 
           Global.LogDebug ( string.Format ( "Guid: {0} ", guid ) );
@@ -1062,7 +1062,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="CommandId">GUID: Id for the Command to be retrieved</param>
     /// <returns>CliemtPageCommand object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.Command getCommandObject ( Guid CommandId )
+    private Evado.UniForm.Model.EuCommand getCommandObject ( Guid CommandId )
     {
       Global.LogDebugMethod ( "getCommandObject" );
       Global.LogDebug ( "CommandId: " + CommandId );
@@ -1074,13 +1074,13 @@ namespace Evado.UniForm.WebClient
           Global.LogDebug ( "Commandid = LoginCommandId return empty command." );
 
           Global.LogDebugMethodEnd ( "getCommandObject" );
-          return new Evado.UniForm.Model.Command ( );
+          return new Evado.UniForm.Model.EuCommand ( );
         }
 
         //
         // Look for a history Command.
         //
-        Evado.UniForm.Model.Command historyCommand = this.getHistoryCommand ( CommandId );
+        Evado.UniForm.Model.EuCommand historyCommand = this.getHistoryCommand ( CommandId );
 
         if ( historyCommand.Id != Guid.Empty
           && historyCommand.Id != EuStatics.LoginCommandId )
@@ -1107,7 +1107,7 @@ namespace Evado.UniForm.WebClient
         //
         // Iterate through the list to find the correct Command.
         //
-        foreach ( Evado.UniForm.Model.Command command in this.UserSession.AppData.Page.CommandList )
+        foreach ( Evado.UniForm.Model.EuCommand command in this.UserSession.AppData.Page.CommandList )
         {
 
           if ( command.Id == CommandId )
@@ -1121,12 +1121,12 @@ namespace Evado.UniForm.WebClient
         //
         // Iterate through the list group to find the correct Command.
         //
-        foreach ( Evado.UniForm.Model.Group group in this.UserSession.AppData.Page.GroupList )
+        foreach ( Evado.UniForm.Model.EuGroup group in this.UserSession.AppData.Page.GroupList )
         {
           //
           // Iterate through the list to find the correct Command.
           //
-          foreach ( Evado.UniForm.Model.Command command in group.CommandList )
+          foreach ( Evado.UniForm.Model.EuCommand command in group.CommandList )
           {
             Global.LogDebug ( "Group {0}, command: id {1} - {2}", group.Title, command.Id, command.Title );
 
@@ -1149,7 +1149,7 @@ namespace Evado.UniForm.WebClient
       Global.LogDebug ( "No command found." );
       Global.LogDebugMethodEnd ( "getCommandObject" );
 
-      return new Evado.UniForm.Model.Command ( );
+      return new Evado.UniForm.Model.EuCommand ( );
 
     }//END getCommand method
 
@@ -1170,9 +1170,9 @@ namespace Evado.UniForm.WebClient
       // If the Command method is to upate the page then update the data object with 
       // Page field values.
       //
-      if ( this.UserSession.PageCommand.Method != Evado.UniForm.Model.ApplicationMethods.Save_Object
-        && this.UserSession.PageCommand.Method != Evado.UniForm.Model.ApplicationMethods.Delete_Object
-        && this.UserSession.PageCommand.Method != Evado.UniForm.Model.ApplicationMethods.Custom_Method )
+      if ( this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Save_Object
+        && this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Delete_Object
+        && this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Custom_Method )
       {
         return;
       }
@@ -1232,15 +1232,15 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the test fields updating the fields that have changed.
       // 
-      foreach ( Evado.UniForm.Model.Group group in this.UserSession.AppData.Page.GroupList )
+      foreach ( Evado.UniForm.Model.EuGroup group in this.UserSession.AppData.Page.GroupList )
       {
         //
         // Set the group edit access for inherited edit access.
         //
-        if ( this.UserSession.AppData.Page.EditAccess == Evado.UniForm.Model.EditAccess.Enabled
-          && group.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
+        if ( this.UserSession.AppData.Page.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled
+          && group.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
         {
-          group.EditAccess = Evado.UniForm.Model.EditAccess.Enabled;
+          group.EditAccess = Evado.UniForm.Model.EuEditAccess.Enabled;
         }
 
         for ( int count = 0; count < group.FieldList.Count; count++ )
@@ -1293,8 +1293,8 @@ namespace Evado.UniForm.WebClient
         //
         // Skip all non annotation and returned field values.
         //
-        if ( aKeys [ loop1 ].Contains ( Evado.UniForm.Model.Field.CONST_FIELD_QUERY_SUFFIX ) == false
-          && aKeys [ loop1 ].Contains ( Evado.UniForm.Model.Field.CONST_FIELD_ANNOTATION_SUFFIX ) == false )
+        if ( aKeys [ loop1 ].Contains ( Evado.UniForm.Model.EuField.CONST_FIELD_QUERY_SUFFIX ) == false
+          && aKeys [ loop1 ].Contains ( Evado.UniForm.Model.EuField.CONST_FIELD_ANNOTATION_SUFFIX ) == false )
         {
           continue;
         }
@@ -1395,10 +1395,10 @@ namespace Evado.UniForm.WebClient
     /// <param name="FormState">Current FormRecord state</param>
     /// <returns>Returns a Field object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.Field updateFormField (
-      Evado.UniForm.Model.Field FormField,
+    private Evado.UniForm.Model.EuField updateFormField (
+      Evado.UniForm.Model.EuField FormField,
       NameValueCollection ReturnedFormFields,
-      Evado.UniForm.Model.EditAccess GroupStatus )
+      Evado.UniForm.Model.EuEditAccess GroupStatus )
     {
       Global.LogDebugMethod ( "updateFormField" );
       Global.LogDebug ( "FormField.DataId: " + FormField.FieldId );
@@ -1414,10 +1414,10 @@ namespace Evado.UniForm.WebClient
       string stQuery = String.Empty;
       string stAssessmentStatus = String.Empty;
 
-      if ( GroupStatus == Evado.UniForm.Model.EditAccess.Enabled
-        && FormField.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
+      if ( GroupStatus == Evado.UniForm.Model.EuEditAccess.Enabled
+        && FormField.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
       {
-        FormField.EditAccess = Evado.UniForm.Model.EditAccess.Enabled;
+        FormField.EditAccess = Evado.UniForm.Model.EuEditAccess.Enabled;
       }
 
       //
@@ -1434,7 +1434,7 @@ namespace Evado.UniForm.WebClient
       // 
       // If the test is in EDIT mode update the fields values.
       // 
-      if ( FormField.EditAccess == Evado.UniForm.Model.EditAccess.Enabled )
+      if ( FormField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
       {
         //
         // If field type is a single value update it 
@@ -1483,8 +1483,8 @@ namespace Evado.UniForm.WebClient
               // 
               // Iterate through the option list to compare values.
               // 
-              string httpUrl = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + Field.CONST_HTTP_URL_FIELD_SUFFIX );
-              string httpTitle = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + Field.CONST_HTTP_TITLE_FIELD_SUFFIX );
+              string httpUrl = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX );
+              string httpTitle = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX );
 
               Global.LogDebug ( "httpUrl:" + httpUrl + " httpTitle:" + httpTitle );
 
@@ -1818,8 +1818,8 @@ namespace Evado.UniForm.WebClient
     /// <param name="ReturnedFormFields">Containing the returned formfield values.</param>
     /// <returns>Returns a EvFormField object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.Field updateFormTableFields (
-      Evado.UniForm.Model.Field FormField,
+    private Evado.UniForm.Model.EuField updateFormTableFields (
+      Evado.UniForm.Model.EuField FormField,
       NameValueCollection ReturnedFormFields )
     {
       Global.LogMethod ( "updateFormTableFields method." );
@@ -2063,7 +2063,7 @@ namespace Evado.UniForm.WebClient
         // Retrieve the UniFORM field id.
         // 
         String stFieldId = requestFieldName;
-        int index = stFieldId.LastIndexOf ( Evado.UniForm.Model.Field.CONST_IMAGE_FIELD_SUFFIX );
+        int index = stFieldId.LastIndexOf ( Evado.UniForm.Model.EuField.CONST_IMAGE_FIELD_SUFFIX );
         stFieldId = stFieldId.Substring ( 0, index );
         Global.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
 
@@ -2181,14 +2181,14 @@ namespace Evado.UniForm.WebClient
     /// <param name="DataId">String: The html field Id.</param>
     /// <returns>Field object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.Field getField ( String DataId )
+    private Evado.UniForm.Model.EuField getField ( String DataId )
     {
       //
       // Iterate through the page groups and fields to find the matching field.
       //
-      foreach ( Evado.UniForm.Model.Group group in this.UserSession.AppData.Page.GroupList )
+      foreach ( Evado.UniForm.Model.EuGroup group in this.UserSession.AppData.Page.GroupList )
       {
-        foreach ( Evado.UniForm.Model.Field field in group.FieldList )
+        foreach ( Evado.UniForm.Model.EuField field in group.FieldList )
         {
           String stDataId = field.FieldId;
 
@@ -2226,20 +2226,20 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the methods variables and objects.
       //
-      Evado.UniForm.Model.EditAccess fieldStatus = Evado.UniForm.Model.EditAccess.Disabled;
-      Evado.UniForm.Model.EditAccess groupStatus = Evado.UniForm.Model.EditAccess.Disabled;
+      Evado.UniForm.Model.EuEditAccess fieldStatus = Evado.UniForm.Model.EuEditAccess.Disabled;
+      Evado.UniForm.Model.EuEditAccess groupStatus = Evado.UniForm.Model.EuEditAccess.Disabled;
 
       //
       // Iterate through the page groups and fields to find the matching field.
       //
-      foreach ( Evado.UniForm.Model.Group group in this.UserSession.AppData.Page.GroupList )
+      foreach ( Evado.UniForm.Model.EuGroup group in this.UserSession.AppData.Page.GroupList )
       {
         //
         // Set the edit access.
         //
         groupStatus = group.EditAccess;
 
-        if ( group.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
+        if ( group.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
         {
           groupStatus = this.UserSession.AppData.Page.EditAccess;
         }
@@ -2247,14 +2247,14 @@ namespace Evado.UniForm.WebClient
         //
         // Iterat through the group fields.
         //
-        foreach ( Evado.UniForm.Model.Field field in group.FieldList )
+        foreach ( Evado.UniForm.Model.EuField field in group.FieldList )
         {
           //
           // Set the edit access.
           //
           fieldStatus = field.EditAccess;
 
-          if ( field.EditAccess == Evado.UniForm.Model.EditAccess.Inherited )
+          if ( field.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
           {
             fieldStatus = groupStatus;
           }
@@ -2320,7 +2320,7 @@ namespace Evado.UniForm.WebClient
     /// This method updates the Command parameters with field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void updateWebPageCommandTableObject ( Evado.UniForm.Model.Field field )
+    private void updateWebPageCommandTableObject ( Evado.UniForm.Model.EuField field )
     {
       //
       // Iterate through the rows in the table.
@@ -2365,8 +2365,8 @@ namespace Evado.UniForm.WebClient
       //
       // Initialise the home page Command.
       //
-      Evado.UniForm.Model.Command homePageCommand = new Evado.UniForm.Model.Command ( );
-      this.UserSession.CommandHistoryList = new List<Evado.UniForm.Model.Command> ( );
+      Evado.UniForm.Model.EuCommand homePageCommand = new Evado.UniForm.Model.EuCommand ( );
+      this.UserSession.CommandHistoryList = new List<Evado.UniForm.Model.EuCommand> ( );
 
     }//END initialiseCommandHistoryList method.
 
@@ -2377,7 +2377,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageCommand">ClientPageCommand object</param>
     // ---------------------------------------------------------------------------------
     public void addHistoryCommand (
-      Evado.UniForm.Model.Command PageCommand )
+      Evado.UniForm.Model.EuCommand PageCommand )
     {
       Global.LogDebugMethod ( "addHistoryCommand" );
 
@@ -2419,23 +2419,23 @@ namespace Evado.UniForm.WebClient
       // If the method is to update a value then we need to undertake process processing after 
       // the method has been processed to return the user to the exit page.
       //
-      if ( PageCommand.Method != Evado.UniForm.Model.ApplicationMethods.Null
-        && PageCommand.Method != Evado.UniForm.Model.ApplicationMethods.Get_Object
-        && PageCommand.Method != Evado.UniForm.Model.ApplicationMethods.List_of_Objects )
+      if ( PageCommand.Method != Evado.UniForm.Model.EuMethods.Null
+        && PageCommand.Method != Evado.UniForm.Model.EuMethods.Get_Object
+        && PageCommand.Method != Evado.UniForm.Model.EuMethods.List_of_Objects )
       {
         Global.LogDebug ( "No commands added to the list" );
 
         return;
       }
 
-      if ( PageCommand.Type == Evado.UniForm.Model.CommandTypes.Login_Command
-        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Logout_Command
-        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Meeting_Command
-        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Anonymous_Command
-        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Register_Device_Client
-        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Offline_Command
-        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Synchronise_Add
-        || PageCommand.Type == Evado.UniForm.Model.CommandTypes.Synchronise_Save )
+      if ( PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Login_Command
+        || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Logout_Command
+        || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Meeting_Command
+        || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Anonymous_Command
+        || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Register_Device_Client
+        || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Offline_Command
+        || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Synchronise_Add
+        || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Synchronise_Save )
       {
         Global.LogDebug ( "Not a command that has a history. i.e." + PageCommand.Type );
 
@@ -2463,7 +2463,7 @@ namespace Evado.UniForm.WebClient
       //
       // Empty the header values as they are set by the client.
       //
-      PageCommand.Header = new List<Evado.UniForm.Model.Parameter> ( );
+      PageCommand.Header = new List<Evado.UniForm.Model.EuParameter> ( );
 
       //
       // If they do not match add the new previous page Command to the list.
@@ -2483,7 +2483,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageCommand">ClientPageCommand object: containing the groupCommand that 
     /// is called on web service</param>
     // ----------------------------------------------------------------------------------
-    private void formatCommandTitle ( Evado.UniForm.Model.Command PageCommand )
+    private void formatCommandTitle ( Evado.UniForm.Model.EuCommand PageCommand )
     {
       Global.LogDebugMethod ( "formCommandTitle" );
       Global.LogDebug ( "PageCommand.Title:" + PageCommand.Title );
@@ -2539,12 +2539,12 @@ namespace Evado.UniForm.WebClient
     /// <param name="Command">Guid Command identifer</param>
     /// <returns>ClientPageCommand</returns>
     // ---------------------------------------------------------------------------------
-    public Evado.UniForm.Model.Command getHistoryCommand (
+    public Evado.UniForm.Model.EuCommand getHistoryCommand (
       Guid CommandId )
     {
       Global.LogDebugMethod ( "getHistoryCommand" );
       Global.LogDebug ( "CommandId: " + CommandId );
-      Evado.UniForm.Model.Command command = new Evado.UniForm.Model.Command ( );
+      Evado.UniForm.Model.EuCommand command = new Evado.UniForm.Model.EuCommand ( );
 
       //
       // Iterate through the list of Command history.
@@ -2597,7 +2597,7 @@ namespace Evado.UniForm.WebClient
       Guid CommandId )
     {
       Global.LogDebugMethod ( "deleteHistoryCommand method. Identifier: " + CommandId );
-      Evado.UniForm.Model.Command command = new Evado.UniForm.Model.Command ( );
+      Evado.UniForm.Model.EuCommand command = new Evado.UniForm.Model.EuCommand ( );
 
       //
       // Iterate through the list of Command history.
@@ -2707,7 +2707,7 @@ namespace Evado.UniForm.WebClient
       this.litHistory.Visible = false;
       this.litPageMenu.Visible = false;
 
-      this.UserSession.AppData.Page.Exit = new Evado.UniForm.Model.Command ( );
+      this.UserSession.AppData.Page.Exit = new Evado.UniForm.Model.EuCommand ( );
 
       this.litExitCommand.Text = String.Empty;
       this.__CommandId.Value = EuStatics.LoginCommandId.ToString ( );
@@ -2857,11 +2857,11 @@ namespace Evado.UniForm.WebClient
       //
       // Create a page object.
       //
-      this.UserSession.PageCommand = new Evado.UniForm.Model.Command ( "Login",
-        Evado.UniForm.Model.CommandTypes.Network_Login_Command,
+      this.UserSession.PageCommand = new Evado.UniForm.Model.EuCommand ( "Login",
+        Evado.UniForm.Model.EuCommandTypes.Network_Login_Command,
         "Default",
         "Default",
-        Evado.UniForm.Model.ApplicationMethods.Null );
+        Evado.UniForm.Model.EuMethods.Null );
 
       this.UserSession.PageCommand.AddParameter ( Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_ID, this.UserSession.UserId );
       this.UserSession.PageCommand.AddParameter ( Evado.UniForm.Model.EuStatics.PARAMETER_NETWORK_ROLES, roles );
@@ -2909,13 +2909,13 @@ namespace Evado.UniForm.WebClient
       //
       // Create login command if it has not already been loaded.
       //
-      if ( this.UserSession.PageCommand.Type != Evado.UniForm.Model.CommandTypes.Login_Command )
+      if ( this.UserSession.PageCommand.Type != Evado.UniForm.Model.EuCommandTypes.Login_Command )
       {
-        this.UserSession.PageCommand = new Evado.UniForm.Model.Command ( "Login",
-          Evado.UniForm.Model.CommandTypes.Login_Command,
+        this.UserSession.PageCommand = new Evado.UniForm.Model.EuCommand ( "Login",
+          Evado.UniForm.Model.EuCommandTypes.Login_Command,
           "Default",
           "Default",
-          Evado.UniForm.Model.ApplicationMethods.Null );
+          Evado.UniForm.Model.EuMethods.Null );
       }
 
       this.UserSession.PageCommand.AddParameter ( Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_ID, UserId );
@@ -2933,7 +2933,7 @@ namespace Evado.UniForm.WebClient
       //
       // If the login is validated then display the home page.
       //
-      if ( this.UserSession.AppData.Status == Evado.UniForm.Model.AppData.StatusCodes.Login_Failed )
+      if ( this.UserSession.AppData.Status == Evado.UniForm.Model.EuAppData.StatusCodes.Login_Failed )
       {
         this.litLoginError.Text = "<p>" + this.UserSession.AppData.Message + "</p>";
         this.litLoginError.Visible = true;
@@ -2944,7 +2944,7 @@ namespace Evado.UniForm.WebClient
         return;
       }
       else
-        if ( this.UserSession.AppData.Status == Evado.UniForm.Model.AppData.StatusCodes.Login_Count_Exceeded )
+        if ( this.UserSession.AppData.Status == Evado.UniForm.Model.EuAppData.StatusCodes.Login_Count_Exceeded )
         {
           this.litLoginError.Text = "<p>" + this.UserSession.AppData.Message + "</p>";
           this.litLoginError.Visible = true;
@@ -2990,11 +2990,11 @@ namespace Evado.UniForm.WebClient
       //
       // Create a page object.
       //
-      this.UserSession.PageCommand = new Evado.UniForm.Model.Command ( "Logout",
-        Evado.UniForm.Model.CommandTypes.Logout_Command,
+      this.UserSession.PageCommand = new Evado.UniForm.Model.EuCommand ( "Logout",
+        Evado.UniForm.Model.EuCommandTypes.Logout_Command,
         "Default",
         "Default",
-        Evado.UniForm.Model.ApplicationMethods.Null );
+        Evado.UniForm.Model.EuMethods.Null );
 
       //
       // get a Command object from the server.

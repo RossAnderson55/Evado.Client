@@ -137,7 +137,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This field contains a list of external commands.
     /// </summary>
-    public static Dictionary<String, Evado.UniForm.Model.Command> ExternalCommands = new Dictionary<String, Evado.UniForm.Model.Command> ( );
+    public static Dictionary<String, Evado.UniForm.Model.EuCommand> ExternalCommands = new Dictionary<String, Evado.UniForm.Model.EuCommand> ( );
 
     /// <summary>
     /// This boolean enables the debug display.
@@ -539,7 +539,7 @@ namespace Evado.UniForm.WebClient
       String extension = Global.CONST_EXTERNAL_COMMAND_EXTENSION;
       Global.LogClient ( "extension '{0}'.", extension );
 
-      Global.ExternalCommands = new Dictionary<string, Model.Command> ( );
+      Global.ExternalCommands = new Dictionary<string, Model.EuCommand> ( );
 
       if ( Global.StaticDataFilePath != String.Empty )
       {
@@ -552,7 +552,7 @@ namespace Evado.UniForm.WebClient
         //
         foreach ( String fileName in fileNames )
         {
-          Evado.UniForm.Model.Command newCommand = Evado.Model.EvStatics.Files.readJsonFile<Evado.UniForm.Model.Command> (
+          Evado.UniForm.Model.EuCommand newCommand = Evado.Model.EvStatics.Files.readJsonFile<Evado.UniForm.Model.EuCommand> (
             Global.StaticDataFilePath, fileName );
 
           String commandKey = fileName.Replace ( extension, String.Empty );

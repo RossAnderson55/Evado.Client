@@ -40,9 +40,9 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This field contains the current application data object.
     /// </summary>
-    public Evado.UniForm.Model.AppData AppData = new Evado.UniForm.Model.AppData ( );
+    public Evado.UniForm.Model.EuAppData AppData = new Evado.UniForm.Model.EuAppData ( );
 
-    public Evado.UniForm.Model.AppData.StatusCodes ServerStatus
+    public Evado.UniForm.Model.EuAppData.StatusCodes ServerStatus
     {
       get
       {
@@ -53,17 +53,17 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// this field contains the current command object.
     /// </summary>
-    public Evado.UniForm.Model.Command PageCommand = new Evado.UniForm.Model.Command ( );
+    public Evado.UniForm.Model.EuCommand PageCommand = new Evado.UniForm.Model.EuCommand ( );
 
     /// <summary>
     /// This field conaints the retrieved exteral command object.
     /// </summary>
-    public Evado.UniForm.Model.Command ExternalCommand = null;
+    public Evado.UniForm.Model.EuCommand ExternalCommand = null;
 
     /// <summary>
     /// This field contains the list of command history for this user.
     /// </summary>
-    public List<Evado.UniForm.Model.Command> CommandHistoryList = new List<Evado.UniForm.Model.Command> ( );
+    public List<Evado.UniForm.Model.EuCommand> CommandHistoryList = new List<Evado.UniForm.Model.EuCommand> ( );
 
     /// <summary>
     /// This field contains the user server cookie container
@@ -88,7 +88,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This field contains the current group object.
     /// </summary>
-    public Evado.UniForm.Model.Group CurrentGroup = new Evado.UniForm.Model.Group ( );
+    public Evado.UniForm.Model.EuGroup CurrentGroup = new Evado.UniForm.Model.EuGroup ( );
 
     /// <summary>
     /// This field defines the group field width as a percentage of the page width.
