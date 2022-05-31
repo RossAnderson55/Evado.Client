@@ -217,13 +217,13 @@ namespace Evado.UniForm.WebClient
         Global._DebuLog = new System.Text.StringBuilder ( );
         Global.ApplicationPath = HttpRuntime.AppDomainAppPath;
 
-        Global.LogMethod ( "Evado.UniForm.Service.Global.Application_OnStart event method STARTED. " );
-        Global.LogDebug ( "Startup Log:" );
+        Global.LogGlobalMethod ( "Application_OnStart event" );
+        Global.LogGlobalDebug ( "Startup Log:" );
 
-        Global.LogDebug ( "eventLogSource: " + Global.EventLogSource );
+        Global.LogGlobalDebug ( "eventLogSource: " + Global.EventLogSource );
 
         Global.ApplicationPath = HttpRuntime.AppDomainAppPath;
-        Global.LogDebug ( "Application path: " + Global.ApplicationPath );
+        Global.LogGlobalDebug ( "Application path: " + Global.ApplicationPath );
 
         //
         // Load the Application Environmental parameters for the application.
@@ -232,7 +232,7 @@ namespace Evado.UniForm.WebClient
 
         Global.TempPath = Global.ApplicationPath + @"temp\";
 
-        Global.LogDebug ( "TempPath: " + Global.TempPath );
+        Global.LogGlobalDebug ( "TempPath: " + Global.TempPath );
 
 
         //
@@ -253,16 +253,16 @@ namespace Evado.UniForm.WebClient
         // Log the authentication mode
         // 
         Global.AuthenticationMode = section.Mode;
-        Global.LogDebug ( "Authentication Type: " + Global.AuthenticationMode );
+        Global.LogGlobalDebug ( "Authentication Type: " + Global.AuthenticationMode );
 
         //
         // Load the web configuration values.
         //
         this.LoadConfigurationValues ( );
 
-        Global.LogClient ( "Copyright: " + Global.AssemblyAttributes.Copyright );
+        Global.LogGlobal ( "Copyright: " + Global.AssemblyAttributes.Copyright );
 
-        Global.LogDebug ( "Version: " + Global.AssemblyAttributes.FullVersion + Global.DevStage );
+        Global.LogGlobalDebug ( "Version: " + Global.AssemblyAttributes.FullVersion + Global.DevStage );
 
         this.LoadExternalCommands ( );
 
@@ -275,7 +275,7 @@ namespace Evado.UniForm.WebClient
 
         Evado.Model.EvStatics.Files.DeleteUserPageStateFiles ( viewStatePath );
 
-        Global.LogDebug ( "Delete View State Files: " + Evado.Model.EvStatics.Files.Log );
+        Global.LogGlobalDebug ( "Delete View State Files: " + Evado.Model.EvStatics.Files.Log );
         // 
         // Log the start up log.
         // 
@@ -286,7 +286,7 @@ namespace Evado.UniForm.WebClient
       }
       catch ( Exception Ex )
       {
-        Global.LogDebug ( "Application Startup error.\r\n" + Ex.ToString ( ) );
+        Global.LogGlobalDebug ( "Application Startup error.\r\n" + Ex.ToString ( ) );
 
         EventLog.WriteEntry ( EventLogSource, Global._ClientLog.ToString ( ), EventLogEntryType.Error );
 
@@ -305,6 +305,7 @@ namespace Evado.UniForm.WebClient
     // -----------------------------------------------------------------------------------
     private void LoadConfigurationValues ( )
     {
+      Global.LogGlobalMethod ( "LoadConfigurationValues" );
 
       //
       // Set the application log path  LogPath
@@ -325,14 +326,14 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      Global.LogClient ( "Log file path: " + Global.LogFilePath );
+      Global.LogGlobal ( "Log file path: " + Global.LogFilePath );
 
       if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_STATIC_FILE_PATH_KEY ] != null )
       {
         Global.StaticDataFilePath = ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_STATIC_FILE_PATH_KEY ];
       }
 
-      Global.LogClient ( "Static Data File Path: " + Global.StaticDataFilePath );
+      Global.LogGlobal ( "Static Data File Path: " + Global.StaticDataFilePath );
 
       // 
       // Set the web service URl
@@ -342,7 +343,7 @@ namespace Evado.UniForm.WebClient
         Global.WebServiceUrl = (String) ConfigurationManager.AppSettings [ "WebServiceUrl" ].Trim ( );
       }
 
-      Global.LogClient ( "WebServiceUrl: " + Global.WebServiceUrl );
+      Global.LogGlobal ( "WebServiceUrl: " + Global.WebServiceUrl );
 
       //
       // Set teh application log path
@@ -351,12 +352,12 @@ namespace Evado.UniForm.WebClient
       {
         Global.RelativeWcfRestURL = ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ];
       }
-      Global.LogClient ( "RelativeWcfRestURL: " + Global.RelativeBinaryDownloadURL );
+      Global.LogGlobal ( "RelativeWcfRestURL: " + Global.RelativeBinaryDownloadURL );
 
       Global.RelativeBinaryDownloadURL = Global.concatinateHttpUrl ( Global.WebServiceUrl, Global.RelativeBinaryDownloadURL );
 
 
-      Global.LogClient ( "Formatted RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
+      Global.LogGlobal ( "Formatted RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
 
       //
       // Set teh application log path
@@ -366,11 +367,11 @@ namespace Evado.UniForm.WebClient
         Global.RelativeBinaryDownloadURL = ConfigurationManager.AppSettings [ "RelativeBinaryDownloadURL" ].Trim ( );
       }
 
-      Global.LogClient ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
+      Global.LogGlobal ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
 
       Global.RelativeBinaryDownloadURL = Global.concatinateHttpUrl ( Global.WebServiceUrl, Global.RelativeBinaryDownloadURL );
 
-      Global.LogClient ( "Formatted RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
+      Global.LogGlobal ( "Formatted RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
 
       // 
       // Set the binary file url
@@ -380,11 +381,11 @@ namespace Evado.UniForm.WebClient
         Global.RelativeBinaryUploadURL = ConfigurationManager.AppSettings [ "RelativeBinaryUploadURL" ].Trim ( );
       }
 
-      Global.LogClient ( "RelativeBinaryUploadURL: " + Global.RelativeBinaryUploadURL );
+      Global.LogGlobal ( "RelativeBinaryUploadURL: " + Global.RelativeBinaryUploadURL );
 
       Global.RelativeBinaryUploadURL = Global.concatinateHttpUrl ( Global.WebServiceUrl, Global.RelativeBinaryUploadURL );
 
-      Global.LogClient ( "Formatted RelativeBinaryUploadUR2: " + Global.RelativeBinaryUploadURL );
+      Global.LogGlobal ( "Formatted RelativeBinaryUploadUR2: " + Global.RelativeBinaryUploadURL );
 
       if ( ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGO ] != null )
       {
@@ -393,7 +394,7 @@ namespace Evado.UniForm.WebClient
 
       Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, Global.DefaultLogoUrl );
 
-      Global.LogClient ( "Default Logo URL: " + Global.DefaultLogoUrl );
+      Global.LogGlobal ( "Default Logo URL: " + Global.DefaultLogoUrl );
 
       // 
       // Set the You tube embedded URL
@@ -403,7 +404,7 @@ namespace Evado.UniForm.WebClient
         Global.VimeoEmbeddedUrl = ConfigurationManager.AppSettings [ "VIMEO_EMBED_URL" ].Trim ( );
       }
 
-      Global.LogClient ( "VimeoEmbeddedUrl: " + Global.VimeoEmbeddedUrl );
+      Global.LogGlobal ( "VimeoEmbeddedUrl: " + Global.VimeoEmbeddedUrl );
 
       // 
       // Set the Vimeo embedded URL
@@ -413,7 +414,7 @@ namespace Evado.UniForm.WebClient
         Global.YouTubeEmbeddedUrl = ConfigurationManager.AppSettings [ "YOU_TUBE_EMBED_URL" ].Trim ( );
       }
 
-      Global.LogClient ( "YourtubeEmbeddedUrl: " + Global.YouTubeEmbeddedUrl );
+      Global.LogGlobal ( "YourtubeEmbeddedUrl: " + Global.YouTubeEmbeddedUrl );
 
       // 
       // Set the debug mode.
@@ -426,7 +427,7 @@ namespace Evado.UniForm.WebClient
           Global.EnableDetailedLogging = true;
         }
       }
-      Global.LogClient ( "EnableDetailedLogging: " + Global.EnableDetailedLogging );
+      Global.LogGlobal ( "EnableDetailedLogging: " + Global.EnableDetailedLogging );
 
       // 
       // Set the debug mode.
@@ -439,7 +440,7 @@ namespace Evado.UniForm.WebClient
           Global.DebugLogOn = true;
         }
       }
-      Global.LogClient ( "DebugLogOn: " + Global.DebugLogOn );
+      Global.LogGlobal ( "DebugLogOn: " + Global.DebugLogOn );
       // 
       // Set the debug mode.
       // 
@@ -450,7 +451,7 @@ namespace Evado.UniForm.WebClient
           Global.DebugDisplayOn = true;
         }
       }
-      Global.LogClient ( "DebugDisplayOn: " + Global.DebugDisplayOn );
+      Global.LogGlobal ( "DebugDisplayOn: " + Global.DebugDisplayOn );
 
       if ( ConfigurationManager.AppSettings [ "JavaDebug" ] != null )
       {
@@ -459,7 +460,7 @@ namespace Evado.UniForm.WebClient
           Global.JavaDebug = true;
         }
       }
-      Global.LogClient ( "JavaDebug: " + Global.JavaDebug );
+      Global.LogGlobal ( "JavaDebug: " + Global.JavaDebug );
 
       if ( ConfigurationManager.AppSettings [ "DisplaySerialisation" ] != null )
       {
@@ -468,7 +469,7 @@ namespace Evado.UniForm.WebClient
           Global.DisplaySerialisation = true;
         }
       }
-      Global.LogClient ( "DisplaySerialisation: " + Global.DisplaySerialisation );
+      Global.LogGlobal ( "DisplaySerialisation: " + Global.DisplaySerialisation );
 
       // 
       // Set the web service URlCONFIG_ENABLE_PAGE_HISTORY_KEY
@@ -480,7 +481,7 @@ namespace Evado.UniForm.WebClient
         Global.EnablePageMenu = Evado.Model.EvStatics.getBool ( value );
       }
 
-      Global.LogClient ( "EnablePageMenu: " + Global.EnablePageMenu );
+      Global.LogGlobal ( "EnablePageMenu: " + Global.EnablePageMenu );
 
       // Set the web service URl
       // 
@@ -491,7 +492,7 @@ namespace Evado.UniForm.WebClient
         Global.EnablePageHistory = Evado.Model.EvStatics.getBool ( value );
       }
 
-      Global.LogClient ( "EnablePageHistory: " + Global.EnablePageHistory );
+      Global.LogGlobal ( "EnablePageHistory: " + Global.EnablePageHistory );
 
 
       // 
@@ -504,14 +505,14 @@ namespace Evado.UniForm.WebClient
           Global.EnableDatePicker = true;
         }
       }
-      Global.LogClient ( "EnableDatePicker: " + Global.EnableDatePicker );
+      Global.LogGlobal ( "EnableDatePicker: " + Global.EnableDatePicker );
 
       //
       // Set the application Version
       //
       Global.ClientVersion = "V" + AssemblyAttributes.MinorVersion.Replace ( ".", "_" );
 
-      Global.LogClient ( "ClientVersion: " + Global.ClientVersion );
+      Global.LogGlobal ( "ClientVersion: " + Global.ClientVersion );
 
       // 
       // Define the database error message suffix.
@@ -520,8 +521,9 @@ namespace Evado.UniForm.WebClient
       {
         Global.TitlePrefix = ConfigurationManager.AppSettings [ "TitlePrefix" ];
       }
-      Global.LogClient ( "TitlePrefix: " + Global.TitlePrefix );
+      Global.LogGlobal ( "TitlePrefix: " + Global.TitlePrefix );
 
+      Global.LogMethodEnd ( "LoadConfigurationValues" );
     }
 
     // ==================================================================================
@@ -531,13 +533,13 @@ namespace Evado.UniForm.WebClient
     // -----------------------------------------------------------------------------------
     private void LoadExternalCommands ( )
     {
-      Global.LogMethod ( "LoadExternalCommands" );
-      Global.LogClient ( "Static Data File Path '{0}'.", Global.StaticDataFilePath );
+      Global.LogGlobalMethod ( "LoadExternalCommands" );
+      Global.LogGlobal ( "Static Data File Path '{0}'.", Global.StaticDataFilePath );
       //
       // initialise the methods variables and objects.
       //
       String extension = Global.CONST_EXTERNAL_COMMAND_EXTENSION;
-      Global.LogClient ( "extension '{0}'.", extension );
+      Global.LogGlobal ( "extension '{0}'.", extension );
 
       Global.ExternalCommands = new Dictionary<string, Model.EuCommand> ( );
 
@@ -545,7 +547,7 @@ namespace Evado.UniForm.WebClient
       {
         List<String> fileNames = Evado.Model.EvStatics.Files.getDirectoryFileList ( Global.StaticDataFilePath, extension );
 
-        Global.LogClient ( "fileNames.Count {0}.", fileNames.Count );
+        Global.LogGlobal ( "fileNames.Count {0}.", fileNames.Count );
 
         //
         // iterate through the file list deserialising the JSON to load the external command.
@@ -560,14 +562,14 @@ namespace Evado.UniForm.WebClient
 
           if ( newCommand != null )
           {
-            Global.LogClient ( "Key {0} >> {1}.", commandKey, newCommand.getAsString ( false, false ) );
+            Global.LogGlobal ( "Key {0} >> {1}.", commandKey, newCommand.getAsString ( false, false ) );
 
             Global.ExternalCommands.Add ( commandKey.ToLower ( ), newCommand );
           }
         }
       }
 
-      Global.LogClient ( "External Command count: " + Global.ExternalCommands.Count );
+      Global.LogGlobal ( "External Command count: " + Global.ExternalCommands.Count );
 
       Global.LogMethodEnd ( "LoadExternalCommands" );
 
@@ -602,17 +604,17 @@ namespace Evado.UniForm.WebClient
 
     protected void Session_Start ( Object sender, EventArgs e )
     {
-      /// 
-      /// Initialise the methods variables and objects.
-      /// 
-      Global.LogMethod ( "Evado.UniForm.WebClient.Session_Start event method. STARTED" );
+      // 
+      // Initialise the methods variables and objects.
+      // 
+      Global.LogGlobalMethod ( "Session_Start event" );
       String stUserId = String.Empty;
       try
       {
         stUserId = User.Identity.Name;
 
-        Global.LogDebug ( "Network User Id: '" + User.Identity.Name + "'" );
-        Global.LogDebug ( "Network Roles: " );
+        Global.LogGlobalDebug ( "Network User Id: '" + User.Identity.Name + "'" );
+        Global.LogGlobalDebug ( "Network Roles: " );
         string roles = String.Empty;
         foreach ( string role in Roles.GetRolesForUser ( ) )
         {
@@ -623,19 +625,19 @@ namespace Evado.UniForm.WebClient
           roles += role;
         }
 
-        Global.LogDebug ( "User Roles: " + roles );
+        Global.LogGlobalDebug ( "User Roles: " + roles );
 
         Session [ Global.SESSION_ROLES ] = roles;
 
         stUserId = Evado.Model.EvUserProfileBase.removeUserIdDomainName ( User.Identity.Name );
         Session [ Global.SESSION_USER_ID ] = stUserId;
 
-        Global.LogClient ( "Evado.UniForm.Service.Session_Start event method. FINISHED" );
+        Global.LogGlobal ( "Evado.UniForm.Service.Session_Start event method. FINISHED" );
       }
       catch ( Exception Ex )
       {
-        Global.LogClient ( "Domain User: " + stUserId );
-        Global.LogClient ( Ex.ToString ( ) );
+        Global.LogGlobal ( "Domain User: " + stUserId );
+        Global.LogGlobal ( Ex.ToString ( ) );
 
         EventLog.WriteEntry ( EventLogSource, Global._ClientLog.ToString ( ), EventLogEntryType.Error );
 
@@ -724,15 +726,32 @@ namespace Evado.UniForm.WebClient
     //  =================================================================================
     /// <summary>
     ///   This static method removes a user from the online user list.
+    /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogMethod ( String Value )
+    public static void LogValue ( String Value )
     {
-      Global._ClientLog.AppendLine ( Evado.Model.EvStatics.CONST_METHOD_START
+      Global._ClientLog.AppendLine ( Value );
+
+      if ( Global.DebugLogOn == true )
+      {
+        Global._DebuLog.AppendLine ( Value );
+      }
+    }
+
+    //  =================================================================================
+    /// <summary>
+    ///   This static method removes a user from the online user list.
+    /// </summary>
+    //   ---------------------------------------------------------------------------------
+    private static void LogGlobalMethod ( String Value )
+    {
+      string logValue = Evado.Model.EvStatics.CONST_METHOD_START
         + DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-        + Value + " Method" );
+        + "Evado.UniForm.Webclient.Global." + Value + " Method";
 
-      Global.LogDebugMethod ( Value );
+      Global.LogValue ( logValue );
+
     }
 
     //  =================================================================================
@@ -741,40 +760,12 @@ namespace Evado.UniForm.WebClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogMethodEnd ( String Value )
+    private static void LogGlobal ( String Value )
     {
-      String value = Evado.Model.EvStatics.CONST_METHOD_END;
+      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
+        + "Evado.UniForm.Webclient.Global." + Value;
 
-      value = value.Replace ( " END OF METHOD ", " END OF " + Value + " METHOD " );
-
-      Global._ClientLog.AppendLine ( value );
-
-      Global.LogDebugMethodEnd ( Value );
-    }
-
-    //  =================================================================================
-    /// <summary>
-    ///   This static method logs an event 
-    /// 
-    /// </summary>
-    //   ---------------------------------------------------------------------------------
-    public static void LogEvent ( String Value )
-    {
-      Global.LogClient ( "EVENT: " + Value );
-    }
-
-    //  =================================================================================
-    /// <summary>
-    ///   This static method removes a user from the online user list.
-    /// 
-    /// </summary>
-    //   ---------------------------------------------------------------------------------
-    public static void LogClient ( String Value )
-    {
-      Global._ClientLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-        + Value );
-
-      Global.LogDebug ( Value );
+      Global.LogValue ( logValue );
     }
 
     // ==================================================================================
@@ -783,14 +774,31 @@ namespace Evado.UniForm.WebClient
     /// a new line at the end of the text.
     /// </summary>
     /// <param name="Format">String: format text.</param>
-    /// <param name="args">Array of objects as parameters.</param>
+    /// <param name="Arguments">Array of objects as parameters.</param>
     // ----------------------------------------------------------------------------------
-    public static void LogClient ( String Format, params object [ ] args )
+    private static void LogGlobal ( String Format, params object [ ] Arguments )
     {
-      Global._ClientLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": " +
-          String.Format ( Format, args ) );
+      string logValue = String.Format ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
+        + "Evado.UniForm.Webclient.Global." + String.Format ( Format, Arguments ) );
 
-      Global.LogDebug ( Format, args );
+      Global.LogValue ( logValue );
+    }
+
+    //  =
+
+    //  =================================================================================
+    /// <summary>
+    ///   This static method removes a user from the online user list.
+    /// 
+    /// </summary>
+    //   ---------------------------------------------------------------------------------
+    private static void LogMethodEnd ( String Value )
+    {
+      String value = Evado.Model.EvStatics.CONST_METHOD_END;
+
+      value = value.Replace ( " END OF METHOD ", " END OF " + Value + " METHOD " );
+
+      Global.LogGlobal ( value );
     }
 
     //  =================================================================================
@@ -810,11 +818,6 @@ namespace Evado.UniForm.WebClient
          + DateTime.Now.ToString ( "yy-MM_dd" ) + ".log";
       }
 
-      if ( Global._ClientLog.Length == 0 )
-      {
-        return;
-      }
-
       String stContent = Evado.Model.EvStatics.getHtmlAsString ( Global._ClientLog.ToString ( ) );
 
       // 
@@ -825,8 +828,6 @@ namespace Evado.UniForm.WebClient
         sw.Write ( stContent );
 
       }// End StreamWriter.
-
-      Global._ClientLog = new System.Text.StringBuilder ( );
 
     }//END writeOutDebugLog method
 
@@ -877,19 +878,12 @@ namespace Evado.UniForm.WebClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogDebugMethod ( String Value )
+    public static void LogDebugValue ( String Value )
     {
-      //
-      // IF Debug is turned off exit method.
-      //
-      if ( Global.DebugLogOn == false )
+      if ( Global.DebugLogOn == true )
       {
-        return;
+        Global._DebuLog.AppendLine ( Value );
       }
-
-      Global._DebuLog.AppendLine ( Evado.Model.EvStatics.CONST_METHOD_START
-        + DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-        + "Evado.UniForm.WebClient.DefaultPage." + Value + " Method" );
     }
 
     //  =================================================================================
@@ -898,59 +892,15 @@ namespace Evado.UniForm.WebClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogDebugMethodEnd ( String Value )
+    private static void LogGlobalDebug ( String Value )
     {
-      //
-      // IF Debug is turned off exit method.
-      //
-      if ( Global.DebugLogOn == false )
+      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ":"
+       + "Global:" + Value;
+
+      if ( Global.DebugLogOn == true )
       {
-        return;
+        Global._DebuLog.AppendLine ( logValue );
       }
-
-      String value = Evado.Model.EvStatics.CONST_METHOD_END;
-
-      value = value.Replace ( " END OF METHOD ", " END OF " + Value + " METHOD " );
-
-      Global._DebuLog.AppendLine ( value );
-    }
-
-    //  =================================================================================
-    /// <summary>
-    ///   This static method removes a user from the online user list.
-    /// 
-    /// </summary>
-    //   ---------------------------------------------------------------------------------
-    public static void LogDebug ( String Value )
-    {
-      //
-      // IF Debug is turned off exit method.
-      //
-      if ( Global.DebugLogOn == false )
-      {
-        return;
-      }
-
-      Global._DebuLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-        + Value );
-    }
-    // ==================================================================================
-    /// <summary>
-    /// This method appendes debuglog string to the debug log for the class and adds
-    /// a new line at the end of the text.
-    /// </summary>
-    /// <param name="Format">String: format text.</param>
-    /// <param name="args">Array of objects as parameters.</param>
-    // ----------------------------------------------------------------------------------
-    public static void LogDebug ( String Format, params object [ ] args )
-    {
-      if ( Global.DebugLogOn == false )
-      {
-        return;
-      }
-      Global._DebuLog.AppendLine ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": " +
-          String.Format ( Format, args ) );
-
     }
 
     //  =================================================================================
@@ -1011,6 +961,7 @@ namespace Evado.UniForm.WebClient
       }// End StreamWriter.
 
     }//END writeOutDebugLog method
+
     //  =================================================================================
     /// <summary>
     ///   This static method removes a user from the online user list.

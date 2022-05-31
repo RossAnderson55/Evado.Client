@@ -41,7 +41,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder stHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      Global.LogDebugMethod ( "addMandatoryIfAttribute" );
+      this.LogMethod ( "addMandatoryIfAttribute" );
       //
       // initialise method variables and objects.
       //
@@ -69,7 +69,7 @@ namespace Evado.UniForm.WebClient
     private string fieldBackgroundColorClass (
       Evado.UniForm.Model.EuField PageField )
     {
-      Global.LogDebugMethod ( "fieldBackgroundColorClass" );
+      this.LogMethod ( "fieldBackgroundColorClass" );
       //
       // initialise method variables and objects.
       //
@@ -88,12 +88,12 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Mandatory == true
         && PageField.isEmpty == true )
       {
-        Global.LogDebug ( "Field is mandatory." );
+        this.LogDebug ( "Field is mandatory." );
 
         background = PageField.getMandatoryBackGroundColor ( background );
       }
 
-      Global.LogDebug ( "background: " + background );
+      this.LogDebug ( "background: " + background );
 
       switch ( background )
       {
@@ -133,8 +133,8 @@ namespace Evado.UniForm.WebClient
             break;
           }
       }
-      Global.LogDebug ( "cssBackgroundColorClass: " + cssBackgroundColorClass );
-      Global.LogDebugMethodEnd ( "fieldBackgroundColorClass" );
+      this.LogDebug ( "cssBackgroundColorClass: " + cssBackgroundColorClass );
+      this.LogMethodEnd ( "fieldBackgroundColorClass" );
 
       return cssBackgroundColorClass;
     }
@@ -153,11 +153,11 @@ namespace Evado.UniForm.WebClient
       int TitleWidth,
       bool TitleFullWidth )
     {
-      Global.LogMethod ( "createFieldHeader" );
-      Global.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
-      Global.LogDebug ( "PageField.Title: " + PageField.Title );
-      Global.LogDebug ( "PageField.Type: " + PageField.Type );
-      Global.LogDebug ( "CurrentGroupType: " + this.UserSession.CurrentGroup.GroupType );
+      this.LogMethod ( "createFieldHeader" );
+      this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
+      this.LogDebug ( "PageField.Title: " + PageField.Title );
+      this.LogDebug ( "PageField.Type: " + PageField.Type );
+      this.LogDebug ( "CurrentGroupType: " + this.UserSession.CurrentGroup.GroupType );
       //
       // initialise method variables and objects.
       //
@@ -181,7 +181,7 @@ namespace Evado.UniForm.WebClient
           stDescription = stDescription.Replace ( "[", "<" );
           stDescription = stDescription.Replace ( "]", ">" );
 
-          Global.LogDebug ( "stDescription: {0}.", stDescription );
+          this.LogDebug ( "stDescription: {0}.", stDescription );
         }
       }
 
@@ -277,11 +277,11 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( "<div id='" + PageField.Id + "-row' " + stFieldRowStyling + " >" );
 
 
-      Global.LogDebug ( "Title: " + PageField.Title );
+      this.LogDebug ( "Title: " + PageField.Title );
       //
       // Error message
       //
-      Global.LogDebug ( "Formattted title: " + PageField.Title );
+      this.LogDebug ( "Formattted title: " + PageField.Title );
 
       stHtml.AppendLine ( "<div " + stFieldTitleStyling + "> " );
 
@@ -383,7 +383,7 @@ namespace Evado.UniForm.WebClient
       //
       stHtml.Append ( "</div>" );
 
-      Global.LogMethodEnd ( "createFieldHeader" );
+      this.LogMethodEnd ( "createFieldHeader" );
 
     }//END createFieldHeader method
 
@@ -412,7 +412,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder stHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      Global.LogMethod ( "createReadOnlyField" );
+      this.LogMethod ( "createReadOnlyField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -462,30 +462,30 @@ namespace Evado.UniForm.WebClient
         //
         if ( PageField.Value.Contains ( "[/" ) == true )
         {
-          Global.LogDebug ( "No HTML Markup processing" );
+          this.LogDebug ( "No HTML Markup processing" );
 
-          Global.LogDebug ( "HTML: encoded value: " + PageField.Value );
+          this.LogDebug ( "HTML: encoded value: " + PageField.Value );
 
           String html = Evado.Model.EvStatics.decodeHtmlText ( PageField.Value );
 
-          Global.LogDebug ( "HTML: decoded value" + html );
+          this.LogDebug ( "HTML: decoded value" + html );
           stHtml.AppendLine ( html );
         }
         else
         {
           String value = PageField.Value;
 
-          Global.LogDebug ( @"\r exists: " + value.Contains ( "\r" ) );
-          Global.LogDebug ( @"\n exists: " + value.Contains ( "\n" ) );
+          this.LogDebug ( @"\r exists: " + value.Contains ( "\r" ) );
+          this.LogDebug ( @"\n exists: " + value.Contains ( "\n" ) );
 
           if ( value.Contains ( "\r" ) == true || value.Contains ( "\n" ) == true )
           {
-            Global.LogDebug ( "Processing markup" );
+            this.LogDebug ( "Processing markup" );
 
             value = Evado.Model.EvStatics.EncodeMarkDown ( value );
             //value = value.Replace ( "\n", "<br/>" );
 
-            Global.LogDebug ( "HTML: decoded value" + value );
+            this.LogDebug ( "HTML: decoded value" + value );
           }
 
           stHtml.AppendLine ( value );
@@ -498,7 +498,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
-      Global.LogMethodEnd ( "createReadOnlyField" );
+      this.LogMethodEnd ( "createReadOnlyField" );
     }
 
     // ===================================================================================
@@ -512,7 +512,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      Global.LogMethod ( "createHtmlField" );
+      this.LogMethod ( "createHtmlField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -529,13 +529,13 @@ namespace Evado.UniForm.WebClient
       {
         if ( PageField.Value.Contains ( "[/" ) == true )
         {
-          Global.LogClient ( "No Markup processing" );
+          this.LogValue ( "No Markup processing" );
 
-          Global.LogDebug ( "HTML: encoded value: " + PageField.Value );
+          this.LogDebug ( "HTML: encoded value: " + PageField.Value );
 
           String html = Evado.Model.EvStatics.decodeHtmlText ( PageField.Value );
 
-          Global.LogDebug ( "HTML: decoded value" + html );
+          this.LogDebug ( "HTML: decoded value" + html );
           sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
           sbHtml.AppendLine ( "<div class='description'>" + html + "</div>" );
           sbHtml.AppendLine ( "</div>" );
@@ -569,11 +569,11 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess EditAccess )
     {
-      Global.LogMethod ( "createImageField method" );
-      Global.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
-      Global.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
-      Global.LogDebug ( "PageField.Layout: " + PageField.Layout );
-      Global.LogDebug ( "PageField.Value: " + PageField.Value );
+      this.LogMethod ( "createImageField method" );
+      this.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
+      this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
+      this.LogDebug ( "PageField.Layout: " + PageField.Layout );
+      this.LogDebug ( "PageField.Value: " + PageField.Value );
       //
       // Initialise the methods variables and objects.
       //
@@ -595,7 +595,7 @@ namespace Evado.UniForm.WebClient
       stImageUrl = stImageUrl.ToLower ( );
       stImageUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
 
-      Global.LogClient ( "stImageUrl: " + stImageUrl );
+      this.LogValue ( "stImageUrl: " + stImageUrl );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-image-value cf' "; // class='cell value cell-image-value cf' ";
 
@@ -616,7 +616,7 @@ namespace Evado.UniForm.WebClient
       //
       if ( PageField.Value != String.Empty )
       {
-        Global.LogClient ( "Image file exists " + PageField.Value );
+        this.LogValue ( "Image file exists " + PageField.Value );
 
         stHtml.AppendLine ( "<a href='" + stImageUrl + "' target='_blank' > "
           + "<img alt='Image " + PageField.Value + "' " + "src='" + stImageUrl + "' width='" + stSize + "'/></a>" );
@@ -641,7 +641,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
-      Global.LogClient ( "END createImageField\r\n" );
+      this.LogValue ( "END createImageField\r\n" );
     }//END Field Method
 
     // ===================================================================================
@@ -658,7 +658,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createTextField" );
+      this.LogMethod ( "createTextField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -763,7 +763,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createComputedField" );
+      this.LogMethod ( "createComputedField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -832,7 +832,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createFreeTextField" );
+      this.LogMethod ( "createFreeTextField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -921,7 +921,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createNumericField" );
+      this.LogMethod ( "createNumericField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -1069,7 +1069,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogDebugMethod ( "createDateField" );
+      this.LogMethod ( "createDateField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -1096,7 +1096,7 @@ namespace Evado.UniForm.WebClient
         minYear = DateTime.Now.Year - 100;
       }
 
-      Global.LogClient ( "minYear: " + minYear + " maxYear: " + maxYear );
+      this.LogValue ( "minYear: " + minYear + " maxYear: " + maxYear );
 
       String stFormat = "dd - MMM - yyyy";
 
@@ -1341,7 +1341,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
-      Global.LogDebugMethodEnd ( "createDateField" );
+      this.LogMethodEnd ( "createDateField" );
     }//END Field Method
 
     // ===================================================================================
@@ -1358,7 +1358,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogDebugMethod ( "createTimeField" );
+      this.LogMethod ( "createTimeField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -1593,8 +1593,8 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createRadioButtonField" );
-      Global.LogDebug ( "PageField.Value: " + PageField.Value );
+      this.LogMethod ( "createRadioButtonField" );
+      this.LogDebug ( "PageField.Value: " + PageField.Value );
       //
       // Initialise the methods variables and objects.
       //
@@ -1611,7 +1611,7 @@ namespace Evado.UniForm.WebClient
         valueColumnWidth = (int) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
-      Global.LogDebug ( "valueColumnWidth: " + valueColumnWidth );
+      this.LogDebug ( "valueColumnWidth: " + valueColumnWidth );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-check-value cf' ";
 
@@ -1801,8 +1801,8 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createQuizRadioButtonField" );
-      Global.LogDebug ( "PageField.Value: " + PageField.Value );
+      this.LogMethod ( "createQuizRadioButtonField" );
+      this.LogDebug ( "PageField.Value: " + PageField.Value );
       try
       {
         //
@@ -1949,7 +1949,7 @@ namespace Evado.UniForm.WebClient
       }
       catch ( Exception Ex )
       {
-        Global.LogClient ( Evado.Model.EvStatics.getException ( Ex ) );
+        this.LogValue ( Evado.Model.EvStatics.getException ( Ex ) );
       }
     }//END Field Method
 
@@ -1968,7 +1968,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createHorizontalRadioButtonField" );
+      this.LogMethod ( "createHorizontalRadioButtonField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -2123,7 +2123,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createBooleanField" );
+      this.LogMethod ( "createBooleanField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -2142,7 +2142,7 @@ namespace Evado.UniForm.WebClient
         valueColumnWidth = (int) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
-      Global.LogDebug ( "valueColumnWidth: " + valueColumnWidth );
+      this.LogDebug ( "valueColumnWidth: " + valueColumnWidth );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-bool-value cf' ";
 
@@ -2284,7 +2284,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createCheckboxField" );
+      this.LogMethod ( "createCheckboxField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -2301,8 +2301,8 @@ namespace Evado.UniForm.WebClient
         valueColumnWidth = (int) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
-      Global.LogDebug ( "valueColumnWidth: " + valueColumnWidth );
-      Global.LogDebug ( "stValueLegend: " + stValueLegend );
+      this.LogDebug ( "valueColumnWidth: " + valueColumnWidth );
+      this.LogDebug ( "stValueLegend: " + stValueLegend );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-check-value cf' ";
 
@@ -2346,7 +2346,7 @@ namespace Evado.UniForm.WebClient
       sbHtml.AppendLine ( "<div>" );
 
 
-      Global.LogDebug ( "PageField.Value: {0}.", PageField.Value );
+      this.LogDebug ( "PageField.Value: {0}.", PageField.Value );
       //
       // Generate the html code 
       //
@@ -2354,7 +2354,7 @@ namespace Evado.UniForm.WebClient
       {
         Evado.Model.EvOption option = PageField.OptionList [ i ];
 
-        Global.LogDebug ( "V: {0}, D {1}.", option.Value, option.Description );
+        this.LogDebug ( "V: {0}, D {1}.", option.Value, option.Description );
 
         int count = i + 1;
 
@@ -2367,7 +2367,7 @@ namespace Evado.UniForm.WebClient
          + "tabindex = '" + _TabIndex + "' "
          + "value='" + option.Value + "' " );
 
-        Global.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.hasValue ( PageField.Value ) );
+        this.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.hasValue ( PageField.Value ) );
 
         if ( option.hasValue ( PageField.Value ) == true )
         {
@@ -2430,9 +2430,9 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createSelectionListField" );
-      Global.LogDebug ( "PageField: Title: " + PageField.Title );
-      Global.LogDebug ( "PageField: Value: " + PageField.Value );
+      this.LogMethod ( "createSelectionListField" );
+      this.LogDebug ( "PageField: Title: " + PageField.Title );
+      this.LogDebug ( "PageField: Value: " + PageField.Value );
       //
       // Initialise the methods variables and objects.
       //
@@ -2454,8 +2454,8 @@ namespace Evado.UniForm.WebClient
         stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
       }
 
-      Global.LogDebug ( "stCmdOnChange: " + stCmdOnChange );
-      Global.LogDebug ( "stCustomValidation: " + stCustomValidation );
+      this.LogDebug ( "stCmdOnChange: " + stCmdOnChange );
+      this.LogDebug ( "stCustomValidation: " + stCustomValidation );
 
       //
       // Set the normal validation parameters.
@@ -2543,7 +2543,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private String createOnChangeEvent ( )
     {
-      Global.LogMethod ( "createOnChangeEvent" );
+      this.LogMethod ( "createOnChangeEvent" );
       //
       // Exit if there are not commands in the group.
       //
@@ -2580,10 +2580,10 @@ namespace Evado.UniForm.WebClient
 
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createTableField" );
-      Global.LogDebug ( "PageField.Layout: " + PageField.Layout );
-      Global.LogDebug ( "Table Columns: " + PageField.Table.ColumnCount );
-      Global.LogDebug ( "Rows: " + PageField.Table.Rows.Count );
+      this.LogMethod ( "createTableField" );
+      this.LogDebug ( "PageField.Layout: " + PageField.Layout );
+      this.LogDebug ( "Table Columns: " + PageField.Table.ColumnCount );
+      this.LogDebug ( "Rows: " + PageField.Table.Rows.Count );
 
       //
       // Initialise the methods variables and objects.
@@ -2658,7 +2658,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder stHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      Global.LogMethod ( "getFormFieldTableHeader method." );
+      this.LogMethod ( "getFormFieldTableHeader method." );
       // 
       // Initialise local variables.
       // 
@@ -2761,8 +2761,8 @@ namespace Evado.UniForm.WebClient
 
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "getTableFieldDataRow" );
-      Global.LogDebug ( "Row: " + Row );
+      this.LogMethod ( "getTableFieldDataRow" );
+      this.LogDebug ( "Row: " + Row );
       // 
       // Initialise local variables.
       // 
@@ -3142,7 +3142,7 @@ namespace Evado.UniForm.WebClient
         }
         catch ( Exception Ex )
         {
-          Global.LogClient ( "Row: " + Row + ", Column: " + column + ", " + Evado.Model.EvStatics.getExceptionAsHtml ( Ex ) );
+          this.LogValue ( "Row: " + Row + ", Column: " + column + ", " + Evado.Model.EvStatics.getExceptionAsHtml ( Ex ) );
           break;
         }
 
@@ -3168,10 +3168,10 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess EditAccess )
     {
-      Global.LogMethod ( "createBinaryField method." );
-      Global.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
-      Global.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
-      Global.LogDebug ( "PageField.Value: " + PageField.Value );
+      this.LogMethod ( "createBinaryField method." );
+      this.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
+      this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
+      this.LogDebug ( "PageField.Value: " + PageField.Value );
       //
       // Initialise the methods variables and objects.
       //
@@ -3187,7 +3187,7 @@ namespace Evado.UniForm.WebClient
       stBinaryUrl = stBinaryUrl.ToLower ( );
       stBinaryUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
 
-      Global.LogDebug ( "stImageUrl: " + stBinaryUrl );
+      this.LogDebug ( "stImageUrl: " + stBinaryUrl );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-image-value cf' ";
 
@@ -3242,7 +3242,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createSoundField method." );
+      this.LogMethod ( "createSoundField method." );
       //
       // Initialise the methods variables and objects.
       //
@@ -3286,7 +3286,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createCurrencyField method." );
+      this.LogMethod ( "createCurrencyField method." );
       //
       // Initialise the methods variables and objects.
       //
@@ -3356,7 +3356,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createEmailAddressField method." );
+      this.LogMethod ( "createEmailAddressField method." );
       //
       // Initialise the methods variables and objects.
       //
@@ -3429,7 +3429,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createTelephoneNumberField method." );
+      this.LogMethod ( "createTelephoneNumberField method." );
       //
       // Initialise the methods variables and objects.
       //
@@ -3503,7 +3503,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createAnalogueField method." );
+      this.LogMethod ( "createAnalogueField method." );
       //
       // Initialise the methods variables and objects.
       //
@@ -3578,7 +3578,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createNameField method." );
+      this.LogMethod ( "createNameField method." );
       //
       // Initialise the methods variables and objects.
       //
@@ -3778,7 +3778,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createAddressField method." );
+      this.LogMethod ( "createAddressField method." );
       //
       // Initialise the methods variables and objects.
       //
@@ -4140,9 +4140,9 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess GroupStatus )
     {
-      Global.LogMethod ( "createSignatureField method." );
-      Global.LogClient ( "Field.Status: " + PageField.EditAccess );
-      Global.LogClient ( "GroupStatus: " + GroupStatus );
+      this.LogMethod ( "createSignatureField method." );
+      this.LogValue ( "Field.Status: " + PageField.EditAccess );
+      this.LogValue ( "GroupStatus: " + GroupStatus );
       //
       // Initialise the methods variables and objects.
       //
@@ -4165,7 +4165,7 @@ namespace Evado.UniForm.WebClient
         PageField.EditAccess = GroupStatus;
       }
 
-      Global.LogClient ( "Set Field.Status: " + PageField.EditAccess );
+      this.LogValue ( "Set Field.Status: " + PageField.EditAccess );
 
       //
       // Ineert the field header
@@ -4185,7 +4185,7 @@ namespace Evado.UniForm.WebClient
         canvasHeight = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height );
       }
 
-      Global.LogClient ( "Field Value: " + PageField.Value );
+      this.LogValue ( "Field Value: " + PageField.Value );
 
       if ( PageField.Value != String.Empty )
       {
@@ -4201,10 +4201,10 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      Global.LogClient ( "Raster Signature: " + RasterSignature );
-      Global.LogClient ( "signature.Name: " + signature.Name );
-      Global.LogClient ( "signature.AcceptedBy: " + signature.AcceptedBy );
-      Global.LogClient ( "signature.DateStamp: " + signature.DateStamp );
+      this.LogValue ( "Raster Signature: " + RasterSignature );
+      this.LogValue ( "signature.Name: " + signature.Name );
+      this.LogValue ( "signature.AcceptedBy: " + signature.AcceptedBy );
+      this.LogValue ( "signature.DateStamp: " + signature.DateStamp );
 
       //
       // Insert the field elements
@@ -4293,7 +4293,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
       {
-        Global.LogClient ( "Setting the signature for display only" );
+        this.LogValue ( "Setting the signature for display only" );
 
         stHtml.AppendLine ( "<script type=\"text/javascript\">" );
         stHtml.AppendLine ( "$(document).ready(function() { " );
@@ -4332,7 +4332,7 @@ namespace Evado.UniForm.WebClient
       }
       else
       {
-        Global.LogClient ( "Setting the signature for draw a signature" );
+        this.LogValue ( "Setting the signature for draw a signature" );
 
         stHtml.AppendLine ( "<script type=\"text/javascript\">" );
         stHtml.AppendLine ( "$(document).ready(function() { " );
@@ -4363,7 +4363,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createPasswordField method." );
+      this.LogMethod ( "createPasswordField method." );
       //
       // Initialise the methods variables and objects.
       //
@@ -4441,8 +4441,8 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createNumericRangeField method." );
-      Global.LogDebug ( "Field.Type: " + PageField.Type );
+      this.LogMethod ( "createNumericRangeField method." );
+      this.LogDebug ( "Field.Type: " + PageField.Type );
       //
       // Initialise the methods variables and objects.
       //
@@ -4524,7 +4524,7 @@ namespace Evado.UniForm.WebClient
         stValidationMethod = " onchange=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
       }
 
-      Global.LogDebugMethod ( "Unit: " + stUnit );
+      this.LogMethod ( "Unit: " + stUnit );
 
       if ( stUnit.Contains ( "10^" ) == true
         && stUnit.Contains ( "10^0" ) == false )
@@ -4654,8 +4654,8 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createNumericRangeField method." );
-      Global.LogDebug ( "Field.Type: " + PageField.Type );
+      this.LogMethod ( "createNumericRangeField method." );
+      this.LogDebug ( "Field.Type: " + PageField.Type );
       //
       // Initialise the methods variables and objects.
       //
@@ -4846,7 +4846,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess EditAccess )
     {
-      Global.LogMethod ( "createHttpLinkField" );
+      this.LogMethod ( "createHttpLinkField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -4894,7 +4894,7 @@ namespace Evado.UniForm.WebClient
         //
         stLinkUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, stLinkUrl );
 
-        Global.LogClient ( "Final URL: " + stLinkUrl );
+        this.LogValue ( "Final URL: " + stLinkUrl );
 
         stHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
 
@@ -4961,7 +4961,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
-      Global.LogMethodEnd ( "createHttpLinkField" );
+      this.LogMethodEnd ( "createHttpLinkField" );
 
     }//END Field Method
 
@@ -4979,7 +4979,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess EditAccess )
     {
-      Global.LogMethod ( "createStreamedVideoField" );
+      this.LogMethod ( "createStreamedVideoField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -5068,7 +5068,7 @@ namespace Evado.UniForm.WebClient
     private String getVideoIFrame (
       Evado.UniForm.Model.EuField PageField )
     {
-      Global.LogMethod ( "getVideoIFrame" );
+      this.LogMethod ( "getVideoIFrame" );
       //
       // Initialise the methods variables and objects.
       //
@@ -5131,8 +5131,8 @@ namespace Evado.UniForm.WebClient
         stVideoStreamParameters = "frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen";
       }
 
-      Global.LogClient ( "Video ID: " + value );
-      Global.LogClient ( "VideoSource: " + stVideoSource );
+      this.LogValue ( "Video ID: " + value );
+      this.LogValue ( "VideoSource: " + stVideoSource );
 
       sbHtml.AppendLine ( "<iframe "
         + "id='" + PageField.FieldId + DefaultPage.CONST_VIDEO_SUFFIX + "' "
@@ -5169,7 +5169,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField,
       Evado.UniForm.Model.EuEditAccess Status )
     {
-      Global.LogMethod ( "createExternalImageField" );
+      this.LogMethod ( "createExternalImageField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -5238,7 +5238,7 @@ namespace Evado.UniForm.WebClient
       StringBuilder stHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      Global.LogMethod ( "createPlotChartField" );
+      this.LogMethod ( "createPlotChartField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -5268,7 +5268,7 @@ namespace Evado.UniForm.WebClient
           }
       }
 
-      Global.LogDebug ( "Width: " + width + ", height: " + height );
+      this.LogDebug ( "Width: " + width + ", height: " + height );
       //
       // Ineert the field header
       //
@@ -5317,7 +5317,7 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldFooter ( stHtml, PageField );
 
-      Global.LogMethodEnd ( "createPlotChartField" );
+      this.LogMethodEnd ( "createPlotChartField" );
 
     }//END createPlotChartField Method
 
@@ -5332,7 +5332,7 @@ namespace Evado.UniForm.WebClient
       String PlaceHolder,
       Evado.UniForm.Model.EuField PageField )
     {
-      Global.LogMethod ( "generatePlotCode" );
+      this.LogMethod ( "generatePlotCode" );
       StringBuilder code = new StringBuilder ( );
       string legend = String.Empty;
 
@@ -5344,7 +5344,7 @@ namespace Evado.UniForm.WebClient
 
         legend = "legend: {	position: \"" + location + "\",	show: true} ";
       }
-      Global.LogDebug ( "Display Legend: " + plotObject.DisplayLegend + ", legend: " + legend );
+      this.LogDebug ( "Display Legend: " + plotObject.DisplayLegend + ", legend: " + legend );
 
       if ( this.UserSession.PlotScriptLoaded == false )
       {
@@ -5464,8 +5464,8 @@ namespace Evado.UniForm.WebClient
       code.AppendLine ( " });" );
       code.AppendLine ( "</script>" );
 
-      Global.LogDebug ( code.ToString ( ) );
-      Global.LogMethodEnd ( "generatePlotCode" );
+      this.LogDebug ( code.ToString ( ) );
+      this.LogMethodEnd ( "generatePlotCode" );
 
       return code.ToString ( );
     }
