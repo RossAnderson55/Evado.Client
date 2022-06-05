@@ -9,10 +9,6 @@
     {
       "n": "Page_Id",
       "v": "Record_Page"
-    },
-	{
-      "n": "Insert_Home_Page_Command",
-      "v": "true"
     }
   ]
 }

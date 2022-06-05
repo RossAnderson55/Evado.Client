@@ -87,7 +87,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void Page_Load ( object sender, System.EventArgs E )
     {
-     
+
       this.LogMethod ( "Page_Load event" );
       try
       {
@@ -132,8 +132,8 @@ namespace Evado.UniForm.WebClient
             this.UserSession.PageCommand.Id = Guid.NewGuid ( );
             this.UserSession.PageCommand.Type = Evado.UniForm.Model.EuCommandTypes.Network_Login_Command;
             this.UserSession.UserId = Evado.Model.EvStatics.removeDomainName ( User.Identity.Name );
-            this.UserSession.PageCommand.AddParameter ( 
-              Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_ID, 
+            this.UserSession.PageCommand.AddParameter (
+              Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_ID,
               this.UserSession.UserId );
           }
         }
@@ -376,7 +376,7 @@ namespace Evado.UniForm.WebClient
       //
       // Retrieve the application data object.
       //
-      if ( Session [SESSION_USER ] != null )
+      if ( Session [ SESSION_USER ] != null )
       {
         this.UserSession = (EucSession) Session [ SESSION_USER ];
       }
@@ -590,7 +590,7 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      this.LogMethodEnd( "sendPageCommand" );
+      this.LogMethodEnd ( "sendPageCommand" );
 
     }//END sendPageCommand method
 
@@ -935,9 +935,10 @@ namespace Evado.UniForm.WebClient
       string Key, Value;
 
       this.LogDebug ( "Request.RequestType: {0}.", Request.RequestType );
-      this.LogDebug ( "Request.RequestContext: {0}.", Request.RequestContext );
+      this.LogDebug ( "Request.RequestContext: {0}.", Request.RequestContext.ToString() );
       this.LogDebug ( "Request.Url: {0}.", Request.Url );
       this.LogDebug ( "Request.RawUrl: {0}.", Request.RawUrl );
+      this.LogDebug ( "Request.QueryString: {0}.", Request.QueryString.ToString() );
       this.LogDebug ( "Request.QueryString.Count: {0}.", Request.QueryString.Count );
       // 
       // Load SpecialisationValueCollection object.
@@ -966,13 +967,16 @@ namespace Evado.UniForm.WebClient
         String [ ] aValues = coll.GetValues ( aKeys [ loop1 ] );
         Value = Server.HtmlEncode ( aValues [ 0 ] ).ToString ( );
 
+        this.LogDebug ( "Key: {0}, Value {1} ", Key, Value );
+
         string parameter = Key.ToLower ( );
 
-        this.LogDebug ( string.Format ( "Parameter: {0} ", Key ) );
+        this.LogDebug ( "Parameter: {0} ", parameter );
 
         if ( Global.ExternalCommands.ContainsKey ( parameter ) == true )
         {
           Evado.UniForm.Model.EuCommand command = Global.ExternalCommands [ parameter ];
+
           Guid guid = Evado.Model.EvStatics.getGuid ( Value );
 
           this.LogDebug ( string.Format ( "Guid: {0} ", guid ) );
@@ -985,12 +989,8 @@ namespace Evado.UniForm.WebClient
             Session [ Global.SESSION_USER_ID ] = this.UserSession.UserId;
             this.UserSession.ExternalCommand = this.UserSession.PageCommand;
 
-            this.LogDebug ( this.UserSession.PageCommand.getAsString ( false, true ) );
-
-            this.LogMethodEnd ( "ReadUrlParameters" );
-            return true;
-
           }//END guid found.
+          continue;
 
         }//END external commands found
         else
@@ -1000,15 +1000,27 @@ namespace Evado.UniForm.WebClient
             Guid commandId = Evado.Model.EvStatics.getGuid ( Value );
 
             this.UserSession.PageCommand = this.getCommandObject ( commandId );
-
-            this.LogDebug ( this.UserSession.PageCommand.getAsString ( false, true ) );
-
-            this.LogMethodEnd ( "ReadUrlParameters" );
-            return true;
+            continue;
           }
         }
 
+        if ( parameter == "cu_guid" )
+        {
+          Guid guid = Evado.Model.EvStatics.getGuid ( Value );
+
+          this.LogDebug ( string.Format ( "Guid: {0} ", guid ) );
+
+          this.UserSession.PageCommand.AddParameter ( "CUSTOMER_GUID", guid );
+
+          this.UserSession.ExternalCommand = this.UserSession.PageCommand;
+          continue;
+        }
+
       }//END paraemter iteration loop
+
+      this.LogDebug ( "Finished query parameter iteration loop.");
+
+      this.LogDebug ( this.UserSession.PageCommand.getAsString ( false, true ) );
 
       this.LogMethodEnd ( "GetRequestPageCommand" );
       return false;
