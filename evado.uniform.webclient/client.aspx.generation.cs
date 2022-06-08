@@ -27,7 +27,7 @@ namespace Evado.UniForm.WebClient
   /// <summary>
   /// This is the code behind class for the home page.
   /// </summary>
-  public partial class DefaultPage : EvPersistentPageState
+  public partial class ClientPage : EvPersistentPageState
   {
     private int _TabIndex = 0;
 
