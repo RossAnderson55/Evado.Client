@@ -352,12 +352,7 @@ namespace Evado.UniForm.WebClient
       {
         Global.RelativeWcfRestURL = ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ];
       }
-      Global.LogGlobal ( "RelativeWcfRestURL: " + Global.RelativeBinaryDownloadURL );
-
-      Global.RelativeBinaryDownloadURL = Global.concatinateHttpUrl ( Global.WebServiceUrl, Global.RelativeBinaryDownloadURL );
-
-
-      Global.LogGlobal ( "Formatted RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
+      Global.LogGlobal ( "RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
 
       //
       // Set teh application log path

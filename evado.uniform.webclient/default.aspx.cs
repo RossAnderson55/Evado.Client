@@ -401,9 +401,11 @@ namespace Evado.UniForm.WebClient
     private void sendPageCommand ( )
     {
       this.LogMethod ( "sendPageCommand" );
+      this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
       this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
       this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
       this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
+      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
 
       //
@@ -483,6 +485,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the web request.
       //
       this.LogDebug ( "Creating the WebRequest." );
+      this.LogDebug ( "stWebServiceUrl: " + stWebServiceUrl );
 
       try
       {
@@ -935,7 +938,6 @@ namespace Evado.UniForm.WebClient
       string Key, Value;
 
       this.LogDebug ( "Request.RequestType: {0}.", Request.RequestType );
-      this.LogDebug ( "Request.RequestContext: {0}.", Request.RequestContext.ToString() );
       this.LogDebug ( "Request.Url: {0}.", Request.Url );
       this.LogDebug ( "Request.RawUrl: {0}.", Request.RawUrl );
       this.LogDebug ( "Request.QueryString: {0}.", Request.QueryString.ToString() );
@@ -2729,20 +2731,10 @@ namespace Evado.UniForm.WebClient
       //
       if ( this.UserSession.AppData.LogoFilename != String.Empty )
       {
-        this.UserSession.AppData.LogoFilename = this.UserSession.AppData.LogoFilename.ToLower ( );
+        this.UserSession.AppData.LogoFilename = Evado.Model.EvStatics.concatinateHttpUrl (
+          Global.RelativeBinaryDownloadURL, this.UserSession.AppData.LogoFilename );
 
-        if ( this.UserSession.AppData.LogoFilename.Contains ( "http:" ) == true
-          || this.UserSession.AppData.LogoFilename.Contains ( "https:" ) == true )
-        {
-          this.imgLogo.Src = this.UserSession.AppData.LogoFilename;
-        }
-        else
-        {
-          if ( this.UserSession.AppData.LogoFilename != String.Empty )
-          {
-            this.imgLogo.Src = Global.RelativeBinaryDownloadURL + this.UserSession.AppData.LogoFilename;
-          }
-        }
+        this.imgLogo.Src = this.UserSession.AppData.LogoFilename.ToLower ( );
       }
 
       this.pLogo.Visible = false;
