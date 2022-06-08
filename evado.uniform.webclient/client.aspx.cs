@@ -247,13 +247,6 @@ namespace Evado.UniForm.WebClient
       } // End catch.
 
       this.LogValue ( "Page generation completed." );
-      // 
-      // Write footer
-      // 
-      this.litCopyright.Text = Global.AssemblyAttributes.Copyright;
-      this.litFooterText.Text = EuLabels.Footer_Text;
-      this.litVersion.Text = "Version: " + Global.AssemblyAttributes.FullVersion + Global.DevStage;
-
 
       this.LogMethodEnd ( "Page_Load" );
 

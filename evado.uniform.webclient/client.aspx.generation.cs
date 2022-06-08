@@ -55,6 +55,24 @@ namespace Evado.UniForm.WebClient
       {
         this.litHistory.Visible = true;
       }
+
+      //
+      // Passes the meeting setting to the page elements to be passed to the parent page.
+      //
+      if ( this.UserSession.AppData.MeetingStatus == Evado.UniForm.Model.EuMeeting.StatusList.Meeting_Commenced )
+      {
+        this.meetingUrl.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url );
+        this.meetingUserName.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_UserName );
+        this.meetingParameters.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters );
+      }
+      else
+      {
+        this.meetingUrl.Value = String.Empty;
+        this.meetingUserName.Value = String.Empty;
+        this.meetingParameters.Value = String.Empty;
+      }
+      this.meetingStatus.Value = this.UserSession.AppData.MeetingStatus.ToString ( );
+
       this.litExitCommand.Visible = true;
       this.litCommandContent.Visible = true;
       this.litHeaderTitle.Visible = true;

@@ -25,8 +25,48 @@
   <script type="text/javascript" src="./js/Evado.Form.js"></script>
   <script type="text/javascript" src="./js/jquery.signaturepad.js"></script>
   <script type="text/javascript" src="./css/menu.js"></script>
+  <script type="text/javascript">
+
+    // addEventListener support for IE8
+    function bindEvent(element, eventName, eventHandler) {
+      if (element.addEventListener) {
+        element.addEventListener(eventName, eventHandler, false);
+      } else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, eventHandler);
+      }
+    }
+
+    /*
+    * This is the page load event.
+    */
+    function pageLoad() {
+      console.log("Client: OnPageLoad Event START");
+
+      var lastMeetingUrl = document.getElementById('lastMeetingUrl').value;
+      var meetingUrl = document.getElementById('meetingUrl').value;
+      var meetingUserName = document.getElementById('meetingUserName').value;
+      var meetingParameters = document.getElementById('meetingParameters').value;
+      var meetingStatus = document.getElementById('meetingStatus').value;
+
+      console.log("Client: meetingStatus: " + meetingStatus);
+      console.log("Client: lastMeetingUrl: " + lastMeetingUrl);
+      console.log("Client: meetingUrl: " + meetingUrl);
+      console.log("Client: meetingUserName: " + meetingUserName);
+      console.log("Client: meetingParameters: " + meetingParameters);
+      
+      document.getElementById('lastMeetingUrl').value = meetingUrl;
+
+      var message = meetingUrl + ";" + meetingUserName + ";" + meetingParameters + ";" + meetingStatus;
+
+      console.log("Client: postMessage: " + message);
+
+      window.parent.postMessage(message, '*');
+
+      console.log("Client: OnPageLoad Event FINISH");
+    }
+  </script>
 </head>
-<body>
+<body onload="pageLoad()">
   <form id="form1" runat="server">
   <div>
     <asp:HiddenField ID="__CommandId" runat="server" Value="" />
@@ -48,11 +88,14 @@
         return;
       }
 
-      console.log("window.width" + window.innerWidth);
-      console.log("window.height" + window.innerHeight);
+      /*
+      console.log("window.width: " + window.innerWidth);
+      console.log("window.height: " + window.innerHeight);
 
       document.getElementById("windowWidth").value = window.innerWidth;
       document.getElementById("windowHeight").value = window.innerHeight;
+      */
+
       postSent = true;
       //get the form element's document to create the input control with
       //(this way will work across windows in IE8)
@@ -183,23 +226,17 @@
         <asp:fileupload id="TestFileUpload" runat="server" Visible="false" />
         -->
       </div>
-      <input id="groupNo" type="hidden" runat="server" />
-      <input id="pageId" type="hidden" runat="server" />
+        <div style="margin:10px;">
+          <input id="meetingUrl" type="text" size="50" runat="server" />
+          <input id="meetingUserName" type="text" size="20" runat="server" />
+          <input id="meetingParameters" type="text" size="50" runat="server" />
+          <input id="lastMeetingUrl" type="text" size="50" runat="server" />
+          <input id="meetingStatus" type="text" size="30" runat="server" />
+          <input id="groupNo" type="hidden" runat="server" />
+          <input id="pageId" type="hidden" runat="server" />
+        </div>
     </div>
   </div>
-  <table id="form-footer">
-    <tr>
-      <td class="left">
-        <asp:Literal ID="litCopyright" runat="Server" />
-      </td>
-      <td class="center">
-        <asp:Literal ID="litFooterText" runat="Server" />
-      </td>
-      <td class="right">
-        <asp:Literal ID="litVersion" runat="Server" />
-      </td>
-    </tr>
-  </table>
   <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
   </form>
 </body>

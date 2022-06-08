@@ -77,9 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\webattributes.cs" />
-    <Compile Include="EucEnumerators.cs" />
-    <Compile Include="EucKeyValuePair.cs" />
-    <Compile Include="EucSession.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -87,10 +84,20 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="default.aspx.fields.cs">
+    <Compile Include="EucEnumerators.cs" />
+    <Compile Include="EucKeyValuePair.cs" />
+    <Compile Include="EucSession.cs" />
+    <Compile Include="client.aspx.cs">
+      <DependentUpon>client.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="default.aspx.generation.cs">
+    <Compile Include="client.aspx.designer.cs">
+      <DependentUpon>client.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="client.aspx.fields.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="client.aspx.generation.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EuLabels.Designer.cs">
@@ -129,8 +136,10 @@
     <Content Include="css\menu.css" />
     <Content Include="css\menu.js" />
     <Content Include="css\report.css" />
+    <Content Include="client.aspx" />
     <Content Include="default.aspx" />
     <Content Include="js\bootstrap-datetimepicker.js" />
+    <Content Include="js\evado.video.js" />
     <Content Include="js\signaturePad.js" />
     <Content Include="js\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\bootstrap.js" />
