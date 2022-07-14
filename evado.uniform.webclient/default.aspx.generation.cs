@@ -71,6 +71,13 @@ namespace Evado.UniForm.WebClient
       bool displayGroupsAsPanels = this.UserSession.AppData.Page.GetDisplayGroupsAsPanels ( );
 
       //
+      // Reinitialise the history each time the home page is displayed.
+      //
+      if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_DEFAULT_HOME_PAGE_ID )
+      {
+        this.initialiseHistory ( );
+      }
+      //
       // Groups are displayed a panels enable and initialise the page objects.
       //
       if ( displayGroupsAsPanels == true )
