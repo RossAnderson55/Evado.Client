@@ -75,18 +75,26 @@ namespace Evado.UniForm.WebClient
       this.LogMethod ( "Page_Load event" );
       try
       {
-        this.LogDebug ( "UserHostAddress: " + Request.UserHostAddress );
-        this.LogDebug ( "UserHostName: " + Request.UserHostName );
+        this.LogDebug ( "QueryString: " + Request.QueryString.ToString ( ) );
 
+        this.LogDebug ( "1: clientFrame.src: '{0}'.", this.clientFrame.Attributes [ "src" ] );
         //
         // Process post back events.
         //
         if ( this.IsPostBack == false )
         {
-          //
-          // Process non post back events.
-          //
-          this.GetUrlParameters ( );
+          this.LogDebug ( "PostBack = false" );
+          String clientUrl = Global.CONST_CLIENT_BASE_URL;
+          string queryString = Request.QueryString.ToString ( );
+          if ( queryString != String.Empty )
+          {
+            clientUrl = clientUrl + "?" + Request.QueryString.ToString ( );
+          }
+          this.LogDebug ( "2: clientUrl: '{0}'.", clientUrl );
+          this.clientFrame.Attributes [ "src" ] = clientUrl; 
+
+          this.LogDebug ( "2: clientFrame.src: '{0}'.", this.clientFrame.Attributes [ "src" ] );
+
         }
         this.LogMethodEnd ( "Page_Load" );
 
@@ -118,66 +126,6 @@ namespace Evado.UniForm.WebClient
       Global.OutputClientLog ( );
 
     }//END Page_Load event method
-
-    ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    #endregion
-
-    #region  private
-    //==================================================================================	
-    /// <summary>
-    /// this method reads in the external command parameters.
-    /// </summary>
-    /// <returns>Bool: true = external command found.</returns>
-    // --------------------------------------------------------------------------------
-    private bool GetUrlParameters ( )
-    {
-      this.LogMethod ( "ReadUrlParameters" );
-      // 
-      // Extract the URL parameters and instantiate the local variables.
-      // 
-      int loop1;
-      string Key, Value;
-
-      this.LogDebug ( "Request.Url: " + Request.Url );
-      this.LogDebug ( "Request.Url.AbsoluteUri: " + Request.Url.AbsoluteUri );
-      this.LogDebug ( "Request.Url.Query: " + Request.Url.Query );
-
-      // 
-      // Load SpecialisationValueCollection object.
-      // 
-      NameValueCollection coll = Request.QueryString;
-
-      this.LogDebug ( "Parameter Collection count: " + coll.Count );
-      // 
-      // Get names of all keys into a string array.
-      // 
-      String [ ] aKeys = coll.AllKeys;
-
-      if ( aKeys.Length == 0 )
-      {
-        this.LogDebug ( "No query string parameters." );
-        this.LogMethodEnd ( "ReadUrlParameters" );
-        return false;
-      }
-
-      // 
-      // loop through the key collection to extract the page parameters
-      // 
-      for ( loop1 = 0; loop1 < aKeys.Length; loop1++ )
-      {
-        Key = Server.HtmlEncode ( aKeys [ loop1 ] ).ToString ( );
-        String [ ] aValues = coll.GetValues ( aKeys [ loop1 ] );
-        Value = Server.HtmlEncode ( aValues [ 0 ] ).ToString ( );
-
-        string parameter = Key.ToLower ( );
-
-
-      }//END paraemter iteration loop
-
-      this.LogMethodEnd ( "ReadUrlParameters" );
-      return false;
-
-    }//END ReadUrlParameters method.
 
     ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #endregion
@@ -250,7 +198,7 @@ namespace Evado.UniForm.WebClient
     //   ---------------------------------------------------------------------------------
     public void LogDebug ( String Value )
     {
-      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ":"
+      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
        + "DefaultPage:" + Value;
 
       Global.LogDebugValue ( logValue );

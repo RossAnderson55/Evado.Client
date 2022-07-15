@@ -391,7 +391,8 @@ namespace Evado.UniForm.WebClient
     /// This method send the Command back to the server objects.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void sendPageCommand ( )
+    private void 
+      sendPageCommand ( )
     {
       this.LogMethod ( "sendPageCommand" );
       this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
@@ -400,7 +401,8 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
       this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
-
+      this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
+      
       //
       // Display a serialised instance of the object.
       //
@@ -449,8 +451,8 @@ namespace Evado.UniForm.WebClient
         Evado.UniForm.Model.EuStatics.CONST_WEB_CLIENT );
 
       this.UserSession.PageCommand.AddHeader (
-        Evado.UniForm.Model.EuCommandHeaderParameters.DeviceName,
-        Evado.UniForm.Model.EuStatics.CONST_WEB_CLIENT );
+        Evado.UniForm.Model.EuCommandHeaderParameters.Client_Url,
+        this.GetRequestHeader( "Host") );
 
       this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.OSVersion,
@@ -631,7 +633,7 @@ namespace Evado.UniForm.WebClient
 
       foreach ( string key in response.Headers.Keys )
       {
-        this.LogDebug ( String.Format ( "{0}: {1}", key, response.Headers [ key ] ) );
+        this.LogDebug (  "{0}: {1}", key, response.Headers [ key ] );
       }
 
       string result = new StreamReader ( response.GetResponseStream ( ) ).ReadToEnd ( );
@@ -640,6 +642,32 @@ namespace Evado.UniForm.WebClient
 
       return result;
     }
+
+    // =====================================================================================
+    /// <summary>
+    /// Description:
+    ///  This method logs the user transaction sent to the service
+    /// 
+    /// </summary>
+    // -------------------------------------------------------------------------------------
+    private String GetRequestHeader ( String HeaderKey )
+    {
+      //
+      // Log the HTTP header elements
+      //
+      if ( this.Request.Headers.Keys.Count > 0 )
+      {
+        foreach ( string key in this.Request.Headers.Keys )
+        {
+          if ( key.ToLower ( ) == HeaderKey.ToLower ( ) )
+          {
+            return this.Request.Headers [ key ].ToString ( );
+          }
+        }
+      }
+      return String.Empty;
+
+    }//END logUserTransaction method
 
     // ==================================================================================
 
@@ -933,6 +961,7 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "Request.RequestType: {0}.", Request.RequestType );
       this.LogDebug ( "Request.Url: {0}.", Request.Url );
       this.LogDebug ( "Request.RawUrl: {0}.", Request.RawUrl );
+      this.LogDebug ( "Request.Url: {0}.", Request.Url );
       this.LogDebug ( "Request.QueryString: {0}.", Request.QueryString.ToString() );
       this.LogDebug ( "Request.QueryString.Count: {0}.", Request.QueryString.Count );
       // 
@@ -1359,7 +1388,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private int getAnnotationIndex ( String Key )
     {
-      ///this.writeDebug = "<hr/>Evado.UniForm.WebClient.DefaultPage.getAnnotationIndex method.  Key: " + Key
+      ///this.writeDebug = "<hr/>Evado.UniForm.WebClient.ClientPage.getAnnotationIndex method.  Key: " + Key
       ///  + " AnnotationList count: " + this.UserSession.FieldAnnotationList.Count ;
       ///
       /// Iterate through the annotation list to find a matching element
@@ -2015,8 +2044,8 @@ namespace Evado.UniForm.WebClient
       this.LogMethod ( "UploadPageImages method" );
       this.LogDebug ( "Global.ImageFilePath: " + Global.BinaryFilePath );
       this.LogDebug ( "Number of files: " + Context.Request.Files.Count );
-      //try
-      //{
+      try
+      {
       // 
       // Initialise the methods variables.
       // 
@@ -2098,22 +2127,17 @@ namespace Evado.UniForm.WebClient
         string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
           + stFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
 
+        this.LogValue ( stEventContent );
         EventLog.WriteEntry ( Global.EventLogSource, stEventContent, EventLogEntryType.Information );
 
 
       }//END upload file iteration loop
 
-      /*}  // End Try
+      }  // End Try
       catch ( Exception Ex )
       {
-        EventLog.WriteEntry ( Global.EventLogSource,
-          Evado.Model.EvStatics.getHtmlAsString ( this._DebugLog.ToString ( ) ) + "\r\n"
-          + Evado.Model.EvStatics.getException ( Ex ),
-          EventLogEntryType.Error );
-
-        Global.WriteDebugLogLine ( "<p>Exception Event:<br>" + Evado.Model.EvStatics.getExceptionAsHtml ( Ex ) + "</p>" );
-
-      }*/
+        this.LogValue ( "Exception Event:<br>" + Evado.Model.EvStatics.getException ( Ex ));
+      }
       // End catch.
 
       ///
@@ -2149,11 +2173,7 @@ namespace Evado.UniForm.WebClient
         return;
       }
 
-      if ( stUploadUrl.Contains ( "http://" ) == false
-        && stUploadUrl.Contains ( "https://" ) == false )
-      {
-        stUploadUrl = Global.WebServiceUrl + stUploadUrl;
-      }
+      stUploadUrl = Evado.Model.EvStatics.concatinateHttpUrl ( Global.WebServiceUrl, stUploadUrl );
 
       this.LogDebug ( "Upload Url: " + stUploadUrl );
 
@@ -2165,16 +2185,15 @@ namespace Evado.UniForm.WebClient
 
         if ( uploadStatus != Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes.Completed )
         {
-          this.LogDebug ( "Image " + ImageFilePath + " upload failed. Error Messge: " + uploadStatus );
-
-          EventLog.WriteEntry ( Global.EventLogSource,
-            "Image " + ImageFilePath + " upload failed. Error Messge: " + uploadStatus,
-            EventLogEntryType.Error );
+          this.LogDebug ( "File " + ImageFilePath + " upload failed. Error Status: " + uploadStatus );
         }
+
+        this.LogDebug ( "File " + ImageFilePath + " Status: " + uploadStatus );
       }
       catch ( Exception Ex )
       {
         this.LogValue ( Evado.Model.EvStatics.getException ( Ex ) );
+        throw;
       }
       this.LogMethodEnd ( "sendBinaryFileToImageService" );
 
@@ -3008,7 +3027,6 @@ namespace Evado.UniForm.WebClient
     ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #endregion
 
-
     #region Logging methods.
     //  =================================================================================
     /// <summary>
@@ -3019,7 +3037,7 @@ namespace Evado.UniForm.WebClient
     {
       string logValue = Evado.Model.EvStatics.CONST_METHOD_START
          + DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-         + "Evado.Uniform.Webclient.DefaultPage:" + Value + " Method";
+         + "Evado.Uniform.Webclient.ClientPage:" + Value + " Method";
 
       Global.LogValue ( logValue );
     }
@@ -3048,7 +3066,7 @@ namespace Evado.UniForm.WebClient
     public void LogValue ( String Value )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ":"
-       + "DefaultPage:" + Value;
+       + "ClientPage:" + Value;
 
       Global.LogValue ( logValue );
     }
@@ -3064,7 +3082,7 @@ namespace Evado.UniForm.WebClient
     public void LogValue ( String Format, params object [ ] args )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       + "DefaultPage:" + String.Format ( Format, args );
+       + "ClientPage:" + String.Format ( Format, args );
 
       Global.LogValue ( logValue );
     }
@@ -3078,7 +3096,7 @@ namespace Evado.UniForm.WebClient
     public void LogDebug ( String Value )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ":"
-       + "DefaultPage:" + Value;
+       + "ClientPage:" + Value;
 
       Global.LogDebugValue ( logValue );
     }
@@ -3093,7 +3111,7 @@ namespace Evado.UniForm.WebClient
     public void LogDebug ( String Format, params object [ ] args )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       + "DefaultPage:" + String.Format ( Format, args );
+       + "ClientPage:" + String.Format ( Format, args );
 
       Global.LogDebugValue ( logValue );
     }

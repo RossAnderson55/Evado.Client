@@ -244,25 +244,7 @@ namespace Evado.UniForm.WebClient {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText meetingUrl;
-        
-        /// <summary>
-        /// meetingUserName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText meetingUserName;
-        
-        /// <summary>
-        /// meetingParameters control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText meetingParameters;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingUrl;
         
         /// <summary>
         /// lastMeetingUrl control.
@@ -271,7 +253,25 @@ namespace Evado.UniForm.WebClient {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText lastMeetingUrl;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden lastMeetingUrl;
+        
+        /// <summary>
+        /// meetingUserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingUserName;
+        
+        /// <summary>
+        /// meetingParameters control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingParameters;
         
         /// <summary>
         /// meetingStatus control.
@@ -280,7 +280,7 @@ namespace Evado.UniForm.WebClient {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText meetingStatus;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingStatus;
         
         /// <summary>
         /// groupNo control.

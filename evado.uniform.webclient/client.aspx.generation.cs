@@ -59,7 +59,8 @@ namespace Evado.UniForm.WebClient
       //
       // Passes the meeting setting to the page elements to be passed to the parent page.
       //
-      if ( this.UserSession.AppData.MeetingStatus == Evado.UniForm.Model.EuMeeting.StatusList.Meeting_Commenced )
+      this.meetingUrl.Value = String.Empty;
+      if ( this.UserSession.AppData.MeetingStatus == Evado.Model.EvMeeting.States.Meeting_Commenced )
       {
         this.meetingUrl.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url );
         this.meetingUserName.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_UserName );
@@ -72,6 +73,7 @@ namespace Evado.UniForm.WebClient
         this.meetingParameters.Value = String.Empty;
       }
       this.meetingStatus.Value = this.UserSession.AppData.MeetingStatus.ToString ( );
+
 
       this.litExitCommand.Visible = true;
       this.litCommandContent.Visible = true;
@@ -88,6 +90,13 @@ namespace Evado.UniForm.WebClient
       this.litCommandContent.Visible = true;
       bool displayGroupsAsPanels = this.UserSession.AppData.Page.GetDisplayGroupsAsPanels ( );
 
+      //
+      // Reinitialise the history each time the home page is displayed.
+      //
+      if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_DEFAULT_HOME_PAGE_ID )
+      {
+        this.initialiseHistory ( );
+      }
       //
       // Groups are displayed a panels enable and initialise the page objects.
       //

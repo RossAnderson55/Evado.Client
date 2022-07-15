@@ -39,6 +39,8 @@ namespace Evado.UniForm.WebClient
     public const String SESSION_A1 = "EUWC_A1";
     public const String SESSION_ROLES = "EUWC_ROLES";
 
+    public const String CONST_CLIENT_BASE_URL = "./client.aspx";
+
     public const String CONFIG_PAGE_DEEFAULT_LOGO = "PDLOGO";
     public const String CONFIG_EVENT_LOG_SOURCE_KEY = "EventLogSource";
     public const String CONST_ENABLE_DETAILED_LOGGING = "ENABLE_DETAILED_LOGGING";

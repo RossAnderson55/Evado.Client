@@ -125,6 +125,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="temp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\bootstrap-datetimepicker.min.css" />

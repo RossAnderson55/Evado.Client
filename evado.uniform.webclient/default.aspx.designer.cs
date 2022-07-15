@@ -31,13 +31,22 @@ namespace Evado.UniForm.WebClient {
         protected global::System.Web.UI.HtmlControls.HtmlForm pageForm;
         
         /// <summary>
+        /// clientFrame control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl clientFrame;
+        
+        /// <summary>
         /// meetingUrl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingUrl;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText meetingUrl;
         
         /// <summary>
         /// meetingUserName control.
@@ -46,7 +55,7 @@ namespace Evado.UniForm.WebClient {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingUserName;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText meetingUserName;
         
         /// <summary>
         /// meetingParameters control.
@@ -55,7 +64,7 @@ namespace Evado.UniForm.WebClient {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingParameters;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText meetingParameters;
         
         /// <summary>
         /// meetingStatus control.
@@ -64,7 +73,7 @@ namespace Evado.UniForm.WebClient {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingStatus;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText meetingStatus;
         
         /// <summary>
         /// litCopyright control.

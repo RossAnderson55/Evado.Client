@@ -12,17 +12,19 @@ $(function () {
     var meetingUserName = "" + document.getElementById("meetingUserName").value;
     var meetingUrl = "" + document.getElementById("meetingUrl").value;
     var meetingParameters = "" + document.getElementById("meetingParameters").value;
+    //var clientUrl = "" + document.getElementById("clientUrl").value; ;
     var meetingDiv = document.getElementById("meeting");
     var meetingFrame = document.getElementById("meeting-frame");
     var clientDiv = document.getElementById("client");
-    var clientFrame = document.getElementById("client-frame");
+    var clientFrame = document.getElementById("clientFrame");
     var footerHeight = $("#form-footer").height();
     var videoMargin = 10;
     var rightColumnWidthRatio = 0.3333;
 
     console.log("meeting: windowWidth: " + windowWidth);
     console.log("meeting: windowHeight: " + windowHeight);
-    console.log("meeting: footerHeight: " + footerHeight);
+    //console.log("meeting: clientUrl: " + clientUrl);
+    console.log("meeting: meetingUrl: " + meetingUrl);
     console.log("meeting: meetingUserName: " + meetingUserName);
     console.log("meeting: meetingUrl: " + meetingUrl);
     console.log("meeting: meetingParameters: " + meetingParameters);
@@ -43,8 +45,8 @@ $(function () {
     //
     if (meetingUrl == "") {
       console.log("meeting: Video URL is empty no meeting.");
-      console.log("meeting: client-frame width: " + meetingFrame.getAttribute("width"));
-      console.log("meeting: client-frame height: " + meetingFrame.getAttribute("height"));
+      console.log("meeting: clientFrame width: " + meetingFrame.getAttribute("width"));
+      console.log("meeting: clientFrame height: " + meetingFrame.getAttribute("height"));
       console.log("meeting: displayMeeting FINISH");
       return;
     } //END no meeting
@@ -104,8 +106,8 @@ $(function () {
       $("#client").css({ marginTop: "0" });
       clientFrame.setAttribute("width", clientColumnWidth);
       clientFrame.setAttribute("height", clientHeight);
-      console.log("meeting: client-frame: " + clientFrame.getAttribute("width"));
-      console.log("meeting: client-frame: " + clientFrame.getAttribute("height"));
+      console.log("meeting: clientFrame: " + clientFrame.getAttribute("width"));
+      console.log("meeting: clientFrame: " + clientFrame.getAttribute("height"));
     }
     //
     // set video in portature
@@ -135,8 +137,8 @@ $(function () {
       clientFrame.setAttribute("width", clientWidth);
       clientFrame.setAttribute("height", clientHeight);
 
-      console.log("meeting: client-frame: " + clientFrame.getAttribute("width"));
-      console.log("meeting: client-frame: " + clientFrame.getAttribute("height"));
+      console.log("meeting: clientFrame: " + clientFrame.getAttribute("width"));
+      console.log("meeting: clientFrame: " + clientFrame.getAttribute("height"));
     }
 
     console.log("meeting: displayMeeting FINISH");

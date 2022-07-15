@@ -61,7 +61,7 @@
     <!-- allow="camera; microphone; fullscreen; speaker; display-capture" -->
   </div>
   <div id="client">
-    <iframe id='client-frame' name='client-frame' src='./client.aspx' width='100%' height="100%">
+    <iframe id='clientFrame' name='clientFrame' src='./client.aspx' width='100%' height="100%" runat="server">
     </iframe>
   </div>
   <table id="form-footer">
@@ -71,10 +71,10 @@
     </tr>
     <tr>
       <td colspan="3" style="margin:20px;" >
-    <input id="meetingUrl" type="hidden" size="50" runat="server" />
-    <input id="meetingUserName" type="hidden" size="50" runat="server" />
-    <input id="meetingParameters" type="hidden" size="30" runat="server" />
-    <input id="meetingStatus" type="hidden" size="30" runat="server" />
+    <input id="meetingUrl" type="text" size="50" runat="server" />
+    <input id="meetingUserName" type="text" size="50" runat="server" />
+    <input id="meetingParameters" type="text" size="30" runat="server" />
+    <input id="meetingStatus" type="text" size="30" runat="server" />
       </td>
     </tr>
     <tr>
