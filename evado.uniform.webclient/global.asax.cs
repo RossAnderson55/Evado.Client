@@ -814,12 +814,13 @@ namespace Evado.UniForm.WebClient
       }
 
       String stContent = Evado.Model.EvStatics.getHtmlAsString ( Global._ClientLog.ToString ( ) );
-
-
       //
+
       // Save the file.
       //
-      Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath, LogFileName, stContent );
+      Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath + LogFileName, stContent );
+
+      Global._ClientLog = new System.Text.StringBuilder ( );
 
     }//END writeOutDebugLog method
 
@@ -946,7 +947,7 @@ namespace Evado.UniForm.WebClient
       //
       // Save the file.
       //
-      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath, LogFileName, stContent );
+      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + LogFileName, stContent );
 
     }//END writeOutDebugLog method
 
@@ -1003,7 +1004,7 @@ namespace Evado.UniForm.WebClient
       //
       // Save the file.
       //
-      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath, LogFileName, stContent );
+      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + LogFileName, stContent );
 
     }//END writeOutDebugLog method
 
