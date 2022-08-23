@@ -122,7 +122,7 @@ namespace Evado.UniForm.WebClient
       //
       // write out the debug log.
       //
-      Global.OutputtDebugLog ( );
+      Global.OutputDebugLog ( );
 
       //
       // write out the client log.

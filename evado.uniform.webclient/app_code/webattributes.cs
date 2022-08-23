@@ -1,5 +1,5 @@
 /***************************************************************************************
- *                 COPYRIGHT (C) EVADO HOLDING PTY. LTD.  2011 - 2020
+ *                 COPYRIGHT (C) EVADO HOLDING PTY. LTD.  2011 - 2022
  *
  *                            ALL RIGHTS RESERVED
  *

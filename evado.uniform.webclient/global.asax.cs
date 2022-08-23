@@ -715,7 +715,7 @@ namespace Evado.UniForm.WebClient
     //
     private static System.Text.StringBuilder _ClientLog = new System.Text.StringBuilder ( );
 
-    private const String CONST_SERVICE_LOG_FILE_NAME = @"web-client-log-";
+    private const String CONST_SERVICE_LOG_FILE_NAME = @"web-client-log";
 
     //  =================================================================================
     /// <summary>
@@ -807,18 +807,18 @@ namespace Evado.UniForm.WebClient
       String stContent =  Global._ClientLog.ToString ( );
 
       String logFileName = CONST_SERVICE_LOG_FILE_NAME
-        + DateTime.Now.ToString ( "yy-MM" ) + ".log";
+        + "-" + DateTime.Now.ToString ( "yy-MM" ) + ".log";
 
       if ( Global.EnableDetailedLogging == true )
       {
         logFileName = CONST_SERVICE_LOG_FILE_NAME
-         + DateTime.Now.ToString ( "yy-MM-dd" ) + ".log";
+         + "-" + DateTime.Now.ToString ( "yy-MM-dd" ) + ".log";
 
         Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath + logFileName, stContent );
       }
       else
       {
-        Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath + logFileName, stContent );
+        Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + logFileName, stContent );
       }
 
       Global._ClientLog = new System.Text.StringBuilder ( ); 
@@ -832,7 +832,7 @@ namespace Evado.UniForm.WebClient
 
     private static System.Text.StringBuilder _DebuLog = new System.Text.StringBuilder ( );
 
-    private const String CONST_DEBUG_LOG_FILE_NAME = @"web-client-debug-";
+    private const String CONST_DEBUG_LOG_FILE_NAME = @"web-client-debug";
 
     public static String Debuglog = Global._DebuLog.ToString ( );
 
@@ -847,7 +847,7 @@ namespace Evado.UniForm.WebClient
       // Define the filename
       //
       String LogFileName = Global.LogFilePath + CONST_DEBUG_LOG_FILE_NAME
-        + DateTime.Now.ToString ( "yy-MM" ) + ".log";
+        + "-" + DateTime.Now.ToString ( "yy-MM" ) + ".log";
 
       //
       // IF Debug is turned off exit method.
@@ -903,13 +903,13 @@ namespace Evado.UniForm.WebClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void OutputtDebugLog ( )
+    public static void OutputDebugLog ( )
     {
       //
       // Define the filename
       //
       String logFileName = CONST_DEBUG_LOG_FILE_NAME
-        + DateTime.Now.ToString ( "yy-MM" ) + ".log";
+        + "-" + DateTime.Now.ToString ( "yy-MM" ) + ".log";
 
       //
       // IF Debug is turned off exit method.

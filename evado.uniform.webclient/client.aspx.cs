@@ -253,7 +253,7 @@ namespace Evado.UniForm.WebClient
       //
       // write out the debug log.
       //
-      Global.OutputtDebugLog ( );
+      Global.OutputDebugLog ( );
       //
       // write out the client log.
       //
@@ -2143,7 +2143,7 @@ namespace Evado.UniForm.WebClient
       ///
       /// write out the debug log.
       ///
-      Global.OutputtDebugLog ( );
+      Global.OutputDebugLog ( );
 
     }//END UploadPageImages method
 
@@ -2847,7 +2847,7 @@ namespace Evado.UniForm.WebClient
 
       this.outputSerialisedData ( );
 
-      Global.OutputtDebugLog ( );
+      Global.OutputDebugLog ( );
 
       this.LogMethodEnd ( "btnLogin_OnClick" );
 
@@ -2908,7 +2908,7 @@ namespace Evado.UniForm.WebClient
 
       this.outputSerialisedData ( );
 
-      Global.OutputtDebugLog ( );
+      Global.OutputDebugLog ( );
 
       this.LogMethodEnd ( "sendWindowsLoginCommand" );
 

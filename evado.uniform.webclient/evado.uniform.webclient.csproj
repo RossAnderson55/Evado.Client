@@ -133,6 +133,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="temp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\bootstrap-datetimepicker.min.css" />
@@ -175,6 +176,7 @@
     <None Include="images\thumbs.db" />
     <Content Include="js\parsley.js" />
     <Content Include="js\underscore.js" />
+    <Content Include="test.htm" />
     <Content Include="meeting.aspx" />
     <Content Include="web.config">
       <SubType>Designer</SubType>

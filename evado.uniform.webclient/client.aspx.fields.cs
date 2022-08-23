@@ -2827,7 +2827,6 @@ namespace Evado.UniForm.WebClient
               }//END Text State.
 
             case Evado.Model.EvDataTypes.Numeric:
-            case Evado.Model.EvDataTypes.Integer:
               {
                 stHtml.Append ( "<td align='middle'>" );
                 //
