@@ -208,7 +208,7 @@
     <value>Message</value>
   </data>
   <data name="Radio_Button_Not_Selected" xml:space="preserve">
-    <value>Not selected</value>
+    <value>No option is selected</value>
   </data>
   <data name="Signature_Clear" xml:space="preserve">
     <value>Clear</value>
@@ -218,6 +218,9 @@
   </data>
   <data name="User_Login_Title" xml:space="preserve">
     <value>User Login</value>
+  </data>
+  <data name="Video_Meeting_Parameter_Error_Message" xml:space="preserve">
+    <value>The URL has the incorrect video parameters.  </value>
   </data>
   <data name="Video_Url_Field_Title" xml:space="preserve">
     <value>Video URL:</value>

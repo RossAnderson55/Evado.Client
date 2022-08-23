@@ -1,9 +1,9 @@
 {
   "Id": "26b5b109-d259-43a2-b517-73fd8e729a0b",
-  "Title": "Questionnaire 1",
+  "Title": "Patient Outcomes",
   "t": 9,
   "a": "Evado_Clinical",
-  "o": "Questionnaire",
+  "o": "Patient_Outcomes",
   "m": 2,
   "prm": [
     {

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -21,7 +21,7 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
@@ -41,6 +41,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,6 +50,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="markdownsharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -113,6 +115,12 @@
     <Compile Include="global.asax.cs">
       <DependentUpon>global.asax</DependentUpon>
     </Compile>
+    <Compile Include="meeting.aspx.designer.cs">
+      <DependentUpon>meeting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="meeting.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Properties\assemblyinfo.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -125,7 +133,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="temp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\bootstrap-datetimepicker.min.css" />
@@ -134,6 +141,7 @@
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\client.main.css" />
+    <Content Include="css\client.video.css" />
     <Content Include="css\menu.css" />
     <Content Include="css\menu.js" />
     <Content Include="css\report.css" />
@@ -141,6 +149,7 @@
     <Content Include="default.aspx" />
     <Content Include="js\bootstrap-datetimepicker.js" />
     <Content Include="js\evado.video.js" />
+    <Content Include="js\evado.video_1.js" />
     <Content Include="js\signaturePad.js" />
     <Content Include="js\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\bootstrap.js" />
@@ -166,6 +175,7 @@
     <None Include="images\thumbs.db" />
     <Content Include="js\parsley.js" />
     <Content Include="js\underscore.js" />
+    <Content Include="meeting.aspx" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -87,7 +87,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void Page_Load ( object sender, System.EventArgs E )
     {
-
+      //Global.ClearDebugLog ( );
       this.LogMethod ( "Page_Load event" );
       try
       {
@@ -391,7 +391,7 @@ namespace Evado.UniForm.WebClient
     /// This method send the Command back to the server objects.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void 
+    private void
       sendPageCommand ( )
     {
       this.LogMethod ( "sendPageCommand" );
@@ -402,7 +402,7 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
       this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
-      
+
       //
       // Display a serialised instance of the object.
       //
@@ -452,7 +452,7 @@ namespace Evado.UniForm.WebClient
 
       this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.Client_Url,
-        this.GetRequestHeader( "Host") );
+        this.GetRequestHeader ( "Host" ) );
 
       this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.OSVersion,
@@ -516,7 +516,7 @@ namespace Evado.UniForm.WebClient
           // 
           // Open the stream to the file.
           // 
-          using ( StreamWriter sw = new StreamWriter ( Global.TempPath + @"json-data.txt" ) )
+          using ( StreamWriter sw = new StreamWriter ( Global.TempPath + @"client_json-data.txt" ) )
           {
             sw.Write ( serialisedText );
 
@@ -633,7 +633,7 @@ namespace Evado.UniForm.WebClient
 
       foreach ( string key in response.Headers.Keys )
       {
-        this.LogDebug (  "{0}: {1}", key, response.Headers [ key ] );
+        this.LogDebug ( "{0}: {1}", key, response.Headers [ key ] );
       }
 
       string result = new StreamReader ( response.GetResponseStream ( ) ).ReadToEnd ( );
@@ -962,7 +962,7 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "Request.Url: {0}.", Request.Url );
       this.LogDebug ( "Request.RawUrl: {0}.", Request.RawUrl );
       this.LogDebug ( "Request.Url: {0}.", Request.Url );
-      this.LogDebug ( "Request.QueryString: {0}.", Request.QueryString.ToString() );
+      this.LogDebug ( "Request.QueryString: {0}.", Request.QueryString.ToString ( ) );
       this.LogDebug ( "Request.QueryString.Count: {0}.", Request.QueryString.Count );
       // 
       // Load SpecialisationValueCollection object.
@@ -1042,7 +1042,7 @@ namespace Evado.UniForm.WebClient
 
       }//END paraemter iteration loop
 
-      this.LogDebug ( "Finished query parameter iteration loop.");
+      this.LogDebug ( "Finished query parameter iteration loop." );
 
       this.LogDebug ( this.UserSession.PageCommand.getAsString ( false, true ) );
 
@@ -2046,97 +2046,97 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "Number of files: " + Context.Request.Files.Count );
       try
       {
-      // 
-      // Initialise the methods variables.
-      // 
-      string stExtension = String.Empty;
+        // 
+        // Initialise the methods variables.
+        // 
+        string stExtension = String.Empty;
 
-      // 
-      // Exit the method of not files are included in the post back.
-      // 
-      if ( Context.Request.Files.Count == 0 )
-      {
-        this.LogDebug ( " No images to upload. Exit method." );
-
-        return;
-      }
-
-      //
-      // Iterate through the uploaded files.
-      //
-      foreach ( String requestFieldName in Context.Request.Files.AllKeys )
-      {
-        this.LogDebug ( "requestFieldName: " + requestFieldName );
-
-        //
-        // Skip the dummy test upload.
-        //
-        if ( requestFieldName == "TestFileUpload" )
+        // 
+        // Exit the method of not files are included in the post back.
+        // 
+        if ( Context.Request.Files.Count == 0 )
         {
-          continue;
+          this.LogDebug ( " No images to upload. Exit method." );
+
+          return;
         }
 
-        // 
-        // Get the posted file.
-        // 
-        HttpPostedFile uploadedFileObject = Context.Request.Files.Get ( requestFieldName );
-
         //
-        // If the file is empty continue to the next file.
+        // Iterate through the uploaded files.
         //
-        if ( uploadedFileObject.ContentLength == 0 )
+        foreach ( String requestFieldName in Context.Request.Files.AllKeys )
         {
-          continue;
-        }
+          this.LogDebug ( "requestFieldName: " + requestFieldName );
+
+          //
+          // Skip the dummy test upload.
+          //
+          if ( requestFieldName == "TestFileUpload" )
+          {
+            continue;
+          }
+
+          // 
+          // Get the posted file.
+          // 
+          HttpPostedFile uploadedFileObject = Context.Request.Files.Get ( requestFieldName );
+
+          //
+          // If the file is empty continue to the next file.
+          //
+          if ( uploadedFileObject.ContentLength == 0 )
+          {
+            continue;
+          }
 
 
-        string fileName = Path.GetFileName ( uploadedFileObject.FileName );
-        fileName = fileName.Replace ( " ", "_" );
-        this.LogDebug ( "Uploaded file name: " + fileName );
-        this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
+          string fileName = Path.GetFileName ( uploadedFileObject.FileName );
+          fileName = fileName.Replace ( " ", "_" );
+          this.LogDebug ( "Uploaded file name: " + fileName );
+          this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
 
-        //
-        // Retrieve the UniFORM field id.
-        // 
-        String stFieldId = requestFieldName;
-        int index = stFieldId.LastIndexOf ( Evado.UniForm.Model.EuField.CONST_IMAGE_FIELD_SUFFIX );
-        stFieldId = stFieldId.Substring ( 0, index );
-        this.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
+          //
+          // Retrieve the UniFORM field id.
+          // 
+          String stFieldId = requestFieldName;
+          int index = stFieldId.LastIndexOf ( Evado.UniForm.Model.EuField.CONST_IMAGE_FIELD_SUFFIX );
+          stFieldId = stFieldId.Substring ( 0, index );
+          this.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
 
-        //
-        // Update the image field value with the uploaded filename.
-        //
-        this.UserSession.AppData.SetFieldValue ( stFieldId, fileName );
+          //
+          // Update the image field value with the uploaded filename.
+          //
+          this.UserSession.AppData.SetFieldValue ( stFieldId, fileName );
 
-        this.LogDebug ( "UniFORM FieldId: " + stFieldId );
+          this.LogDebug ( "UniFORM FieldId: " + stFieldId );
 
-        string stFilePath = Global.BinaryFilePath + fileName;
+          string stFilePath = Global.BinaryFilePath + fileName;
 
-        this.LogDebug ( "Image file path: " + stFilePath );
+          this.LogDebug ( "Image file path: " + stFilePath );
 
-        //
-        // Save the file to disk.
-        //
-        uploadedFileObject.SaveAs ( stFilePath );
+          //
+          // Save the file to disk.
+          //
+          uploadedFileObject.SaveAs ( stFilePath );
 
-        //
-        // set the image to the image service.
-        //
-        this.sendBinaryFileToImageService ( stFilePath, uploadedFileObject.ContentType );
+          //
+          // set the image to the image service.
+          //
+          this.sendBinaryFileToImageService ( stFilePath, uploadedFileObject.ContentType );
 
-        string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
-          + stFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
+          string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
+            + stFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
 
-        this.LogValue ( stEventContent );
-        EventLog.WriteEntry ( Global.EventLogSource, stEventContent, EventLogEntryType.Information );
+          this.LogValue ( stEventContent );
+          EventLog.WriteEntry ( Global.EventLogSource, stEventContent, EventLogEntryType.Information );
 
 
-      }//END upload file iteration loop
+        }//END upload file iteration loop
 
       }  // End Try
       catch ( Exception Ex )
       {
-        this.LogValue ( "Exception Event:<br>" + Evado.Model.EvStatics.getException ( Ex ));
+        this.LogValue ( "Exception Event:<br>" + Evado.Model.EvStatics.getException ( Ex ) );
       }
       // End catch.
 
@@ -2724,7 +2724,8 @@ namespace Evado.UniForm.WebClient
       //
       this.initialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
-      this.imgLogo.Src = Global.DefaultLogoUrl;
+      this.imgLogo.Src = Global.DefaultLogoUrl; 
+      this.meetingStatus.Value = Evado.Model.EvMeeting.States.Null.ToString ( );
 
       this.fsLoginBox.Visible = true;
       this.litExitCommand.Visible = false;
@@ -2732,6 +2733,14 @@ namespace Evado.UniForm.WebClient
       this.litPageContent.Visible = false;
       this.litHistory.Visible = false;
       this.litPageMenu.Visible = false;
+
+      //
+      // Reset the meeting parameters.
+      //
+      this.meetingUrl.Value = String.Empty;
+      this.meetingDisplayName.Value = String.Empty;
+      this.meetingParameters.Value = String.Empty;
+      this.meetingStatus.Value = String.Empty; ;
 
       this.UserSession.AppData.Page.Exit = new Evado.UniForm.Model.EuCommand ( );
 
@@ -3065,7 +3074,7 @@ namespace Evado.UniForm.WebClient
     //   ---------------------------------------------------------------------------------
     public void LogValue ( String Value )
     {
-      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ":"
+      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
        + "ClientPage:" + Value;
 
       Global.LogValue ( logValue );
@@ -3095,7 +3104,7 @@ namespace Evado.UniForm.WebClient
     //   ---------------------------------------------------------------------------------
     public void LogDebug ( String Value )
     {
-      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ":"
+      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
        + "ClientPage:" + Value;
 
       Global.LogDebugValue ( logValue );

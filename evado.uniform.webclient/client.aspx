@@ -6,7 +6,7 @@
 <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
 <head id="Head1" runat="server">
   <title>UniFORM Web Client </title>
-  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" type="image/png" href="./favicon.png">
   <style type="text/css" media="screen, print, projection">
     @import "./css/bootstrap.css";
     @import "./css/bootstrap-theme.css";
@@ -25,8 +25,46 @@
   <script type="text/javascript" src="./js/Evado.Form.js"></script>
   <script type="text/javascript" src="./js/jquery.signaturepad.js"></script>
   <script type="text/javascript" src="./css/menu.js"></script>
+  <script type="text/javascript">
+
+    // addEventListener support for IE8
+    function bindEvent(element, eventName, eventHandler) {
+      if (element.addEventListener) {
+        element.addEventListener(eventName, eventHandler, false);
+      } else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, eventHandler);
+      }
+    }
+
+    /*
+    * This is the page load event.
+    */
+    function pageLoad() {
+      console.log("Client: OnPageLoad Event START");
+
+      var lastMeetingStatus = document.getElementById('lastMeetingStatus').value;
+      var meetingUrl = document.getElementById('meetingUrl').value;
+      var meetingDisplayName = document.getElementById('meetingDisplayName').value;
+      var meetingParameters = document.getElementById('meetingParameters').value;
+      var meetingStatus = document.getElementById('meetingStatus').value;
+
+      console.log("Client: meetingStatus: " + meetingStatus);
+      console.log("Client: lastMeetingStatus: " + lastMeetingStatus);
+      console.log("Client: meetingUrl: " + meetingUrl);
+      console.log("Client: meetingDisplayName: " + meetingDisplayName);
+      console.log("Client: meetingParameters: " + meetingParameters);
+
+      var message = meetingUrl + ";" + meetingDisplayName + ";" + meetingParameters + ";" + meetingStatus;
+
+      console.log("Client: postMessage: " + message);
+
+      window.parent.postMessage(message, '*');
+
+      console.log("Client: OnPageLoad Event FINISH");
+    }
+  </script>
 </head>
-<body>
+<body onload="pageLoad()">
   <form id="form1" runat="server">
   <div>
     <asp:HiddenField ID="__CommandId" runat="server" Value="" />
@@ -182,14 +220,21 @@
         <!--
         <asp:fileupload id="TestFileUpload" runat="server" Visible="false" />
         -->
-      </div>
-    <input id="meetingUrl" type="hidden" size="50" runat="server" />
-    <input id="lastMeetingUrl" type="hidden" size="50" runat="server" />
-    <input id="meetingUserName" type="hidden" size="50" runat="server" />
-    <input id="meetingParameters" type="hidden" size="30" runat="server" />
-    <input id="meetingStatus" type="hidden" size="30" runat="server" />
+        
+  <table id="formFooter">
+    <tr>
+      <td colspan="3">
+      <input id="meetingUrl" type="text" size="500" runat="server" />
+      <input id="meetingDisplayName" type="hidden"  runat="server" />
+      <input id="meetingParameters" type="hidden"  runat="server" />
+      <input id="meetingStatus" type="hidden" runat="server" />
+      <input id="lastMeetingStatus" type="hidden" runat="server" />
       <input id="groupNo" type="hidden" runat="server" />
       <input id="pageId" type="hidden" runat="server" />
+      </td>
+    </tr>
+  </table>
+      </div>
     </div>
   </div>
   <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2022 -->

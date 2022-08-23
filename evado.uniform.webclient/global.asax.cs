@@ -35,6 +35,11 @@ namespace Evado.UniForm.WebClient
 
     public const String CONST_EXTERNAL_COMMAND_EXTENSION = ".COMMAND.JSON";
 
+    /// <summary>
+    ///  This constant defines a trial identifier
+    /// </summary>
+    public const string CONST_CUSTOMER_GUID = "CUSTOMER_GUID";
+
     public const String SESSION_USER_ID = "EUWC_USER_ID";
     public const String SESSION_A1 = "EUWC_A1";
     public const String SESSION_ROLES = "EUWC_ROLES";
@@ -64,11 +69,6 @@ namespace Evado.UniForm.WebClient
     /// This object contains the current Authenication Mode 
     /// </summary>
     public static System.Web.Configuration.AuthenticationMode AuthenticationMode = System.Web.Configuration.AuthenticationMode.None;
-
-    /// <summary>
-    /// this field defines current applicaton release status.
-    /// </summary>
-    public const string DevStage = ".R";
 
     /// <summary>
     /// This string contains the temporary directory path
@@ -211,6 +211,7 @@ namespace Evado.UniForm.WebClient
     {
       try
       {
+        Global._ClientLog = new System.Text.StringBuilder ( ); 
         Global._DebuLog = new System.Text.StringBuilder ( );
         //
         // get the application path from the runtime.
@@ -264,7 +265,7 @@ namespace Evado.UniForm.WebClient
 
         Global.LogGlobal ( "Copyright: " + Global.AssemblyAttributes.Copyright );
 
-        Global.LogGlobalDebug ( "Version: " + Global.AssemblyAttributes.FullVersion + Global.DevStage );
+        Global.LogGlobalDebug ( "Version: " + Global.AssemblyAttributes.FullVersion );
 
         this.LoadExternalCommands ( );
 
@@ -283,8 +284,6 @@ namespace Evado.UniForm.WebClient
         // 
         EventLog.WriteEntry ( EventLogSource, Global._ClientLog.ToString ( ), EventLogEntryType.Information );
 
-        Global.OutputClientLog ( );
-
       }
       catch ( Exception Ex )
       {
@@ -295,8 +294,6 @@ namespace Evado.UniForm.WebClient
       } // Close catch   
 
       Global.LogMethodEnd ( "Application_Start" );
-
-      Global.OutputClientLog ( );
 
     }//END Application Start Event Method
 
@@ -806,25 +803,25 @@ namespace Evado.UniForm.WebClient
     //   ---------------------------------------------------------------------------------
     public static void OutputClientLog ( )
     {
-      String ServiceLogFileName = Global.LogFilePath + CONST_SERVICE_LOG_FILE_NAME
+
+      String stContent =  Global._ClientLog.ToString ( );
+
+      String logFileName = CONST_SERVICE_LOG_FILE_NAME
         + DateTime.Now.ToString ( "yy-MM" ) + ".log";
 
       if ( Global.EnableDetailedLogging == true )
       {
-        ServiceLogFileName = Global.LogFilePath + CONST_SERVICE_LOG_FILE_NAME
-         + DateTime.Now.ToString ( "yy-MM_dd" ) + ".log";
+        logFileName = CONST_SERVICE_LOG_FILE_NAME
+         + DateTime.Now.ToString ( "yy-MM-dd" ) + ".log";
+
+        Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath + logFileName, stContent );
+      }
+      else
+      {
+        Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath + logFileName, stContent );
       }
 
-      String stContent = Evado.Model.EvStatics.getHtmlAsString ( Global._ClientLog.ToString ( ) );
-
-      // 
-      // Open the stream to the file.
-      // 
-      using ( System.IO.StreamWriter sw = new System.IO.StreamWriter ( ServiceLogFileName, true ) )
-      {
-        sw.Write ( stContent );
-
-      }// End StreamWriter.
+      Global._ClientLog = new System.Text.StringBuilder ( ); 
 
     }//END writeOutDebugLog method
 
@@ -911,7 +908,7 @@ namespace Evado.UniForm.WebClient
       //
       // Define the filename
       //
-      String LogFileName = Global.LogFilePath + CONST_DEBUG_LOG_FILE_NAME
+      String logFileName = CONST_DEBUG_LOG_FILE_NAME
         + DateTime.Now.ToString ( "yy-MM" ) + ".log";
 
       //
@@ -937,25 +934,21 @@ namespace Evado.UniForm.WebClient
 
       if ( Global._DebuLog.Length == 0 )
       {
-        stContent = "EVADO UniFORM Web Client ASP.NET - DEBUG LOG\r\n"
-          + "Saved: " + DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" )
-          + "No Debug Content</p>";
+        stContent = 
+          String.Format( "EVADO UniFORM Web Client ASP.NET - DEBUG LOG\r\n"
+          + "Saved at: {0} \r\n No Debug Content",  
+          DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
       }
       else
       {
-        stContent += "EVADO  UniFORM Web Client ASP.NET - DEBUG LOG\r\n"
-          + "Saved: " + DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" )
-           + Global._DebuLog.ToString ( );
+        stContent =
+          String.Format( "EVADO UniFORM Web Client ASP.NET - DEBUG LOG\r\n"
+          + "Saved at: {0} \r\n{1}",  
+          DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ),
+           Global._DebuLog.ToString ( ) );
       }
 
-      // 
-      // Open the stream to the file.
-      // 
-      using ( StreamWriter sw = new StreamWriter ( LogFileName ) )
-      {
-        sw.Write ( stContent );
-
-      }// End StreamWriter.
+      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + logFileName, stContent );
 
     }//END writeOutDebugLog method
 
@@ -970,7 +963,7 @@ namespace Evado.UniForm.WebClient
       //
       // Define the filename
       //
-      String LogFileName = Global.LogFilePath + CONST_DEBUG_LOG_FILE_NAME
+      String logFileName = CONST_DEBUG_LOG_FILE_NAME
         + "SAVE_" + DateTime.Now.ToString ( "yy-MM" ) + ".log";
 
       //
@@ -1009,14 +1002,8 @@ namespace Evado.UniForm.WebClient
 
       stContent = Evado.Model.EvStatics.getHtmlAsString ( stContent );
 
-      // 
-      // Open the stream to the file.
-      // 
-      using ( System.IO.StreamWriter sw = new System.IO.StreamWriter ( LogFileName, false ) )
-      {
-        sw.Write ( stContent );
 
-      }// End StreamWriter.
+      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + logFileName, stContent );
 
     }//END writeOutDebugLog method
 
