@@ -87,6 +87,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void Page_Load ( object sender, System.EventArgs E )
     {
+      Global.ClearDebugLog ( );
 
       this.LogMethod ( "Page_Load event" );
       try
@@ -398,8 +399,7 @@ namespace Evado.UniForm.WebClient
     /// This method send the Command back to the server objects.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void 
-      sendPageCommand ( )
+    private void sendPageCommand ( )
     {
       this.LogMethod ( "sendPageCommand" );
       this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
@@ -966,17 +966,16 @@ namespace Evado.UniForm.WebClient
       string Key, Value;
 
       this.LogDebug ( "Request.RequestType: {0}.", Request.RequestType );
-      this.LogDebug ( "Request.Url: {0}.", Request.Url );
-      this.LogDebug ( "Request.RawUrl: {0}.", Request.RawUrl );
-      this.LogDebug ( "Request.Url: {0}.", Request.Url );
-      this.LogDebug ( "Request.QueryString: {0}.", Request.QueryString.ToString() );
-      this.LogDebug ( "Request.QueryString.Count: {0}.", Request.QueryString.Count );
+      //this.LogDebug ( "Request.Url: {0}.", Request.Url );
+      //this.LogDebug ( "Request.RawUrl: {0}.", Request.RawUrl );
+      //this.LogDebug ( "Request.QueryString: {0}.", Request.QueryString.ToString() );
+      //this.LogDebug ( "Request.QueryString.Count: {0}.", Request.QueryString.Count );
+      this.LogDebug ( "Request.Files.Count: {0}.", Request.Files.Count );
       // 
       // Load SpecialisationValueCollection object.
       // 
       NameValueCollection coll = Request.QueryString;
 
-      this.LogDebug ( "Parameter Collection count: " + coll.Count );
       // 
       // Get names of all keys into a string array.
       // 
@@ -1217,6 +1216,8 @@ namespace Evado.UniForm.WebClient
         && this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Delete_Object
         && this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Custom_Method )
       {
+        this.LogDebug ( "Not update command" );
+        this.LogMethod ( "getPageCommandParameters" );
         return;
       }
 
@@ -1366,9 +1367,9 @@ namespace Evado.UniForm.WebClient
         }
         else
         {
-          ///
-          /// Update the annotated value.
-          ///
+          //
+          // Update the annotated value.
+          //
           keyPair = this.UserSession.FieldAnnotationList [ inAnnotationKey ];
           keyPair.Value = ReturnedFormFields.Get ( aKeys [ loop1 ] );
         }
@@ -1934,7 +1935,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       String FormDataId )
     {
-      this.LogMethod ( "getReturnedFormFieldValue method" );
+      this.LogMethod ( "getReturnedFormFieldValue" );
       this.LogDebug ( "FormDataId: " + FormDataId );
       // 
       // Initialise the method variables and objects.
@@ -1993,7 +1994,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       String FormDataId )
     {
-      this.LogMethod ( "getReturnedFormFieldValueArray method" );
+      this.LogMethod ( "getReturnedFormFieldValueArray" );
       this.LogDebug ( "FormDataId: " + FormDataId );
       // 
       // Initialise the method variables and objects.
@@ -2048,7 +2049,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void UploadPageImages ( )
     {
-      this.LogMethod ( "UploadPageImages method" );
+      this.LogMethod ( "UploadPageImages" );
       this.LogDebug ( "Global.ImageFilePath: " + Global.BinaryFilePath );
       this.LogDebug ( "Number of files: " + Context.Request.Files.Count );
       try
@@ -2064,7 +2065,7 @@ namespace Evado.UniForm.WebClient
       if ( Context.Request.Files.Count == 0 )
       {
         this.LogDebug ( " No images to upload. Exit method." );
-
+        this.LogMethodEnd ( "UploadPageImages" );
         return;
       }
 
@@ -2087,12 +2088,16 @@ namespace Evado.UniForm.WebClient
         // Get the posted file.
         // 
         HttpPostedFile uploadedFileObject = Context.Request.Files.Get ( requestFieldName );
+        
+        this.LogDebug ( "HTTP File, Name {0}, Type {2}, size {2}" , 
+          uploadedFileObject.FileName,uploadedFileObject.ContentType,uploadedFileObject.ContentLength );
 
         //
         // If the file is empty continue to the next file.
         //
         if ( uploadedFileObject.ContentLength == 0 )
         {
+          this.LogDebug ( "File empty" );
           continue;
         }
 
@@ -2100,7 +2105,6 @@ namespace Evado.UniForm.WebClient
         string fileName = Path.GetFileName ( uploadedFileObject.FileName );
         fileName = fileName.Replace ( " ", "_" );
         this.LogDebug ( "Uploaded file name: " + fileName );
-        this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
 
         //
         // Retrieve the UniFORM field id.
@@ -2143,14 +2147,11 @@ namespace Evado.UniForm.WebClient
       }  // End Try
       catch ( Exception Ex )
       {
-        this.LogValue ( "Exception Event:<br>" + Evado.Model.EvStatics.getException ( Ex ));
+        this.LogValue ( "Exception Event:" + Evado.Model.EvStatics.getException ( Ex ));
       }
       // End catch.
 
-      ///
-      /// write out the debug log.
-      ///
-      Global.OutputtDebugLog ( );
+      this.LogMethodEnd ( "UploadPageImages" );
 
     }//END UploadPageImages method
 
@@ -2253,9 +2254,9 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void updateWebPageCommandObject ( )
     {
-      this.LogMethod ( "updateWebPageCommandObject method. "
-        + " Page.EditAccess: " + this.UserSession.AppData.Page.EditAccess
-        + " FieldAnnotationList.Count: " + this.UserSession.FieldAnnotationList.Count );
+      this.LogMethod ( "updateWebPageCommandObject method. " );
+      this.LogDebug ( " Page.EditAccess: " + this.UserSession.AppData.Page.EditAccess );
+      this.LogDebug ( " FieldAnnotationList.Count: " + this.UserSession.FieldAnnotationList.Count );
       //
       // Initialise the methods variables and objects.
       //
@@ -2689,7 +2690,7 @@ namespace Evado.UniForm.WebClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnPageLeft_OnClick event method" );
+      this.LogMethod ( "btnPageLeft_OnClick event" );
     }
 
     // =====================================================================================
@@ -2707,7 +2708,7 @@ namespace Evado.UniForm.WebClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnPageRight_OnClick event method" );
+      this.LogMethod ( "btnPageRight_OnClick event" );
     }
 
     //*********************************************************************************
@@ -2779,7 +2780,7 @@ namespace Evado.UniForm.WebClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnLogin_OnClick event method" );
+      this.LogMethod ( "btnLogin_OnClick event" );
       this.LogDebug ( "UserId: " + this.fldUserId.Value );
       this.LogDebug ( "Password: " + this.fldPassword.Value );
       //
@@ -2864,7 +2865,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void sendWindowsLoginCommand ( )
     {
-      this.LogMethod ( "sendWindowsLoginCommand event method" );
+      this.LogMethod ( "sendWindowsLoginCommand event" );
 
 
       string roles = String.Empty;
@@ -2926,7 +2927,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void SendLoginCommand ( String UserId, String Password )
     {
-      this.LogMethod ( "SendLoginCommand method" );
+      this.LogMethod ( "SendLoginCommand" );
       this.LogDebug ( "PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
 
       //
@@ -3008,7 +3009,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void requestLogout ( )
     {
-      this.LogMethod ( "requestLoogout method" );
+      this.LogMethod ( "requestLoogout" );
       this.fldPassword.Value = String.Empty;
       //
       // Create a page object.

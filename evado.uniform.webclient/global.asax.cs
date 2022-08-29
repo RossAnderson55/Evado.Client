@@ -814,12 +814,13 @@ namespace Evado.UniForm.WebClient
       }
 
       String stContent = Evado.Model.EvStatics.getHtmlAsString ( Global._ClientLog.ToString ( ) );
-
-
       //
+
       // Save the file.
       //
       Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath, LogFileName, stContent );
+
+      Global._ClientLog = new System.Text.StringBuilder ( );
 
     }//END writeOutDebugLog method
 

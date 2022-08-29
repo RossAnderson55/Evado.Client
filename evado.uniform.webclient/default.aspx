@@ -6,7 +6,7 @@
 <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
 <head id="Head1" runat="server">
   <title>UniFORM Web Client </title>
-  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" type="image/png" href="./favicon.png" />
   <style type="text/css" media="screen, print, projection">
     @import "./css/bootstrap.css";
     @import "./css/bootstrap-theme.css";
@@ -15,7 +15,7 @@
     @import "./css/menu.css";
     @import "./css/report.css";
   </style>
-  <link href="./css/flot.css" rel="stylesheet" type="text/css">
+  <link href="./css/flot.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="./js/jquery-1.11.0.min.js"></script>
   <script type="text/javascript" src="./js/parsley.js"></script>
   <script type="text/javascript" src="./js/bootstrap.js"></script>
@@ -27,7 +27,7 @@
   <script type="text/javascript" src="./css/menu.js"></script>
 </head>
 <body>
-  <form id="form1" runat="server">
+  <form id="form1" name="form1" enctype="multipart/form-data" runat="server">
   <div>
     <asp:HiddenField ID="__CommandId" runat="server" Value="" />
   </div>
