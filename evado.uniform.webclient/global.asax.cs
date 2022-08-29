@@ -818,7 +818,9 @@ namespace Evado.UniForm.WebClient
 
       // Save the file.
       //
-      Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath, LogFileName, stContent );
+      Evado.Model.EvStatics.Files.saveFileAppend ( Global.LogFilePath + LogFileName, stContent );
+
+      Global._ClientLog = new System.Text.StringBuilder ( );
 
       Global._ClientLog = new System.Text.StringBuilder ( );
 
@@ -947,7 +949,7 @@ namespace Evado.UniForm.WebClient
       //
       // Save the file.
       //
-      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath, LogFileName, stContent );
+      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + LogFileName, stContent );
 
     }//END writeOutDebugLog method
 
@@ -1004,7 +1006,7 @@ namespace Evado.UniForm.WebClient
       //
       // Save the file.
       //
-      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath, LogFileName, stContent );
+      Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + LogFileName, stContent );
 
     }//END writeOutDebugLog method
 
