@@ -24,6 +24,7 @@ using System.Web.UI;
 using System.Web.SessionState;
 using System.Web.Security;
 using System.IO;
+using System.Net.Http;
 
 //Evado..Cms. namespace references.
 
@@ -62,6 +63,11 @@ namespace Evado.UniForm.WebClient
     /// This object contains the current Authenication Mode 
     /// </summary>
     public static System.Web.Configuration.AuthenticationMode AuthenticationMode = System.Web.Configuration.AuthenticationMode.None;
+
+    /// <summary>
+    /// This is the http web client for the Uniform service.
+    /// </summary>
+    public static HttpClient HttpClient; 
 
     /// <summary>
     /// this field defines current applicaton release status.
