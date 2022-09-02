@@ -75,28 +75,32 @@ namespace Evado.UniForm.WebClient
       this.LogMethod ( "Page_Load event" );
       try
       {
-        this.LogDebug ( "QueryString: " + Request.QueryString.ToString ( ) );
+        this.LogDebug ( "Default:QueryString: " + Request.QueryString.ToString ( ) );
 
-        this.LogDebug ( "1: clientFrame.src: '{0}'.", this.clientFrame.Attributes [ "src" ] );
+        this.LogDebug ( "Default:1: clientFrame.src: '{0}'.", this.clientFrame.Attributes [ "src" ] );
         //
         // Process post back events.
         //
         if ( this.IsPostBack == false )
         {
-          this.LogDebug ( "PostBack = false" );
+          this.LogDebug ( "Default:PostBack = false" );
+          this.meetingUrl.Value = String.Empty;
+          this.meetingDisplayName.Value = String.Empty;
+          this.meetingParameters.Value = String.Empty;
+          this.meetingStatus.Value = Evado.Model.EvMeeting.States.Null.ToString();
           String clientUrl = Global.CONST_CLIENT_BASE_URL;
           string queryString = Request.QueryString.ToString ( );
           if ( queryString != String.Empty )
           {
             clientUrl = clientUrl + "?" + Request.QueryString.ToString ( );
           }
-          this.LogDebug ( "2: clientUrl: '{0}'.", clientUrl );
-          this.clientFrame.Attributes [ "src" ] = clientUrl; 
+          this.LogDebug ( "Default:2: clientUrl: '{0}'.", clientUrl );
+          this.clientFrame.Attributes [ "src" ] = clientUrl;
 
-          this.LogDebug ( "2: clientFrame.src: '{0}'.", this.clientFrame.Attributes [ "src" ] );
-
+          this.LogDebug ( "Default:2: clientFrame.src: '{0}'.", this.clientFrame.Attributes [ "src" ] );
+          this.LogDebug ( "Default:2: clientFrame.width: '{0}'.", this.clientFrame.Attributes [ "width" ] );
+          this.LogDebug ( "Default:2: clientFrame.height: '{0}'.", this.clientFrame.Attributes [ "height" ] );
         }
-        this.LogMethodEnd ( "Page_Load" );
 
       } // End Try
       catch ( Exception Ex )
@@ -107,14 +111,14 @@ namespace Evado.UniForm.WebClient
 
       } // End catch.
 
-
       // 
       // Write footer
       // 
       this.litCopyright.Text = Global.AssemblyAttributes.Copyright;
       this.litFooterText.Text = EuLabels.Footer_Text;
-      this.litVersion.Text = "Version: " + Global.AssemblyAttributes.FullVersion + Global.DevStage;
+      this.litVersion.Text = "Version: " + Global.AssemblyAttributes.FullVersion ;
 
+      this.LogMethodEnd ( "Default:Page_Load" );
       //
       // write out the debug log.
       //
@@ -129,7 +133,7 @@ namespace Evado.UniForm.WebClient
 
     ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #endregion
-
+    
     #region Logging methods.
     //  =================================================================================
     /// <summary>
@@ -168,7 +172,7 @@ namespace Evado.UniForm.WebClient
     //   ---------------------------------------------------------------------------------
     public void LogValue ( String Value )
     {
-      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ":"
+      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
        + "DefaultPage:" + Value;
 
       Global.LogValue ( logValue );

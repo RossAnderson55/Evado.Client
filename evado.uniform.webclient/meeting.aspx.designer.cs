@@ -10,7 +10,7 @@
 namespace Evado.UniForm.WebClient {
     
     
-    public partial class DefaultPage {
+    public partial class MeetingPage {
         
         /// <summary>
         /// Head1 control.
@@ -29,51 +29,42 @@ namespace Evado.UniForm.WebClient {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm pageForm;
-        
+
         /// <summary>
-        /// clientFrame control.
+        /// homePage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlIframe clientFrame;
-        
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl videoDiv;
+
         /// <summary>
-        /// meetingUrl control.
+        /// videoFrame control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingUrl;
-        
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl videoFrame;
+
         /// <summary>
-        /// meetingDisplayName control.
+        /// homePage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingDisplayName;
-        
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl messageDiv;
+
         /// <summary>
-        /// meetingParameters control.
+        /// litCopyright control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingParameters;
-        
-        /// <summary>
-        /// meetingStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden meetingStatus;
+        protected global::System.Web.UI.WebControls.Literal litErrorMessage;
         
         /// <summary>
         /// litCopyright control.
