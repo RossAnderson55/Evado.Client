@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Evado.UniForm.WebClient.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="Style_Command" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">ui-link ui-btn ui-btn-g ui-btn-inline ui-shadow ui-corner-all ui-mini</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>

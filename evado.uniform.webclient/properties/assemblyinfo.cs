@@ -1,7 +1,7 @@
 /***************************************************************************************
  * <copyright file="webclinical\AssemblyInfo.cs" company="Evado UnIFORM">
  *     
- *      Copyright (c) 2011 - 2020 Evado  All rights reserved.
+ *      Copyright (c) 2011 - 2022 Evado  All rights reserved.
  *     
  *      The use and distribution terms for this software are contained in the file
  *      named license.txt, which can be found in the root of this distribution.
