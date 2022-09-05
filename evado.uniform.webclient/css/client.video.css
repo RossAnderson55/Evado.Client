@@ -6,11 +6,12 @@ body {
 
 body
 {
-  font-size: 12pt;
+  font-size: 10pt;
 }
-#formFooter
+#formFooter 
 {
   font-size: 8pt;
+  width: 100%;
 }
 
 #formFooter, .left

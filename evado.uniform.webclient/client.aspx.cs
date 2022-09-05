@@ -56,13 +56,12 @@ namespace Evado.UniForm.WebClient
 
     private const string SESSION_USER = "EUWC_SESSION";
 
-    private const string PageField_CommandId = "__CommandId";
 
     private const string CONST_VIDEO_SUFFIX = "_VIDEO";
 
-    private static string Css_Class_Field_Group = "field-group large";
-    private static string Css_Class_Group_Title = "group-title";
-    private static string Css_Class_Field_Group_Container = "field-group-container";
+    private readonly string Css_Class_Field_Group = "field-group large";
+    private readonly string Css_Class_Group_Title = "group-title";
+    private readonly string Css_Class_Field_Group_Container = "field-group-container";
 
     public const string CONST_FIELD_LOWER_SUFFIX = "_Lower";
     public const string CONST_FIELD_UPPER_SUFFIX = "_Upper";
@@ -105,19 +104,19 @@ namespace Evado.UniForm.WebClient
         // 
         // Initialise the method variables and objects.
         // 
-        this.initialiseGlobalVariables ( );
+        this.InitialiseGlobalVariables ( );
 
         //
         // load the session variables.
         //
-        this.loadSessionVariables ( );
+        this.LoadSessionVariables ( );
 
         //
         // Process post back events.
         //
         if ( this.IsPostBack == true )
         {
-          this.getPostBackPageCommand ( );
+          this.GetPostBackPageCommand ( );
         }
         else
         {
@@ -160,13 +159,13 @@ namespace Evado.UniForm.WebClient
               //
               // Send the Command to the server.
               //
-              this.sendPageCommand ( );
+              this.SendPageCommand ( );
 
               this.LogValue ( "Commence page generation" );
               //
               // Generate the page layout.
               //
-              this.generatePage ( );
+              this.GeneratePage ( );
               break;
 
             }
@@ -174,7 +173,7 @@ namespace Evado.UniForm.WebClient
             {
               this.LogDebug ( "Network Login_Command" );
 
-              this.sendWindowsLoginCommand ( );
+              this.SendWindowsLoginCommand ( );
               break;
             }
           case Evado.UniForm.Model.EuCommandTypes.Login_Command:
@@ -192,14 +191,14 @@ namespace Evado.UniForm.WebClient
                 //
                 // Update the Command with page data objects.
                 //
-                this.getPageCommandParameters ( );
+                this.GetPageCommandParameters ( );
 
                 this.LogDebug ( "CURRENT PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );
 
                 //
                 // Send the Command to the server.
                 //
-                this.sendPageCommand ( );
+                this.SendPageCommand ( );
                 this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
 
                 //
@@ -210,7 +209,7 @@ namespace Evado.UniForm.WebClient
                   if ( Global.AuthenticationMode == System.Web.Configuration.AuthenticationMode.Windows )
                   {
                     this.LogValue ( "WINDOW AUTHENTICATION REQUEST LOGIN" );
-                    this.sendWindowsLoginCommand ( );
+                    this.SendWindowsLoginCommand ( );
                   }
                   else
                   {
@@ -224,12 +223,12 @@ namespace Evado.UniForm.WebClient
                   //
                   // Generate the page layout.
                   //
-                  this.generatePage ( );
+                  this.GeneratePage ( );
                 }
                 //
                 // output the debug serialisations
                 //
-                this.outputSerialisedData ( );
+                this.OutputSerialisedData ( );
               }
 
               break;
@@ -281,7 +280,7 @@ namespace Evado.UniForm.WebClient
     ///	
     /// </summary>
     // --------------------------------------------------------------------------------
-    public void initialiseGlobalVariables ( )
+    public void InitialiseGlobalVariables ( )
     {
       this.LogMethod ( "initialiseGlobalVariables" );
       // 
@@ -366,7 +365,7 @@ namespace Evado.UniForm.WebClient
     ///	
     /// </summary>
     // --------------------------------------------------------------------------------
-    public void loadSessionVariables ( )
+    public void LoadSessionVariables ( )
     {
       this.LogMethod ( "loadSessionVariables" );
       //
@@ -395,7 +394,7 @@ namespace Evado.UniForm.WebClient
     /// This method send the Command back to the server objects.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void sendPageCommand( )
+    private void SendPageCommand( )
     {
       this.LogMethod( "sendPageCommand" );
       this.LogValue( "DebugLogOn {0}.", Global.DebugLogOn );
@@ -483,7 +482,7 @@ namespace Evado.UniForm.WebClient
         //
         // The post command 
         //
-        serialisedText = this.sendPost( WebServiceUrl, serialisedText );
+        serialisedText = this.SendPost( WebServiceUrl, serialisedText );
 
         this.LogDebug( "JSON Serialised text length: " + serialisedText.Length );
 
@@ -577,7 +576,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PostContent">String: string content for the web service.</param>
     /// <returns>String: Response Text</returns>
     // ---------------------------------------------------------------------------------
-    private String sendPost(
+    private String SendPost(
       String WebServiceUrl,
       String PostContent )
     {
@@ -651,7 +650,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="Field">Field: The field object.</param>
     /// <returns>Field object.</returns>
     // ---------------------------------------------------------------------------------
-    private void getImagePageField (
+    private void GetImagePageField (
       Evado.UniForm.Model.EuField Field )
     {
       this.LogMethod ( "getImagePageField" );
@@ -683,7 +682,7 @@ namespace Evado.UniForm.WebClient
     /// This method outputs the serialised data values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void outputSerialisedData ( )
+    private void OutputSerialisedData ( )
     {
       this.LogMethod ( "outSerialisedData" );
       this.LogDebug ( " Global.ApplicationPath: '" + Global.ApplicationPath + "' " );
@@ -723,7 +722,10 @@ namespace Evado.UniForm.WebClient
       }/// End StreamWrite
 
 
-      Evado.UniForm.Model.EuField groupField = serialisationGroup.createHtmlLinkField ( "lnkxmllad", "XML Serialised Application Data Object", "temp/serialised_application_data.xml" );
+      Evado.UniForm.Model.EuField groupField = serialisationGroup.createHtmlLinkField ( 
+        "lnkxmllad", 
+        "XML Serialised Application Data Object", 
+        "temp/serialised_application_data.xml" );
 
       serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.EuCommand> ( this.UserSession.PageCommand );
 
@@ -880,14 +882,14 @@ namespace Evado.UniForm.WebClient
     ///	
     /// </summary>
     // --------------------------------------------------------------------------------
-    public void getPostBackPageCommand ( )
+    public void GetPostBackPageCommand ( )
     {
       this.LogMethod ( "getPageCommand" );
 
       //
       // read in the posted back Command id
       //
-      this.readinCommandId ( );
+      this.ReadinCommandId ( );
 
       //
       // If the object is empty or reset is sent then refresh the object from the server.
@@ -904,7 +906,7 @@ namespace Evado.UniForm.WebClient
         {
           this.LogDebug ( "Get the new command object." );
 
-          this.UserSession.PageCommand = this.getCommandObject ( this.UserSession.CommandGuid );
+          this.UserSession.PageCommand = this.GetCommandObject ( this.UserSession.CommandGuid );
         }
         else
         {
@@ -997,7 +999,7 @@ namespace Evado.UniForm.WebClient
           {
             Guid commandId = Evado.Model.EvStatics.getGuid ( Value );
 
-            this.UserSession.PageCommand = this.getCommandObject ( commandId );
+            this.UserSession.PageCommand = this.GetCommandObject ( commandId );
             continue;
           }
         }
@@ -1030,7 +1032,7 @@ namespace Evado.UniForm.WebClient
     /// This method updates the web application with the form field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void readinCommandId ( )
+    private void ReadinCommandId ( )
     {
       this.LogMethod ( "readinCommandId" );
 
@@ -1072,7 +1074,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="CommandId">GUID: Id for the Command to be retrieved</param>
     /// <returns>CliemtPageCommand object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuCommand getCommandObject ( Guid CommandId )
+    private Evado.UniForm.Model.EuCommand GetCommandObject ( Guid CommandId )
     {
       this.LogMethod ( "getCommandObject" );
       this.LogDebug ( "CommandId: " + CommandId );
@@ -1173,7 +1175,7 @@ namespace Evado.UniForm.WebClient
     /// This method updates the  application data with the form field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void getPageCommandParameters ( )
+    private void GetPageCommandParameters ( )
     {
       this.LogMethod ( "getPageCommandParameters" );
       //
@@ -1197,17 +1199,17 @@ namespace Evado.UniForm.WebClient
       //
       // Get the data from the returned page fields.
       //
-      this.getPageDataValues ( );
+      this.GetPageDataValues ( );
 
       //
       // Get the data from the returned page fields.
       //
-      this.updateFieldAnnotations ( );
+      this.UpdateFieldAnnotations ( );
 
       //
       // Update the Command parmaters witih the page values.
       //
-      this.updateWebPageCommandObject ( );
+      this.UpdateWebPageCommandObject ( );
 
     }//END updateApplicationDataObject method
 
@@ -1216,7 +1218,7 @@ namespace Evado.UniForm.WebClient
     /// This method updates the web application with the form field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void getPageDataValues ( )
+    private void GetPageDataValues ( )
     {
       this.LogMethod ( "getPageDataValues" );
       //
@@ -1255,7 +1257,7 @@ namespace Evado.UniForm.WebClient
 
         for ( int count = 0; count < group.FieldList.Count; count++ )
         {
-          group.FieldList [ count ] = this.updateFormField (
+          group.FieldList [ count ] = this.UpdateFormField (
             group.FieldList [ count ],
             ReturnedFormFields,
             group.EditAccess );
@@ -1279,24 +1281,24 @@ namespace Evado.UniForm.WebClient
     /// This method updates the new field annotations.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void updateFieldAnnotations ( )
+    private void UpdateFieldAnnotations ( )
     {
       this.LogMethod ( "updateFieldAnnotations" );
-      ///
-      /// Get the field collection.
-      ///
+      //
+      // Get the field collection.
+      //
       NameValueCollection ReturnedFormFields = Request.Form;
 
-      /// 
-      /// Get names of all keys into a string array.
-      /// 
+      // 
+      // Get names of all keys into a string array.
+      // 
       String [ ] aKeys = ReturnedFormFields.AllKeys;
 
       this.LogDebug ( "Key length: " + aKeys.Length );
 
-      /// 
-      /// Iterate the keys to find the value for the selected formDataId
-      /// 
+      // 
+      // Iterate the keys to find the value for the selected formDataId
+      // 
       for ( int loop1 = 0; loop1 < aKeys.Length; loop1++ )
       {
         EucKeyValuePair keyPair = new EucKeyValuePair ( );
@@ -1311,18 +1313,18 @@ namespace Evado.UniForm.WebClient
 
         this.LogDebug ( "" + aKeys [ loop1 ] + " >> " + ReturnedFormFields.Get ( aKeys [ loop1 ] ) );
 
-        int inAnnotationKey = this.getAnnotationIndex ( aKeys [ loop1 ] );
+        int inAnnotationKey = this.GetAnnotationIndex ( aKeys [ loop1 ] );
 
         this.LogDebug ( " inAnnotationKey: " + inAnnotationKey );
-        ///
-        /// Get the data value.
-        ///
+        //
+        // Get the data value.
+        //
         if ( inAnnotationKey < 0 )
         {
           this.LogDebug ( " >> New Item" );
-          ///
-          /// Set the object value and add it to the field annotation list.
-          ///
+          //
+          // Set the object value and add it to the field annotation list.
+          //
           keyPair.Key = aKeys [ loop1 ];
           keyPair.Value = ReturnedFormFields.Get ( aKeys [ loop1 ] );
 
@@ -1333,9 +1335,9 @@ namespace Evado.UniForm.WebClient
         }
         else
         {
-          ///
-          /// Update the annotated value.
-          ///
+          //
+          // Update the annotated value.
+          //
           keyPair = this.UserSession.FieldAnnotationList [ inAnnotationKey ];
           keyPair.Value = ReturnedFormFields.Get ( aKeys [ loop1 ] );
         }
@@ -1360,13 +1362,13 @@ namespace Evado.UniForm.WebClient
     /// <param name="Key">The page annotation field id</param>
     /// <returns>Int: the annotation list index.</returns>
     // ---------------------------------------------------------------------------------
-    private int getAnnotationIndex ( String Key )
+    private int GetAnnotationIndex ( String Key )
     {
-      ///this.writeDebug = "<hr/>Evado.UniForm.WebClient.ClientPage.getAnnotationIndex method.  Key: " + Key
-      ///  + " AnnotationList count: " + this.UserSession.FieldAnnotationList.Count ;
-      ///
-      /// Iterate through the annotation list to find a matching element
-      ///
+      //this.writeDebug = "<hr/>Evado.UniForm.WebClient.ClientPage.getAnnotationIndex method.  Key: " + Key
+      //  + " AnnotationList count: " + this.UserSession.FieldAnnotationList.Count ;
+      //
+      // Iterate through the annotation list to find a matching element
+      //
       for ( int i = 0; i < this.UserSession.FieldAnnotationList.Count; i++ )
       {
         //
@@ -1405,7 +1407,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="FormState">Current FormRecord state</param>
     /// <returns>Returns a Field object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuField updateFormField (
+    private Evado.UniForm.Model.EuField UpdateFormField (
       Evado.UniForm.Model.EuField FormField,
       NameValueCollection ReturnedFormFields,
       Evado.UniForm.Model.EuEditAccess GroupStatus )
@@ -1453,7 +1455,7 @@ namespace Evado.UniForm.WebClient
         {
           case Evado.Model.EvDataTypes.Check_Box_List:
             {
-              FormField.Value = this.getCheckButtonListFieldValue (
+              FormField.Value = this.GetCheckButtonListFieldValue (
                 ReturnedFormFields,
                 FormField.FieldId,
                 FormField.Value,
@@ -1462,7 +1464,7 @@ namespace Evado.UniForm.WebClient
             }
           case Evado.Model.EvDataTypes.Address:
             {
-              FormField.Value = this.getAddressFieldValue (
+              FormField.Value = this.GetAddressFieldValue (
                 ReturnedFormFields,
                 FormField.FieldId );
               break;
@@ -1470,7 +1472,7 @@ namespace Evado.UniForm.WebClient
 
           case Evado.Model.EvDataTypes.Name:
             {
-              FormField.Value = this.getNameFieldValue (
+              FormField.Value = this.GetNameFieldValue (
                 ReturnedFormFields,
                 FormField.FieldId );
               break;
@@ -1481,7 +1483,7 @@ namespace Evado.UniForm.WebClient
               // 
               // Iterate through the option list to compare values.
               // 
-              string videoUrl = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
+              string videoUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
 
               this.LogDebug ( "videoUrl:" + videoUrl );
 
@@ -1493,8 +1495,8 @@ namespace Evado.UniForm.WebClient
               // 
               // Iterate through the option list to compare values.
               // 
-              string httpUrl = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX );
-              string httpTitle = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX );
+              string httpUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX );
+              string httpTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX );
 
               this.LogDebug ( "httpUrl:" + httpUrl + " httpTitle:" + httpTitle );
 
@@ -1507,7 +1509,7 @@ namespace Evado.UniForm.WebClient
           case Evado.Model.EvDataTypes.Double_Range:
           case Evado.Model.EvDataTypes.Date_Range:
             {
-              FormField.Value = this.getRangeFieldValue (
+              FormField.Value = this.GetRangeFieldValue (
                 ReturnedFormFields,
                 FormField.FieldId );
               break;
@@ -1522,14 +1524,14 @@ namespace Evado.UniForm.WebClient
             }
           case Evado.Model.EvDataTypes.Table:
             {
-              FormField = this.updateFormTableFields (
+              FormField = this.UpdateFormTableFields (
                            FormField,
                            ReturnedFormFields );
               break;
             }
           default:
             {
-              stValue = this.getReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
+              stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
 
               this.LogDebug ( "Field stValue: " + stValue );
               // 
@@ -1596,8 +1598,8 @@ namespace Evado.UniForm.WebClient
       string signatureValueFieldId = htmlDataId + "_sig";
       string signatureNameFieldId = htmlDataId + "_name";
 
-      String stSignature = this.getReturnedFormFieldValue ( ReturnedFormFields, signatureValueFieldId );
-      string stName = this.getReturnedFormFieldValue ( ReturnedFormFields, signatureNameFieldId );
+      String stSignature = this.GetReturnedFormFieldValue ( ReturnedFormFields, signatureValueFieldId );
+      string stName = this.GetReturnedFormFieldValue ( ReturnedFormFields, signatureNameFieldId );
 
       this.LogValue ( "stSignature: " + stSignature );
       this.LogValue ( "stName: " + stName );
@@ -1644,7 +1646,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="OptionList">THe form field option list.</param>
     /// <returns>Returns a string containing the Java Scripts.</returns>
     // ---------------------------------------------------------------------------------
-    private string getCheckButtonListFieldValue (
+    private string GetCheckButtonListFieldValue (
       NameValueCollection ReturnedFormFields,
       string htmlDataId,
       string CurrentValue,
@@ -1659,7 +1661,7 @@ namespace Evado.UniForm.WebClient
       string [ ] arrValues = new String [ 0 ];
       string stThisValue = String.Empty;
 
-      arrValues = this.getReturnedFormFieldValueArray ( ReturnedFormFields, htmlDataId );
+      arrValues = this.GetReturnedFormFieldValueArray ( ReturnedFormFields, htmlDataId );
 
       if ( arrValues != null )
       {
@@ -1698,7 +1700,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="OptionList">THe form field option list.</param>
     /// <returns>Returns a string containing the Java Scripts.</returns>
     // ---------------------------------------------------------------------------------
-    private string getNameFieldValue (
+    private string GetNameFieldValue (
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
@@ -1715,10 +1717,10 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the option list to compare values.
       // 
-      stTitle = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Title" );
-      stFirstName = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_FirstName" );
-      stMiddleName = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_MiddleName" );
-      stFamilyName = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_FamilyName" );
+      stTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Title" );
+      stFirstName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_FirstName" );
+      stMiddleName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_MiddleName" );
+      stFamilyName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_FamilyName" );
 
       this.LogDebug ( "stFirstName:" + stFirstName + " stMiddleName:" + stMiddleName + " stFamilyName:" + stFamilyName + "\r\n" );
 
@@ -1740,7 +1742,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="OptionList">THe form field option list.</param>
     /// <returns>Returns a string containing the Java Scripts.</returns>
     // ---------------------------------------------------------------------------------
-    private string getRangeFieldValue (
+    private string GetRangeFieldValue (
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
@@ -1755,8 +1757,8 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the option list to compare values.
       // 
-      stLowerValue = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_UPPER_SUFFIX );
-      stUpperValue = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_UPPER_SUFFIX );
+      stLowerValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_UPPER_SUFFIX );
+      stUpperValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_UPPER_SUFFIX );
 
       this.LogDebug ( "stLowerValue:" + stLowerValue + " stUpperValue:" + stUpperValue );
 
@@ -1778,7 +1780,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="OptionList">THe form field option list.</param>
     /// <returns>Returns a string containing the Java Scripts.</returns>
     // ---------------------------------------------------------------------------------
-    private string getAddressFieldValue (
+    private string GetAddressFieldValue (
       NameValueCollection ReturnedFormFields,
       string htmlDataId )
     {
@@ -1797,12 +1799,12 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the option list to compare values.
       // 
-      stAddress1 = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Address1" );
-      stAddress2 = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Address2" );
-      stSuburb = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Suburb" );
-      stState = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_State" );
-      stPostCode = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_PostCode" );
-      stCountry = this.getReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Country" );
+      stAddress1 = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Address1" );
+      stAddress2 = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Address2" );
+      stSuburb = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Suburb" );
+      stState = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_State" );
+      stPostCode = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_PostCode" );
+      stCountry = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Country" );
 
       this.LogDebug ( "\r\n stAddress1:" + stAddress1
         + " stAddress2:" + stAddress2
@@ -1828,7 +1830,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="ReturnedFormFields">Containing the returned formfield values.</param>
     /// <returns>Returns a EvFormField object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuField updateFormTableFields (
+    private Evado.UniForm.Model.EuField UpdateFormTableFields (
       Evado.UniForm.Model.EuField FormField,
       NameValueCollection ReturnedFormFields )
     {
@@ -1851,7 +1853,7 @@ namespace Evado.UniForm.WebClient
           // 
           // Get the table field and update the test field object.
           // 
-          string value = this.getReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
+          string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
 
           // 
           // Does the returned field value exist
@@ -1897,7 +1899,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="FormDataId">FormRecord field id to be retrieved.</param>
     /// <returns>Returns a string containing the field value.</returns>
     // ---------------------------------------------------------------------------------
-    private string getReturnedFormFieldValue (
+    private string GetReturnedFormFieldValue (
       NameValueCollection ReturnedFormFields,
       String FormDataId )
     {
@@ -1956,7 +1958,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="FormDataId">FormRecord field id to be retrieved.</param>
     /// <returns>Returns a string containing the field value.</returns>
     // ---------------------------------------------------------------------------------
-    private string [ ] getReturnedFormFieldValueArray (
+    private string [ ] GetReturnedFormFieldValueArray (
       NameValueCollection ReturnedFormFields,
       String FormDataId )
     {
@@ -2096,7 +2098,7 @@ namespace Evado.UniForm.WebClient
           //
           // set the image to the image service.
           //
-          this.sendBinaryFileToImageService ( stFilePath, uploadedFileObject.ContentType );
+          this.SendBinaryFileToImageService ( stFilePath, uploadedFileObject.ContentType );
 
           string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
             + stFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
@@ -2128,7 +2130,7 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     /// <param name="ImageFilePath">Field: The field object.</param>
     // ---------------------------------------------------------------------------------
-    private void sendBinaryFileToImageService ( String ImageFilePath, String MimeType )
+    private void SendBinaryFileToImageService ( String ImageFilePath, String MimeType )
     {
       this.LogMethod ( "sendBinaryFileToImageService" );
       this.LogDebug ( "ImageUploadServiceUrl: " + Global.RelativeBinaryUploadURL );
@@ -2181,7 +2183,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="DataId">String: The html field Id.</param>
     /// <returns>Field object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuField getField ( String DataId )
+    private Evado.UniForm.Model.EuField GetField ( String DataId )
     {
       //
       // Iterate through the page groups and fields to find the matching field.
@@ -2218,7 +2220,7 @@ namespace Evado.UniForm.WebClient
     /// This method updates the Command parameters with field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void updateWebPageCommandObject ( )
+    private void UpdateWebPageCommandObject ( )
     {
       this.LogMethod ( "updateWebPageCommandObject method. "
         + " Page.EditAccess: " + this.UserSession.AppData.Page.EditAccess
@@ -2814,12 +2816,12 @@ namespace Evado.UniForm.WebClient
       //
       // Generate the page layout.
       //
-      this.generatePage ( );
+      this.GeneratePage ( );
 
       this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
       this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
 
-      this.outputSerialisedData ( );
+      this.OutputSerialisedData ( );
 
       Global.OutputtDebugLog ( );
 
@@ -2838,7 +2840,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sender">Event object</param>
     /// <param name="E">Event arguments</param>
     // ---------------------------------------------------------------------------------
-    protected void sendWindowsLoginCommand ( )
+    protected void SendWindowsLoginCommand ( )
     {
       this.LogMethod ( "sendWindowsLoginCommand event method" );
 
@@ -2871,16 +2873,16 @@ namespace Evado.UniForm.WebClient
       //
       // get a Command object from the server.
       //
-      this.sendPageCommand ( );
+      this.SendPageCommand ( );
 
       this.LogDebug ( "Status: " + this.UserSession.AppData.Status );
 
       //
       // Generate the page layout.
       //
-      this.generatePage ( );
+      this.GeneratePage ( );
 
-      this.outputSerialisedData ( );
+      this.OutputSerialisedData ( );
 
       Global.OutputtDebugLog ( );
 
@@ -2925,7 +2927,7 @@ namespace Evado.UniForm.WebClient
       //
       // get a Command object from the server.
       //
-      this.sendPageCommand ( );
+      this.SendPageCommand ( );
 
       this.LogDebug ( "Status: " + this.UserSession.AppData.Status );
 
@@ -2998,7 +3000,7 @@ namespace Evado.UniForm.WebClient
       //
       // get a Command object from the server.
       //
-      this.sendPageCommand ( );
+      this.SendPageCommand ( );
 
       //
       // display the login panel.

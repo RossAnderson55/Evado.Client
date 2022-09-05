@@ -11,6 +11,34 @@
     @import "./css/bootstrap.css";
   </style>
   <style type="text/css" media="screen, print, projection">
+    body
+    {
+      font-size: 10pt;
+    }
+    #formFooter 
+    {
+      font-size: 8pt;
+      width: 100%;
+    }
+
+    #formFooter, .left
+    { 
+      padding: 5px;
+      text-align: left ;
+      width:33%;
+    }
+    #formFooter, .right
+    { 
+      padding: 5px;
+      text-align: right ;
+      width:33%;
+    }
+    #formFooter, .center
+    { 
+      padding: 5px;
+      text-align: center ;
+    }
+
     #videoDiv
     {
       background-color: #EAEAEA;
@@ -54,7 +82,7 @@
     </div>
     <asp:Literal ID="litErrorMessage" Visible="false" runat="Server" />
   </div>
-  <table id="form-footer">
+  <table id="form-footer" style="font-size: 8pt;">
     <tr>
       <td class="left">
         <asp:Literal ID="litCopyright" runat="Server" />

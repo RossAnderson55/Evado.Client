@@ -187,7 +187,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This string defines the client version.
     /// </summary>
-    public static string ClientVersion = "V2_2";
+    public static string ClientVersion = "V3_0";
 
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

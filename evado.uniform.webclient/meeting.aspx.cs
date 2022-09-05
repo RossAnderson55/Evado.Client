@@ -33,6 +33,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Web.Security;
 using System.Net;
+using System.Net.Http;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -53,8 +54,6 @@ namespace Evado.UniForm.WebClient
     #region Class variable initialisations
 
     private const string SESSION_USER = "EUWC_SESSION";
-
-    String UrlParameterString = String.Empty;
 
     private EucSession UserSession = new EucSession ( );
 
@@ -85,12 +84,12 @@ namespace Evado.UniForm.WebClient
         // 
         // Initialise the method variables and objects.
         // 
-        this.initialiseGlobalVariables ( );
+        this.InitialiseGlobalVariables ( );
 
         //
         // load the session variables.
         //
-        this.loadSessionVariables ( );
+        this.LoadSessionVariables ( );
 
         //
         // Process post back events.
@@ -118,7 +117,7 @@ namespace Evado.UniForm.WebClient
               //
               // Send the Command to the server.
               //
-              this.sendPageCommand ( );
+              this.SendPageCommand ( );
 
               this.LogValue ( "Initialise video session" );
 
@@ -350,7 +349,7 @@ namespace Evado.UniForm.WebClient
     ///	
     /// </summary>
     // --------------------------------------------------------------------------------
-    public void initialiseGlobalVariables ( )
+    public void InitialiseGlobalVariables ( )
     {
       this.LogMethod ( "initialiseGlobalVariables" );
       // 
@@ -402,7 +401,7 @@ namespace Evado.UniForm.WebClient
     ///	
     /// </summary>
     // --------------------------------------------------------------------------------
-    public void loadSessionVariables ( )
+    public void LoadSessionVariables ( )
     {
       this.LogMethod ( "loadSessionVariables" );
       //
@@ -422,15 +421,18 @@ namespace Evado.UniForm.WebClient
 
     }//END loadSessionVariables method
 
+
     // ==================================================================================
     /// <summary>
     /// This method send the Command back to the server objects.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void sendPageCommand ( )
+    private void SendPageCommand ( )
     {
       this.LogMethod ( "sendPageCommand" );
+      this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
       this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
+      this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
       this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
       this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
@@ -440,13 +442,24 @@ namespace Evado.UniForm.WebClient
       // Display a serialised instance of the object.
       //
       string serialisedText = String.Empty;
-      string stWebServiceUrl = Global.WebServiceUrl;
-      HttpWebRequest request;
+      string baseUrl = Global.WebServiceUrl;
+      string serviceUri = Global.RelativeWcfRestURL + Global.ClientVersion
+        + "?command=command&session=" + this.UserSession.ServerSessionId;
       Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
       {
         NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
       };
 
+      //
+      // Replace the default URI with the services URL if provided.
+      //
+      if ( this.UserSession.AppData.Url != String.Empty )
+      {
+        baseUrl = this.UserSession.AppData.Url;
+      }
+
+      String WebServiceUrl = baseUrl + serviceUri;
+      this.LogDebug ( "WebServiceUrl:{0}.", WebServiceUrl );
       //
       // Set the default application if non are set.
       //
@@ -455,21 +468,6 @@ namespace Evado.UniForm.WebClient
         this.UserSession.PageCommand.ApplicationId = "Default";
       }
 
-      //
-      // Replace the default URI with the services URL if provided.
-      //
-      if ( this.UserSession.AppData.Url != String.Empty )
-      {
-        stWebServiceUrl = this.UserSession.AppData.Url;
-      }
-
-      //
-      // Create the web service Url
-      //
-      stWebServiceUrl += Global.RelativeWcfRestURL + Global.ClientVersion
-        + "?command=command&session=" + this.UserSession.ServerSessionId;
-
-      this.LogDebug ( "stWebServiceUrl: " + stWebServiceUrl );
 
       // Request.UserHostName
       // Add the header data
@@ -507,56 +505,27 @@ namespace Evado.UniForm.WebClient
 
       serialisedText = Newtonsoft.Json.JsonConvert.SerializeObject ( this.UserSession.PageCommand );
 
-      //this.LogDebugValue ( "JSON Command: " + serialisedText );
-
       //
       // Initialise the web request.
       //
       this.LogDebug ( "Creating the WebRequest." );
-      this.LogDebug ( "stWebServiceUrl: " + stWebServiceUrl );
 
       try
       {
-        request = (HttpWebRequest) WebRequest.Create ( stWebServiceUrl );
-        request.Method = "POST";
-        request.KeepAlive = true;
-        request.CookieContainer = this.UserSession.CookieContainer;
-        request.AuthenticationLevel = System.Net.Security.AuthenticationLevel.None;
-
-        this.SetBody ( request, serialisedText );
-
-        // 
-        // Get the web service response
         //
-        this.LogDebug ( "Sending the the WebRequest." );
-
-        HttpWebResponse response = (HttpWebResponse) request.GetResponse ( );
-
+        // The post command 
         //
-        // Extract the cookie collection from the response.
-        //
-        this.UserSession.CookieContainer.Add ( response.Cookies );
-
-        //
-        // Convert teh response in to a content string.
-        //
-        serialisedText = this.ConvertResponseToString ( response );
+        serialisedText = this.sendPost ( WebServiceUrl, serialisedText );
 
         this.LogDebug ( "JSON Serialised text length: " + serialisedText.Length );
 
         if ( Global.DebugLogOn == true )
         {
-          // 
-          // Open the stream to the file.
-          // 
-          using ( StreamWriter sw = new StreamWriter ( Global.TempPath + @"json-data.txt" ) )
-          {
-            sw.Write ( serialisedText );
-
-          }// End StreamWriter.
+          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath, @"meeting-json-data.txt", serialisedText );
         }
 
-        //this.writeDebug = ": " + serialisedText;
+        this.LogDebug( "serialisedText {0}. ", serialisedText );
+
         //
         // deserialise the application data 
         //
@@ -567,7 +536,18 @@ namespace Evado.UniForm.WebClient
         this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.EuAppData> ( serialisedText );
 
         this.LogDebug ( "Application object: " + this.UserSession.AppData.getAtString ( ) );
-        this.LogDebug ( "Page Command count: " + this.UserSession.AppData.Page.CommandList.Count );
+
+        //
+        // Set the anonymouse page access mode.
+        // True enables anonymous access mode hiding:
+        // - Exit Command
+        // - History commands
+        // - Page Commands
+        //
+        //
+        // Reset the panel display group index for the new page data object.
+        //
+        this.UserSession.PanelDisplayGroupIndex = -1;
 
         //
         // Update the user session id
@@ -593,7 +573,7 @@ namespace Evado.UniForm.WebClient
 
         if ( Global.DebugLogOn == true )
         {
-          group.Description = "Web Service URL: " + stWebServiceUrl
+          group.Description = "Web Service URL: " + baseUrl
           + "\r\nWeb Service Error. " + Evado.Model.EvStatics.getException ( Ex );
         }
         else
@@ -606,55 +586,52 @@ namespace Evado.UniForm.WebClient
 
     }//END sendPageCommand method
 
-    // ==================================================================================
+    // =================================================================================
     /// <summary>
-    /// 
+    /// This methods sends a post to the web service.
     /// </summary>
-    /// <param name="request">HttpWebRequest object</param>
-    /// <param name="requestBody">String: text body.</param>
+    /// <param name="WebServiceUrl">String: The web service URI</param>
+    /// <param name="PostContent">String: string content for the web service.</param>
+    /// <returns>String: Response Text</returns>
     // ---------------------------------------------------------------------------------
-    void SetBody (
-      HttpWebRequest request,
-      String requestBody )
+    private String sendPost (
+      String WebServiceUrl,
+      String PostContent )
     {
-      if ( requestBody.Length > 0 )
+      this.LogMethod ( "sendPost" );
+      this.LogDebug ( "stWebServiceUrl {0}, Content:\r\n{1}\r\n",
+        WebServiceUrl,
+        PostContent.Replace ( ",", ",\r\n" ) );
+      //
+      // Initialise the methods variables and objects.
+      //
+      String responseText = String.Empty;
+      Uri uri = new Uri ( WebServiceUrl );
+
+      var content = new StringContent ( PostContent, Encoding.UTF8, "application/json" );
+
+      using ( var handler = new HttpClientHandler ( )
       {
-        using ( Stream requestStream = request.GetRequestStream ( ) )
+        CookieContainer = this.UserSession.CookieContainer,
+        UseCookies = true
+      } )
+      {
+        using ( Global.HttpClient = new HttpClient ( handler ) )
         {
-          using ( StreamWriter writer = new StreamWriter ( requestStream ) )
+          using ( content )
           {
-            writer.Write ( requestBody );
-          }
-        }
-      }
-    }
+            HttpResponseMessage respone = Global.HttpClient.PostAsync ( uri, content ).Result;
 
-    // ==================================================================================
-    /// <summary>
-    /// This method convers the returned repsonse into a string.
-    /// </summary>
-    /// <param name="response">HttpWebResponse object containing the web service respoinse</param>
-    /// <returns>String containing the reponse content.</returns>
-    // ---------------------------------------------------------------------------------
-    String ConvertResponseToString (
-      HttpWebResponse response )
-    {
-      this.LogMethod ( "ConvertResponseToString" );
-      //
-      // Extract the header for debug.
-      //
-      this.LogDebug ( "Status code: " + (int) response.StatusCode + " " + response.StatusCode );
+            this.LogDebug ( "StatusCode {0}.", respone.StatusCode );
 
-      foreach ( string key in response.Headers.Keys )
-      {
-        this.LogDebug ( "{0}: {1}", key, response.Headers [ key ] );
-      }
+            responseText = respone.Content.ReadAsStringAsync ( ).Result;
 
-      string result = new StreamReader ( response.GetResponseStream ( ) ).ReadToEnd ( );
+          }//END using content
+        }//END using httpClient
+      }//END using handler
 
-      this.LogMethodEnd ( "ConvertResponseToString" );
-
-      return result;
+      this.LogMethodEnd ( "sendPost" );
+      return responseText;
     }
 
     // =====================================================================================

@@ -6,7 +6,7 @@
 <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
 <head id="Head1" runat="server">
   <title>UniFORM Web Client </title>
-  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="icon" type="image/png" href="./favicon.png" />
   <style type="text/css" media="screen, print, projection">
     @import "./css/bootstrap.css";
     @import "./css/client.video.css";

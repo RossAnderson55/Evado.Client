@@ -36,7 +36,7 @@ namespace Evado.UniForm.WebClient
     /// This method uses the global ApplicationData object to generates the page layout.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void generatePage ( )
+    private void GeneratePage ( )
     {
       this.LogMethod ( "generatePage" );
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
