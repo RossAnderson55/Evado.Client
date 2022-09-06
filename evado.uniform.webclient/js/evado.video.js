@@ -110,6 +110,53 @@ $(function () {
 
     console.log("meeting: displayMeeting FINISH");
   };
+  //
+  // the client frame resize function.
+  //
+  var setMeetingUrl = function () {
+    console.log("meeting: _____________________________________________________________ ");
+    console.log("meeting: setMeetingUrl STARTED");
+
+    var meetingDisplayName = "" + document.getElementById("meetingDisplayName").value;
+    var meetingUrl = "" + document.getElementById("meetingUrl").value;
+    var meetingParameters = "" + document.getElementById("meetingParameters").value;
+    var meetingFrame = document.getElementById("meetingFrame");
+
+    //
+    // if the video url is empty then close the iframe and disply
+    // the full page.
+    //
+    if (meetingUrl == "") {
+      console.log("meeting: Video URL is empty no meeting.");
+      console.log("meeting: displayMeeting FINISH");
+      return;
+    } //END no meeting
+
+    console.log("meeting: INITIALISE MEETING");
+
+    meetingDisplayName = meetingDisplayName.replace(" ", "X20");
+    //
+    // set the video frame attributes.
+    //
+    var scrPameters = "?";
+
+    if (meetingParameters != null) {
+      scrPameters += meetingParameters;
+    }
+    if (meetingDisplayName != null) {
+      if (scrPameters.length > 1) {
+        scrPameters += "&";
+      }
+      scrPameters += "displayName=" + meetingDisplayName;
+    }
+
+    var meetingSrc = meetingUrl + scrPameters;
+    console.log("meeting: meetingSrc: " + meetingSrc);
+
+    meetingFrame.setAttribute("src", meetingSrc);
+
+    console.log("meeting: setMeetingUrl FINISH");
+  };
 
   $(window).resize(displayMeeting);
 
@@ -119,6 +166,7 @@ $(function () {
   * Export any functions which need to be made publically available
   */
   Evado.Video = {
-    displayMeeting: displayMeeting
+    displayMeeting: displayMeeting,
+    setMeetingUrl: setMeetingUrl
   };
 });

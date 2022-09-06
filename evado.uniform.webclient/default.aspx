@@ -53,6 +53,8 @@
         console.log("Default: meetingParameters: " + document.getElementById('meetingParameters').value);
 
         Evado.Video.displayMeeting();
+
+        Evado.Video.setMeetingUrl();
       }
       console.log("Default: MESSAGE EVENT FINISH. ");
     });

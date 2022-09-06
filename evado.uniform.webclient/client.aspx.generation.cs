@@ -83,12 +83,15 @@ namespace Evado.UniForm.WebClient
       //
       // Reinitialise the history each time the home page is displayed.
       //
+      /*
       if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_DEFAULT_HOME_PAGE_ID
         || this.UserSession.AppData.Page.PageId == Evado.Model.EvStatics.CONST_HOME_PAGE_ID )
       {
-        this.LogDebug ( "Home Page" );
+        this.LogDebug ( "Home Page encountered." );
         this.initialiseHistory ( );
       }
+      */
+
       //
       // Groups are displayed a panels enable and initialise the page objects.
       //
@@ -125,6 +128,7 @@ namespace Evado.UniForm.WebClient
         //
         // Generate the Page History menu
         //
+        this.LogDebug ( "CommandHistoryList.Count {0}. ", this.UserSession.CommandHistoryList.Count );
         if ( this.UserSession.CommandHistoryList.Count > 0 )
         {
           sbPageHistoryPills.Append ( "<ol class='breadcrumb'>" );

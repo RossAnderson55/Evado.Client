@@ -54,6 +54,14 @@
       console.log("Client: meetingDisplayName: " + meetingDisplayName);
       console.log("Client: meetingParameters: " + meetingParameters);
 
+      if (lastMeetingStatus == meetingStatus
+        || meetingStatus == "") {
+        console.log("Client: meeting status not changed");
+        console.log("Client: OnPageLoad Event FINISH");
+        return;
+      }
+      document.getElementById('lastMeetingStatus').value = meetingStatus;
+
       var message = meetingUrl + ";" + meetingDisplayName + ";" + meetingParameters + ";" + meetingStatus;
 
       console.log("Client: postMessage: " + message);
