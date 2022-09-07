@@ -81,9 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\webattributes.cs" />
-    <Compile Include="EucEnumerators.cs" />
-    <Compile Include="EucKeyValuePair.cs" />
-    <Compile Include="EucSession.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -91,10 +88,20 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="default.aspx.fields.cs">
+    <Compile Include="EucEnumerators.cs" />
+    <Compile Include="EucKeyValuePair.cs" />
+    <Compile Include="EucSession.cs" />
+    <Compile Include="client.aspx.cs">
+      <DependentUpon>client.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="default.aspx.generation.cs">
+    <Compile Include="client.aspx.designer.cs">
+      <DependentUpon>client.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="client.aspx.fields.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="client.aspx.generation.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EuLabels.Designer.cs">
@@ -110,18 +117,13 @@
     <Compile Include="global.asax.cs">
       <DependentUpon>global.asax</DependentUpon>
     </Compile>
+    <Compile Include="meeting.aspx.designer.cs">
+      <DependentUpon>meeting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="meeting.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Properties\assemblyinfo.cs" />
-    <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\settings1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>settings.settings</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\bootstrap-datetimepicker.min.css" />
@@ -130,11 +132,14 @@
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\client.main.css" />
+    <Content Include="css\client.video.css" />
     <Content Include="css\menu.css" />
     <Content Include="css\menu.js" />
     <Content Include="css\report.css" />
+    <Content Include="client.aspx" />
     <Content Include="default.aspx" />
     <Content Include="js\bootstrap-datetimepicker.js" />
+    <Content Include="js\evado.video.js" />
     <Content Include="js\signaturePad.js" />
     <Content Include="js\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\bootstrap.js" />
@@ -160,13 +165,10 @@
     <None Include="images\thumbs.db" />
     <Content Include="js\parsley.js" />
     <Content Include="js\underscore.js" />
+    <Content Include="meeting.aspx" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Properties\settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>settings1.Designer.cs</LastGenOutput>
-    </None>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

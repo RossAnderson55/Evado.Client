@@ -27,7 +27,7 @@ namespace Evado.UniForm.WebClient
   /// <summary>
   /// This is the code behind class for the home page.
   /// </summary>
-  public partial class DefaultPage : EvPersistentPageState
+  public partial class ClientPage : EvPersistentPageState
   {
     private int _TabIndex = 0;
 
@@ -36,10 +36,11 @@ namespace Evado.UniForm.WebClient
     /// This method uses the global ApplicationData object to generates the page layout.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void generatePage ( )
+    private void GeneratePage ( )
     {
       this.LogMethod ( "generatePage" );
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
+      this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
       this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
       //
       // initialise method variables and objects.
@@ -55,6 +56,15 @@ namespace Evado.UniForm.WebClient
       {
         this.litHistory.Visible = true;
       }
+
+      //
+      // set the meeting values.
+      //
+      this.setMeetingValues ( );
+
+      //
+      // initialise the methods variables and objects.
+      //
       this.litExitCommand.Visible = true;
       this.litCommandContent.Visible = true;
       this.litHeaderTitle.Visible = true;
@@ -73,10 +83,15 @@ namespace Evado.UniForm.WebClient
       //
       // Reinitialise the history each time the home page is displayed.
       //
-      if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_DEFAULT_HOME_PAGE_ID )
+      /*
+      if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_DEFAULT_HOME_PAGE_ID
+        || this.UserSession.AppData.Page.PageId == Evado.Model.EvStatics.CONST_HOME_PAGE_ID )
       {
+        this.LogDebug ( "Home Page encountered." );
         this.initialiseHistory ( );
       }
+      */
+
       //
       // Groups are displayed a panels enable and initialise the page objects.
       //
@@ -113,6 +128,7 @@ namespace Evado.UniForm.WebClient
         //
         // Generate the Page History menu
         //
+        this.LogDebug ( "CommandHistoryList.Count {0}. ", this.UserSession.CommandHistoryList.Count );
         if ( this.UserSession.CommandHistoryList.Count > 0 )
         {
           sbPageHistoryPills.Append ( "<ol class='breadcrumb'>" );
@@ -370,6 +386,52 @@ namespace Evado.UniForm.WebClient
     /// This method loads the page's javascript libraries
     /// </summary>
     // ---------------------------------------------------------------------------------
+    private void setMeetingValues ( )
+    {
+      this.LogMethod ( "setMeetingValues" );
+      this.LogDebug ( "AppData.MeetingStatus: {0}.", this.UserSession.AppData.MeetingStatus );
+      //
+      // Passes the meeting status to the application data meeting status.
+      //
+      this.meetingStatus.Value = this.UserSession.AppData.MeetingStatus.ToString ( );
+      this.LogDebug ( "meetingStatus.Value: {0}.", this.meetingStatus.Value );
+
+      //
+      // if the meeting is commenced then pass the meeting parameters to the meeting parameter fields.
+      // A java script event will pass these values to the parent default page.
+      //
+      if ( this.meetingStatus.Value == Evado.Model.EvMeeting.States.Meeting_Commenced.ToString ( ) )
+      {
+        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url ) == true )
+        {
+          this.LogDebug ( "meeting commenced" );
+          this.meetingUrl.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url );
+          this.meetingDisplayName.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName );
+          this.meetingParameters.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters );
+        }
+      }
+      else
+      {
+        this.LogDebug ( "meeting closed" );
+        this.meetingUrl.Value = String.Empty;
+        this.meetingDisplayName.Value = String.Empty;
+        this.meetingParameters.Value = String.Empty;
+      }
+
+      this.LogDebug ( "meetingUrl.Value:{0}.", this.meetingUrl.Value );
+      this.LogDebug ( "meetingDisplayName.Value:{0}.", this.meetingDisplayName.Value );
+      this.LogDebug ( "meetingParameters.Value:{0}.", this.meetingParameters.Value );
+
+
+      this.LogMethodEnd ( "setMeetingValues" );
+
+    }//ENd setMeetingValues method
+
+    // ==================================================================================
+    /// <summary>
+    /// This method loads the page's javascript libraries
+    /// </summary>
+    // ---------------------------------------------------------------------------------
     private void loadJavaScriptLibraries ( )
     {
       this.LogMethod ( "loadJavaScriptLibraries" );
@@ -400,7 +462,7 @@ namespace Evado.UniForm.WebClient
         //
         // reset the JS library value.
         //
-        this.litJsLibrary.Text =  "<script type=\"text/javascript\">computedScript = true;</script>\r\n";
+        this.litJsLibrary.Text = "<script type=\"text/javascript\">computedScript = true;</script>\r\n";
         //
         // Iterate through teh library references adding them to the store.
         //
@@ -422,7 +484,7 @@ namespace Evado.UniForm.WebClient
     private void generateErrorMessge ( StringBuilder sbHtml )
     {
       this.LogMethod ( "generateErrorMessge" );
-      String message = this.UserSession.AppData.Message.ToLower();
+      String message = this.UserSession.AppData.Message.ToLower ( );
       //
       // Define the error group.
       //

@@ -1,7 +1,7 @@
 /***************************************************************************************
  * <copyright file="webclinical\AssemblyInfo.cs" company="Evado UnIFORM">
  *     
- *      Copyright (c) 2011 - 2020 Evado  All rights reserved.
+ *      Copyright (c) 2011 - 2022 Evado  All rights reserved.
  *     
  *      The use and distribution terms for this software are contained in the file
  *      named license.txt, which can be found in the root of this distribution.
@@ -43,8 +43,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion ( "2.6.2.*" )]
-[assembly: AssemblyFileVersion ( "2.6.2" )]
+[assembly: AssemblyVersion ( "3.0.0.*" )]
+[assembly: AssemblyFileVersion ( "3.0.0" )]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 

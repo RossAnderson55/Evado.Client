@@ -367,6 +367,15 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The URL has the incorrect video parameters.  .
+        /// </summary>
+        internal static string Video_Meeting_Parameter_Error_Message {
+            get {
+                return ResourceManager.GetString("Video_Meeting_Parameter_Error_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Video URL:.
         /// </summary>
         internal static string Video_Url_Field_Title {
