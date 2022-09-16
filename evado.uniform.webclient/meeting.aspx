@@ -73,7 +73,7 @@
   <form id="pageForm" runat="server">
   <div>
     <div id="videoDiv" runat="server">
-      <iframe id="videoFrame" name="videoFrame" src="" width="900" height="800" runat="server">
+      <iframe id="videoFrame" name="videoFrame" src="" width="900" height="800" allow="camera; microphone; speaker" runat="server">
       </iframe>
     </div>
     <div id="messageDiv" runat="server">

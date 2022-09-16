@@ -763,8 +763,8 @@ namespace Evado.UniForm.WebClient
     //   ---------------------------------------------------------------------------------
     private static void LogGlobal ( String Value )
     {
-      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-        + "Evado.UniForm.Webclient.Global." + Value;
+      string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + " Global: "
+        + Value;
 
       Global.LogValue ( logValue );
     }
@@ -779,8 +779,8 @@ namespace Evado.UniForm.WebClient
     // ----------------------------------------------------------------------------------
     private static void LogGlobal ( String Format, params object [ ] Arguments )
     {
-      string logValue = String.Format ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-        + "Evado.UniForm.Webclient.Global." + String.Format ( Format, Arguments ) );
+      string logValue = String.Format ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + " Global: "
+        + String.Format ( Format, Arguments ) );
 
       Global.LogValue ( logValue );
     }
