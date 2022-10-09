@@ -1,20 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Data;
-using System.Drawing;
-using System.Web;
-using System.Web.SessionState;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Web.Security;
-using System.Net;
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -935,7 +920,6 @@ namespace Evado.UniForm.WebClient
       String stMaxValue = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Max_Value );
       String stMinAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Min_Alert );
       String stMaxAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Max_Alert );
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback );
       String stCssValid = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Validation );
       String stCssAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Alert );
       String stCssNormal = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Normal );
@@ -954,11 +938,6 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Type == Evado.Model.EvDataTypes.Integer )
       {
         stValidationMethod = " data-parsley-integerna data-parsley-trigger=\"change\" ";
-      }
-
-      if ( stCustomValidation != String.Empty )
-      {
-        stValidationMethod = " onchange=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
       }
 
       if ( stUnit.Contains ( "10^" ) == true )
@@ -1081,7 +1060,7 @@ namespace Evado.UniForm.WebClient
       int maxYear = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Max_Value );
       String stCssValid = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Validation );
       String stCssAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Alert );
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback );
+      
       String stdateSelection = String.Empty;
       String stDate = PageField.Value;
       String stDay = String.Empty;
@@ -1366,7 +1345,6 @@ namespace Evado.UniForm.WebClient
       int titleColumnWidth = 100 - valueColumnWidth;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-date-value ' "; //cf
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback );
       String stFormat = "HH : MM : SS";
       String time = PageField.Value;
       int timeElements = 2;
@@ -1415,11 +1393,6 @@ namespace Evado.UniForm.WebClient
         // Set the normal validation parameters.
         //
         string stValidationMethod = " onchange=\"Evado.Form.onTimeSelectChange( this, '" + PageField.FieldId + "' )\" ";
-
-        if ( stCustomValidation != String.Empty )
-        {
-          stValidationMethod = " onchange=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
-        }
 
         //
         // Set default width
@@ -1602,7 +1575,6 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback ); ;
       String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
@@ -1629,10 +1601,6 @@ namespace Evado.UniForm.WebClient
       //
       string stValidationMethod = " onclick=\"Evado.Form.onSelectionValidation( this, this.value )\" ";
 
-      if ( stCustomValidation != String.Empty )
-      {
-        stValidationMethod = " onclick=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
-      }
 
       //
       // Ineert the field header
@@ -1975,18 +1943,13 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:98%;' class='cell value cell-radio-value' ";
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback );
+      
       String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
 
       //
       // Set the normal validation parameters.
       //
       string stValidationMethod = " onchange=\"Evado.Form.onSelectionValidation( this, this.value )\" ";
-
-      if ( stCustomValidation != String.Empty )
-      {
-        stValidationMethod = " onchange=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
-      }
 
       //
       // Ineert the field header
@@ -2293,7 +2256,7 @@ namespace Evado.UniForm.WebClient
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
       String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback );
+      
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
@@ -2319,11 +2282,6 @@ namespace Evado.UniForm.WebClient
       // Set the normal validation parameters.
       //
       string stValidationMethod = " onclick=\"Evado.Form.onSelectionValidation( this, this.value )\" ";
-
-      if ( stCustomValidation != String.Empty )
-      {
-        stValidationMethod = " onclick=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
-      }
 
       //
       // Ineert the field header
@@ -2447,7 +2405,7 @@ namespace Evado.UniForm.WebClient
       }
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-select-value cf' ";
       String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback );
+      
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
@@ -2455,17 +2413,11 @@ namespace Evado.UniForm.WebClient
       }
 
       this.LogDebug ( "stCmdOnChange: " + stCmdOnChange );
-      this.LogDebug ( "stCustomValidation: " + stCustomValidation );
 
       //
       // Set the normal validation parameters.
       //
       string stValidationMethod = " onclick=\"Evado.Form.onSelectionValidation( this, this.value )\" ";
-
-      if ( stCustomValidation != String.Empty )
-      {
-        stValidationMethod = " onclick=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
-      }
 
       //
       // Ineert the field header
@@ -4465,7 +4417,7 @@ namespace Evado.UniForm.WebClient
       String stCssValid = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Validation );
       String stCssAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Alert );
       String stCssNormal = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Normal );
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback );
+      
 
       value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Min_Value );
       if ( value != String.Empty )
@@ -4517,11 +4469,6 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Type == Evado.Model.EvDataTypes.Integer )
       {
         stValidationMethod = " data-parsley-integerna \" ";
-      }
-
-      if ( stCustomValidation != String.Empty )
-      {
-        stValidationMethod = " onchange=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
       }
 
       this.LogMethod ( "Unit: " + stUnit );
@@ -4677,7 +4624,7 @@ namespace Evado.UniForm.WebClient
       String stCssValid = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Validation );
       String stCssAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Alert );
       String stCssNormal = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Normal );
-      String stCustomValidation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Validation_Callback );
+      
 
       value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Min_Value );
       if ( value != String.Empty )
@@ -4725,11 +4672,6 @@ namespace Evado.UniForm.WebClient
       // Set the normal validation parameters.
       ///
       string stValidationMethod = " onchange=\"Evado.Form.onDateValidation( this, this.value )\" ";
-
-      if ( stCustomValidation != String.Empty )
-      {
-        stValidationMethod = " onchange=\"Evado.Form.onCustomValidation('" + stCustomValidation + "', this, this.value )\" ";
-      }
 
       //
       // Ineert the field header

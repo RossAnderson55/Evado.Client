@@ -295,11 +295,6 @@ namespace Evado.UniForm.WebClient
       this.PagedGroups.Visible = false;
 
       //
-      // Initialise the Js Library
-      //
-      this.litJsLibrary.Text = String.Empty;
-
-      //
       // process post back false steps.
       //
       if ( IsPostBack == false )
