@@ -74,8 +74,6 @@ $(function () {
 
     //$("#meeting").css({ width: meetingWidth })
     //$("#meeting").css({ height: clientHeight })
-
-    meetingDisplayName = meetingDisplayName.replace(" ", "&nbsp;");
     //
     // set the video frame attributes.
     //

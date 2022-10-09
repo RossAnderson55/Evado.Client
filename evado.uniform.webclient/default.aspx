@@ -68,7 +68,7 @@
       runat="server"></iframe>
   </div>
   <div id="meeting">
-    <iframe id="meetingFrame" name="meetingFrame" src="" allow="camera; microphone; speaker" width="100" height="100"></iframe>
+    <iframe id="meetingFrame" name="meetingFrame" src="" allow="camera; microphone; speaker; fullscreen; autoplay" width="100" height="100"></iframe>
   </div>
   <table id="formFooter">
     <tr>

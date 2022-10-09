@@ -54,6 +54,7 @@
     #messageDiv
     {
       margin-top: 300px;
+      height: 500px;
       background-color: #EAEAEA;
       vertical-align: middle;
       text-align: center;
@@ -73,7 +74,7 @@
   <form id="pageForm" runat="server">
   <div>
     <div id="videoDiv" runat="server">
-      <iframe id="videoFrame" name="videoFrame" src="" width="900" height="800" allow="camera; microphone; speaker" runat="server">
+      <iframe id="videoFrame" name="videoFrame" src="" width="900" height="800" allow="camera; microphone; speaker; fullscreen; autoplay" runat="server">
       </iframe>
     </div>
     <div id="messageDiv" runat="server">

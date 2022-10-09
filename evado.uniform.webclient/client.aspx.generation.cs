@@ -406,7 +406,8 @@ namespace Evado.UniForm.WebClient
         {
           this.LogDebug ( "meeting commenced" );
           this.meetingUrl.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url );
-          this.meetingDisplayName.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName );
+          String value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName );
+          this.meetingDisplayName.Value = value.Replace ( " ", "%20" );
           this.meetingParameters.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters );
         }
       }
