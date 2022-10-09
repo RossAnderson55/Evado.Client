@@ -30,45 +30,6 @@ var Evado = Evado || {};
     console.log("updateComputedFields: FINISHED" );
     }
 
-  function onCustomValidation(validationCallback, source, FieldId) {
-    console.log("onCustomValidation: STARTED" );
-
-    var pageId = document.getElementById("pageId").value;
-    var lError = null;
-
-    if (validationCallback != null) {
-      var callback = '';
-      if (validationCallback.indexOf('.') > 0) {
-        callback = _.reduce(validationCallback.split('.'), function(memo, num) {
-          return (memo != null ? memo[num] : undefined);
-        }, window);
-      }
-      else {
-        if (window[validationCallback] != null) {
-          callback = validationCallback;
-        }
-        else {
-          if (Evado != null && Evado.Pages != null && Evado.Pages[pageId] != null)
-            callback = Evado.Pages[pageId][validationCallback]
-        }
-      }
-
-      if (!lError && callback != null && callback) {
-        lError = callback(source, FieldId);
-      }
-    }
-
-    if (lError) {
-      $(source).trigger('uniform:field:invalid', {message: lError});
-      return lError;
-    }
-    else {
-      $(source).trigger('uniform:field:valid');
-    }
-    console.log("onCustomValidation: FINISHED" );
-  }
-
-
   function onTextValidation(source, oldValue, options) {
     $(source).trigger('uniform:field:valid');
   }
@@ -158,7 +119,7 @@ var Evado = Evado || {};
 
     $(source).trigger('uniform:field:valid');
     
-    updateComputedFields();
+    
 
     console.log("onIntegerValidation: FINISHED" );
   } //END  onIntegerValidation method
@@ -187,7 +148,7 @@ var Evado = Evado || {};
 
     $(source).trigger('uniform:field:valid');
     
-    updateComputedFields();
+    
 
     console.log("onNumericValidation: FINISHED" );
   } //END  NumericValidation method
@@ -371,7 +332,7 @@ var Evado = Evado || {};
 
     } //END enable normal range enabled.
     
-    updateComputedFields();
+    
 
     console.log("onRangeValidation: FINISHED" );
 
@@ -422,10 +383,6 @@ var Evado = Evado || {};
 
     objdate.value = date;
     console.log( "new date: " + objdate.value );
-    
-   try{
-    updateComputedFields();
-    }catch{}
 
     console.log("onDateSelectChange: FINSIHED" );
 
@@ -475,11 +432,6 @@ var Evado = Evado || {};
     objtime.value = time;
 
     console.log( "new Time: " + objtime.value );
-    
-    try{
-    updateComputedFields();
-    }
-    catch{}
 
     console.log("onTimeSelectChange: FINISHED" );
     
@@ -512,7 +464,7 @@ var Evado = Evado || {};
 
     $(source).trigger('uniform:field:valid');
     
-    updateComputedFields();
+    
 
     console.log("onDateValidation: FINISHED" );
 
@@ -546,7 +498,7 @@ var Evado = Evado || {};
       return message;
     }
     
-    updateComputedFields();
+    
 
     console.log("onFinishDateValidation: FINISHED" );
   }
@@ -579,7 +531,7 @@ var Evado = Evado || {};
       return;
     }
     
-    updateComputedFields();
+    
 
     console.log("onConsentDateValidation: FINISHED" );
   }
@@ -613,7 +565,7 @@ var Evado = Evado || {};
       return message;
     }
     
-    updateComputedFields();
+    
 
     console.log("onBirthDateValidation: FINISHED" );
   }
@@ -692,7 +644,7 @@ var Evado = Evado || {};
     oldValue = source.value;
     $(source).trigger('uniform:field:valid');
     
-    updateComputedFields();
+    
 
     console.log("onTimeValidation: FINISHED" );
   } //END onTimeValidation method
@@ -719,7 +671,7 @@ var Evado = Evado || {};
     console.log("updated " + source.name + ".value : " + document.getElementById(source.name).value );
     }
 
-    updateComputedFields();
+    
 
     console.log("onSelectionValidation: FINISHED" );
   } //END onSelectionValidation method
@@ -763,7 +715,7 @@ var Evado = Evado || {};
       return;
     }
 
-    updateComputedFields();
+    
 
     console.log("onQuizValidation: FINISHED" );
   } //END onQuizValidation method
@@ -789,7 +741,7 @@ var Evado = Evado || {};
       $(source).trigger('uniform:field:invalid', {message: message});
     }
 
-    updateComputedFields();
+    
 
     console.log("onQueryField: FINISHED" );
   } //END onQueryField function
@@ -815,7 +767,7 @@ var Evado = Evado || {};
       varFinishDateField.disabled = "disabled";
     }
 
-    updateComputedFields();
+    
 
     console.log("onCommonRecordCompleted_Clicked: FINISHED" );
 
