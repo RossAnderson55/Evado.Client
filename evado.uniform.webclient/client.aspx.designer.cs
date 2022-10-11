@@ -42,15 +42,6 @@ namespace Evado.UniForm.WebClient
     protected global::System.Web.UI.WebControls.HiddenField @__CommandId;
 
     /// <summary>
-    /// litJsLibrary control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.Literal litJsLibrary;
-
-    /// <summary>
     /// windowWidth control.
     /// </summary>
     /// <remarks>

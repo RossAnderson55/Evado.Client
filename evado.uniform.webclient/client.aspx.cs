@@ -295,11 +295,6 @@ namespace Evado.UniForm.WebClient
       this.PagedGroups.Visible = false;
 
       //
-      // Initialise the Js Library
-      //
-      this.litJsLibrary.Text = String.Empty;
-
-      //
       // process post back false steps.
       //
       if ( IsPostBack == false )
@@ -371,7 +366,7 @@ namespace Evado.UniForm.WebClient
       //
       if ( Session [ SESSION_USER ] != null )
       {
-        this.UserSession = (EucSession) Session [ SESSION_USER ];
+        this.UserSession = ( EucSession ) Session [ SESSION_USER ];
       }
 
       this.LogDebug ( "ApplicationData.Id: " + this.UserSession.AppData.Id );
@@ -419,16 +414,16 @@ namespace Evado.UniForm.WebClient
     /// This method send the Command back to the server objects.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void SendPageCommand( )
+    private void SendPageCommand ( )
     {
-      this.LogMethod( "sendPageCommand" );
-      this.LogValue( "DebugLogOn {0}.", Global.DebugLogOn );
-      this.LogDebug( "Sessionid: " + this.UserSession.ServerSessionId );
-      this.LogDebug( "User NetworkId: " + this.UserSession.UserId );
-      this.LogDebug( "AppDate Url: " + this.UserSession.AppData.Url );
-      this.LogDebug( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
-      this.LogDebug( "Global.ClientVersion: " + Global.ClientVersion );
-      this.LogDebug( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader( "Host" ) );
+      this.LogMethod ( "sendPageCommand" );
+      this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
+      this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
+      this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
+      this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
+      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
+      this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
+      this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
 
       //
       // Display a serialised instance of the object.
@@ -451,7 +446,7 @@ namespace Evado.UniForm.WebClient
       }
 
       String WebServiceUrl = baseUrl + serviceUri;
-      this.LogDebug( "WebServiceUrl:{0}.", WebServiceUrl );
+      this.LogDebug ( "WebServiceUrl:{0}.", WebServiceUrl );
       //
       // Set the default application if non are set.
       //
@@ -465,60 +460,60 @@ namespace Evado.UniForm.WebClient
       // Add the header data
       //
 
-      this.UserSession.PageCommand.AddHeader(
+      this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.UserId,
         this.UserSession.UserId );
 
-      this.UserSession.PageCommand.AddHeader(
+      this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.DeviceId,
         Evado.UniForm.Model.EuStatics.CONST_WEB_CLIENT );
 
-      this.UserSession.PageCommand.AddHeader(
+      this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.Client_Url,
-        this.GetRequestHeader( "Host" ) );
+        this.GetRequestHeader ( "Host" ) );
 
-      this.UserSession.PageCommand.AddHeader(
+      this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.OSVersion,
         Evado.UniForm.Model.EuStatics.CONST_WEB_NET_VERSION );
 
-      this.UserSession.PageCommand.AddHeader(
+      this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.User_Url,
         Request.UserHostName );
 
-      this.UserSession.PageCommand.AddHeader(
+      this.UserSession.PageCommand.AddHeader (
         Evado.UniForm.Model.EuCommandHeaderParameters.DateTime,
-        DateTime.Now.ToString( "dd MMM yyyy HH:mm:ss" ) );
+        DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
 
-      this.LogValue( "SENT: PageCommand: " + this.UserSession.PageCommand.getAsString( false, false ) );
+      this.LogValue ( "SENT: PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
       //
       // serialise the Command prior to sending to the web service.
       //
-      this.LogDebug( "Serialising the PageComment object" );
+      this.LogDebug ( "Serialising the PageComment object" );
 
-      serialisedText = Newtonsoft.Json.JsonConvert.SerializeObject( this.UserSession.PageCommand );
+      serialisedText = Newtonsoft.Json.JsonConvert.SerializeObject ( this.UserSession.PageCommand );
 
       //
       // Initialise the web request.
       //
-      this.LogDebug( "Creating the WebRequest." );
+      this.LogDebug ( "Creating the WebRequest." );
 
       try
       {
         //
         // The post command 
         //
-        serialisedText = this.SendPost( WebServiceUrl, serialisedText );
+        serialisedText = this.SendPost ( WebServiceUrl, serialisedText );
 
-        this.LogDebug( "JSON Serialised text length: " + serialisedText.Length );
+        this.LogDebug ( "JSON Serialised text length: " + serialisedText.Length );
 
         if ( Global.DebugLogOn == true )
         {
           // 
           // Open the stream to the file.
           // 
-          using ( StreamWriter sw = new StreamWriter( Global.TempPath + @"json-data.txt" ) )
+          using ( StreamWriter sw = new StreamWriter ( Global.TempPath + @"json-data.txt" ) )
           {
-            sw.Write( serialisedText );
+            sw.Write ( serialisedText );
 
           }// End StreamWriter.
         }
@@ -526,14 +521,14 @@ namespace Evado.UniForm.WebClient
         //
         // deserialise the application data 
         //
-        this.UserSession.AppData = new Evado.UniForm.Model.EuAppData( );
+        this.UserSession.AppData = new Evado.UniForm.Model.EuAppData ( );
 
-        this.LogDebug( "Deserialising JSON to Evado.UniForm.Model.EuAppData object." );
+        this.LogDebug ( "Deserialising JSON to Evado.UniForm.Model.EuAppData object." );
 
-        this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.EuAppData>( serialisedText );
+        this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.EuAppData> ( serialisedText );
 
-        this.LogDebug( "Application object: " + this.UserSession.AppData.getAtString( ) );
-        this.LogDebug( "Page Command count: " + this.UserSession.AppData.Page.CommandList.Count );
+        this.LogDebug ( "Application object: " + this.UserSession.AppData.getAtString ( ) );
+        this.LogDebug ( "Page Command count: " + this.UserSession.AppData.Page.CommandList.Count );
 
         //
         // Set the anonymouse page access mode.
@@ -543,17 +538,17 @@ namespace Evado.UniForm.WebClient
         // - Page Commands
         //
 
-        this.LogDebug( "ExitCommand: " + this.UserSession.AppData.Page.Exit.getAsString( false, false ) );
+        this.LogDebug ( "ExitCommand: " + this.UserSession.AppData.Page.Exit.getAsString ( false, false ) );
         //
         // Add the exit Command to the history.
         //
-        this.addHistoryCommand( this.UserSession.AppData.Page.Exit );
+        this.addHistoryCommand ( this.UserSession.AppData.Page.Exit );
 
-        for ( int i=0; i< this.UserSession.CommandHistoryList.Count; i++ )
+        for ( int i = 0; i < this.UserSession.CommandHistoryList.Count; i++ )
         {
           EuCommand command = this.UserSession.CommandHistoryList [ i ];
 
-          this.LogDebug ( "{0} Command: ", i, command.getAsString( false, true) );
+          this.LogDebug ( "{0} Command: ", i, command.getAsString ( false, true ) );
         }
 
         //
@@ -566,27 +561,27 @@ namespace Evado.UniForm.WebClient
         //
         this.UserSession.ServerSessionId = this.UserSession.AppData.SessionId;
 
-        this.LogDebug( "ServerUserSessionId: " + this.UserSession.ServerSessionId );
+        this.LogDebug ( "ServerUserSessionId: " + this.UserSession.ServerSessionId );
       }
       catch ( Exception Ex )
       {
-        this.litErrorMessage.Text = "Web Service Error. " + Evado.Model.EvStatics.getExceptionAsHtml( Ex );
+        this.litErrorMessage.Text = "Web Service Error. " + Evado.Model.EvStatics.getExceptionAsHtml ( Ex );
 
-        this.LogDebug( "Web Service Error. " + Evado.Model.EvStatics.getException( Ex ) ); ;
+        this.LogDebug ( "Web Service Error. " + Evado.Model.EvStatics.getException ( Ex ) ); ;
 
-        EvEventLog.LogPageError( this, Evado.Model.EvStatics.getException( Ex ) );
+        EvEventLog.LogPageError ( this, Evado.Model.EvStatics.getException ( Ex ) );
 
-        this.UserSession.AppData = new Evado.UniForm.Model.EuAppData( );
-        this.UserSession.AppData.Id = Guid.NewGuid( );
+        this.UserSession.AppData = new Evado.UniForm.Model.EuAppData ( );
+        this.UserSession.AppData.Id = Guid.NewGuid ( );
         this.UserSession.AppData.Page.Id = this.UserSession.AppData.Id;
         this.UserSession.AppData.Page.Title = "Service Access Error.";
-        Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.AddGroup(
+        Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.AddGroup (
           "Service Access Error Report", Evado.UniForm.Model.EuEditAccess.Disabled );
 
         if ( Global.DebugLogOn == true )
         {
           group.Description = "Web Service URL: " + baseUrl
-          + "\r\nWeb Service Error. " + Evado.Model.EvStatics.getException( Ex );
+          + "\r\nWeb Service Error. " + Evado.Model.EvStatics.getException ( Ex );
         }
         else
         {
@@ -594,7 +589,7 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      this.LogMethodEnd( "sendPageCommand" );
+      this.LogMethodEnd ( "sendPageCommand" );
 
     }//END sendPageCommand method
 
@@ -606,41 +601,41 @@ namespace Evado.UniForm.WebClient
     /// <param name="PostContent">String: string content for the web service.</param>
     /// <returns>String: Response Text</returns>
     // ---------------------------------------------------------------------------------
-    private String SendPost(
+    private String SendPost (
       String WebServiceUrl,
       String PostContent )
     {
-      this.LogMethod( "SendPost" );
-      this.LogDebug( "WebServiceUrl {0}", WebServiceUrl );
+      this.LogMethod ( "SendPost" );
+      this.LogDebug ( "WebServiceUrl {0}", WebServiceUrl );
       //
       // Initialise the methods variables and objects.
       //
       String responseText = String.Empty;
-      Uri uri = new Uri( WebServiceUrl );
+      Uri uri = new Uri ( WebServiceUrl );
 
-      var content = new StringContent( PostContent, Encoding.UTF8, "application/json" );
+      var content = new StringContent ( PostContent, Encoding.UTF8, "application/json" );
 
-      using ( var handler = new HttpClientHandler( )
+      using ( var handler = new HttpClientHandler ( )
       {
         CookieContainer = this.UserSession.CookieContainer,
         UseCookies = true
       } )
       {
-        using ( Global.HttpClient = new HttpClient( handler ) )
+        using ( Global.HttpClient = new HttpClient ( handler ) )
         {
           using ( content )
           {
-            HttpResponseMessage respone = Global.HttpClient.PostAsync( uri, content ).Result;
+            HttpResponseMessage respone = Global.HttpClient.PostAsync ( uri, content ).Result;
 
-            this.LogDebug( "StatusCode {0}.", respone.StatusCode );
+            this.LogDebug ( "StatusCode {0}.", respone.StatusCode );
 
-            responseText = respone.Content.ReadAsStringAsync( ).Result;
+            responseText = respone.Content.ReadAsStringAsync ( ).Result;
 
           }//END using content
         }//END using httpClient
       }//END using handler
 
-      this.LogMethodEnd( "sendPost" );
+      this.LogMethodEnd ( "sendPost" );
       return responseText;
     }
 
@@ -750,9 +745,9 @@ namespace Evado.UniForm.WebClient
       }/// End StreamWrite
 
 
-      Evado.UniForm.Model.EuField groupField = serialisationGroup.createHtmlLinkField ( 
-        "lnkxmllad", 
-        "XML Serialised Application Data Object", 
+      Evado.UniForm.Model.EuField groupField = serialisationGroup.createHtmlLinkField (
+        "lnkxmllad",
+        "XML Serialised Application Data Object",
         "temp/serialised_application_data.xml" );
 
       serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.EuCommand> ( this.UserSession.PageCommand );
@@ -1557,6 +1552,11 @@ namespace Evado.UniForm.WebClient
                            ReturnedFormFields );
               break;
             }
+          case Evado.Model.EvDataTypes.Computed_Field:
+            {
+              this.updateComputedField ( FormField );
+              break;
+            }
           default:
             {
               stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
@@ -1599,6 +1599,151 @@ namespace Evado.UniForm.WebClient
       return FormField;
 
     }//END updateFormField method
+
+    // =============================================================================== 
+    /// <summary>
+    /// This method updates the Computed form fields.
+    /// 
+    /// </summary>
+    /// <param name="ComputedField">Evado.Uniform.Model.EuField object</param>
+    // ---------------------------------------------------------------------------------
+    private void updateComputedField ( EuField ComputedField )
+    {
+      this.LogMethod ( "updateComputedFieldValue" );
+      // 
+      // Initialise methods variables and objects.
+      //
+      String computedFormula = ComputedField.GetParameter ( EuFieldParameters.Computed_Formula );
+      int OpenBracketIndex = computedFormula.IndexOf ( '(' );
+      int CloseBracketIndex = computedFormula.IndexOf ( ')' );
+      float fieldValue = 0;
+      this.LogDebug ( "computedFormula: {0}.", computedFormula );
+
+      String formula = computedFormula.Substring ( 0, OpenBracketIndex );
+      String fields = computedFormula.Substring ( (OpenBracketIndex+1), ( CloseBracketIndex - OpenBracketIndex-1 ) );
+
+      this.LogDebug ( "Formula: {0}, fields: '{1}'.", formula, fields );
+
+      String [ ] arFields = fields.Split ( ';' );
+
+      switch ( formula )
+      {
+        case EuField.COMPUTED_FUNCTION_SUM_FIELDS:
+          {
+            //
+            // Iterate through the field idenifiers retrieving the field value 
+            // and if numeric add it to the fieldValue variale.
+            //
+            foreach ( string fielId in arFields )
+            {
+              EuField field = this.UserSession.AppData.Page.getField ( fielId );
+              this.LogDebug ( "fielid: {0}, field.FieldId: {1}, Value: {2}.", 
+                fielId, field.FieldId, field.Value );
+
+              float fValue = Evado.Model.EvStatics.getFloat ( field.Value );
+              if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
+                || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
+              {
+                this.LogDebug ( "ERROR: Empty or not a numeric value." );
+                continue;
+              }
+
+              fieldValue += fValue;
+            }
+            break;
+          }
+        case EuField.COMPUTED_FUNCTION_SUM_CATEGORY:
+          {
+            //
+            // get the computed fields fied category
+            //
+            string fieldCategory = fields.Trim ( );
+            this.LogDebug ( "ComputedField: fieldCategory: {0}.", fieldCategory );
+
+            //
+            // Iterate through the page groups 
+            //
+            foreach ( EuGroup group in this.UserSession.AppData.Page.GroupList )
+            {
+              //
+              // Iterate through the fields in each group. Retrieving the field
+              // and if in the computed field category add its value to the fieldValue variale.
+              //
+              foreach ( EuField field in group.FieldList )
+              {
+                string category = field.GetParameter ( EuFieldParameters.Category );
+
+                this.LogDebug ( "field: fieldCategory: {0}.", category );
+
+                if ( category.ToUpper ( ) != fieldCategory.ToUpper ( ) )
+                {
+                  continue;
+                }
+                this.LogDebug ( "Add Value  {0}.", field.Value );
+
+                float fValue = Evado.Model.EvStatics.getFloat ( field.Value );
+                if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
+                  || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
+                {
+                  this.LogDebug ( "ERROR: Empty or not a numeric value." );
+                  continue;
+                }
+
+                fieldValue += fValue;
+              }
+            }
+            break;
+          }
+        case EuField.COMPUTED_FUNCTION_SUM_COLUMN:
+          {
+            if ( arFields.Length == 0 )
+            {
+              break;
+            }
+            //
+            // Retrieve the tale field identifier and tale column (0-9).
+            //
+            String taleFieldId = arFields [ 0 ].Trim ( );
+            String columnId = arFields [ 1 ].Trim ( );
+            int column = Evado.Model.EvStatics.getInteger ( columnId );
+            column--; 
+
+            if ( column < 0 || column > 9 )
+            {
+              break;
+            }
+
+            //
+            // retrieve the tale field
+            //
+            EuField field = this.UserSession.AppData.Page.getField ( taleFieldId );
+
+            //
+            // iterate through each row adding the column value if a floating number.
+            //
+            foreach ( EuTableRow row in field.Table.Rows )
+            {
+              float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ] );
+              if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
+                || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
+              {
+                this.LogDebug ( "ERROR: Empty or not a numeric value." );
+                continue;
+              }
+
+              fieldValue += fValue;
+            }
+
+            break;
+          }
+      }//End Switch
+
+      ComputedField.Value = fieldValue.ToString ( );
+      this.LogDebug ( "ComputedField.Value: '{0}'.",
+        ComputedField.Value );
+
+      this.LogMethodEnd ( "updateComputedFieldValue" );
+    }//END updateComputedFieldValue method
 
     // =============================================================================== 
     /// <summary>
@@ -2211,7 +2356,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="DataId">String: The html field Id.</param>
     /// <returns>Field object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuField GetField ( 
+    private Evado.UniForm.Model.EuField GetField (
       String DataId )
     {
       //
@@ -2351,7 +2496,7 @@ namespace Evado.UniForm.WebClient
     /// This method updates the Command parameters with field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void updateWebPageCommandTableObject ( 
+    private void updateWebPageCommandTableObject (
       Evado.UniForm.Model.EuField field )
     {
       //
@@ -2735,7 +2880,7 @@ namespace Evado.UniForm.WebClient
       //
       this.initialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
-      this.imgLogo.Src = Global.DefaultLogoUrl; 
+      this.imgLogo.Src = Global.DefaultLogoUrl;
       this.meetingStatus.Value = Evado.Model.EvMeeting.States.Null.ToString ( );
 
       this.fsLoginBox.Visible = true;
@@ -2982,12 +3127,12 @@ namespace Evado.UniForm.WebClient
       }
       else
         if ( this.UserSession.AppData.Status == Evado.UniForm.Model.EuAppData.StatusCodes.Login_Count_Exceeded )
-        {
-          this.litLoginError.Text = "<p>" + this.UserSession.AppData.Message + "</p>";
-          this.litLoginError.Visible = true;
+      {
+        this.litLoginError.Text = "<p>" + this.UserSession.AppData.Message + "</p>";
+        this.litLoginError.Visible = true;
 
-          return;
-        }
+        return;
+      }
 
 
       this.LogMethodEnd ( "SendLoginCommand" );

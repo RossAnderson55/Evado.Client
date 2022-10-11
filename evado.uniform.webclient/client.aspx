@@ -6,7 +6,7 @@
 <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
 <head id="Head1" runat="server">
   <title>UniFORM Web Client </title>
-  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="icon" type="image/png" href="./favicon.png" />
   <style type="text/css" media="screen, print, projection">
     @import "./css/bootstrap.css";
     @import "./css/bootstrap-theme.css";
@@ -15,7 +15,7 @@
     @import "./css/menu.css";
     @import "./css/report.css";
   </style>
-  <link href="./css/flot.css" rel="stylesheet" type="text/css">
+  <link href="./css/flot.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="./js/jquery-1.11.0.min.js"></script>
   <script type="text/javascript" src="./js/parsley.js"></script>
   <script type="text/javascript" src="./js/bootstrap.js"></script>
@@ -127,7 +127,6 @@
     }
     // -->
   </script>
-  <asp:Literal ID="litJsLibrary" runat="server" />
   <input id="windowWidth" type="hidden" runat="server" />
   <input id="windowHeight" type="hidden" runat="server" />
   <!--  EVADO FORM PAGE -->
@@ -187,7 +186,7 @@
         <div id="fsLoginBox" class="Fields cf field-group-container" visible="false" style="text-align: center;"
           runat="server">
           <p id="pLogo" runat="server">
-            <img id="imgLogo" runat="server" /></p>
+            <img id="imgLogo" src="" runat="server" /></p>
           <h2>
             Login</h2>
           <asp:Literal ID="litLoginError" Visible="false" runat="Server" />

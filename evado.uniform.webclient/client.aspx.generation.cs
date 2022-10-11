@@ -1,22 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Data;
-using System.Drawing;
-using System.Web;
-using System.Web.SessionState;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Web.Security;
-using System.Net;
-using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 
 ///Evado. namespace references.
 
@@ -104,11 +88,6 @@ namespace Evado.UniForm.WebClient
           this.UserSession.PanelDisplayGroupIndex = 0;
         }
       }
-
-      //
-      // load the java script libraries
-      //
-      this.loadJavaScriptLibraries ( );
 
       //
       // If the anonymous access mode exit.
@@ -427,55 +406,6 @@ namespace Evado.UniForm.WebClient
       this.LogMethodEnd ( "setMeetingValues" );
 
     }//ENd setMeetingValues method
-
-    // ==================================================================================
-    /// <summary>
-    /// This method loads the page's javascript libraries
-    /// </summary>
-    // ---------------------------------------------------------------------------------
-    private void loadJavaScriptLibraries ( )
-    {
-      this.LogMethod ( "loadJavaScriptLibraries" );
-      this.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
-
-      //
-      // Exit if there is not Js Library
-      if ( this.UserSession.AppData.Page.JsLibrary == String.Empty )
-      {
-        return;
-      }
-
-      //
-      // load the page id for the java scripts.
-      //
-      this.pageId.Value = this.UserSession.AppData.Page.PageId;
-
-      //
-      // Get an array of library file references.
-      // it is assumed these files are residing in the image or binary file URL.
-      //
-      if ( this.UserSession.AppData.Page.JsLibrary != null )
-      {
-        string [ ] arJsLibraries = this.UserSession.AppData.Page.JsLibrary.Split ( ';' );
-
-        this.LogDebug ( "Libary count: " + arJsLibraries.Length );
-
-        //
-        // reset the JS library value.
-        //
-        this.litJsLibrary.Text = "<script type=\"text/javascript\">computedScript = true;</script>\r\n";
-        //
-        // Iterate through teh library references adding them to the store.
-        //
-        for ( int i = 0; i < arJsLibraries.Length; i++ )
-        {
-          string stJsLibaryUrl = Global.RelativeBinaryDownloadURL + arJsLibraries [ i ].Trim ( );  //computedScript = false;
-
-          this.litJsLibrary.Text += "<script type=\"text/javascript\" src=\"" + stJsLibaryUrl + "\"></script>\r\n";
-        }
-      }
-
-    }//END loadJavaScriptLibraries method
 
     // ==================================================================================
     /// <summary>
@@ -863,24 +793,6 @@ namespace Evado.UniForm.WebClient
       string stFieldValue = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.Hide_Group_If_Field_Value );
 
       this.LogDebug ( "stFieldName: " + stFieldName );
-
-      if ( stFieldName != String.Empty )
-      {
-        this.LogDebug ( "Group is dynamically displayed. " );
-        Guid fieldGuid = this.getField_ID ( stFieldName );
-
-        String stJavaScript = "<script type=\"text/javascript\">\r\n"
-          + @"//This script displays and hides groups: " + PageGroup.Title + "\r\n"
-          + "document.getElementById(\"" + PageGroup.Id + "-grp\").style.visibility = \"hidden\"; \r\n"
-          + "\r\n"
-          + "var value = document.getElementById(\"" + fieldGuid + "\").value; \r\n"
-          + "alert(  \"Field \" +  " + stFieldName + ", \" value\" +  value )\r\n"
-          + "if ( value == \"" + stFieldValue + "\" )\r\n"
-          + " { document.getElementById(\"" + PageGroup.Id + "-grp\").style.visibility = \"visible\";}\r\n "
-          + "\r\n</script>";
-
-        this.litJsLibrary.Text += stJavaScript;
-      }
       //
       // Group the page header divs together
       //

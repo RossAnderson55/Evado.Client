@@ -59,9 +59,17 @@
       console.log("Default: MESSAGE EVENT FINISH. ");
     });
 
+
+    /*
+    * This is the page load event.
+    */
+    function pageLoad() {
+
+      Evado.Video.displayMeeting();
+    }
   </script>
 </head>
-<body>
+<body onload="pageLoad()">
   <form id="pageForm" runat="server">
   <div id="client">
     <iframe id="clientFrame" name="clientFrame" src="./client.aspx" width="200" height="100"
