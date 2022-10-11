@@ -1554,7 +1554,9 @@ namespace Evado.UniForm.WebClient
             }
           case Evado.Model.EvDataTypes.Computed_Field:
             {
-              this.updateComputedField ( FormField );
+              FormField.Value = this.updateComputedField ( FormField );
+
+              this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
               break;
             }
           default:
@@ -1607,9 +1609,9 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     /// <param name="ComputedField">Evado.Uniform.Model.EuField object</param>
     // ---------------------------------------------------------------------------------
-    private void updateComputedField ( EuField ComputedField )
+    private String updateComputedField ( EuField ComputedField )
     {
-      this.LogMethod ( "updateComputedFieldValue" );
+      this.LogMethod ( "updateComputedField" );
       // 
       // Initialise methods variables and objects.
       //
@@ -1742,8 +1744,11 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "ComputedField.Value: '{0}'.",
         ComputedField.Value );
 
-      this.LogMethodEnd ( "updateComputedFieldValue" );
-    }//END updateComputedFieldValue method
+      this.LogMethodEnd ( "updateComputedField" );
+
+      return ComputedField.Value;
+
+    }//END updateComputedField method
 
     // =============================================================================== 
     /// <summary>
@@ -1930,10 +1935,10 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the option list to compare values.
       // 
-      stLowerValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_UPPER_SUFFIX );
+      stLowerValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_LOWER_SUFFIX );
       stUpperValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_UPPER_SUFFIX );
 
-      this.LogDebug ( "stLowerValue:" + stLowerValue + " stUpperValue:" + stUpperValue );
+      this.LogDebug ( "stLowerValue: {0},  stUpperValue: {1} " );
 
       return stLowerValue + ";" + stUpperValue;
 
@@ -2076,7 +2081,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       String FormDataId )
     {
-      this.LogMethod ( "getReturnedFormFieldValue method" );
+      this.LogMethod ( "getReturnedFormFieldValue" );
       this.LogDebug ( "FormDataId: " + FormDataId );
       // 
       // Initialise the method variables and objects.
