@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly
 //
 [assembly: AssemblyTitle ( "Evado UniFORM Web Client." )]
-[assembly: AssemblyDescription ( "This assembly contains the client for Evado.UniFORM web client" )]
+[assembly: AssemblyDescription ( "This assembly contains the web client for Evado.UniFORM" )]
 [assembly: AssemblyConfiguration ( "" )]
 [assembly: AssemblyCompany ( "Evado Holdings Pty. Ltd." )]
 [assembly: AssemblyProduct ( "Evado UnIFORM Web Client" )]
@@ -43,8 +43,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion ( "4.0.0.*" )]
-[assembly: AssemblyFileVersion ( "4.0.0" )]
+[assembly: AssemblyVersion ( "4.0.1.*" )]
+[assembly: AssemblyFileVersion ( "4.0.1" )]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 

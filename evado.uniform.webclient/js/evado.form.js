@@ -1144,7 +1144,6 @@ var Evado = Evado || {};
    * Export any functions which need to be made publically available
    */
   Evado.Form = {
-    onCustomValidation: onCustomValidation,
     onTextValidation: onTextValidation,
     onIndentiferFormat6: onIndentiferFormat6,
     onTextChange: onTextChange,

@@ -18,24 +18,6 @@
  ****************************************************************************************/
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Data;
-using System.Drawing;
-using System.Web;
-using System.Web.SessionState;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Web.Security;
-using System.Net;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 
 ///Evado. namespace references.
 

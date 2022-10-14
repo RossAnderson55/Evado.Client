@@ -385,8 +385,16 @@ namespace Evado.UniForm.WebClient
         {
           this.LogDebug ( "meeting commenced" );
           this.meetingUrl.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url );
+
+        }
+        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName ) == true )
+        {
           String value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName );
           this.meetingDisplayName.Value = value.Replace ( " ", "%20" );
+        }
+
+        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters ) == true )
+        {
           this.meetingParameters.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters );
         }
       }
@@ -733,7 +741,7 @@ namespace Evado.UniForm.WebClient
 
       this.UserSession.GroupFieldWidth = 60;
       Evado.UniForm.Model.EuFieldValueWidths widthValue = this.UserSession.CurrentGroup.getValueColumnWidth ( );
-      this.UserSession.GroupFieldWidth = (int) widthValue;
+      this.UserSession.GroupFieldWidth = ( int ) widthValue;
 
       //
       // Set the edit access.
@@ -814,26 +822,26 @@ namespace Evado.UniForm.WebClient
       }
       else
         if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Full_Width )
+      {
+        if ( EnableBodyColumns == false )
         {
-          if ( EnableBodyColumns == false )
-          {
-            divFieldGroupStyle += "width:98%; ";
-          }
-          else
-          {
-            divFieldGroupStyle += "width:100%; ";
-          }
+          divFieldGroupStyle += "width:98%; ";
         }
         else
+        {
+          divFieldGroupStyle += "width:100%; ";
+        }
+      }
+      else
           if ( inPixelWidth > 0 )
-          {
-            divFieldGroupStyle += "width:" + inPixelWidth + "px; ";
-          }
-          else
+      {
+        divFieldGroupStyle += "width:" + inPixelWidth + "px; ";
+      }
+      else
             if ( inPercentWidth > 0 )
-            {
-              divFieldGroupStyle += "width:" + inPercentWidth + "%; ";
-            }
+      {
+        divFieldGroupStyle += "width:" + inPercentWidth + "%; ";
+      }
 
 
       if ( inPixelHeight > 0 )

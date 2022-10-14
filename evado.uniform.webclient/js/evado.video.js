@@ -12,10 +12,6 @@ $(function () {
     var windowHeight = window.innerHeight;
     var meetingDisplayName = "" + document.getElementById("meetingDisplayName").value;
     var meetingUrl = "" + document.getElementById("meetingUrl").value;
-    var meetingParameters = "" + document.getElementById("meetingParameters").value;
-    var meetingDiv = document.getElementById("meeting");
-    var meetingFrame = document.getElementById("meetingFrame");
-    var clientDiv = document.getElementById("client");
     var clientFrame = document.getElementById("clientFrame");
     var footerHeight = $("#formFooter").height();
     var frameMargin = 10;
@@ -64,52 +60,31 @@ $(function () {
     clientFrame.setAttribute("width", clientWidth);
     clientFrame.setAttribute("height", clientHeight);
 
-    console.log("meeting: clientFrame width: " + clientFrame.getAttribute("width") + ", height: " + clientFrame.getAttribute("height"));
-
     console.log("meeting: INITIALISE MEETING");
 
     var meetingWidth = (windowWidth * rightColumnWidthRatio);
     console.log("meeting: meetingWidth: " + meetingWidth);
     console.log("meeting: total parent div width: " + (meetingWidth + clientWidth));
 
-    //$("#meeting").css({ width: meetingWidth })
-    //$("#meeting").css({ height: clientHeight })
-    //
-    // set the video frame attributes.
-    //
-    var scrPameters = "?";
+    $("#meeting").css({ width: meetingWidth })
+    $("#meeting").css({ height: clientHeight })
 
-    if (meetingParameters != null) {
-      scrPameters += meetingParameters;
-    }
-    if (meetingDisplayName != null) {
-      if (scrPameters.length > 1) {
-        scrPameters += "&";
-      }
-      scrPameters += "displayName=" + meetingDisplayName;
-    }
-
-    var meetingSrc = meetingUrl + scrPameters;
-    console.log("meeting: meetingSrc: " + meetingSrc);
-
-    //meetingFrame.setAttribute("src", meetingSrc);
     $("#meeting").css({ display: "block" })
 
+    var wherebyWidth = meetingWidth - (frameMargin * 2);
+    var wherebyHeight = clientHeight - (frameMargin * 2);
 
-    console.log("meeting: meetingFrame width: " + meetingFrame.getAttribute("width") + ", height: " + meetingFrame.getAttribute("height"));
+    console.log("meeting: 2 Whereby CSS width: " + wherebyWidth + ", height: " + wherebyHeight);
 
-    var meetingFrameWidth = meetingWidth - (frameMargin * 2);
-    var meetingFrameHeight = clientHeight - (frameMargin * 2);
+    $("#whereby").css({ height: wherebyHeight })
+    $("#whereby").css({ width: wherebyWidth })
 
-    meetingFrame.setAttribute("width", meetingFrameWidth);
-    meetingFrame.setAttribute("height", meetingFrameHeight);
-
-    console.log("meeting: meetingFrame width: " + meetingFrame.getAttribute("width") + ", height: " + meetingFrame.getAttribute("height"));
 
     console.log("meeting: displayMeeting FINISH");
   };
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   //
-  // the client frame resize function.
+  // the client meeting URl function.
   //
   var setMeetingUrl = function () {
     console.log("meeting: _____________________________________________________________ ");
@@ -117,8 +92,6 @@ $(function () {
 
     var meetingDisplayName = "" + document.getElementById("meetingDisplayName").value;
     var meetingUrl = "" + document.getElementById("meetingUrl").value;
-    var meetingParameters = "" + document.getElementById("meetingParameters").value;
-    var meetingFrame = document.getElementById("meetingFrame");
 
     //
     // if the video url is empty then close the iframe and disply
@@ -131,27 +104,16 @@ $(function () {
     } //END no meeting
 
     console.log("meeting: INITIALISE MEETING");
+    console.log("meeting: meetingUrl: " + meetingUrl);
+    console.log("meeting: meetingDisplayName: " + meetingDisplayName);
 
-    meetingDisplayName = meetingDisplayName.replace(" ", "X20");
-    //
-    // set the video frame attributes.
-    //
-    var scrPameters = "?";
+    var elm = document.querySelector("whereby-embed");
 
-    if (meetingParameters != null) {
-      scrPameters += meetingParameters;
-    }
+    elm.setAttribute("room", meetingUrl);
+
     if (meetingDisplayName != null) {
-      if (scrPameters.length > 1) {
-        scrPameters += "&";
-      }
-      scrPameters += "displayName=" + meetingDisplayName;
+      elm.setAttribute("displayName", meetingDisplayName);
     }
-
-    var meetingSrc = meetingUrl + scrPameters;
-    console.log("meeting: meetingSrc: " + meetingSrc);
-
-    meetingFrame.setAttribute("src", meetingSrc);
 
     console.log("meeting: setMeetingUrl FINISH");
   };

@@ -34,30 +34,32 @@ body
 
 
 
-#client
-{
+#client {
   padding: none;
   margin-top: 0;
   border: none;
-  float:left;
+  float: left;
+  background-color:#EAEAEA;
 }
 
 #clientFrame
 {
-  padding: none;
+  padding: 0;
   border: none;
 }
 
-#meeting
-{ 
-  padding: none;
+#meeting {
+  padding: 0;
+  border: none;
   background-color: #EAEAEA;
-  border: none;
-  float:right;
+  float: right;
 }
 
-#meetingFrame
-{ 
+whereby-embed,
+#whereby,
+#meetingFrame {
   padding: none;
-  margin: 10px; 
+  margin: 10px;
+  height: 700;
+  width: 200;
 }
