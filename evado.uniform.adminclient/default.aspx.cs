@@ -21,37 +21,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Configuration;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Data;
-using System.Drawing;
 using System.Web;
-using System.Web.SessionState;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
 using System.Web.Security;
-using System.Net;
 using System.IO;
 using System.Text;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
 
 ///Evado. namespace references.
 
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
-using static Evado.Model.EvStatics;
 
-namespace Evado.UniForm.WebClient
+namespace Evado.UniForm.AdminClient
 {
   /// <summary>
   /// This is the code behind class for the home page.
   /// </summary>
-  public partial class ClientPage : EvPersistentPageState
+  public partial class DefaultPage : EvPersistentPageState
   {
     #region Class variable initialisations
 
@@ -227,6 +214,13 @@ namespace Evado.UniForm.WebClient
                   //
                   this.GeneratePage ( );
                 }
+                // 
+                // Write footer
+                // 
+                this.litCopyright.Text = Global.AssemblyAttributes.Copyright;
+                this.litFooterText.Text = EuLabels.Footer_Text;
+                this.litVersion.Text = "Version: " + Global.AssemblyAttributes.FullVersion;
+
                 //
                 // output the debug serialisations
                 //
@@ -1388,7 +1382,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private int GetAnnotationIndex ( String Key )
     {
-      //this.writeDebug = "<hr/>Evado.UniForm.WebClient.ClientPage.getAnnotationIndex method.  Key: " + Key
+      //this.writeDebug = "<hr/>Evado.UniForm.AdminClient.DefaultPage.getAnnotationIndex method.  Key: " + Key
       //  + " AnnotationList count: " + this.UserSession.FieldAnnotationList.Count ;
       //
       // Iterate through the annotation list to find a matching element
@@ -1774,7 +1768,6 @@ namespace Evado.UniForm.WebClient
 
     }//END updateComputedField method
 
-
     // =============================================================================== 
     /// <summary>
     /// updateChecklistField method.
@@ -1960,8 +1953,8 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the option list to compare values.
       // 
-      stLowerValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_LOWER_SUFFIX );
-      stUpperValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_UPPER_SUFFIX );
+      stLowerValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + DefaultPage.CONST_FIELD_LOWER_SUFFIX );
+      stUpperValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + DefaultPage.CONST_FIELD_UPPER_SUFFIX );
 
       this.LogDebug ( "stLowerValue: {0},  stUpperValue: {1} " );
 
@@ -2581,7 +2574,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// add the current page Command to the previous page list
     /// </summary>
-    /// <param name="PageCommand">ClientPageCommand object</param>
+    /// <param name="PageCommand">DefaultPageCommand object</param>
     // ---------------------------------------------------------------------------------
     public void addHistoryCommand (
       Evado.UniForm.Model.EuCommand PageCommand )
@@ -2687,7 +2680,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This method get the default exit groupCommand.
     /// </summary>
-    /// <param name="PageCommand">ClientPageCommand object: containing the groupCommand that 
+    /// <param name="PageCommand">DefaultPageCommand object: containing the groupCommand that 
     /// is called on web service</param>
     // ----------------------------------------------------------------------------------
     private void formatCommandTitle ( Evado.UniForm.Model.EuCommand PageCommand )
@@ -2744,7 +2737,7 @@ namespace Evado.UniForm.WebClient
     /// Gets the last previous Command
     /// </summary>
     /// <param name="Command">Guid Command identifer</param>
-    /// <returns>ClientPageCommand</returns>
+    /// <returns>DefaultPageCommand</returns>
     // ---------------------------------------------------------------------------------
     public Evado.UniForm.Model.EuCommand getHistoryCommand (
       Guid CommandId )
@@ -2798,7 +2791,7 @@ namespace Evado.UniForm.WebClient
     /// Gets the last previous Command
     /// </summary>
     /// <param name="Command">Guid Command identifer</param>
-    /// <returns>ClientPageCommand</returns>
+    /// <returns>DefaultPageCommand</returns>
     // ---------------------------------------------------------------------------------
     public bool deleteHistoryCommand (
       Guid CommandId )
@@ -2911,7 +2904,6 @@ namespace Evado.UniForm.WebClient
       this.initialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
       this.imgLogo.Src = Global.DefaultLogoUrl;
-      this.meetingStatus.Value = Evado.Model.EvMeeting.States.Null.ToString ( );
 
       this.fsLoginBox.Visible = true;
       this.litExitCommand.Visible = false;
@@ -2919,14 +2911,6 @@ namespace Evado.UniForm.WebClient
       this.litPageContent.Visible = false;
       this.litHistory.Visible = false;
       this.litPageMenu.Visible = false;
-
-      //
-      // Reset the meeting parameters.
-      //
-      this.meetingUrl.Value = String.Empty;
-      this.meetingDisplayName.Value = String.Empty;
-      this.meetingParameters.Value = String.Empty;
-      this.meetingStatus.Value = String.Empty; ;
 
       this.UserSession.AppData.Page.Exit = new Evado.UniForm.Model.EuCommand ( );
 
@@ -3233,7 +3217,7 @@ namespace Evado.UniForm.WebClient
     {
       string logValue = Evado.Model.EvStatics.CONST_METHOD_START
          + DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-         + "Evado.Uniform.Webclient.ClientPage:" + Value + " Method";
+         + "Evado.Uniform.Webclient.DefaultPage:" + Value + " Method";
 
       Global.LogValue ( logValue );
     }
@@ -3262,7 +3246,7 @@ namespace Evado.UniForm.WebClient
     public void LogValue ( String Value )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       + "ClientPage:" + Value;
+       + "DefaultPage:" + Value;
 
       Global.LogValue ( logValue );
     }
@@ -3278,7 +3262,7 @@ namespace Evado.UniForm.WebClient
     public void LogValue ( String Format, params object [ ] args )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       + "ClientPage:" + String.Format ( Format, args );
+       + "DefaultPage:" + String.Format ( Format, args );
 
       Global.LogValue ( logValue );
     }
@@ -3292,7 +3276,7 @@ namespace Evado.UniForm.WebClient
     public void LogDebug ( String Value )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       + "ClientPage:" + Value;
+       + "DefaultPage:" + Value;
 
       Global.LogDebugValue ( logValue );
     }
@@ -3307,7 +3291,7 @@ namespace Evado.UniForm.WebClient
     public void LogDebug ( String Format, params object [ ] args )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       + "ClientPage:" + String.Format ( Format, args );
+       + "DefaultPage:" + String.Format ( Format, args );
 
       Global.LogDebugValue ( logValue );
     }

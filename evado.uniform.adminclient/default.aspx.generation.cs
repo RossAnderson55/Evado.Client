@@ -6,12 +6,12 @@ using System.Text;
 
 using Evado.UniForm.Web;
 
-namespace Evado.UniForm.WebClient
+namespace Evado.UniForm.AdminClient
 {
   /// <summary>
   /// This is the code behind class for the home page.
   /// </summary>
-  public partial class ClientPage : EvPersistentPageState
+  public partial class DefaultPage : EvPersistentPageState
   {
     private int _TabIndex = 0;
 
@@ -40,11 +40,6 @@ namespace Evado.UniForm.WebClient
       {
         this.litHistory.Visible = true;
       }
-
-      //
-      // set the meeting values.
-      //
-      this.setMeetingValues ( );
 
       //
       // initialise the methods variables and objects.
@@ -359,61 +354,6 @@ namespace Evado.UniForm.WebClient
 
       this.LogMethodEnd ( "generatePage" );
     }//END generatePage method
-
-    // ==================================================================================
-    /// <summary>
-    /// This method loads the page's javascript libraries
-    /// </summary>
-    // ---------------------------------------------------------------------------------
-    private void setMeetingValues ( )
-    {
-      this.LogMethod ( "setMeetingValues" );
-      this.LogDebug ( "AppData.MeetingStatus: {0}.", this.UserSession.AppData.MeetingStatus );
-      //
-      // Passes the meeting status to the application data meeting status.
-      //
-      this.meetingStatus.Value = this.UserSession.AppData.MeetingStatus.ToString ( );
-      this.LogDebug ( "meetingStatus.Value: {0}.", this.meetingStatus.Value );
-
-      //
-      // if the meeting is commenced then pass the meeting parameters to the meeting parameter fields.
-      // A java script event will pass these values to the parent default page.
-      //
-      if ( this.meetingStatus.Value == Evado.Model.EvMeeting.States.Meeting_Commenced.ToString ( ) )
-      {
-        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url ) == true )
-        {
-          this.LogDebug ( "meeting commenced" );
-          this.meetingUrl.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url );
-
-        }
-        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName ) == true )
-        {
-          String value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName );
-          this.meetingDisplayName.Value = value.Replace ( " ", "%20" );
-        }
-
-        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters ) == true )
-        {
-          this.meetingParameters.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters );
-        }
-      }
-      else
-      {
-        this.LogDebug ( "meeting closed" );
-        this.meetingUrl.Value = String.Empty;
-        this.meetingDisplayName.Value = String.Empty;
-        this.meetingParameters.Value = String.Empty;
-      }
-
-      this.LogDebug ( "meetingUrl.Value:{0}.", this.meetingUrl.Value );
-      this.LogDebug ( "meetingDisplayName.Value:{0}.", this.meetingDisplayName.Value );
-      this.LogDebug ( "meetingParameters.Value:{0}.", this.meetingParameters.Value );
-
-
-      this.LogMethodEnd ( "setMeetingValues" );
-
-    }//ENd setMeetingValues method
 
     // ==================================================================================
     /// <summary>

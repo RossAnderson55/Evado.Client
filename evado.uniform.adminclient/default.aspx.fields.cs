@@ -8,12 +8,12 @@ using System.Text.RegularExpressions;
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
 
-namespace Evado.UniForm.WebClient
+namespace Evado.UniForm.AdminClient
 {
   /// <summary>
   /// This is the code behind class for the home page.
   /// </summary>
-  public partial class ClientPage : EvPersistentPageState
+  public partial class DefaultPage : EvPersistentPageState
   {
     //===================================================================================
     /// <summary>
@@ -4554,8 +4554,8 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( "<div id='sp" + PageField.Id + "' class='form-field-container-inline' >" );
 
       stHtml.AppendLine ( "<input type='text' "
-        + "id='" + PageField.FieldId + ClientPage.CONST_FIELD_LOWER_SUFFIX + "' "
-        + "name='" + PageField.FieldId + ClientPage.CONST_FIELD_LOWER_SUFFIX + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "value='" + stLowerValue + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "maxlength='" + stSize + "' "
@@ -4596,8 +4596,8 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( " - " );
 
       stHtml.AppendLine ( "<input type='text' "
-        + "id='" + PageField.FieldId + ClientPage.CONST_FIELD_UPPER_SUFFIX + "' "
-        + "name='" + PageField.FieldId + ClientPage.CONST_FIELD_UPPER_SUFFIX + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "value='" + stUpperValue + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "maxlength='" + stSize + "' "
@@ -4744,8 +4744,8 @@ namespace Evado.UniForm.WebClient
         + " class='fform-field-container-inline' style='width:100%' >" );
 
       stHtml.Append ( "<input type='text' "
-        + "id='" + PageField.FieldId + ClientPage.CONST_FIELD_LOWER_SUFFIX + "' "
-        + "name='" + PageField.FieldId + ClientPage.CONST_FIELD_LOWER_SUFFIX + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "value='" + stLowerValue + "' "
         + "maxlength='" + stSize + "' "
@@ -4785,8 +4785,8 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( " - " );
 
       stHtml.Append ( "<input type='text' "
-        + "id='" + PageField.FieldId + ClientPage.CONST_FIELD_UPPER_SUFFIX + "' "
-        + "name='" + PageField.FieldId + ClientPage.CONST_FIELD_UPPER_SUFFIX + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "value='" + stUpperValue + "' "
         + "maxlength='" + stSize + "' "
@@ -5135,8 +5135,8 @@ namespace Evado.UniForm.WebClient
       this.LogValue ( "VideoSource: " + stVideoSource );
 
       sbHtml.AppendLine ( "<iframe "
-        + "id='" + PageField.FieldId + ClientPage.CONST_VIDEO_SUFFIX + "' "
-        + "name='" + PageField.FieldId + ClientPage.CONST_VIDEO_SUFFIX + "' "
+        + "id='" + PageField.FieldId + DefaultPage.CONST_VIDEO_SUFFIX + "' "
+        + "name='" + PageField.FieldId + DefaultPage.CONST_VIDEO_SUFFIX + "' "
         + "src='" + stVideoSource + "' " );
 
       if ( width > 0 )
