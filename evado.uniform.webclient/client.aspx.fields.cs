@@ -451,7 +451,7 @@ namespace Evado.UniForm.WebClient
 
           this.LogDebug ( "HTML: encoded value: " + PageField.Value );
 
-          String html = Evado.Model.EvStatics.decodeHtmlText ( PageField.Value );
+          String html = this.decodeHtmlText ( PageField.Value );
 
           this.LogDebug ( "HTML: decoded value" + html );
           stHtml.AppendLine ( html );
@@ -486,6 +486,56 @@ namespace Evado.UniForm.WebClient
       this.LogMethodEnd ( "createReadOnlyField" );
     }
 
+    // =====================================================================================
+    /// <summary>
+    ///   This method decodes a encoded html string into a html marked up string.
+    ///   Where "[" = "less than" = "]" = "greater than".
+    /// </summary>
+    /// <param name="EncodedHtmlString">string: (Mandatory) encoded html string.</param>
+    /// <returns>String: Html markup as text.</returns>
+    /// <remarks>
+    /// This method consists of the following step:
+    /// 
+    /// 1. Remplace a "[" character with a "less than" character
+    /// 
+    /// 2. Remplace a "]" character with a "greater than" character
+    /// </remarks>
+    // -------------------------------------------------------------------------------------
+    public String decodeHtmlText ( string EncodedHtmlString )
+    {
+      EncodedHtmlString = EncodedHtmlString.Replace ( "[CR]", "\r\n" );
+      EncodedHtmlString = EncodedHtmlString.Replace ( "[[CR]]", "\r\n" );
+      EncodedHtmlString = EncodedHtmlString.Replace ( "[[", "<" );
+      EncodedHtmlString = EncodedHtmlString.Replace ( "]]", ">" );
+      EncodedHtmlString = EncodedHtmlString.Replace ( "[", "<" );
+      EncodedHtmlString = EncodedHtmlString.Replace ( "]", ">" );
+      return EncodedHtmlString;
+
+    }//END decodeHtmlText method
+
+    // =====================================================================================
+    /// <summary>
+    ///   This method encodes a html markup test as encoded version.
+    ///   Where "[" = "less than" = "]" = "greater than".
+    /// </summary>
+    /// <param name="HtmlMarkupText">(Mandatory) Html marked up text.</param>
+    /// <returns>encoded html markup</returns>
+    /// <remarks>
+    /// This method consists of the following step:
+    /// 
+    /// 1. Remplace a "less than" character with a "[" character
+    /// 
+    /// 2. Remplace a "greater than" character with a "]" character
+    /// </remarks>
+    // -------------------------------------------------------------------------------------
+    public String encodeHtmlText ( string HtmlMarkupText )
+    {
+      HtmlMarkupText = HtmlMarkupText.Replace ( "\r\n", "[CR]" );
+      HtmlMarkupText = HtmlMarkupText.Replace ( "<", "[" );
+      HtmlMarkupText = HtmlMarkupText.Replace ( ">", "]" );
+      return HtmlMarkupText;
+
+    }//END encodeHtmlText method
     // ===================================================================================
     /// <summary>
     /// This method creates a read only field markup
@@ -518,7 +568,7 @@ namespace Evado.UniForm.WebClient
 
           this.LogDebug ( "HTML: encoded value: " + PageField.Value );
 
-          String html = Evado.Model.EvStatics.decodeHtmlText ( PageField.Value );
+          String html = this.decodeHtmlText ( PageField.Value );
 
           this.LogDebug ( "HTML: decoded value" + html );
           sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
@@ -3461,7 +3511,9 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stFieldValueStyling = "style='width:100%;' class='cell value cell-input-telephones-value cf' ";
+      String stFieldValueStyling = "style='width:100%;' class='cell value cell-input-analogue-value cf' ";
+      String minLabel = PageField.GetParameter ( EuFieldParameters.Min_Label );
+      String maxLabel = PageField.GetParameter ( EuFieldParameters.Max_Label );
       //
       // Set the column layout to display the analogue scale below the field title and instructions.
       //
@@ -3503,6 +3555,12 @@ namespace Evado.UniForm.WebClient
 
       stHtml.AppendLine ( "/>" );
       stHtml.AppendLine ( "</span>" );
+
+      stHtml.AppendLine ( "<table style='width:100%'><tr>" );
+      stHtml.AppendLine ( "<td style='width:50%; text-align:left;'>" + minLabel + "</td>" );
+      stHtml.AppendLine ( "<td style='width:50%; text-align:right;'>" + maxLabel + "</td>" );
+      stHtml.AppendLine ( "</tr></table>" );
+
       stHtml.AppendLine ( "</div>" );
 
       this._TabIndex += 2;
