@@ -115,7 +115,11 @@ namespace Evado.UniForm.AdminClient
     /// <summary>
     /// This string contains the relative service url. 
     /// </summary>
-    public static string RelativeWcfRestURL = "euws/client/";
+    public static string RelativeWcfRestClientURL = "euws/client/";
+    /// <summary>
+    /// This string contains the relative service url. 
+    /// </summary>
+    public static string RelativeWcfRestFileURL = "euws/files/";
 
     /// <summary>
     /// This string contains the relative binary download url. 
@@ -356,9 +360,9 @@ namespace Evado.UniForm.AdminClient
       //
       if ( ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ] != null )
       {
-        Global.RelativeWcfRestURL = ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ];
+        Global.RelativeWcfRestClientURL = ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ];
       }
-      Global.LogGlobal ( "RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
+      Global.LogGlobal ( "RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
 
       //
       // Set teh application log path

@@ -18,7 +18,6 @@
  ****************************************************************************************/
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -32,6 +31,7 @@ using System.Net.Http;
 
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
+using static System.Net.WebRequestMethods;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -188,6 +188,9 @@ namespace Evado.UniForm.AdminClient
                 // Send the Command to the server.
                 //
                 this.SendPageCommand ( );
+
+                //this.SendFileRequest ( "evado.png", "image/png" );
+
                 this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
 
                 //
@@ -416,7 +419,7 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
       this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
       this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
-      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
+      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
       this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
 
@@ -425,7 +428,7 @@ namespace Evado.UniForm.AdminClient
       //
       string serialisedText = String.Empty;
       string baseUrl = Global.WebServiceUrl;
-      string serviceUri = Global.RelativeWcfRestURL + Global.ClientVersion
+      string serviceUri = Global.RelativeWcfRestClientURL + Global.ClientVersion
         + "?command=command&session=" + this.UserSession.ServerSessionId;
       Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
       {
@@ -588,6 +591,95 @@ namespace Evado.UniForm.AdminClient
 
     }//END sendPageCommand method
 
+    // ==================================================================================
+    /// <summary>
+    /// This method sends a request to the file service.
+    /// </summary>
+    /// <param name="filename">String: file name of the file to be up loaded.</param>
+    /// <param name="MimeType">String: the mime type for the file.</param>
+    // ---------------------------------------------------------------------------------
+    private void SendFileRequest ( String filename, String MimeType )
+    {
+      this.LogMethod ( "UploadFile" );
+      this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
+      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
+      this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
+      this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
+
+      //
+      // Display a serialised instance of the object.
+      //
+      EuFile fileObject = new EuFile ( );
+      string jsonData = String.Empty;
+      string WebServiceUrl = Global.WebServiceUrl + Global.RelativeWcfRestFileURL + Global.ClientVersion + "?mimetype=image/jpeg";
+      string filePath = String.Empty;
+
+      this.LogDebug ( "WebServiceUrl: '{0}'. ", WebServiceUrl );
+      try
+      {
+
+        Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
+        {
+          NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+        };
+        fileObject.UserId = this.UserSession.UserId;
+        fileObject.FileName = "evado.jpg";
+        fileObject.MimeType = "image/jpeg";
+
+        filePath = Global.TempPath + fileObject.FileName;
+
+        this.LogDebug ( "filePath: '{0}'. ", filePath );
+
+        fileObject.FileData = System.IO.File.ReadAllBytes ( filePath );
+
+        this.LogDebug ( "User: {0}, Filename; {1}, Mime: {2}, Data length {3}",
+          fileObject.UserId,
+          fileObject.FileName,
+          fileObject.MimeType,
+          fileObject.FileData.Length );
+
+        //
+        // serialise the Command prior to sending to the web service.
+        //
+        this.LogDebug ( "Serialising the PageComment object" );
+
+        jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( fileObject );
+
+        // 
+        // Open the stream to the file.
+        //
+        if ( Global.DebugLogOn == true )
+        {
+          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath, @"jsonData-1.txt", jsonData );
+        }
+
+        this.LogDebug ( "Creating the WebRequest." );
+        //
+        // The post command 
+        //
+        jsonData = this.SendPost ( WebServiceUrl, jsonData );
+
+        this.LogDebug ( "JSON Serialised text length: " + jsonData.Length );
+
+        // 
+        // Open the stream to the file.
+        // 
+        if ( Global.DebugLogOn == true )
+        {
+          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath, @"jsonData-2.txt", jsonData );
+        }
+
+      }
+      catch ( Exception Ex )
+      {
+        this.litErrorMessage.Text = "Web Service Error. " + Evado.Model.EvStatics.getExceptionAsHtml ( Ex );
+
+        this.LogDebug ( "Web Service Error. " + Evado.Model.EvStatics.getException ( Ex ) ); ;
+      }
+      this.LogMethodEnd ( "UploadFile" );
+
+    }//END UploadFile method
+
     // =================================================================================
     /// <summary>
     /// This methods sends a post to the web service.
@@ -684,7 +776,7 @@ namespace Evado.UniForm.AdminClient
       }
 
       String stFileName = Global.TempPath + Field.FieldId;
-
+      /*
       Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes uploadStatus = Evado.UniForm.Model.EuStatics.HttpUploadFile (
         Global.WebServiceUrl = Global.RelativeBinaryUploadURL, stFileName, "file", "image/jpeg" );
 
@@ -692,7 +784,7 @@ namespace Evado.UniForm.AdminClient
       {
         this.LogDebug ( "Image " + Field.FieldId + " upload failed. Error Messge: " + uploadStatus );
       }
-
+      */
     }//END getImagePageField method
 
     // ==================================================================================
@@ -2350,7 +2442,7 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "Upload Url: " + stUploadUrl );
 
       try
-      {
+      {/*
         Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes uploadStatus = Evado.UniForm.Model.EuStatics.HttpUploadFile (
           stUploadUrl,
           ImageFilePath, "file", MimeType );
@@ -2361,6 +2453,7 @@ namespace Evado.UniForm.AdminClient
         }
 
         this.LogDebug ( "File " + ImageFilePath + " Status: " + uploadStatus );
+        */
       }
       catch ( Exception Ex )
       {
@@ -2903,6 +2996,7 @@ namespace Evado.UniForm.AdminClient
       //
       this.initialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
+      this.Title = Global.TitlePrefix + this.UserSession.AppData.Title;
       this.imgLogo.Src = Global.DefaultLogoUrl;
 
       this.fsLoginBox.Visible = true;

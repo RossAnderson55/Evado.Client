@@ -14,18 +14,16 @@
 ****************************************************************************************/
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Configuration;
-using System.ComponentModel;
 using System.Web;
-using System.Web.UI;
-using System.Web.SessionState;
 using System.Web.Security;
 using System.IO;
-using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices.ComTypes;
+using Evado.Model;
+using System.Security.Authentication;
 
 //Evado..Cms. namespace references.
 
@@ -95,17 +93,17 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This string contains the staic data directory path
     /// </summary>
-    public static string StaticDataFilePath = String.Empty;
-
-    /// <summary>
-    /// This string contains the application directory path
-    /// </summary>
-    public static string TitlePrefix = String.Empty;
+    public static string StaticDataFilePath = @"StaticData\";
 
     /// <summary>
     /// this field defines the application path.
     /// </summary>
     public static string LogFilePath = @"logs\";
+
+    /// <summary>
+    /// This string contains the application directory path
+    /// </summary>
+    public static string TitlePrefix = String.Empty;
 
     /// <summary>
     /// This string contains the service root URl. 
@@ -115,7 +113,11 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This string contains the relative service url. 
     /// </summary>
-    public static string RelativeWcfRestURL = "euws/client/";
+    public static string RelativeWcfRestClientURL = "euws/client/";
+    /// <summary>
+    /// This string contains the relative service url. 
+    /// </summary>
+    public static string RelativeWcfRestFileURL = "euws/files/";
 
     /// <summary>
     /// This string contains the relative binary download url. 
@@ -218,8 +220,6 @@ namespace Evado.UniForm.WebClient
     {
       try
       {
-        Global._ClientLog = new System.Text.StringBuilder ( ); 
-        Global._DebuLog = new System.Text.StringBuilder ( );
         //
         // get the application path from the runtime.
         //
@@ -229,10 +229,7 @@ namespace Evado.UniForm.WebClient
 
         Global.LogGlobalMethod ( "Application_OnStart event" );
         Global.LogGlobalDebug ( "Startup Log:" );
-
         Global.LogGlobalDebug ( "eventLogSource: " + Global.EventLogSource );
-
-        Global.ApplicationPath = HttpRuntime.AppDomainAppPath;
         Global.LogGlobalDebug ( "Application path: " + Global.ApplicationPath );
 
         //
@@ -243,8 +240,7 @@ namespace Evado.UniForm.WebClient
         Global.TempPath = Global.ApplicationPath + @"temp\";
 
         Global.LogGlobalDebug ( "TempPath: " + Global.TempPath );
-
-
+        
         //
         // Load the Application Environmental parameters for the application.
         //
@@ -313,6 +309,20 @@ namespace Evado.UniForm.WebClient
     {
       Global.LogGlobalMethod ( "LoadConfigurationValues" );
 
+      // 
+      // Set the connection string settings.
+      // 
+      if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_STATIC_FILE_PATH_KEY ] != null )
+      {
+        Global.StaticDataFilePath = ( String ) ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_STATIC_FILE_PATH_KEY ];
+
+        if ( Global.StaticDataFilePath == String.Empty )
+        {
+          Global.StaticDataFilePath = Global.ApplicationPath + @"StaticData\";
+        }
+      }
+      Global.LogValue ( "Static Data File Path: " + Global.StaticDataFilePath );
+
       //
       // Set the application log path  LogPath
       //
@@ -332,14 +342,22 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      Global.LogGlobal ( "Log file path: " + Global.LogFilePath );
 
-      if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_STATIC_FILE_PATH_KEY ] != null )
+      if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_LOG_FILE_PATH ] != null )
       {
-        Global.StaticDataFilePath = ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_STATIC_FILE_PATH_KEY ];
+        string stConfigLogPath = ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_LOG_FILE_PATH ];
+
+        if ( stConfigLogPath.Contains ( ":" ) == true )
+        {
+          Global.LogFilePath = stConfigLogPath;
+        }
+        else
+        {
+          Global.LogFilePath = Global.ApplicationPath + stConfigLogPath;
+        }
       }
 
-      Global.LogGlobal ( "Static Data File Path: " + Global.StaticDataFilePath );
+      Global.LogGlobal ( "Log file path: " + Global.LogFilePath );
 
       // 
       // Set the web service URl
@@ -356,9 +374,9 @@ namespace Evado.UniForm.WebClient
       //
       if ( ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ] != null )
       {
-        Global.RelativeWcfRestURL = ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ];
+        Global.RelativeWcfRestClientURL = ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ];
       }
-      Global.LogGlobal ( "RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
+      Global.LogGlobal ( "RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
 
       //
       // Set teh application log path
@@ -420,9 +438,9 @@ namespace Evado.UniForm.WebClient
       // 
       // Set the debug mode.
       // 
-      if ( ConfigurationManager.AppSettings [ CONST_ENABLE_DETAILED_LOGGING ] != null )
+      if ( ConfigurationManager.AppSettings [ Global.CONST_ENABLE_DETAILED_LOGGING ] != null )
       {
-        string value = ConfigurationManager.AppSettings [ CONST_ENABLE_DETAILED_LOGGING ].ToLower ( );
+        string value = ConfigurationManager.AppSettings [ Global.CONST_ENABLE_DETAILED_LOGGING ].ToLower ( );
         if ( Evado.Model.EvStatics.getBool ( value ) == true )
         {
           Global.EnableDetailedLogging = true;

@@ -418,7 +418,7 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
       this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
       this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
-      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestURL );
+      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
       this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
 
@@ -427,7 +427,7 @@ namespace Evado.UniForm.WebClient
       //
       string serialisedText = String.Empty;
       string baseUrl = Global.WebServiceUrl;
-      string serviceUri = Global.RelativeWcfRestURL + Global.ClientVersion
+      string serviceUri = Global.RelativeWcfRestClientURL + Global.ClientVersion
         + "?command=command&session=" + this.UserSession.ServerSessionId;
       Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
       {

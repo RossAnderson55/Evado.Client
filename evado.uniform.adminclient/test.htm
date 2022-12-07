@@ -1,66 +1,1016 @@
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
 <head id="Head1">
-  <title>UniFORM Web Client </title>
+  <title>
+    Admin Client - Form:  POSAS-0 - POSAS Observer scale
+  </title>
   <link rel="icon" type="image/png" href="./favicon.png" />
   <style type="text/css" media="screen, print, projection">
     @import "./css/bootstrap.css";
-    @import "./css/client.video.css";
+    @import "./css/bootstrap-theme.css";
+    @import "./css/bootstrap-datetimepicker.min.css";
+    @import "./css/client.main.css";
+    @import "./css/menu.css";
+    @import "./css/report.css";
   </style>
-  <style type="text/css" media="screen, print, projection">
-    #videoDiv
-    {
-      background-color: #EAEAEA;
-      vertical-align: middle;
-      text-align: center;
-      padding: 10px;
-    }
-    
-    #videoFrame
-    {
-    }
-    
-    #messageDiv
-    {
-      margin-top: 300px;
-      background-color: #EAEAEA;
-      vertical-align: middle;
-      text-align: center;
-    }
-    #messageDiv h1
-    {
-      margin: 20px;
-      padding: 100px;
-      text-align: center;
-      vertical-align: middle;
-    }
-  </style>
-  <meta http-equiv="Content-Security-Policy" content="frame-src *.whereby.com; frame-ancestors *.whereby.com;" />  
-
+  <link href="./css/flot.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="./js/jquery-1.11.0.min.js"></script>
-
+  <script type="text/javascript" src="./js/parsley.js"></script>
+  <script type="text/javascript" src="./js/bootstrap.js"></script>
+  <script type="text/javascript" src="./js/underscore.js"></script>
+  <script type="text/javascript" src="./js/moment.min.js"></script>
+  <script type="text/javascript" src="./js/client.main.js"></script>
+  <script type="text/javascript" src="./js/Evado.Form.js"></script>
+  <script type="text/javascript" src="./js/jquery.signaturepad.js"></script>
+  <script type="text/javascript" src="./css/menu.js"></script>
 </head>
 <body>
-  <div>
-    <div id="videoDiv">
-      <iframe id="videoFrame" name="videoFrame" src="https://evadoembedded.whereby.com/vc-86xnq8?roomKey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZWV0aW5nSWQiOiI1OTE4OTA3MCIsInJvb21SZWZlcmVuY2UiOnsicm9vbU5hbWUiOiIvdmMtODZ4bnE4Iiwib3JnYW5pemF0aW9uSWQiOiIxNjE0NzEifSwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50cy5zcnYud2hlcmVieS5jb20iLCJpYXQiOjE2NjA2MTMyODMsInJvb21LZXlUeXBlIjoibWVldGluZ0hvc3QifQ.rAD4GrpJhaVQ6kibVSks-ck58cA_1vx875qNT4HlSmE" width="900" height="600">
-      </iframe>
+  <form name="form1" method="post" action="./default.aspx" id="form1" enctype="multipart/form-data">
+    <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
+
+    <div>
+      <input type="hidden" name="__CommandId" id="__CommandId" value="4c69fd63-9853-45b2-a56d-d034e88f9cde" />
     </div>
-  </div>
-  <table id="form-footer" >
-    <tr>
-      <td class="left">
-        (c) Evado Holdings Pty. Ltd. 2011 - 2022 All rights reserved
-      </td>
-      <td class="center">
-        Powered By Evado Digital
-      </td>
-      <td class="right">
-        Version: 2.6.0.27112
-      </td>
-    </tr>
-  </table>
-  <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2022 -->
+    <script type="text/javascript">
+    <!--
+      var theForm = document.forms['form1'];
+      var postSent = false;
+      var computedScript = false;
+
+      if (!theForm) {
+        theForm = document.form1;
+      }
+
+      function submitForm(form) {
+        console.log("submitForm function");
+        if (postSent == true) {
+          //console.log("Post has been sent.");
+          return;
+        }
+
+        console.log("window.width" + window.innerWidth);
+        console.log("window.height" + window.innerHeight);
+
+        document.getElementById("windowWidth").value = window.innerWidth;
+        document.getElementById("windowHeight").value = window.innerHeight;
+        postSent = true;
+        //get the form element's document to create the input control with
+        //(this way will work across windows in IE8)
+        var button = form.ownerDocument.createElement('input');
+        //make sure it can't be seen/disrupts layout (even momentarily)
+        button.style.display = 'none';
+        //make it such that it will invoke submit if clicked
+        button.type = 'submit';
+        //append it and click it
+        form.appendChild(button).click();
+        //if it was prevented, make sure we don't get a build up of buttons
+        form.removeChild(button);
+
+
+      }
+
+      function onPostBack(commandIdentifier) {
+        console.log("onPostBack function");
+
+        console.log(" commandIdentifier" + commandIdentifier);
+
+        if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+          theForm.__CommandId.value = commandIdentifier;
+          submitForm(theForm);
+        }
+      }
+      // -->
+    </script>
+
+    <input name="windowWidth" type="hidden" id="windowWidth" value="1474" />
+    <input name="windowHeight" type="hidden" id="windowHeight" value="948" />
+    <!--  EVADO FORM PAGE -->
+    <div id="page">
+      <!-- HEADER -->
+      <div id="page-header-section">
+        <div id="form-header-buttons-section">
+          <div id="form-header-left-buttons">
+            <a class='btn btn-danger cmd-button' href="javascript:onPostBack('a3219d3d-0230-4525-a9a1-1b93062bf22e')">POSAS-P</a>
+
+          </div>
+          <div id="form-header-right-buttons ">
+            <ul id='Main_Menu'>
+              <li id='Command'>
+                <a class='btn' style='text-align:right;'><img src='./css/Menu-icon.png' alt='>>' /></a>
+                <ul>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('b8e48764-a680-4c8f-a245-11c74bc3654e')">Save form</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('533e80e9-be23-4b5d-beb1-3360f3d959c1')">Form properties</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('20865fef-e7d9-464f-887c-7d3ae389bac6')">Draft layout</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('2afa66c6-e4e5-4f7f-9b73-8304bfe3fde7')">Delete form</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('2a464460-5264-4458-9699-848fc1efed70')">Review form</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+          </div>
+          <div class="header">
+            Form:  POSAS-0 - POSAS Observer scale &nbsp;
+          </div>
+        </div>
+        <div class="form-heading e-menu-bar" id="pageMenu">
+          <!-- TODO: breadcrumbs should be generated by litPageMenu -->
+          <!-- breadcrumbs for history navigation:
+          <ol class="breadcrumb">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Library</a></li>
+            <li class="active">Data</li>
+          </ol>
+          -->
+          <ol class='breadcrumb'><li><a href="javascript:onPostBack('a3219d3d-0230-4525-a9a1-1b93062bf22e')">POSAS-P</a></li></ol>
+
+        </div>
+      </div>
+      <!-- PAGE BODY -->
+      <div id="page-body">
+        <!--
+        Page body section built dynamically
+        -->
+        <div id="form-body-dynamic-section" class="cf">
+          <!--- OPENING GROUP --->
+          <div id='2f3240e7-bea4-4e3a-b81f-cde26f49d035-grp' class='field-group large' style='width:98%; '>
+            <span class='group-title'> </span>
+            <div class='field-group-container' style=''>
+
+              <div class='menu links'>
+                <a class='btn btn-danger cmd-button' href="javascript:onPostBack('b8e48764-a680-4c8f-a245-11c74bc3654e')">Save form</a>
+                <a class='btn btn-danger cmd-button' href="javascript:onPostBack('533e80e9-be23-4b5d-beb1-3360f3d959c1')">Form properties</a>
+                <a class='btn btn-danger cmd-button' href="javascript:onPostBack('20865fef-e7d9-464f-887c-7d3ae389bac6')">Draft layout</a>
+                <a class='btn btn-danger cmd-button' href="javascript:onPostBack('2afa66c6-e4e5-4f7f-9b73-8304bfe3fde7')">Delete form</a>
+                <a class='btn btn-danger cmd-button' href="javascript:onPostBack('2a464460-5264-4458-9699-848fc1efed70')">Review form</a>
+              </div>
+            </div>
+          </div>
+          <!-- GROUP FOOTER -->
+          <!--- OPENING GROUP --->
+          <div id='dd89b9ce-0b5a-4875-acf6-bca32d67f89e-grp' class='field-group large' style='width:98%; '>
+            <span class='group-title'> </span>
+            <div class='field-group-container' style=''>
+
+              <div class='fields'>
+                <!-- FIELD HEADER =  -->
+                <div id='bd6fc8c5-3ed3-4346-be94-178543b9c80d-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Form TItle:
+                    </label>
+                  </div><div style='width:60%; padding-top=10px; ' class='cell value cell-display-text-title'>
+                    POSAS-0 - POSAS Observer scale
+                  </div>
+                </div><!-- FIELD HEADER = RecordDate -->
+                <div id='d5ee9d13-40ea-44d1-9aa7-dc3696909eb8-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      The record data was collected on:
+                    </label>
+                    <div class='error-container '>
+                      <div id='d5ee9d13-40ea-44d1-9aa7-dc3696909eb8-err-row' class='cell cell-error-value'>
+                        <span id='spd5ee9d13-40ea-44d1-9aa7-dc3696909eb8-err'></span>
+                      </div>
+                    </div>
+
+                  </div><div style='width:60%' class='cell value cell-date-value '>
+                    <span id='spd5ee9d13-40ea-44d1-9aa7-dc3696909eb8' class='form-field-container-inline'>
+                      <select id='RecordDate_DAY' name='RecordDate_DAY' tabindex='202' value='07' class='form-field-inline' data-parsley-trigger="change" onchange="Evado.Form.onDateSelectChange( this, 'RecordDate' )">
+                        <option value=""> </option>
+
+                        <option value="01">01 </option>
+
+                        <option value="02">02 </option>
+
+                        <option value="03">03 </option>
+
+                        <option value="04">04 </option>
+
+                        <option value="05">05 </option>
+
+                        <option value="06">06 </option>
+
+                        <option value="07" selected='selected'>07 </option>
+
+                        <option value="08">08 </option>
+
+                        <option value="09">09 </option>
+
+                        <option value="10">10 </option>
+
+                        <option value="11">11 </option>
+
+                        <option value="12">12 </option>
+
+                        <option value="13">13 </option>
+
+                        <option value="14">14 </option>
+
+                        <option value="15">15 </option>
+
+                        <option value="16">16 </option>
+
+                        <option value="17">17 </option>
+
+                        <option value="18">18 </option>
+
+                        <option value="19">19 </option>
+
+                        <option value="20">20 </option>
+
+                        <option value="21">21 </option>
+
+                        <option value="22">22 </option>
+
+                        <option value="23">23 </option>
+
+                        <option value="24">24 </option>
+
+                        <option value="25">25 </option>
+
+                        <option value="26">26 </option>
+
+                        <option value="27">27 </option>
+
+                        <option value="28">28 </option>
+
+                        <option value="29">29 </option>
+
+                        <option value="30">30 </option>
+
+                        <option value="31">31 </option>
+
+                      </select>
+                      -
+                      <select id='RecordDate_MTH' name='RecordDate_MTH' value='DEC' tabindex='203' class='form-field-inline' data-parsley-trigger="change" onchange="Evado.Form.onDateSelectChange( this, 'RecordDate' )">
+                        <option value=""> </option>
+
+                        <option value=""> </option>
+
+                        <option value="JAN">January </option>
+
+                        <option value="FEB">February </option>
+
+                        <option value="MAR">March </option>
+
+                        <option value="APR">April </option>
+
+                        <option value="MAY">May </option>
+
+                        <option value="JUN">June </option>
+
+                        <option value="JUL">July </option>
+
+                        <option value="AUG">August </option>
+
+                        <option value="SEP">September </option>
+
+                        <option value="OCT">October </option>
+
+                        <option value="NOV">November </option>
+
+                        <option value="DEC" selected='selected'>December </option>
+
+                      </select>
+                      -
+                      <select id='RecordDate_YR' name='RecordDate_YR' tabindex='205' value='2022' class='form-field-inline' data-parsley-trigger="change" onchange="Evado.Form.onDateSelectChange( this, 'RecordDate' )">
+                        <option value=""> </option>
+
+                      </select>
+
+                      <br /><span style='margin: 10pt;'>dd - MMM - yyyy</span>
+                      <input type='hidden' id='RecordDate' name='RecordDate' value='07 Dec 2022' />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- GROUP FOOTER -->
+          <!--- OPENING GROUP --->
+          <div id='738b2b2c-5199-4e7d-9fd6-90f8dc036fcf-grp' class='field-group large' style='width:98%; '>
+            <span class='group-title'> </span>
+            <div class='field-group-container' style=''>
+
+              <!--- OPENNING DESCRIPTION --->
+              <div class='description cf center-align '>
+                <p>The observer scale of the POSAS consists of six items (vascularity, pigmentation, thickness, relief, pliability and surface area).</p>
+
+                <p>All items are scored on a scale ranging from 1 (‘like normal skin’)to 10 (‘worst scar imaginable’).</p>
+
+                <p>The sum of the six items results in a total score of the POSAS observer scale. Categories boxes are added for</p>
+
+              </div>
+              <!-- CLOSING DESCRIPTION -->
+            </div>
+          </div>
+          <!-- GROUP FOOTER -->
+          <!--- OPENING GROUP --->
+          <div id='987babf2-5696-43ad-926f-8f89d477adbd-grp' class='field-group large' style='width:98%; '>
+            <span class='group-title'> Body</span>
+            <div class='field-group-container' style=''>
+
+              <div class='fields'>
+                <!-- FIELD HEADER = POSAS-000 -->
+                <div id='1441314b-99b7-4b6b-a6c7-e35607b44656-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Body Location:
+                    </label>
+                    <div class='error-container '>
+                      <div id='1441314b-99b7-4b6b-a6c7-e35607b44656-err-row' class='cell cell-error-value'>
+                        <span id='sp1441314b-99b7-4b6b-a6c7-e35607b44656-err'></span>
+                      </div>
+                    </div>
+
+                    <div class='description'>
+                      <p><img src='http://172.16.27.128/ws/images/temp/images/POLYN001-Body-Image.png' width='98%' /></p>
+                    </div>
+                  </div><div style='width:60%' class='cell value cell-check-value cf'>
+                    <div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_1' name='POSAS-000' tabindex='401' value='1a' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>1a Face</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_2' name='POSAS-000' tabindex='401' value='1b' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>1b Scalp</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_3' name='POSAS-000' tabindex='401' value='2' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>2 Neck</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_4' name='POSAS-000' tabindex='401' value='3' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>3 Anterior Torso</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_5' name='POSAS-000' tabindex='401' value='4' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>4 Abdomen</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_6' name='POSAS-000' tabindex='401' value='5' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>5 Perineum / Genitalia</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_7' name='POSAS-000' tabindex='401' value='6' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>6 Posterior Thorax</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_8' name='POSAS-000' tabindex='401' value='7' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>7 Buttocks</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_9' name='POSAS-000' tabindex='401' value='8' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>8 Arm Right Upper</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_10' name='POSAS-000' tabindex='401' value='20' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>20 Armpit / Axilla Right</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_11' name='POSAS-000' tabindex='401' value='9' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>9 Arm Right Lower</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_12' name='POSAS-000' tabindex='401' value='10' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>10 Hand Right</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_13' name='POSAS-000' tabindex='401' value='11' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>11 Arm Left Upper</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_14' name='POSAS-000' tabindex='401' value='21' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>21 Armpit / Axilla Left</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_15' name='POSAS-000' tabindex='401' value='12' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>12 Arm Left Lower</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_16' name='POSAS-000' tabindex='401' value='13' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>13 Hand Left</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_17' name='POSAS-000' tabindex='401' value='14' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>14 Leg Right Upper</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_18' name='POSAS-000' tabindex='401' value='15' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>15 Leg Right Lower</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_19' name='POSAS-000' tabindex='401' value='16' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>16 Foot Right</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_20' name='POSAS-000' tabindex='401' value='17' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>17 Leg Left Upper</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_21' name='POSAS-000' tabindex='401' value='18' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>18 Leg Left Lower</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_22' name='POSAS-000' tabindex='401' value='19' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                          <span class='label'>19 Foot Left</span>
+                        </label>
+                      </div>
+                      <div class='radio'>
+                        <label>
+                          <input type='radio' id='POSAS-000_24' name='POSAS-000' tabindex='401' value='' data-parsley-trigger="change"
+                                 onclick="Evado.Form.onSelectionValidation( this, this.value )" checked='checked' />
+                          <span class='label' style='font-size: 8pt;'>Not Selected</span>
+                        </label>
+                      </div>
+                      <input type='hidden' id='POSAS-000' name='POSAS-000' value='' />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- GROUP FOOTER -->
+          <!--- OPENING GROUP --->
+          <div id='b029993e-9eea-4891-9d20-972607b7ac35-grp' class='field-group large' style='width:98%; '>
+            <span class='group-title'> Observer scale</span>
+            <div class='field-group-container' style=''>
+
+              <div class='fields'>
+                <!-- FIELD HEADER = POSAS-001 -->
+                <div id='6acf5814-da3b-44d3-9f3b-0067ac708041-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Vascularity
+                    </label>
+                    <div class='error-container '>
+                      <div id='6acf5814-da3b-44d3-9f3b-0067ac708041-err-row' class='cell cell-error-value'>
+                        <span id='sp6acf5814-da3b-44d3-9f3b-0067ac708041-err'></span>
+                      </div>
+                    </div>
+
+                    <div class='description'>
+                      <p>Presence of vessels in scar tissue assessed by the amount of redness, tested by the amount of blood return after blanching with a piece of Plexiglas</p>
+
+                      <p>
+                        1 = normal skin<br />
+                        10 = worst scar imaginable
+                      </p>
+                    </div>
+                  </div><div style='width:98%;' class='cell value cell-radio-value'>
+                    <div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_1' name='POSAS-001' value="1" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>1</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_2' name='POSAS-001' value="2" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>2</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_3' name='POSAS-001' value="3" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>3</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_4' name='POSAS-001' value="4" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>4</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_5' name='POSAS-001' value="5" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>5</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_6' name='POSAS-001' value="6" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>6</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_7' name='POSAS-001' value="7" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>7</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_8' name='POSAS-001' value="8" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>8</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_9' name='POSAS-001' value="9" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>9</span>
+                        </label>
+                      </div>
+                      <div class='radio-inline'>
+                        <label style='text-align:center'>
+                          <input type='radio' id='POSAS-001_10' name='POSAS-001' value="10" tabindex='501' data-parsley-trigger="change"
+                                 onchange="Evado.Form.onSelectionValidation( this, this.value )" /><br />
+                          <span class='label'>10</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-002 -->
+                <div id='6db09dc0-746f-444f-9a9d-65ff9b8d9e3d-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Vascularity - Category
+                    </label>
+                    <div class='error-container '>
+                      <div id='6db09dc0-746f-444f-9a9d-65ff9b8d9e3d-err-row' class='cell cell-error-value'>
+                        <span id='sp6db09dc0-746f-444f-9a9d-65ff9b8d9e3d-err'></span>
+                      </div>
+                    </div>
+
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-002' name='POSAS-002' tabindex='504' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="Pale">Pale</option>
+                      <option value="Pink">Pink</option>
+                      <option value="Red">Red</option>
+                      <option value="Purple">Purple</option>
+                      <option value="Mix">Mix</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-003 -->
+                <div id='a1701d1f-2cf0-4e45-b6c7-3df0965b618c-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Pigmentation
+                    </label>
+                    <div class='error-container '>
+                      <div id='a1701d1f-2cf0-4e45-b6c7-3df0965b618c-err-row' class='cell cell-error-value'>
+                        <span id='spa1701d1f-2cf0-4e45-b6c7-3df0965b618c-err'></span>
+                      </div>
+                    </div>
+
+                    <div class='description'>
+                      <p>Brownish coloration of the scar by pigment (melanin); apply Plexiglas to the skin with moderate pressure to eliminate the effect of vascularity.</p>
+
+                      <p>
+                        1 = normal<br />
+                        10 = skin worst scar imaginable
+                      </p>
+                    </div>
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-003' name='POSAS-003' tabindex='507' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-004 -->
+                <div id='157a4e08-d269-42e0-af9e-63158c9bb3ff-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Pigmentation - Category
+                    </label>
+                    <div class='error-container '>
+                      <div id='157a4e08-d269-42e0-af9e-63158c9bb3ff-err-row' class='cell cell-error-value'>
+                        <span id='sp157a4e08-d269-42e0-af9e-63158c9bb3ff-err'></span>
+                      </div>
+                    </div>
+
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-004' name='POSAS-004' tabindex='510' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="Hypo">Hypo</option>
+                      <option value="Hyper">Hyper</option>
+                      <option value="Mix">Mix</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-005 -->
+                <div id='86e381c0-1728-4a90-bb16-c702e6bf28ac-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Thickness
+                    </label>
+                    <div class='error-container '>
+                      <div id='86e381c0-1728-4a90-bb16-c702e6bf28ac-err-row' class='cell cell-error-value'>
+                        <span id='sp86e381c0-1728-4a90-bb16-c702e6bf28ac-err'></span>
+                      </div>
+                    </div>
+
+                    <div class='description'>
+                      <p>Average distance between the subcutical-dermal border and the epidermal surface of the scar.</p>
+
+                      <p>
+                        1 = normal skin<br />
+                        10 = worst scar imaginable
+                      </p>
+                    </div>
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-005' name='POSAS-005' tabindex='513' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-006 -->
+                <div id='075c9c46-443f-498f-9266-b28a9a6e512e-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Thickness - Category
+                    </label>
+                    <div class='error-container '>
+                      <div id='075c9c46-443f-498f-9266-b28a9a6e512e-err-row' class='cell cell-error-value'>
+                        <span id='sp075c9c46-443f-498f-9266-b28a9a6e512e-err'></span>
+                      </div>
+                    </div>
+
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-006' name='POSAS-006' tabindex='516' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="Thicker">Thicker</option>
+                      <option value="Thinner">Thinner</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-007 -->
+                <div id='ffb34bbd-777a-4813-a862-cd0a1e848e88-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Relief
+                    </label>
+                    <div class='error-container '>
+                      <div id='ffb34bbd-777a-4813-a862-cd0a1e848e88-err-row' class='cell cell-error-value'>
+                        <span id='spffb34bbd-777a-4813-a862-cd0a1e848e88-err'></span>
+                      </div>
+                    </div>
+
+                    <div class='description'>
+                      <p>The extent to which surface irregularities are present (preferably compared with adjacent normal skin).</p>
+
+                      <p>
+                        1 = normal skin<br />
+                        10 = worst scar imaginable
+                      </p>
+                    </div>
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-007' name='POSAS-007' tabindex='519' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-008 -->
+                <div id='d199bfc2-cda1-456e-81c8-01454d2fdb5f-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Relief - Category
+                    </label>
+                    <div class='error-container '>
+                      <div id='d199bfc2-cda1-456e-81c8-01454d2fdb5f-err-row' class='cell cell-error-value'>
+                        <span id='spd199bfc2-cda1-456e-81c8-01454d2fdb5f-err'></span>
+                      </div>
+                    </div>
+
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-008' name='POSAS-008' tabindex='522' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="More">More</option>
+                      <option value="Less">Less</option>
+                      <option value="Mix">Mix</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-009 -->
+                <div id='9dbb38c0-882f-4bf0-89e3-3282e0b8f93d-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Pliability
+                    </label>
+                    <div class='error-container '>
+                      <div id='9dbb38c0-882f-4bf0-89e3-3282e0b8f93d-err-row' class='cell cell-error-value'>
+                        <span id='sp9dbb38c0-882f-4bf0-89e3-3282e0b8f93d-err'></span>
+                      </div>
+                    </div>
+
+                    <div class='description'>
+                      <p>Suppleness of the scar tested by wrinkling the scar between the thumb and index finger.</p>
+
+                      <p>
+                        1 = normal skin<br />
+                        10 = worst scar imaginable
+                      </p>
+                    </div>
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-009' name='POSAS-009' tabindex='525' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-010 -->
+                <div id='9985f246-3091-44ed-9d90-732b50808e21-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Pliability - Category
+                    </label>
+                    <div class='error-container '>
+                      <div id='9985f246-3091-44ed-9d90-732b50808e21-err-row' class='cell cell-error-value'>
+                        <span id='sp9985f246-3091-44ed-9d90-732b50808e21-err'></span>
+                      </div>
+                    </div>
+
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-010' name='POSAS-010' tabindex='528' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="Supple">Stiff</option>
+                      <option value="Mix">Mix</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-011 -->
+                <div id='d3ec60b7-44c6-4667-a91c-a76d7af04949-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Surface Area
+                    </label>
+                    <div class='error-container '>
+                      <div id='d3ec60b7-44c6-4667-a91c-a76d7af04949-err-row' class='cell cell-error-value'>
+                        <span id='spd3ec60b7-44c6-4667-a91c-a76d7af04949-err'></span>
+                      </div>
+                    </div>
+
+                    <div class='description'>
+                      <p>Surface area of the scar in relation to the original wound area.</p>
+
+                      <p>
+                        1 = normal skin<br />
+                        10 = worst scar imaginable
+                      </p>
+                    </div>
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-011' name='POSAS-011' tabindex='531' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div><!-- FIELD HEADER = POSAS-012 -->
+                <div id='89ee4eb0-e9d0-45df-991b-b4689805dc4f-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Surface Area - Category
+                    </label>
+                    <div class='error-container '>
+                      <div id='89ee4eb0-e9d0-45df-991b-b4689805dc4f-err-row' class='cell cell-error-value'>
+                        <span id='sp89ee4eb0-e9d0-45df-991b-b4689805dc4f-err'></span>
+                      </div>
+                    </div>
+
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-012' name='POSAS-012' tabindex='534' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="Expansion">Expansion</option>
+                      <option value="Contraction">Contraction</option>
+                      <option value="Mix">Mix</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- GROUP FOOTER -->
+          <!--- OPENING GROUP --->
+          <div id='917d55b0-ff7c-4f02-bcdb-b5f9c8f5a0e2-grp' class='field-group large' style='width:98%; '>
+            <span class='group-title'> Overall</span>
+            <div class='field-group-container' style=''>
+
+              <div class='fields'>
+                <!-- FIELD HEADER = POSAS-013 -->
+                <div id='8a050752-8da7-454b-af9c-2c8ab37948b9-row' class='group-row field  cf '>
+                  <div style='width:40%; ' class='cell title cell-display-text-title'>
+                    <label>
+                      Overall opinion
+                    </label>
+                    <div class='error-container '>
+                      <div id='8a050752-8da7-454b-af9c-2c8ab37948b9-err-row' class='cell cell-error-value'>
+                        <span id='sp8a050752-8da7-454b-af9c-2c8ab37948b9-err'></span>
+                      </div>
+                    </div>
+
+                    <div class='description'>
+                      <p>
+                        1 = normal skin<br />
+                        10 = worst scar imaginable
+                      </p>
+                    </div>
+                  </div><div style='width:60%' class='cell value cell-select-value cf'>
+                    <select id='POSAS-013' name='POSAS-013' tabindex='601' value='' class='form-control' data-parsley-trigger="change"
+                            onclick="Evado.Form.onSelectionValidation( this, this.value )">
+                      <option value="" selected='selected'></option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- GROUP FOOTER -->
+          <!--
+          Login dialog box
+          -->
+          <!--
+          Object serialisation
+          -->
+          <!--- OPENING GROUP --->
+          <div id='cbb8f85b-9028-4b13-a538-04d3a3d8972f-grp' class='field-group large' style='width:98%; '>
+            <span class='group-title'> Serialisation</span>
+            <div class='field-group-container' style=''>
+
+              <div id='484f6592-4c3d-4857-8e16-b33f4dda553f-row' class='group-row field layout-normal cf '>
+                <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_application_data.xml' target='_blank'>XML Serialised Application Data Object</a></strong></span></div>
+              </div><div id='b595eab7-4ba1-4a6f-af8c-a61d699672a2-row' class='group-row field layout-normal cf '>
+                <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_command.xml' target='_blank'>XML Serialised Command Object</a></strong></span></div>
+              </div><div id='19de44ec-0c25-418c-9e63-764acb5e226b-row' class='group-row field layout-normal cf '>
+                <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/json_serialised_application_data.txt' target='_blank'>JSON Serialised Application Data Object</a></strong></span></div>
+              </div><div id='30b539b0-6513-4050-96f0-a0ed5de8f199-row' class='group-row field layout-normal cf '>
+                <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/json_serialised_command.txt' target='_blank'>JSON Serialised Command Object</a></strong></span></div>
+              </div>
+            </div>
+          </div>
+          <!-- GROUP FOOTER -->
+          <!--
+
+          -->
+        </div>
+        <input name="groupNo" type="hidden" id="groupNo" />
+        <input name="pageId" type="hidden" id="pageId" />
+      </div>
+    </div>
+    <table id="form-footer">
+      <tr>
+        <td class="left">
+          (c) Evado Holdings Pty. Ltd. 2011 - 2022 All rights reserved
+        </td>
+        <td class="center">
+          Powered By Evado Digital
+        </td>
+        <td class="right">
+          Version: 5.0.0.18648
+        </td>
+      </tr>
+    </table>
+    <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
+  </form>
 </body>
 </html>

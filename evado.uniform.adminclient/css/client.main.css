@@ -490,12 +490,6 @@ span.required {
   color: #555;
   background-color: #fff;
   background-image: none;
-  /*border: 1px solid #ccc;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;*/
 }
 
 .cell {
@@ -505,7 +499,8 @@ span.required {
   box-sizing: border-box;
 }
 
-  .cell input[type=text], .cell textarea {
+  .cell input[type=text], 
+  .cell textarea {
     box-sizing: border-box;
     width: 100%;
   }
@@ -540,28 +535,25 @@ span.required {
   margin-top: 0;
 }
 
-
-.cell-input-analogue-value {
+.cell-input-text-value,
+.cell-textarea-value,
+.cell-number-value,
+.cell-number-value,
+.cell-date-value,
+.cell-time-value {
+  vertical-align: middle;
 }
-
-.cell-input-analogue-value > table {
-  width:100%;
-}
-
-.cell-input-analogue-value > td {
-    width: 50%;
-  }
 
 .cell-input-text-value > span,
 .cell-textarea-value > span,
 .cell-number-value > span,
 .cell-number-value > div,
-.cell-date-value > span,
-.cell-time-value > span {
+.cell-date-value > span, .cell-time-value > span {
   float: left;
 }
 
-.cell-input-address-value span div, .cell-input-name-value span div {
+.cell-input-address-value span div,
+.cell-input-name-value span div {
   margin-top: 4px;
   margin-bottom: 4px;
 }
@@ -588,7 +580,7 @@ span.required {
   /*font-size: 12pt;*/
   padding-top: 3px;
   padding-bottom: 3px;
-  font-weight: bol;
+  font-weight: bold;
   display: inline-block;
 }
 
@@ -757,6 +749,11 @@ img.camera {
 
 .field.layout-column .cell-table-title, .field.layout-column .cell-table-value {
   width: auto !important;
+}
+
+.radio-inline {
+ margin: 5px;
+ padding:0;
 }
 
 #page-form {

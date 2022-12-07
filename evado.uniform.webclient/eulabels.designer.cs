@@ -331,7 +331,7 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No option is selected.
+        ///   Looks up a localized string similar to Not selected.
         /// </summary>
         internal static string Radio_Button_Not_Selected {
             get {
