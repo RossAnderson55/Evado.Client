@@ -523,8 +523,8 @@ span.required {
 
 .cell-display-text-title {
   vertical-align: middle;
-  margin: none;
-  padding: none;
+  margin: 0;
+  padding: 0;
 }
 
 .cell.title label {
@@ -752,7 +752,7 @@ img.camera {
 }
 
 .radio-inline {
- margin: 5px;
+ margin: 2px;
  padding:0;
 }
 

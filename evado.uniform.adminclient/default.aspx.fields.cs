@@ -2043,7 +2043,6 @@ namespace Evado.UniForm.AdminClient
          + "name='" + PageField.FieldId + "' "
          + "tabindex = '" + _TabIndex + "' "
          + "value='" + option.Value + "' "
-         + "style='visibility: hidden;' "
          + "data-parsley-trigger=\"change\" " );
 
         if ( stCmdOnChange == "1" )
@@ -2087,44 +2086,44 @@ namespace Evado.UniForm.AdminClient
 
       }//END end option iteration loop.
 
-
-      sbHtml.AppendLine ( "<div class='radio'>" );
-      sbHtml.AppendLine ( "<label>" );
-
-      sbHtml.AppendLine ( "<input "
-       + "type='radio' "
-       + "id='" + PageField.FieldId + "_" + ( PageField.OptionList.Count + 1 ) + "' "
-       + "name='" + PageField.FieldId + "' "
-       + "tabindex = '" + _TabIndex + "' "
-       + "value='' "
-       + "style='visibility: hidden;' "
-       + "data-parsley-trigger=\"change\" " );
-
-      if ( stCmdOnChange == "1" )
+      if ( PageField.Mandatory == true )
       {
-        sbHtml.Append ( this.createOnChangeEvent ( ) );
+        sbHtml.AppendLine ( "<div class='radio'>" );
+        sbHtml.AppendLine ( "<label>" );
+
+        sbHtml.AppendLine ( "<input "
+         + "type='radio' "
+         + "id='" + PageField.FieldId + "_" + ( PageField.OptionList.Count + 1 ) + "' "
+         + "name='" + PageField.FieldId + "' "
+         + "tabindex = '" + _TabIndex + "' "
+         + "value='' "
+         + "data-parsley-trigger=\"change\" " );
+
+        if ( stCmdOnChange == "1" )
+        {
+          sbHtml.Append ( this.createOnChangeEvent ( ) );
+        }
+        else
+        {
+          sbHtml.Append ( "\r\n " + stValidationMethod );
+        }
+
+        if ( PageField.Value == String.Empty )
+        {
+          sbHtml.Append ( " checked='checked' " );
+        }
+
+        if ( Status == Evado.UniForm.Model.EuEditAccess.Disabled )
+        {
+          sbHtml.Append ( " disabled='disabled' " );
+        }
+
+        sbHtml.AppendLine ( "/>" );
+
+        sbHtml.AppendLine ( "<span class='label' style='font-size: 8pt;'>Not Selected</span>" );
+        sbHtml.AppendLine ( "</label>" );
+        sbHtml.AppendLine ( "</div>" );
       }
-      else
-      {
-        sbHtml.Append ( "\r\n " + stValidationMethod );
-      }
-
-      if ( PageField.Value == String.Empty )
-      {
-        sbHtml.Append ( " checked='checked' " );
-      }
-
-      if ( Status == Evado.UniForm.Model.EuEditAccess.Disabled )
-      {
-        sbHtml.Append ( " disabled='disabled' " );
-      }
-
-      sbHtml.AppendLine ( "/>" );
-
-      sbHtml.AppendLine ( "<span class='label' style='font-size: 8pt;'>Not Selected</span>" );
-      sbHtml.AppendLine ( "</label>" );
-      sbHtml.AppendLine ( "</div>" );
-
       sbHtml.Append ( "<input "
        + "type='hidden' "
        + "id='" + PageField.FieldId + "' "
@@ -2226,7 +2225,6 @@ namespace Evado.UniForm.AdminClient
              + "data-quiz-value='" + stQuizValue + "' "
              + "data-quiz-answer='" + stQuizAnswer + "' "
              + "value='" + option.Value + "' "
-             + "style='visibility: hidden;' "
              + "data-parsley-trigger=\"change\" " );
 
             sbHtml.AppendLine ( stValidationMethod );
@@ -2383,8 +2381,7 @@ namespace Evado.UniForm.AdminClient
          + "name='" + PageField.FieldId + "' "
          + "value=\"" + option.Value + "\" "
          + "tabindex = '" + _TabIndex + "' "
-         + "data-parsley-trigger=\"change\" "
-         + "style='display:block; visibility: hidden;' " );
+         + "data-parsley-trigger=\"change\" " );
 
         if ( stCmdOnChange == "1" )
         {
@@ -2414,7 +2411,7 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.AppendLine ( "/>" );
 
-        sbHtml.AppendLine ( "<span class='label' style='display:block' > " + option.Description + "</span>" );
+        sbHtml.AppendLine ( "<span class='label' > " + option.Description + "</span>" );
         sbHtml.AppendLine ( "</label>" );
         sbHtml.AppendLine ( "</div>" );
 
@@ -2422,44 +2419,43 @@ namespace Evado.UniForm.AdminClient
 
       #region not selected
 
-      if( PageField.Mandatory == true )
-      { 
-      sbHtml.AppendLine ( "<div class='radio-inline'>" );
-      sbHtml.AppendLine ( "<label style='text-align:center'>" );
-
-      sbHtml.AppendLine ( "<input "
-       + "type='radio' "
-       + "id='" + PageField.FieldId + "_" + ( PageField.OptionList.Count + 1 ) + "' "
-       + "name='" + PageField.FieldId + "' "
-       + "tabindex = '" + _TabIndex + "' "
-       + "value=\"\" "
-       + "style='display:block; visibility: hidden;' "
-       + "data-parsley-trigger=\"change\" " );
-
-      sbHtml.Append ( stValidationMethod );
-
-      if ( PageField.Mandatory == true && Status != Evado.UniForm.Model.EuEditAccess.Disabled )
+      if ( PageField.Mandatory == true )
       {
-        sbHtml.Append ( " required " );
-      }
+        sbHtml.AppendLine ( "<div class='radio-inline'>" );
+        sbHtml.AppendLine ( "<label style='text-align:center'>" );
 
-      //this.addMandatoryIfAttribute ( sbHtml, PageField );
+        sbHtml.AppendLine ( "<input "
+         + "type='radio' "
+         + "id='" + PageField.FieldId + "_" + ( PageField.OptionList.Count + 1 ) + "' "
+         + "name='" + PageField.FieldId + "' "
+         + "tabindex = '" + _TabIndex + "' "
+         + "value=\"\" "
+         + "data-parsley-trigger=\"change\" " );
 
-      if ( PageField.Value == "" )
-      {
-        sbHtml.Append ( " checked='checked' " );
-      }
+        sbHtml.Append ( stValidationMethod );
 
-      if ( Status == Evado.UniForm.Model.EuEditAccess.Disabled )
-      {
-        sbHtml.Append ( " disabled='disabled' " );
-      }
+        if ( PageField.Mandatory == true && Status != Evado.UniForm.Model.EuEditAccess.Disabled )
+        {
+          sbHtml.Append ( " required " );
+        }
 
-      sbHtml.AppendLine ( "/>" );
+        //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-      sbHtml.AppendLine ( "<span class='label'>" + EuLabels.Radio_Button_Not_Selected + "</span>" );
-      sbHtml.AppendLine ( "</label>" );
-      sbHtml.AppendLine ( "</div>" );
+        if ( PageField.Value == "" )
+        {
+          sbHtml.Append ( " checked='checked' " );
+        }
+
+        if ( Status == Evado.UniForm.Model.EuEditAccess.Disabled )
+        {
+          sbHtml.Append ( " disabled='disabled' " );
+        }
+
+        sbHtml.AppendLine ( "/>" );
+
+        sbHtml.AppendLine ( "<span class='label'>" + EuLabels.Radio_Button_Not_Selected + "</span>" );
+        sbHtml.AppendLine ( "</label>" );
+        sbHtml.AppendLine ( "</div>" );
       }
       //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       #endregion
@@ -2544,7 +2540,6 @@ namespace Evado.UniForm.AdminClient
        + "name='" + PageField.FieldId + "' "
        + "tabindex = '" + _TabIndex + "' "
        + "value=\"Yes\" "
-       + "style='visibility: hidden;' "
        + "data-parsley-trigger=\"change\" " );
 
       /*
@@ -2589,7 +2584,6 @@ namespace Evado.UniForm.AdminClient
        + "id='" + PageField.FieldId + "_N' "
        + "name='" + PageField.FieldId + "' "
        + "value=\"No\" "
-       + "style='visibility: hidden;' "
        + "tabindex = '" + _TabIndex + "' "
        + "data-parsley-trigger=\"change\" " );
 
@@ -2730,8 +2724,7 @@ namespace Evado.UniForm.AdminClient
          + "id='" + PageField.FieldId + "_" + count + "' "
          + "name='" + PageField.FieldId + "' "
          + "tabindex = '" + _TabIndex + "' "
-         + "value='" + option.Value + "' "
-         + "style='visibility: hidden;' " );
+         + "value='" + option.Value + "' " ); // + "style='visibility: hidden;' " );
 
 
         if ( option.hasValue ( PageField.Value ) == true )
@@ -2767,6 +2760,7 @@ namespace Evado.UniForm.AdminClient
 
       }//End option iteration loop.
 
+      sbHtml.AppendLine ( "<div style='font-size:8pt;text-align:center;'><span >Multiple Selections</span></div>" );
       //
       // the cbeckbox footer.
       //

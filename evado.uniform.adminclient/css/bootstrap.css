@@ -142,11 +142,6 @@ input::-moz-focus-inner {
 input {
   line-height: normal;
 }
-input[type="checkbox"],
-input[type="radio"] {
-  box-sizing: border-box;
-  padding: 0;
-}
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   height: auto;
@@ -1658,6 +1653,8 @@ input[type="search"] {
 }
 input[type="radio"],
 input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
   margin: 4px 0 0;
   margin-top: 1px \9;
   /* IE8-9 */
@@ -1800,38 +1797,40 @@ input[type="date"] {
 .checkbox,
 .checkbox-inline {
   display: block;
+  margin: 0px;
   margin-top: 2px;
   margin-bottom: 2px;
 }
-.radio label, .checkbox label
-{
-  margin: 0;
-  padding: 0;
-  display:block;
-  font-weight: normal;
-  width: 100%;
-  /*font-size: 11pt;*/
-  font-weight: normal;
-  background-color: #ffffff;
-  color: #000000;
-}
+  .radio label, .checkbox label {
+    margin: 0;
+    padding: 0;
+    display: block;
+    font-weight: normal;
+    width: 100%;
+    font-weight: normal;
+    background-color: #ffffff; 
+    color: #000000;
+  }
 .radio-inline label, .checkbox-inline label
 {
+  margin 0;
 }
 
-.radio input[type="radio"],
-.checkbox input[type="checkbox"]
-{
-  margin: 0px;
-  margin: 5px;
-}
+  .radio input[type="radio"],
+  .checkbox input[type="checkbox"] {
+    margin: 0px;
+    margin: 0px;
+    width: 0px;
+    visibility: hidden;
+  }
 
-.radio-inline input[type="radio"],
-.checkbox-inline input[type="checkbox"] {
-  /*height: 30pt;*/
-  margin: 0px;
-  margin: 5px;
-}
+  .radio-inline input[type="radio"],
+  .checkbox-inline input[type="checkbox"] {
+    margin: 0px;
+    margin: 0px;
+    width: 0px;
+    visibility: hidden;
+  }
 
 .radio .label,
 .checkbox .label
@@ -1840,7 +1839,7 @@ input[type="date"] {
   padding: 10px;
   text-align: left;
   display:inline-block ;
-  width: 95%;
+  width: 90%;
   font-weight: normal;
   background-color: #F8F8F8;
   color: #000000;
@@ -1870,13 +1869,7 @@ input[type="date"] {
 }
 .radio input[type="radio"]:checked + .label,
 .checkbox input[type="checkbox"]:checked + .label
-{/*
-  margin: 0px;
-  padding: 10px;
-  display:inline-block ;
-  width: 90%;
-  font-size: 11pt;
-  font-weight: normal;*/
+{
   font-weight: bold;
   background-color: #99CCFF; /* #b72521;*/
   color: #000000;
@@ -1884,12 +1877,6 @@ input[type="date"] {
 .radio-inline input[type="radio"]:checked + .label,
 .checkbox-inline input[type="checkbox"]:checked + .label 
 {
-  /*
-  margin: 0px;
-  padding: 10px;
-  display:block ;
-  font-size: 11pt;
-  font-weight: normal;*/
   display:inline-block ;
   font-weight: bold;
   background-color: #99CCFF; /* #b72521;*/
@@ -1911,7 +1898,7 @@ input[type="date"] {
 .radio-inline + .radio-inline,
 .checkbox-inline + .checkbox-inline {
   margin-top: 0;
-  margin-left: 10px;
+  margin-left: 0;
 }
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
