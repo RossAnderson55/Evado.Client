@@ -1430,7 +1430,7 @@ namespace Evado.UniForm.WebClient
       List<Evado.Model.EvOption> yearList = new List<Evado.Model.EvOption> ( );
       yearList.Add ( new Evado.Model.EvOption ( ) );
 
-      for ( int yr = maxYear; yr > minYear; yr-- )
+      for ( int yr = maxYear; yr >= minYear; yr-- )
       {
         yearList.Add ( new Evado.Model.EvOption ( yr.ToString ( "0000" ) ) );
       }
