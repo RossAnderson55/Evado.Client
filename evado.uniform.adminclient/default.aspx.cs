@@ -58,7 +58,6 @@ namespace Evado.UniForm.AdminClient
     private EucSession UserSession = new EucSession ( );
 
 
-
     ///*********************************************************************************
     #endregion
 
@@ -299,7 +298,6 @@ namespace Evado.UniForm.AdminClient
       {
         this.LogMethod ( "IsPostBack == FALSE " );
         this.LogDebug ( "Global.WebServiceUrl: " + Global.WebServiceUrl );
-        this.LogDebug ( "Global.ImageUrl: " + Global.RelativeBinaryUploadURL );
         this.LogDebug ( "Global.Debug " + Global.DebugLogOn );
         this.LogDebug ( "Global.DisplaySerialisation: " + Global.DisplaySerialisation );
         this.fldPassword.Value = String.Empty;
@@ -419,7 +417,6 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
       this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
       this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
-      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
       this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
 
@@ -428,7 +425,7 @@ namespace Evado.UniForm.AdminClient
       //
       string serialisedText = String.Empty;
       string baseUrl = Global.WebServiceUrl;
-      string serviceUri = Global.RelativeWcfRestClientURL + Global.ClientVersion
+      string serviceUri = EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL + Global.ClientVersion
         + "?command=command&session=" + this.UserSession.ServerSessionId;
       Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
       {
@@ -506,14 +503,7 @@ namespace Evado.UniForm.AdminClient
 
         if ( Global.DebugLogOn == true )
         {
-          // 
-          // Open the stream to the file.
-          // 
-          using ( StreamWriter sw = new StreamWriter ( Global.TempPath + @"json-data.txt" ) )
-          {
-            sw.Write ( serialisedText );
-
-          }// End StreamWriter.
+          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"json-data.txt", serialisedText );
         }
 
         //
@@ -525,8 +515,9 @@ namespace Evado.UniForm.AdminClient
 
         this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.EuAppData> ( serialisedText );
 
-        this.LogDebug ( "Application object: " + this.UserSession.AppData.getAtString ( ) );
-        this.LogDebug ( "Page Command count: " + this.UserSession.AppData.Page.CommandList.Count );
+        this.LogDebug ( "Application object: {0}.", this.UserSession.AppData.getAtString ( ) );
+        this.LogDebug ( "Page Command count: {0}.", this.UserSession.AppData.Page.CommandList.Count );
+        this.LogDebug ( "this.UserSession.AppData.SessionId: {0}.", this.UserSession.AppData.SessionId );
 
         //
         // Set the anonymouse page access mode.
@@ -535,19 +526,11 @@ namespace Evado.UniForm.AdminClient
         // - History commands
         // - Page Commands
         //
-
         this.LogDebug ( "ExitCommand: " + this.UserSession.AppData.Page.Exit.getAsString ( false, false ) );
         //
         // Add the exit Command to the history.
         //
         this.addHistoryCommand ( this.UserSession.AppData.Page.Exit );
-
-        for ( int i = 0; i < this.UserSession.CommandHistoryList.Count; i++ )
-        {
-          EuCommand command = this.UserSession.CommandHistoryList [ i ];
-
-          this.LogDebug ( "{0} Command: ", i, command.getAsString ( false, true ) );
-        }
 
         //
         // Reset the panel display group index for the new page data object.
@@ -559,7 +542,7 @@ namespace Evado.UniForm.AdminClient
         //
         this.UserSession.ServerSessionId = this.UserSession.AppData.SessionId;
 
-        this.LogDebug ( "ServerUserSessionId: " + this.UserSession.ServerSessionId );
+        this.LogDebug ( "ServerUserSessionId:  {0}.", this.UserSession.ServerSessionId );
       }
       catch ( Exception Ex )
       {
@@ -600,9 +583,9 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private void SendFileRequest ( String filename, String MimeType )
     {
-      this.LogMethod ( "UploadFile" );
+      this.LogMethod ( "SendFileRequest" );
       this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
-      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
+      this.LogDebug ( "Global.RelativeWcfRestURL: " + EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
       this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
 
@@ -611,22 +594,22 @@ namespace Evado.UniForm.AdminClient
       //
       EuFile fileObject = new EuFile ( );
       string jsonData = String.Empty;
-      string WebServiceUrl = Global.WebServiceUrl + Global.RelativeWcfRestFileURL + Global.ClientVersion + "?mimetype=image/jpeg";
+      string WebServiceUrl = Global.WebServiceUrl + EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL + Global.ClientVersion + "?mimetype=image/jpeg";
       string filePath = String.Empty;
 
       this.LogDebug ( "WebServiceUrl: '{0}'. ", WebServiceUrl );
       try
       {
-
         Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
         {
           NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
         };
         fileObject.UserId = this.UserSession.UserId;
-        fileObject.FileName = "evado.jpg";
-        fileObject.MimeType = "image/jpeg";
+        fileObject.ClientSession = this.UserSession.AppData.SessionId;
+        fileObject.FileName = filename;
+        fileObject.MimeType = MimeType;
 
-        filePath = Global.TempPath + fileObject.FileName;
+        filePath = Global.TempPath +  fileObject.FileName;
 
         this.LogDebug ( "filePath: '{0}'. ", filePath );
 
@@ -676,7 +659,7 @@ namespace Evado.UniForm.AdminClient
 
         this.LogDebug ( "Web Service Error. " + Evado.Model.EvStatics.getException ( Ex ) ); ;
       }
-      this.LogMethodEnd ( "UploadFile" );
+      this.LogMethodEnd ( "SendFileRequest" );
 
     }//END UploadFile method
 
@@ -751,41 +734,6 @@ namespace Evado.UniForm.AdminClient
       return String.Empty;
 
     }//END logUserTransaction method
-
-    // ==================================================================================
-
-    /// <summary>
-    /// This method searches through the page group fields to find a matching field..
-    /// </summary>
-    /// <param name="Field">Field: The field object.</param>
-    /// <returns>Field object.</returns>
-    // ---------------------------------------------------------------------------------
-    private void GetImagePageField (
-      Evado.UniForm.Model.EuField Field )
-    {
-      this.LogMethod ( "getImagePageField" );
-
-      if ( Field.Type != Evado.Model.EvDataTypes.Image )
-      {
-        return;
-      }
-      if ( Global.RelativeBinaryUploadURL == String.Empty
-        || Field.FieldId == String.Empty )
-      {
-        return;
-      }
-
-      String stFileName = Global.TempPath + Field.FieldId;
-      /*
-      Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes uploadStatus = Evado.UniForm.Model.EuStatics.HttpUploadFile (
-        Global.WebServiceUrl = Global.RelativeBinaryUploadURL, stFileName, "file", "image/jpeg" );
-
-      if ( uploadStatus != Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes.Completed )
-      {
-        this.LogDebug ( "Image " + Field.FieldId + " upload failed. Error Messge: " + uploadStatus );
-      }
-      */
-    }//END getImagePageField method
 
     // ==================================================================================
     /// <summary>
@@ -934,7 +882,7 @@ namespace Evado.UniForm.AdminClient
 
         String stHtml = sbHtml.ToString ( );
 
-        stHtml = stHtml.Replace ( Global.RelativeBinaryDownloadURL, "euws/" );
+        stHtml = stHtml.Replace ( Global.FileServiceUrl, "euws/" );
 
         this.litSerialisedLinks.Text = stHtml;
       }
@@ -1096,7 +1044,7 @@ namespace Evado.UniForm.AdminClient
             command.SetGuid ( guid );
             this.UserSession.PageCommand = command;
             this.UserSession.UserId = this.Session.SessionID;
-            Session [ Global.SESSION_USER_ID ] = this.UserSession.UserId;
+            Session [ Evado.UniForm.Model.EuStatics.SESSION_USER_ID ] = this.UserSession.UserId;
             this.UserSession.ExternalCommand = this.UserSession.PageCommand;
 
           }//END guid found.
@@ -2306,8 +2254,8 @@ namespace Evado.UniForm.AdminClient
     private void UploadPageImages ( )
     {
       this.LogMethod ( "UploadPageImages method" );
-      this.LogDebug ( "Global.ImageFilePath: " + Global.BinaryFilePath );
-      this.LogDebug ( "Number of files: " + Context.Request.Files.Count );
+      this.LogDebug ( "Global.TempPath: {0}.", Global.TempPath );
+      this.LogDebug ( "Number of files: {0}.", Context.Request.Files.Count );
       try
       {
         // 
@@ -2354,7 +2302,7 @@ namespace Evado.UniForm.AdminClient
           }
 
 
-          string fileName = Path.GetFileName ( uploadedFileObject.FileName );
+          string fileName = this.UserSession.UserId + "_" + Path.GetFileName ( uploadedFileObject.FileName );
           fileName = fileName.Replace ( " ", "_" );
           this.LogDebug ( "Uploaded file name: " + fileName );
           this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
@@ -2374,22 +2322,22 @@ namespace Evado.UniForm.AdminClient
 
           this.LogDebug ( "UniFORM FieldId: " + stFieldId );
 
-          string stFilePath = Global.BinaryFilePath + fileName;
+          string filePathPRrefix = Global.TempPath + fileName;
 
-          this.LogDebug ( "Image file path: " + stFilePath );
+          this.LogDebug ( "Image file path: " + filePathPRrefix );
 
           //
           // Save the file to disk.
           //
-          uploadedFileObject.SaveAs ( stFilePath );
+          uploadedFileObject.SaveAs ( filePathPRrefix );
 
           //
           // set the image to the image service.
           //
-          this.SendBinaryFileToImageService ( stFilePath, uploadedFileObject.ContentType );
+          this.SendFileRequest ( fileName, uploadedFileObject.ContentType );
 
           string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
-            + stFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
+            + filePathPRrefix + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
 
           this.LogValue ( stEventContent );
           EventLog.WriteEntry ( Global.EventLogSource, stEventContent, EventLogEntryType.Information );
@@ -2410,59 +2358,6 @@ namespace Evado.UniForm.AdminClient
       Global.OutputtDebugLog ( );
 
     }//END UploadPageImages method
-
-    // ==================================================================================
-
-    /// <summary>
-    /// This method sends an image's content to the image upload service.
-    /// </summary>
-    /// <param name="ImageFilePath">Field: The field object.</param>
-    // ---------------------------------------------------------------------------------
-    private void SendBinaryFileToImageService ( String ImageFilePath, String MimeType )
-    {
-      this.LogMethod ( "sendBinaryFileToImageService" );
-      this.LogDebug ( "ImageUploadServiceUrl: " + Global.RelativeBinaryUploadURL );
-      this.LogDebug ( "FileName: " + ImageFilePath );
-
-      string stUploadUrl = Global.RelativeBinaryUploadURL;
-
-      // 
-      // Validate that there are valid upload URLs.
-      // 
-      if ( Global.WebServiceUrl + stUploadUrl == String.Empty
-        || ImageFilePath == String.Empty )
-      {
-        this.LogDebug ( "Service Url or data id are null. " );
-        this.LogMethodEnd ( "sendBinaryFileToImageService" );
-        return;
-      }
-
-      stUploadUrl = Evado.Model.EvStatics.concatinateHttpUrl ( Global.WebServiceUrl, stUploadUrl );
-
-      this.LogDebug ( "Upload Url: " + stUploadUrl );
-
-      try
-      {/*
-        Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes uploadStatus = Evado.UniForm.Model.EuStatics.HttpUploadFile (
-          stUploadUrl,
-          ImageFilePath, "file", MimeType );
-
-        if ( uploadStatus != Evado.UniForm.Model.EuStatics.HttpUploadFileStatusCodes.Completed )
-        {
-          this.LogDebug ( "File " + ImageFilePath + " upload failed. Error Status: " + uploadStatus );
-        }
-
-        this.LogDebug ( "File " + ImageFilePath + " Status: " + uploadStatus );
-        */
-      }
-      catch ( Exception Ex )
-      {
-        this.LogValue ( Evado.Model.EvStatics.getException ( Ex ) );
-        throw;
-      }
-      this.LogMethodEnd ( "sendBinaryFileToImageService" );
-
-    }//END getImagePageField method
 
     // ==================================================================================
 
@@ -3017,10 +2912,11 @@ namespace Evado.UniForm.AdminClient
       if ( this.UserSession.AppData.LogoFilename != String.Empty )
       {
         this.UserSession.AppData.LogoFilename = Evado.Model.EvStatics.concatinateHttpUrl (
-          Global.RelativeBinaryDownloadURL, this.UserSession.AppData.LogoFilename );
+          Global.ImageUrl, this.UserSession.AppData.LogoFilename );
 
         this.imgLogo.Src = this.UserSession.AppData.LogoFilename.ToLower ( );
       }
+      this.LogDebug ( "this.imgLogo.Src {0}.", this.imgLogo.Src );
 
       this.pLogo.Visible = false;
       if ( this.imgLogo.Src != String.Empty )
@@ -3077,7 +2973,7 @@ namespace Evado.UniForm.AdminClient
       this.UserSession.UserId = this.fldUserId.Value;
       this.UserSession.Password = this.fldPassword.Value;
 
-      Session [ Global.SESSION_USER_ID ] = this.UserSession.UserId;
+      Session [ Evado.UniForm.Model.EuStatics.SESSION_USER_ID ] = this.UserSession.UserId;
 
       this.SendLoginCommand ( this.fldUserId.Value, this.fldPassword.Value );
 

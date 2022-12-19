@@ -242,7 +242,7 @@ namespace Evado.UniForm.WebClient
 
           this.LogDebug ( string.Format ( "Customer Guid: {0} ", guid ) );
 
-          this.UserSession.PageCommand.AddParameter ( Global.CONST_CUSTOMER_GUID, guid );
+          this.UserSession.PageCommand.AddParameter ( Evado.UniForm.Model.EuStatics.CONST_CUSTOMER_GUID, guid );
           continue;
         }
 
@@ -348,7 +348,7 @@ namespace Evado.UniForm.WebClient
       {
         this.LogMethod ( "IsPostBack == FALSE " );
         this.LogDebug ( "Global.WebServiceUrl: " + Global.WebServiceUrl );
-        this.LogDebug ( "Global.ImageUrl: " + Global.RelativeBinaryUploadURL );
+        this.LogDebug ( "Global.DefaultFileBaseUrl: " + Global.FileServiceUrl );
         this.LogDebug ( "Global.Debug " + Global.DebugLogOn );
         this.LogDebug ( "Global.DisplaySerialisation: " + Global.DisplaySerialisation );
 
@@ -418,7 +418,7 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
       this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
       this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
-      this.LogDebug ( "Global.RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
+      this.LogDebug ( "Global.WebServiceUrl: " + Global.WebServiceUrl );
       this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
       this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
 
@@ -427,7 +427,7 @@ namespace Evado.UniForm.WebClient
       //
       string serialisedText = String.Empty;
       string baseUrl = Global.WebServiceUrl;
-      string serviceUri = Global.RelativeWcfRestClientURL + Global.ClientVersion
+      string serviceUri = EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL + Global.ClientVersion
         + "?command=command&session=" + this.UserSession.ServerSessionId;
       Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
       {

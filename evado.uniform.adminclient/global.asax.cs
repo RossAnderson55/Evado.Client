@@ -14,14 +14,10 @@
 ****************************************************************************************/
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Configuration;
-using System.ComponentModel;
 using System.Web;
-using System.Web.UI;
-using System.Web.SessionState;
 using System.Web.Security;
 using System.IO;
 using System.Net;
@@ -33,34 +29,9 @@ namespace Evado.UniForm.AdminClient
 {
   public partial class Global : System.Web.HttpApplication
   {
-    #region Constants
-
-    public const String CONST_EXTERNAL_COMMAND_EXTENSION = ".COMMAND.JSON";
-
-    /// <summary>
-    ///  This constant defines a trial identifier
-    /// </summary>
-    public const string CONST_CUSTOMER_GUID = "CUSTOMER_GUID";
-
-    public const String SESSION_USER_ID = "EUWC_USER_ID";
-    public const String SESSION_A1 = "EUWC_A1";
-    public const String SESSION_ROLES = "EUWC_ROLES";
-
-    public const String CONST_CLIENT_BASE_URL = "./client.aspx";
-
-    public const String CONFIG_PAGE_DEEFAULT_LOGO = "PDLOGO";
-    public const String CONFIG_EVENT_LOG_SOURCE_KEY = "EventLogSource";
-    public const String CONST_ENABLE_DETAILED_LOGGING = "ENABLE_DETAILED_LOGGING";
-    public const String CONFIG_ENABLE_PAGE_MENU_KEY = "ENABLE_MENU";
-    public const String CONFIG_ENABLE_PAGE_HISTORY_KEY = "ENABLE_HISTORY";
-
-
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    #endregion
-
     #region Global Variables and Objects
     // Variable containing the application path.  Used to generate the base URL.
-    public static string EventLogSource = ConfigurationManager.AppSettings [ Global.CONFIG_EVENT_LOG_SOURCE_KEY ];
+    public static string EventLogSource = ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_EVENT_LOG_SOURCE_KEY ];
 
     /// <summary>
     /// THis object contains the assembly attributes.
@@ -81,11 +52,6 @@ namespace Evado.UniForm.AdminClient
     /// This string contains the temporary directory path
     /// </summary>
     public static string TempPath = String.Empty;
-
-    /// <summary>
-    /// This string contains the local binary path
-    /// </summary>
-    public static string BinaryFilePath = @"temp\";
 
     /// <summary>
     /// This string contains the application directory path
@@ -113,23 +79,19 @@ namespace Evado.UniForm.AdminClient
     public static string WebServiceUrl = string.Empty;
 
     /// <summary>
-    /// This string contains the relative service url. 
+    /// This string contains the relative binary download url. 
     /// </summary>
-    public static string RelativeWcfRestClientURL = "euws/client/";
-    /// <summary>
-    /// This string contains the relative service url. 
-    /// </summary>
-    public static string RelativeWcfRestFileURL = "euws/files/";
+    public static string FileServiceUrl = string.Empty;
 
     /// <summary>
     /// This string contains the relative binary download url. 
     /// </summary>
-    public static string RelativeBinaryDownloadURL = "images/temp/";
+    public static string ImageUrl = string.Empty;
 
     /// <summary>
-    /// This string contains the relative binary upload url. 
+    /// This string contains the relative binary download url. 
     /// </summary>
-    public static string RelativeBinaryUploadURL = "images/defalut.aspx";
+    public static string TempUrl = string.Empty;
 
     /// <summary>
     /// This string contains the Yourtube embedded Url. 
@@ -248,13 +210,10 @@ namespace Evado.UniForm.AdminClient
 
         Global.LogGlobalDebug ( "TempPath: " + Global.TempPath );
 
-
         //
         // Load the Application Environmental parameters for the application.
         //
         AssemblyAttributes = new Evado.UniForm.AdminClient.WebAttributes ( );
-
-        Global.BinaryFilePath = Global.ApplicationPath + @"temp\";
 
         // 
         // Initialise the method variables and objects.
@@ -353,60 +312,31 @@ namespace Evado.UniForm.AdminClient
         Global.WebServiceUrl = (String) ConfigurationManager.AppSettings [ "WebServiceUrl" ].Trim ( );
       }
 
+      Global.FileServiceUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL;
+      Global.ImageUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_IMAGES_RELATIVE_URL;
+      Global.TempUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_TEMP_RELATIVE_URL;
+
       Global.LogGlobal ( "WebServiceUrl: " + Global.WebServiceUrl );
+      Global.LogGlobal ( "FileServiceUrl: " + Global.FileServiceUrl );
+      Global.LogGlobal ( "ImagesUrl: " + Global.ImageUrl );
+      Global.LogGlobal ( "TempUrl: " + Global.TempUrl );
 
-      //
-      // Set teh application log path
-      //
-      if ( ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ] != null )
-      {
-        Global.RelativeWcfRestClientURL = ConfigurationManager.AppSettings [ "RelativeWcfRestURL" ];
-      }
-      Global.LogGlobal ( "RelativeWcfRestURL: " + Global.RelativeWcfRestClientURL );
 
-      //
-      // Set teh application log path
-      //
-      if ( ConfigurationManager.AppSettings [ "RelativeBinaryDownloadURL" ] != null )
+      if ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_PAGE_DEEFAULT_LOGO ] != null )
       {
-        Global.RelativeBinaryDownloadURL = ConfigurationManager.AppSettings [ "RelativeBinaryDownloadURL" ].Trim ( );
+        Global.DefaultLogoUrl = ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_PAGE_DEEFAULT_LOGO ];
       }
 
-      Global.LogGlobal ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
-
-      Global.RelativeBinaryDownloadURL = Global.concatinateHttpUrl ( Global.WebServiceUrl, Global.RelativeBinaryDownloadURL );
-
-      Global.LogGlobal ( "Formatted RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
-
-      // 
-      // Set the binary file url
-      // 
-      if ( ConfigurationManager.AppSettings [ "RelativeBinaryUploadURL" ] != null )
-      {
-        Global.RelativeBinaryUploadURL = ConfigurationManager.AppSettings [ "RelativeBinaryUploadURL" ].Trim ( );
-      }
-
-      Global.LogGlobal ( "RelativeBinaryUploadURL: " + Global.RelativeBinaryUploadURL );
-
-      Global.RelativeBinaryUploadURL = Global.concatinateHttpUrl ( Global.WebServiceUrl, Global.RelativeBinaryUploadURL );
-
-      Global.LogGlobal ( "Formatted RelativeBinaryUploadUR2: " + Global.RelativeBinaryUploadURL );
-
-      if ( ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGO ] != null )
-      {
-        Global.DefaultLogoUrl = ConfigurationManager.AppSettings [ Global.CONFIG_PAGE_DEEFAULT_LOGO ];
-      }
-
-      Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, Global.DefaultLogoUrl );
+      Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.ImageUrl, Global.DefaultLogoUrl );
 
       Global.LogGlobal ( "Default Logo URL: " + Global.DefaultLogoUrl );
 
       // 
       // Set the You tube embedded URL
       // 
-      if ( ConfigurationManager.AppSettings [ "VIMEO_EMBED_URL" ] != null )
+      if ( ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_VIMEO_EMBED_URL ] != null )
       {
-        Global.VimeoEmbeddedUrl = ConfigurationManager.AppSettings [ "VIMEO_EMBED_URL" ].Trim ( );
+        Global.VimeoEmbeddedUrl = ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_VIMEO_EMBED_URL ].Trim ( );
       }
 
       Global.LogGlobal ( "VimeoEmbeddedUrl: " + Global.VimeoEmbeddedUrl );
@@ -414,9 +344,9 @@ namespace Evado.UniForm.AdminClient
       // 
       // Set the Vimeo embedded URL
       // 
-      if ( ConfigurationManager.AppSettings [ "YOU_TUBE_EMBED_URL" ] != null )
+      if ( ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_YOU_TUBE_EMBED_URL ] != null )
       {
-        Global.YouTubeEmbeddedUrl = ConfigurationManager.AppSettings [ "YOU_TUBE_EMBED_URL" ].Trim ( );
+        Global.YouTubeEmbeddedUrl = ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_YOU_TUBE_EMBED_URL ].Trim ( );
       }
 
       Global.LogGlobal ( "YourtubeEmbeddedUrl: " + Global.YouTubeEmbeddedUrl );
@@ -424,9 +354,9 @@ namespace Evado.UniForm.AdminClient
       // 
       // Set the debug mode.
       // 
-      if ( ConfigurationManager.AppSettings [ CONST_ENABLE_DETAILED_LOGGING ] != null )
+      if ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_ENABLE_DETAILED_LOGGING ] != null )
       {
-        string value = ConfigurationManager.AppSettings [ CONST_ENABLE_DETAILED_LOGGING ].ToLower ( );
+        string value = ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_ENABLE_DETAILED_LOGGING ].ToLower ( );
         if ( Evado.Model.EvStatics.getBool ( value ) == true )
         {
           Global.EnableDetailedLogging = true;
@@ -479,9 +409,9 @@ namespace Evado.UniForm.AdminClient
       // 
       // Set the web service URlCONFIG_ENABLE_PAGE_HISTORY_KEY
       // 
-      if ( ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_MENU_KEY ] != null )
+      if ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_ENABLE_PAGE_MENU_KEY ] != null )
       {
-        String value = ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_MENU_KEY ].Trim ( );
+        String value = ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_ENABLE_PAGE_MENU_KEY ].Trim ( );
 
         Global.EnablePageMenu = Evado.Model.EvStatics.getBool ( value );
       }
@@ -490,9 +420,9 @@ namespace Evado.UniForm.AdminClient
 
       // Set the web service URl
       // 
-      if ( ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_HISTORY_KEY ] != null )
+      if ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_ENABLE_PAGE_HISTORY_KEY ] != null )
       {
-        String value = ConfigurationManager.AppSettings [ CONFIG_ENABLE_PAGE_HISTORY_KEY ].Trim ( );
+        String value = ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_ENABLE_PAGE_HISTORY_KEY ].Trim ( );
 
         Global.EnablePageHistory = Evado.Model.EvStatics.getBool ( value );
       }
@@ -543,7 +473,7 @@ namespace Evado.UniForm.AdminClient
       //
       // initialise the methods variables and objects.
       //
-      String extension = Global.CONST_EXTERNAL_COMMAND_EXTENSION;
+      String extension = Evado.UniForm.Model.EuStatics.CONST_EXTERNAL_COMMAND_EXTENSION;
       Global.LogGlobal ( "extension '{0}'.", extension );
 
       Global.ExternalCommands = new Dictionary<string, Model.EuCommand> ( );
@@ -632,10 +562,10 @@ namespace Evado.UniForm.AdminClient
 
         Global.LogGlobalDebug ( "User Roles: " + roles );
 
-        Session [ Global.SESSION_ROLES ] = roles;
+        Session [ Evado.UniForm.Model.EuStatics.SESSION_ROLES ] = roles;
 
         stUserId = Evado.Model.EvUserProfileBase.removeUserIdDomainName ( User.Identity.Name );
-        Session [ Global.SESSION_USER_ID ] = stUserId;
+        Session [ Evado.UniForm.Model.EuStatics.SESSION_USER_ID ] = stUserId;
 
         Global.LogGlobal ( "Evado.UniForm.Service.Session_Start event method. FINISHED" );
       }
@@ -686,7 +616,7 @@ namespace Evado.UniForm.AdminClient
 
     protected void Session_End ( Object sender, EventArgs e )
     {
-      String UserId = (String) Session [ Global.SESSION_USER_ID ];
+      String UserId = (String) Session [ Evado.UniForm.Model.EuStatics.SESSION_USER_ID ];
 
       EventLog.WriteEntry ( EventLogSource, "User : " + UserId + " had logged out of the application", EventLogEntryType.Information );
 

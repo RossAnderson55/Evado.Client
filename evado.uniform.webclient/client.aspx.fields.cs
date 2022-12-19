@@ -163,7 +163,7 @@ namespace Evado.UniForm.WebClient
 
         if ( stDescription.Contains ( "/]" ) == true )
         {
-          stDescription = stDescription.Replace ( "{images}", Global.RelativeBinaryDownloadURL );
+          stDescription = stDescription.Replace ( "{images}", Global.FileServiceUrl );
           stDescription = stDescription.Replace ( "[", "<" );
           stDescription = stDescription.Replace ( "]", ">" );
 
@@ -605,7 +605,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuEditAccess EditAccess )
     {
       this.LogMethod ( "createImageField method" );
-      this.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
+      this.LogDebug ( "RelativeBinaryDownloadURL: " + Global.FileServiceUrl );
       this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       this.LogDebug ( "PageField.Layout: " + PageField.Layout );
       this.LogDebug ( "PageField.Value: " + PageField.Value );
@@ -628,7 +628,7 @@ namespace Evado.UniForm.WebClient
       // If the url does not include a http statement add the default image url 
       // 
       stImageUrl = stImageUrl.ToLower ( );
-      stImageUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
+      stImageUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, PageField.Value );
 
       this.LogValue ( "stImageUrl: " + stImageUrl );
 
@@ -3524,7 +3524,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuEditAccess EditAccess )
     {
       this.LogMethod ( "createBinaryField method." );
-      this.LogDebug ( "RelativeBinaryDownloadURL: " + Global.RelativeBinaryDownloadURL );
+      this.LogDebug ( "RelativeBinaryDownloadURL: " + Global.FileServiceUrl );
       this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       this.LogDebug ( "PageField.Value: " + PageField.Value );
       //
@@ -3532,7 +3532,7 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      string stBinaryUrl = Global.RelativeBinaryDownloadURL + PageField.Value;
+      string stBinaryUrl = Global.FileServiceUrl + PageField.Value;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       this.TestFileUpload.Visible = true;
 
@@ -3540,7 +3540,7 @@ namespace Evado.UniForm.WebClient
       // If the url does not include a http statement add the default image url 
       // 
       stBinaryUrl = stBinaryUrl.ToLower ( );
-      stBinaryUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
+      stBinaryUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, PageField.Value );
 
       this.LogDebug ( "stImageUrl: " + stBinaryUrl );
 
@@ -4844,7 +4844,7 @@ namespace Evado.UniForm.WebClient
         //
         // If in display model display the http link.
         //
-        stLinkUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, stLinkUrl );
+        stLinkUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, stLinkUrl );
 
         this.LogValue ( "Final URL: " + stLinkUrl );
 
@@ -5140,7 +5140,7 @@ namespace Evado.UniForm.WebClient
         stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
       }
 
-      stImageUrl = Global.concatinateHttpUrl ( Global.RelativeBinaryDownloadURL, PageField.Value );
+      stImageUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, PageField.Value );
 
       if ( width == String.Empty )
       {

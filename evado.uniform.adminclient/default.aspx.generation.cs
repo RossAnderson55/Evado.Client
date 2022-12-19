@@ -22,7 +22,7 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private void GeneratePage ( )
     {
-      this.LogMethod ( "generatePage" );
+      this.LogMethod ( "GeneratePage" );
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
       this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
       this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
@@ -1219,7 +1219,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( iconImage != String.Empty )
       {
-        string iconImagePath = Global.RelativeBinaryDownloadURL + iconImage;
+        string iconImagePath = Global.ImageUrl + iconImage;
 
         title = "<img class=\"command-icon\" src=\"" + iconImagePath + "\" width='125px' />&nbsp;" + title;
       }
@@ -1603,7 +1603,7 @@ namespace Evado.UniForm.AdminClient
       // Initialise the methods variables and objects.
       //
       string iconImage = groupCommand.GetParameter ( Evado.UniForm.Model.EuCommandParameters.Image_Url );
-      string iconImagePath = Global.RelativeBinaryDownloadURL + iconImage;
+      string iconImagePath = Global.ImageUrl + iconImage;
       string color = groupCommand.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Default );
 
       this.LogDebug ( "Command iconImage: " + iconImage );

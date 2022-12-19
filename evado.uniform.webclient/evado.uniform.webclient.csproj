@@ -53,10 +53,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="markdownsharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\referenced libraries\markdownsharp.dll</HintPath>
-    </Reference>
     <Reference Include="newtonsoft.json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\newtonsoft.json.dll</HintPath>
@@ -188,13 +184,13 @@
     <Folder Include="temp\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Evado.Clinical\evado.uniform.model\evado.uniform.model.csproj">
+      <Project>{eb6a905c-2e28-4a70-b791-dc807165bcd7}</Project>
+      <Name>evado.uniform.model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Evado.Clinical_Release\evado.model\evado.model.csproj">
       <Project>{93ea9387-1172-48ec-b26e-c4d48d827976}</Project>
       <Name>evado.model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Evado.Clinical_Release\evado.uniform.model\evado.uniform.model.csproj">
-      <Project>{eb6a905c-2e28-4a70-b791-dc807165bcd7}</Project>
-      <Name>evado.uniform.model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

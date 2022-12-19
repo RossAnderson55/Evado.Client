@@ -179,7 +179,7 @@
       <Project>{93EA9387-1172-48EC-B26E-C4D48D827976}</Project>
       <Name>evado.model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Evado.Clinical_Release\evado.uniform.model\evado.uniform.model.csproj">
+    <ProjectReference Include="..\..\Evado.Clinical\evado.uniform.model\evado.uniform.model.csproj">
       <Project>{eb6a905c-2e28-4a70-b791-dc807165bcd7}</Project>
       <Name>evado.uniform.model</Name>
     </ProjectReference>

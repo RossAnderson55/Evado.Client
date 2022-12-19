@@ -1279,7 +1279,7 @@ namespace Evado.UniForm.WebClient
 
       if ( iconImage != String.Empty )
       {
-        string iconImagePath = Global.RelativeBinaryDownloadURL + iconImage;
+        string iconImagePath = Global.ImageUrl + iconImage;
 
         title = "<img class=\"command-icon\" src=\"" + iconImagePath + "\" width='125px' />&nbsp;" + title;
       }
@@ -1663,7 +1663,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       string iconImage = groupCommand.GetParameter ( Evado.UniForm.Model.EuCommandParameters.Image_Url );
-      string iconImagePath = Global.RelativeBinaryDownloadURL + iconImage;
+      string iconImagePath = Global.ImageUrl + iconImage;
       string color = groupCommand.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Default );
 
       this.LogDebug ( "Command iconImage: " + iconImage );

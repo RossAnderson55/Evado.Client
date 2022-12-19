@@ -70,7 +70,7 @@ namespace Evado.UniForm.WebClient
           this.meetingDisplayName.Value = String.Empty;
           this.meetingParameters.Value = String.Empty;
           this.meetingStatus.Value = Evado.Model.EvMeeting.States.Null.ToString();
-          String clientUrl = Global.CONST_CLIENT_BASE_URL;
+          String clientUrl = Evado.UniForm.Model.EuStatics.CONST_CLIENT_BASE_URL;
           string queryString = Request.QueryString.ToString ( );
           if ( queryString != String.Empty )
           {
