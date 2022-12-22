@@ -151,6 +151,15 @@ namespace Evado.UniForm.AdminClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}{1}?userid={2}&amp;segment={3}.
+        /// </summary>
+        internal static string File_Service_Url_Template {
+            get {
+                return ResourceManager.GetString("File_Service_Url_Template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Powered By Evado Digital.
         /// </summary>
         internal static string Footer_Text {

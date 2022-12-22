@@ -719,13 +719,11 @@ namespace Evado.UniForm.AdminClient
       Global.LogValue ( logValue );
     }
 
-    //  =
-
     //  =================================================================================
     /// <summary>
     ///   This static method removes a user from the online user list.
-    /// 
     /// </summary>
+    /// <param name="Value">String value</param>
     //   ---------------------------------------------------------------------------------
     private static void LogMethodEnd ( String Value )
     {
@@ -734,6 +732,40 @@ namespace Evado.UniForm.AdminClient
       value = value.Replace ( " END OF METHOD ", " END OF " + Value + " METHOD " );
 
       Global.LogGlobal ( value );
+    }
+
+    // ==================================================================================
+    /// <summary>
+    /// This method appends a event to the log.
+    /// </summary>
+    /// <param name="Format">String: format text.</param>
+    /// <param name="Arguments">Array of objects as parameters.</param>
+    // ----------------------------------------------------------------------------------
+    public static void LogEvent ( String Format, params object [ ] Arguments )
+    {
+      string logValue = String.Format ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + " EVENT: "
+        + String.Format ( Format, Arguments ) );
+
+      Global.writeEventLog ( logValue, EventLogEntryType.Information );
+
+      Global.LogValue ( logValue );
+    }
+
+    // ==================================================================================
+    /// <summary>
+    /// This method appends a error to the log.
+    /// </summary>
+    /// <param name="Format">String: format text.</param>
+    /// <param name="Arguments">Array of objects as parameters.</param>
+    // ----------------------------------------------------------------------------------
+    public static void LogError ( String Format, params object [ ] Arguments )
+    {
+      string logValue = String.Format ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + " ERROR: "
+        + String.Format ( Format, Arguments ) );
+
+      Global.writeEventLog ( logValue, EventLogEntryType.Error );
+
+      Global.LogValue ( logValue );
     }
 
     //  =================================================================================
@@ -762,9 +794,47 @@ namespace Evado.UniForm.AdminClient
         Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + logFileName, stContent );
       }
 
-      Global._ClientLog = new System.Text.StringBuilder ( ); 
+      Global._ClientLog = new System.Text.StringBuilder ( );
 
-    }//END writeOutDebugLog method
+    }//END OutputClientLog method 
+
+    //  ===========================================================================
+    /// <summary>
+    /// LogWarning method
+    /// 
+    /// Description:
+    /// 
+    /// </summary>
+    /// <returns>If the event source was created successfully true is returned, otherwise false.</returns>
+    //  ---------------------------------------------------------------------------------
+    public static void writeEventLog ( string EventContent, EventLogEntryType LogType )
+    {
+      try
+      {
+        if ( EventContent.Length < 30000 )
+        {
+          EventLog.WriteEntry ( Global.EventLogSource, EventContent, LogType );
+
+          return;
+
+        }//END less than 30000
+
+        int inLength = 30000;
+
+        for ( int inStartIndex = 0; inStartIndex < EventContent.Length; inStartIndex += 30000 )
+        {
+          if ( EventContent.Length - inStartIndex < inLength )
+          {
+            inLength = EventContent.Length - inStartIndex;
+          }
+          string stContent = EventContent.Substring ( inStartIndex, inLength );
+
+          EventLog.WriteEntry ( Global.EventLogSource, stContent, LogType );
+
+        }//END EventContent interation loop
+      }
+      catch { }
+    }//END WriteLog method 
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #endregion

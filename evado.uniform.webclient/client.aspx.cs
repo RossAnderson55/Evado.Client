@@ -604,6 +604,7 @@ namespace Evado.UniForm.WebClient
         fileObject.ClientSession = this.UserSession.AppData.SessionId;
         fileObject.FileName = filename;
         fileObject.MimeType = MimeType;
+        fileObject.Action = EuFile.WebAction.Upload;
 
         filePath = Global.TempPath + fileObject.FileName;
 

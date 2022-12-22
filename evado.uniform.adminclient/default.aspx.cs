@@ -31,7 +31,6 @@ using System.Net.Http;
 
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
-using static System.Net.WebRequestMethods;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -55,7 +54,11 @@ namespace Evado.UniForm.AdminClient
     public const string CONST_FIELD_UPPER_SUFFIX = "_Upper";
     private const float WidthPixelFactor = 8F;
 
+    private const int CONST_FILE_SEGMENT_LENGTH = 40000;
+
     private EucSession UserSession = new EucSession ( );
+
+    Evado.Model.EvEventCodes LastEventCode = Evado.Model.EvEventCodes.Ok;
 
 
     ///*********************************************************************************
@@ -188,7 +191,9 @@ namespace Evado.UniForm.AdminClient
                 //
                 this.SendPageCommand ( );
 
-                //this.SendFileRequest ( "evado.png", "image/png" );
+                this.SendFileRequest ( "ross-evado.png", "image/png" );
+
+                this.SendFileRequest ( "ross-home-page.png", "image/png" );
 
                 this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
 
@@ -211,6 +216,7 @@ namespace Evado.UniForm.AdminClient
                 else
                 {
                   this.LogValue ( "Commence page generation" );
+
                   //
                   // Generate the page layout.
                   //
@@ -423,7 +429,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Display a serialised instance of the object.
       //
-      string serialisedText = String.Empty;
+      string jsonData = String.Empty;
       string baseUrl = Global.WebServiceUrl;
       string serviceUri = EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL + Global.ClientVersion
         + "?command=command&session=" + this.UserSession.ServerSessionId;
@@ -485,7 +491,7 @@ namespace Evado.UniForm.AdminClient
       //
       this.LogDebug ( "Serialising the PageComment object" );
 
-      serialisedText = Newtonsoft.Json.JsonConvert.SerializeObject ( this.UserSession.PageCommand );
+      jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( this.UserSession.PageCommand );
 
       //
       // Initialise the web request.
@@ -497,13 +503,13 @@ namespace Evado.UniForm.AdminClient
         //
         // The post command 
         //
-        serialisedText = this.SendPost ( WebServiceUrl, serialisedText );
+        jsonData = this.SendPost ( WebServiceUrl, jsonData );
 
-        this.LogDebug ( "JSON Serialised text length: " + serialisedText.Length );
+        this.LogDebug ( "JSON Serialised text length: " + jsonData.Length );
 
         if ( Global.DebugLogOn == true )
         {
-          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"json-data.txt", serialisedText );
+          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"json-data.txt", jsonData );
         }
 
         //
@@ -511,31 +517,51 @@ namespace Evado.UniForm.AdminClient
         //
         this.UserSession.AppData = new Evado.UniForm.Model.EuAppData ( );
 
-        this.LogDebug ( "Deserialising JSON to Evado.UniForm.Model.EuAppData object." );
+        if ( String.IsNullOrEmpty ( jsonData ) == false
+          && jsonData.Contains ( "{" ) == true )
+        {
 
-        this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.EuAppData> ( serialisedText );
+          this.LogDebug ( "Deserialising JSON to Evado.UniForm.Model.EuAppData object." );
 
-        this.LogDebug ( "Application object: {0}.", this.UserSession.AppData.getAtString ( ) );
-        this.LogDebug ( "Page Command count: {0}.", this.UserSession.AppData.Page.CommandList.Count );
-        this.LogDebug ( "this.UserSession.AppData.SessionId: {0}.", this.UserSession.AppData.SessionId );
+          this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.EuAppData> ( jsonData );
 
-        //
-        // Set the anonymouse page access mode.
-        // True enables anonymous access mode hiding:
-        // - Exit Command
-        // - History commands
-        // - Page Commands
-        //
-        this.LogDebug ( "ExitCommand: " + this.UserSession.AppData.Page.Exit.getAsString ( false, false ) );
-        //
-        // Add the exit Command to the history.
-        //
-        this.addHistoryCommand ( this.UserSession.AppData.Page.Exit );
+          this.LogDebug ( "Application object: {0}.", this.UserSession.AppData.getAtString ( ) );
+          this.LogDebug ( "Page Command count: {0}.", this.UserSession.AppData.Page.CommandList.Count );
+          this.LogDebug ( "this.UserSession.AppData.SessionId: {0}.", this.UserSession.AppData.SessionId );
 
-        //
-        // Reset the panel display group index for the new page data object.
-        //
-        this.UserSession.PanelDisplayGroupIndex = -1;
+          //
+          // Set the anonymouse page access mode.
+          // True enables anonymous access mode hiding:
+          // - Exit Command
+          // - History commands
+          // - Page Commands
+          //
+          this.LogDebug ( "ExitCommand: " + this.UserSession.AppData.Page.Exit.getAsString ( false, false ) );
+          //
+          // Add the exit Command to the history.
+          //
+          this.addHistoryCommand ( this.UserSession.AppData.Page.Exit );
+
+          //
+          // Reset the panel display group index for the new page data object.
+          //
+          this.UserSession.PanelDisplayGroupIndex = -1;
+        }
+        else
+        {
+          this.LogDebug ( "Response Not a JSON object = {0}.", jsonData );
+
+          if ( jsonData == null )
+          {
+            jsonData = String.Empty;
+          }
+
+          this.UserSession.AppData.Page.Title = "Service Access Error.";
+          Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.AddGroup (
+            "Service Access Error Report", Evado.UniForm.Model.EuEditAccess.Disabled );
+          group.Description =
+          String.Format ( "Web Service URL: {0}, did not return a JSON object", jsonData );
+        }
 
         //
         // Update the user session id
@@ -581,35 +607,33 @@ namespace Evado.UniForm.AdminClient
     /// <param name="filename">String: file name of the file to be up loaded.</param>
     /// <param name="MimeType">String: the mime type for the file.</param>
     // ---------------------------------------------------------------------------------
-    private void SendFileRequest ( String filename, String MimeType )
+    private Evado.Model.EvEventCodes SendFileRequest ( String filename, String MimeType )
     {
       this.LogMethod ( "SendFileRequest" );
-      this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
-      this.LogDebug ( "Global.RelativeWcfRestURL: " + EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL );
-      this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
-      this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
+      this.LogValue ( "filename {0}, MimeType {1}.", filename, MimeType );
 
       //
       // Display a serialised instance of the object.
       //
       EuFile fileObject = new EuFile ( );
       string jsonData = String.Empty;
-      string WebServiceUrl = Global.WebServiceUrl + EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL + Global.ClientVersion + "?mimetype=image/jpeg";
       string filePath = String.Empty;
+      Evado.Model.EvEventCodes serviceStatus = Evado.Model.EvEventCodes.Ok;
+      List<String> FileSegmentList = new List<string> ( );
+      Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
+      {
+        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+      };
 
-      this.LogDebug ( "WebServiceUrl: '{0}'. ", WebServiceUrl );
       try
       {
-        Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
-        {
-          NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
-        };
         fileObject.UserId = this.UserSession.UserId;
         fileObject.ClientSession = this.UserSession.AppData.SessionId;
         fileObject.FileName = filename;
         fileObject.MimeType = MimeType;
+        fileObject.Action = EuFile.WebAction.Upload;
 
-        filePath = Global.TempPath +  fileObject.FileName;
+        filePath = Global.TempPath + fileObject.FileName;
 
         this.LogDebug ( "filePath: '{0}'. ", filePath );
 
@@ -628,29 +652,113 @@ namespace Evado.UniForm.AdminClient
 
         jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( fileObject );
 
-        // 
-        // Open the stream to the file.
-        //
         if ( Global.DebugLogOn == true )
         {
           Evado.Model.EvStatics.Files.saveFile ( Global.TempPath, @"jsonData-1.txt", jsonData );
         }
 
-        this.LogDebug ( "Creating the WebRequest." );
-        //
-        // The post command 
-        //
-        jsonData = this.SendPost ( WebServiceUrl, jsonData );
+        this.LogDebug ( "jsonData.Length  {0}.", jsonData.Length );
 
-        this.LogDebug ( "JSON Serialised text length: " + jsonData.Length );
-
-        // 
-        // Open the stream to the file.
-        // 
-        if ( Global.DebugLogOn == true )
+        if ( jsonData.Length < CONST_FILE_SEGMENT_LENGTH )
         {
-          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath, @"jsonData-2.txt", jsonData );
+          this.LogDebug ( "START: single-segment file transfer." );
+          //
+          // process the segment 
+          //
+          serviceStatus = this.SendFileSegment ( jsonData, 999 );
+
+          this.LogDebug ( "serviceStatus: {0},", serviceStatus );
+
+          if ( serviceStatus != Evado.Model.EvEventCodes.Ok )
+          {
+            this.LogMethodEnd ( "SendFileRequest" );
+            return serviceStatus;
+          }
+
+          this.LogDebug ( "END: single-segment file transfer." );
         }
+        else
+        {
+          this.LogDebug ( "START: multi-segment file transfer." );
+          /*
+          */
+          string end = jsonData.Substring ( jsonData.Length - 100 );
+          this.LogDebug ( "file end: {0},", end );
+
+          //
+          // convert the file object json into segements of less than 40000 characters.
+          //
+          for ( int startIndex = 0; startIndex < jsonData.Length; startIndex += CONST_FILE_SEGMENT_LENGTH )
+          {
+            int segmentLength = CONST_FILE_SEGMENT_LENGTH;
+
+            if ( startIndex + segmentLength > jsonData.Length )
+            {
+              this.LogDebug ( "last segment found." );
+
+              segmentLength = jsonData.Length - startIndex;
+            }
+            this.LogDebug ( "startIndex: {0}, segementLength {1}.", startIndex, segmentLength );
+
+            string segmentData = jsonData.Substring ( startIndex, segmentLength );
+
+            this.LogDebug ( "segment: length {0}, data {1}.", segmentData.Length, segmentData );
+
+            int diff = startIndex + segmentLength - jsonData.Length;
+            this.LogDebug ( "difference {0}.", diff );
+
+            FileSegmentList.Add ( segmentData );
+          }
+
+          this.LogDebug ( "FileSegmentList.Count: {0}.", FileSegmentList.Count );
+
+          StringBuilder testdata = new StringBuilder ( );
+          for ( int segmentCount = 0; segmentCount < FileSegmentList.Count; segmentCount++ )
+          {
+            testdata.Append ( FileSegmentList [ segmentCount ] );
+            this.LogDebug ( "testdata.Length: {0}.", testdata.Length );
+
+            //
+            // calcuate the segment number.
+            //
+            int segment = segmentCount + 1;
+            if ( segment == FileSegmentList.Count )
+            {
+              segment = 999;
+            }
+            this.LogDebug ( "segment: {0}.", segment );
+
+            //
+            // process the segment 
+            //
+            serviceStatus = this.SendFileSegment ( FileSegmentList [ segmentCount ], segment );
+
+            this.LogDebug ( "serviceStatus: {0},", serviceStatus );
+
+            if ( serviceStatus != Evado.Model.EvEventCodes.Ok
+              && serviceStatus != Evado.Model.EvEventCodes.Uniform_File_Segement_Processed )
+            {
+              this.LogMethodEnd ( "SendFileRequest" );
+              return serviceStatus;
+            }
+
+          }//End set segment iteration loop.
+
+          this.LogDebug ( "END: multi-segment file transfer." );
+        }//END multi-segment file transfer.
+
+        //
+        // if the response is OK and data is empty delete the file.
+        //
+        if ( serviceStatus == Evado.Model.EvEventCodes.Ok )
+        {
+          this.LogDebug ( "Deleting  {0}.", fileObject.FileName );
+
+          // Evado.Model.EvStatics.Files.DeleteFile ( Global.TempPath, fileObject.FileName );
+        }
+
+        this.LogMethodEnd ( "SendFileRequest" );
+        return serviceStatus;
 
       }
       catch ( Exception Ex )
@@ -661,7 +769,67 @@ namespace Evado.UniForm.AdminClient
       }
       this.LogMethodEnd ( "SendFileRequest" );
 
+      return Evado.Model.EvEventCodes.Uniform_File_Service_Error;
+
     }//END UploadFile method
+
+    // ==================================================================================
+    /// <summary>
+    /// This method sends a request to the file service.
+    /// </summary>
+    /// <param name="SegementData">String: the file segement data.</param>
+    /// <param name="Segment">String: thenfile segmenet.</param>
+    // ---------------------------------------------------------------------------------
+    private Evado.Model.EvEventCodes SendFileSegment ( String SegementData, int Segment )
+    {
+      this.LogMethod ( "SendFileSegment" );
+      this.LogDebug ( "Segement {0}, Data: {1}", Segment, SegementData );
+
+      //
+      // Display a serialised instance of the object.
+      //
+      string responseText = String.Empty;
+      string WebServiceUrl = String.Format ( EuLabels.File_Service_Url_Template,
+        Global.WebServiceUrl,
+        EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL,
+        this.UserSession.UserId,
+        Segment );
+      string filePath = String.Empty;
+
+      this.LogDebug ( "WebServiceUrl: '{0}'. ", WebServiceUrl );
+      try
+      {
+        //
+        // The post command 
+        //
+        responseText = this.SendPost ( WebServiceUrl, SegementData );
+
+        if ( responseText == null
+          || responseText == String.Empty )
+        {
+          this.LogDebug ( "responseText null." );
+          this.LogMethodEnd ( "SendFileSegment" );
+
+          return Evado.Model.EvEventCodes.Uniform_File_Service_Returned_Null;
+        }
+
+        Evado.Model.EvEventCodes serviceStatus = Evado.Model.EvStatics.parseEnumValue<Evado.Model.EvEventCodes> ( responseText );
+
+        this.LogDebug ( "serviceStatus: {0},", serviceStatus );
+
+        this.LogMethodEnd ( "SendFileSegment" );
+        return serviceStatus;
+
+      }
+      catch ( Exception Ex )
+      {
+        this.LogDebug ( "Web Service Error. " + Evado.Model.EvStatics.getException ( Ex ) ); ;
+      }
+      this.LogMethodEnd ( "SendFileSegment" );
+
+      return Evado.Model.EvEventCodes.Uniform_File_Service_Error;
+
+    }//END SendFileSegment method
 
     // =================================================================================
     /// <summary>
@@ -695,11 +863,61 @@ namespace Evado.UniForm.AdminClient
         {
           using ( content )
           {
-            HttpResponseMessage respone = Global.HttpClient.PostAsync ( uri, content ).Result;
+            HttpResponseMessage response = Global.HttpClient.PostAsync ( uri, content ).Result;
 
-            this.LogDebug ( "StatusCode {0}.", respone.StatusCode );
+            this.LogDebug ( "response.StatusCode {0}.", response.StatusCode );
+            if ( response.StatusCode != System.Net.HttpStatusCode.OK )
+            {
+              switch ( response.StatusCode )
+              {
+                case System.Net.HttpStatusCode.InternalServerError:
+                  {
+                    LastEventCode = Evado.Model.EvEventCodes.WebServices_Internal_Server_Error;
+                    break;
+                  }
+                case System.Net.HttpStatusCode.NotFound:
+                  {
+                    LastEventCode = Evado.Model.EvEventCodes.WebServices_Not_Found_Error;
+                    break;
+                  }
+                case System.Net.HttpStatusCode.BadRequest:
+                  {
+                    LastEventCode = Evado.Model.EvEventCodes.WebServices_Bad_Request_Error;
+                    break;
+                  }
+                case System.Net.HttpStatusCode.Conflict:
+                  {
+                    LastEventCode = Evado.Model.EvEventCodes.WebServices_Conflict_Error;
+                    break;
+                  }
+                case System.Net.HttpStatusCode.RequestEntityTooLarge:
+                  {
+                    LastEventCode = Evado.Model.EvEventCodes.WebServices_Request_Entity_Too_Large_Error;
+                    break;
+                  }
+                case System.Net.HttpStatusCode.MethodNotAllowed:
+                  {
+                    LastEventCode = Evado.Model.EvEventCodes.WebServices_Method_Not_Allowed_Error;
+                    break;
+                  }
+                case System.Net.HttpStatusCode.NoContent:
+                  {
+                    LastEventCode = Evado.Model.EvEventCodes.WebServices_No_Content_Error;
+                    break;
+                  }
+                default:
+                  {
+                    LastEventCode = Evado.Model.EvEventCodes.WebServices_General_Failure_Error;
+                    break;
+                  }
+              }//ENd switch statement
 
-            responseText = respone.Content.ReadAsStringAsync ( ).Result;
+              Global.LogError ( "WebService URL {0}, raised error event {1}", WebServiceUrl, LastEventCode );
+              this.LogMethodEnd ( "sendPost" );
+              return null;
+            }
+
+            responseText = response.Content.ReadAsStringAsync ( ).Result;
 
           }//END using content
         }//END using httpClient
@@ -2322,14 +2540,14 @@ namespace Evado.UniForm.AdminClient
 
           this.LogDebug ( "UniFORM FieldId: " + stFieldId );
 
-          string filePathPRrefix = Global.TempPath + fileName;
+          string fullFilePath = Global.TempPath + fileName;
 
-          this.LogDebug ( "Image file path: " + filePathPRrefix );
+          this.LogDebug ( "Image file path: " + fullFilePath );
 
           //
           // Save the file to disk.
           //
-          uploadedFileObject.SaveAs ( filePathPRrefix );
+          uploadedFileObject.SaveAs ( fullFilePath );
 
           //
           // set the image to the image service.
@@ -2337,7 +2555,7 @@ namespace Evado.UniForm.AdminClient
           this.SendFileRequest ( fileName, uploadedFileObject.ContentType );
 
           string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
-            + filePathPRrefix + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
+            + fullFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
 
           this.LogValue ( stEventContent );
           EventLog.WriteEntry ( Global.EventLogSource, stEventContent, EventLogEntryType.Information );
