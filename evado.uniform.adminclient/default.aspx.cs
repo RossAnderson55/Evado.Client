@@ -191,9 +191,9 @@ namespace Evado.UniForm.AdminClient
                 //
                 this.SendPageCommand ( );
 
-                this.SendFileRequest ( "ross-evado.png", "image/png" );
+                //this.SendFileRequest ( "ross-evado.png", "image/png" );
 
-                this.SendFileRequest ( "ross-home-page.png", "image/png" );
+                //this.SendFileRequest ( "ross-home-page.png", "image/png" );
 
                 this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
 

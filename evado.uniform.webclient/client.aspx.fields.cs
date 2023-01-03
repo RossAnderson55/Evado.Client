@@ -3906,6 +3906,28 @@ namespace Evado.UniForm.WebClient
 
       stHtml.AppendLine ( "/>" );
       stHtml.AppendLine ( "</span>" );
+
+      stHtml.AppendLine ( "<br/><table style='width:100%; ' >" );
+      stHtml.AppendLine ( "<tr>" );
+      stHtml.Append ( "<td style='text-align: left; width:2.5%;'> " );
+      stHtml.Append ( "|<br/>" );
+      stHtml.Append ( "0" );
+      stHtml.AppendLine ( "</td>" );
+      for ( int i = 1; i < 20; i++ )
+      {
+        stHtml.Append ( "<td style='text-align: center; width:5%;'> " );
+        int value = i * 5;
+        stHtml.Append ( "|<br/>" );
+        stHtml.Append ( value.ToString ( "0#" ) );
+        stHtml.AppendLine ( "</td>" );
+      }
+      stHtml.Append ( "<td style='text-align: right; width:2.5%;'> " );
+      stHtml.Append ( "|<br/>" );
+      stHtml.Append ( "100" );
+      stHtml.AppendLine ( "</td>" );
+      stHtml.AppendLine ( "</tr>" );
+      stHtml.AppendLine ( "</table>" );
+
       stHtml.AppendLine ( "</div>" );
 
       this._TabIndex += 2;

@@ -147,6 +147,9 @@
   <data name="Date_Structure" xml:space="preserve">
     <value>Day    -    Month  -  Year</value>
   </data>
+  <data name="File_Service_Url_Template" xml:space="preserve">
+    <value>{0}{1}?userid={2}&amp;segment={3}</value>
+  </data>
   <data name="Footer_Text" xml:space="preserve">
     <value>Powered By Evado Digital</value>
   </data>
@@ -208,7 +211,7 @@
     <value>Message</value>
   </data>
   <data name="Radio_Button_Not_Selected" xml:space="preserve">
-    <value>Not selected</value>
+    <value>No option is selected</value>
   </data>
   <data name="Signature_Clear" xml:space="preserve">
     <value>Clear</value>

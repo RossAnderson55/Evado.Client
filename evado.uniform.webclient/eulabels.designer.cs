@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Evado.UniForm.WebClient {
+namespace Evado.UniForm.WebClient{
     using System;
     
     
@@ -147,6 +147,15 @@ namespace Evado.UniForm.WebClient {
         internal static string Date_Structure {
             get {
                 return ResourceManager.GetString("Date_Structure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}{1}?userid={2}&amp;segment={3}.
+        /// </summary>
+        internal static string File_Service_Url_Template {
+            get {
+                return ResourceManager.GetString("File_Service_Url_Template", resourceCulture);
             }
         }
         
@@ -331,7 +340,7 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not selected.
+        ///   Looks up a localized string similar to No option is selected.
         /// </summary>
         internal static string Radio_Button_Not_Selected {
             get {
