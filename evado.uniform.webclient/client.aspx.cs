@@ -427,17 +427,14 @@ namespace Evado.UniForm.WebClient
       {
         NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
       };
-
-      //
-      // Replace the default URI with the services URL if provided.
-      //
-      if ( this.UserSession.AppData.Url != String.Empty )
-      {
-        baseUrl = this.UserSession.AppData.Url;
-      }
+      this.LogDebug ( "baseUrl: {0}.", baseUrl );
+      this.LogDebug ( "WebServiceUrl:  {0}.", Global.WebServiceUrl );
+      this.LogDebug ( "FileServiceUrl:  {0}.", Global.FileServiceUrl );
+      this.LogDebug ( "ImagesUrl: {0}.", Global.ImageUrl );
+      this.LogDebug ( "TempUrl: {0}.", Global.TempUrl );
 
       String WebServiceUrl = baseUrl + serviceUri;
-      this.LogDebug ( "WebServiceUrl:{0}.", WebServiceUrl );
+      this.LogDebug ( "WebServiceUrl: {0}.", WebServiceUrl );
       //
       // Set the default application if non are set.
       //

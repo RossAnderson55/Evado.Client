@@ -144,6 +144,7 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "PageField.Title: " + PageField.Title );
       this.LogDebug ( "PageField.Type: " + PageField.Type );
       this.LogDebug ( "CurrentGroupType: " + this.UserSession.CurrentGroup.GroupType );
+      this.LogDebug ( "ImagesUrl: {0}.", Global.ImageUrl );
       //
       // initialise method variables and objects.
       //
@@ -163,7 +164,7 @@ namespace Evado.UniForm.AdminClient
 
         if ( stDescription.Contains ( "/]" ) == true )
         {
-          stDescription = stDescription.Replace ( "{images}", Global.FileServiceUrl );
+          stDescription = stDescription.Replace ( "{images}", Global.ImageUrl );
           stDescription = stDescription.Replace ( "[", "<" );
           stDescription = stDescription.Replace ( "]", ">" );
 
@@ -628,7 +629,7 @@ namespace Evado.UniForm.AdminClient
       // If the url does not include a http statement add the default image url 
       // 
       stImageUrl = stImageUrl.ToLower ( );
-      stImageUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, PageField.Value );
+      stImageUrl = Global.concatinateHttpUrl ( Global.ImageUrl, PageField.Value );
 
       this.LogValue ( "stImageUrl: " + stImageUrl );
 

@@ -26,6 +26,7 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
       this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
       this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
+      this.LogDebug ( "ImagesUrl: {0}.", Global.ImageUrl );
       //
       // initialise method variables and objects.
       //

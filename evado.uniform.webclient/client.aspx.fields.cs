@@ -159,17 +159,20 @@ namespace Evado.UniForm.WebClient
 
       if ( stDescription != String.Empty )
       {
+        this.LogDebug ( "ImagesUrl: {0}.", Global.ImageUrl );
+
         stDescription = Evado.Model.EvStatics.EncodeMarkDown ( stDescription );
 
         if ( stDescription.Contains ( "/]" ) == true )
         {
-          stDescription = stDescription.Replace ( "{images}", Global.FileServiceUrl );
+          stDescription = stDescription.Replace ( "{images}", Global.ImageUrl );
           stDescription = stDescription.Replace ( "[", "<" );
           stDescription = stDescription.Replace ( "]", ">" );
 
           this.LogDebug ( "stDescription: {0}.", stDescription );
         }
       }
+
 
       if ( stAnnotation != String.Empty )
       {
@@ -628,8 +631,9 @@ namespace Evado.UniForm.WebClient
       // If the url does not include a http statement add the default image url 
       // 
       stImageUrl = stImageUrl.ToLower ( );
-      stImageUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, PageField.Value );
+      stImageUrl = Global.concatinateHttpUrl ( Global.ImageUrl, PageField.Value );
 
+      this.LogValue ( "Global.ImageUrl: " + Global.ImageUrl );
       this.LogValue ( "stImageUrl: " + stImageUrl );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-image-value cf' "; // class='cell value cell-image-value cf' ";
@@ -3542,7 +3546,7 @@ namespace Evado.UniForm.WebClient
       stBinaryUrl = stBinaryUrl.ToLower ( );
       stBinaryUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, PageField.Value );
 
-      this.LogDebug ( "stImageUrl: " + stBinaryUrl );
+      this.LogDebug ( "stBinaryUrl: " + stBinaryUrl );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-image-value cf' ";
 

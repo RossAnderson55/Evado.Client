@@ -26,6 +26,8 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
       this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
       this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
+      this.LogDebug ( "ImagesUrl: {0}.", Global.ImageUrl );
+      this.LogDebug ( "TempUrl: {0}.", Global.TempUrl );
       //
       // initialise method variables and objects.
       //
