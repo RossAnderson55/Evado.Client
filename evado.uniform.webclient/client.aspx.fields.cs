@@ -3891,7 +3891,7 @@ namespace Evado.UniForm.WebClient
         + "tabindex = '" + _TabIndex + "' "
         + "min='0' "
         + "min='100' "
-        + "step='10' "
+        + "step='2.5' "
         + "tabindex = '" + _TabIndex + "' "
         + "class='form-control-analogue' "
         + "data-parsley-trigger=\"change\" " );
