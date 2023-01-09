@@ -26,7 +26,7 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
       this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
       this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
-      this.LogDebug ( "ImagesUrl: {0}.", Global.ImageUrl );
+      this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
       this.LogDebug ( "TempUrl: {0}.", Global.TempUrl );
       //
       // initialise method variables and objects.
@@ -1049,22 +1049,22 @@ namespace Evado.UniForm.WebClient
             }
           case Evado.Model.EvDataTypes.Text:
             {
-              this.createTextField ( sbHtml, groupField, groupField.EditAccess );
+              this.createTextField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Password:
             {
-              this.createPasswordField ( sbHtml, groupField, groupField.EditAccess );
+              this.createPasswordField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Http_Link:
             {
-              this.createHttpLinkField ( sbHtml, groupField, groupField.EditAccess );
+              this.createHttpLinkField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Free_Text:
             {
-              this.createFreeTextField ( sbHtml, groupField, groupField.EditAccess );
+              this.createFreeTextField ( sbHtml, groupField );
               break;
             }
 
@@ -1076,120 +1076,119 @@ namespace Evado.UniForm.WebClient
           case Evado.Model.EvDataTypes.Boolean:
           case Evado.Model.EvDataTypes.Yes_No:
             {
-              this.createYesNoField ( sbHtml, groupField, groupField.EditAccess );
+              this.createYesNoField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Date:
           case Evado.Model.EvDataTypes.Year:
             {
-              this.createDateField ( sbHtml, groupField, groupField.EditAccess );
+              this.createDateField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Time:
             {
-              this.createTimeField ( sbHtml, groupField, groupField.EditAccess );
+              this.createTimeField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Numeric:
           case Evado.Model.EvDataTypes.Integer:
             {
-              this.createNumericField ( sbHtml, groupField, groupField.EditAccess );
+              this.createNumericField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Streamed_Video:
             {
-              this.createStreamedVideoField ( sbHtml, groupField, groupField.EditAccess ); // 
+              this.createStreamedVideoField ( sbHtml, groupField ); // 
               break;
             }
           case Evado.Model.EvDataTypes.External_Image:
             {
-              this.createExternalImageField ( sbHtml, groupField, groupField.EditAccess );
+              this.createExternalImageField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Image:
             {
-              this.createImageField ( sbHtml, groupField, groupField.EditAccess );
+              this.createImageField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Binary_File:
             {
-              this.createBinaryField ( sbHtml, groupField, groupField.EditAccess );
+              this.createBinaryField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Sound:
             {
-              this.createSoundField ( sbHtml, groupField, groupField.EditAccess );
+              this.createSoundField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Bar_Code:
             {
-              this.createTextField ( sbHtml, groupField,
-                Evado.UniForm.Model.EuEditAccess.Enabled );
+              this.createTextField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Radio_Button_List:
             {
-              this.createRadioButtonField ( sbHtml, groupField, groupField.EditAccess );
+              this.createRadioButtonField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Special_Quiz_Radio_Buttons:
             {
-              this.createQuizRadioButtonField ( sbHtml, groupField, groupField.EditAccess );
+              this.createQuizRadioButtonField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Horizontal_Radio_Buttons:
             {
-              this.createHorizontalRadioButtonField ( sbHtml, groupField, groupField.EditAccess );
+              this.createHorizontalRadioButtonField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Selection_List:
             {
-              this.createSelectionListField ( sbHtml, groupField, groupField.EditAccess );
+              this.createSelectionListField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Check_Box_List:
             {
-              this.createCheckboxField ( sbHtml, groupField, groupField.EditAccess );
+              this.createCheckboxField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Table:
             {
-              this.createTableField ( sbHtml, groupField, groupField.EditAccess );
+              this.createTableField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Currency:
             {
-              this.createCurrencyField ( sbHtml, groupField, groupField.EditAccess );
+              this.createCurrencyField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Email_Address:
             {
-              this.createEmailAddressField ( sbHtml, groupField, groupField.EditAccess );
+              this.createEmailAddressField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Telephone_Number:
             {
-              this.createTelephoneNumberField ( sbHtml, groupField, groupField.EditAccess );
+              this.createTelephoneNumberField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Analogue_Scale:
             {
-              this.createAnalogueField ( sbHtml, groupField, groupField.EditAccess );
+              this.createAnalogueField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Name:
             {
-              this.createNameField ( sbHtml, groupField, groupField.EditAccess );
+              this.createNameField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Address:
             {
-              this.createAddressField ( sbHtml, groupField, groupField.EditAccess );
+              this.createAddressField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Signature:
             {
-              this.createSignatureField ( sbHtml, groupField, groupField.EditAccess );
+              this.createSignatureField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Integer_Range:
@@ -1198,19 +1197,19 @@ namespace Evado.UniForm.WebClient
             {
               this.LogDebug ( "calling createNumericRangeField method." );
 
-              this.createNumericRangeField ( sbHtml, groupField, groupField.EditAccess );
+              this.createNumericRangeField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Date_Range:
             {
               this.LogDebug ( "calling createDateRangeField method." );
 
-              this.createDateRangeField ( sbHtml, groupField, groupField.EditAccess );
+              this.createDateRangeField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Computed_Field:
             {
-              this.createComputedField ( sbHtml, groupField, Evado.UniForm.Model.EuEditAccess.Disabled );
+              this.createComputedField ( sbHtml, groupField );
               break;
             }
           case Evado.Model.EvDataTypes.Donut_Chart:
@@ -1281,7 +1280,7 @@ namespace Evado.UniForm.WebClient
 
       if ( iconImage != String.Empty )
       {
-        string iconImagePath = Global.ImageUrl + iconImage;
+        string iconImagePath = Global.StaticImageUrl + iconImage;
 
         title = "<img class=\"command-icon\" src=\"" + iconImagePath + "\" width='125px' />&nbsp;" + title;
       }
@@ -1665,7 +1664,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       string iconImage = groupCommand.GetParameter ( Evado.UniForm.Model.EuCommandParameters.Image_Url );
-      string iconImagePath = Global.ImageUrl + iconImage;
+      string iconImagePath = Global.StaticImageUrl + iconImage;
       string color = groupCommand.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Default );
 
       this.LogDebug ( "Command iconImage: " + iconImage );

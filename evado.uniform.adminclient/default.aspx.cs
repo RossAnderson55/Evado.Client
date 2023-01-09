@@ -441,7 +441,7 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "baseUrl: {0}.", baseUrl );
       this.LogDebug ( "WebServiceUrl:  {0}.", Global.WebServiceUrl );
       this.LogDebug ( "FileServiceUrl:  {0}.", Global.FileServiceUrl );
-      this.LogDebug ( "ImagesUrl: {0}.", Global.ImageUrl );
+      this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
       this.LogDebug ( "TempUrl: {0}.", Global.TempUrl );
 
       String WebServiceUrl = baseUrl + serviceUri;
@@ -3128,7 +3128,7 @@ namespace Evado.UniForm.AdminClient
       if ( this.UserSession.AppData.LogoFilename != String.Empty )
       {
         this.UserSession.AppData.LogoFilename = Evado.Model.EvStatics.concatinateHttpUrl (
-          Global.ImageUrl, this.UserSession.AppData.LogoFilename );
+          Global.StaticImageUrl, this.UserSession.AppData.LogoFilename );
 
         this.imgLogo.Src = this.UserSession.AppData.LogoFilename.ToLower ( );
       }

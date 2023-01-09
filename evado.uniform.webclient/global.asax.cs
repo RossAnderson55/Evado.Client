@@ -94,7 +94,7 @@ namespace Evado.UniForm.WebClient
     /// <summary>
     /// This string contains the relative binary download url. 
     /// </summary>
-    public static string ImageUrl = string.Empty;
+    public static string StaticImageUrl = string.Empty;
 
     /// <summary>
     /// This string contains the relative binary download url. 
@@ -345,12 +345,12 @@ namespace Evado.UniForm.WebClient
       }
 
       Global.FileServiceUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL;
-      Global.ImageUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_IMAGES_RELATIVE_URL;
+      Global.StaticImageUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_IMAGES_RELATIVE_URL;
       Global.TempUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_TEMP_RELATIVE_URL;
 
       Global.LogGlobal ( "WebServiceUrl: " + Global.WebServiceUrl );
       Global.LogGlobal ( "FileServiceUrl: " + Global.FileServiceUrl );
-      Global.LogGlobal ( "ImagesUrl: " + Global.ImageUrl );
+      Global.LogGlobal ( "ImagesUrl: " + Global.StaticImageUrl );
       Global.LogGlobal ( "TempUrl: " + Global.TempUrl );
 
       Global.LogGlobal ( "WebServiceUrl: " + Global.WebServiceUrl );

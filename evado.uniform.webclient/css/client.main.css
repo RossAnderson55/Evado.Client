@@ -596,11 +596,16 @@ img.camera {
   float: right;
 }
 
-.cell-image-value a.file {
-  vertical-align: middle;
-  float: left;
+
+.cell-image-value input[type="file"] {
+  vertical-align: top;
+  margin-top: auto;
   height: 30px;
   font-size: larger;
+}
+
+.cell-image-value a img {
+  vertical-align: top;
 }
 
 .cell-barcode-value a.barcode-btn, .cell-image-value a.image-btn {

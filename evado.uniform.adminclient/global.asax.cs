@@ -86,7 +86,7 @@ namespace Evado.UniForm.AdminClient
     /// <summary>
     /// This string contains the relative binary download url. 
     /// </summary>
-    public static string ImageUrl = string.Empty;
+    public static string StaticImageUrl = string.Empty;
 
     /// <summary>
     /// This string contains the relative binary download url. 
@@ -313,12 +313,12 @@ namespace Evado.UniForm.AdminClient
       }
 
       Global.FileServiceUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL;
-      Global.ImageUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_IMAGES_RELATIVE_URL;
+      Global.StaticImageUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_IMAGES_RELATIVE_URL;
       Global.TempUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_TEMP_RELATIVE_URL;
 
       Global.LogGlobal ( "WebServiceUrl: " + Global.WebServiceUrl );
       Global.LogGlobal ( "FileServiceUrl: " + Global.FileServiceUrl );
-      Global.LogGlobal ( "ImagesUrl: " + Global.ImageUrl );
+      Global.LogGlobal ( "ImagesUrl: " + Global.StaticImageUrl );
       Global.LogGlobal ( "TempUrl: " + Global.TempUrl );
 
 
@@ -327,7 +327,7 @@ namespace Evado.UniForm.AdminClient
         Global.DefaultLogoUrl = ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_PAGE_DEEFAULT_LOGO ];
       }
 
-      Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.ImageUrl, Global.DefaultLogoUrl );
+      Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.StaticImageUrl, Global.DefaultLogoUrl );
 
       Global.LogGlobal ( "Default Logo URL: " + Global.DefaultLogoUrl );
 
