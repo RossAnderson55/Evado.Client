@@ -2459,22 +2459,22 @@ namespace Evado.UniForm.WebClient
 
           this.LogDebug ( "UniFORM FieldId: " + stFieldId );
 
-          string stFilePath = Global.BinaryFilePath + fileName;
+          string fullFilePath = Global.TempPath + fileName;
 
-          this.LogDebug ( "Image file path: " + stFilePath );
+          this.LogDebug ( "Image file path: " + fullFilePath );
 
           //
           // Save the file to disk.
           //
-          uploadedFileObject.SaveAs ( stFilePath );
+          uploadedFileObject.SaveAs ( fullFilePath );
 
           //
           // set the image to the image service.
           //
-          this.SendFileRequest ( stFilePath, uploadedFileObject.ContentType );
+          this.SendFileRequest ( fileName, uploadedFileObject.ContentType );
 
           string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
-            + stFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
+            + fullFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
 
           this.LogValue ( stEventContent );
           EventLog.WriteEntry ( Global.EventLogSource, stEventContent, EventLogEntryType.Information );
