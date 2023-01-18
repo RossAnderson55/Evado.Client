@@ -626,7 +626,7 @@ namespace Evado.UniForm.WebClient
       // 
       // If the url does not include a http statement add the default image url 
       // 
-      stImageUrl = Global.concatinateHttpUrl ( Global.TempUrl, stImageUrl );
+      stImageUrl = Global.concatinateHttpUrl ( Global.StaticImageUrl, stImageUrl );
 
       this.LogValue ( "stImageUrl: " + stImageUrl );
 
@@ -3465,7 +3465,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "createBinaryField method." );
-      this.LogDebug ( "RelativeBinaryDownloadURL: " + Global.FileServiceUrl );
+      this.LogDebug ( "TempUrl: " +  Global.TempUrl );
       this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       this.LogDebug ( "PageField.Value: " + PageField.Value );
       //
@@ -3473,7 +3473,7 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      string stBinaryUrl = Global.FileServiceUrl + PageField.Value;
+      string stBinaryUrl =  Global.TempUrl + PageField.Value;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       this.TestFileUpload.Visible = true;
 
@@ -3481,7 +3481,7 @@ namespace Evado.UniForm.WebClient
       // If the url does not include a http statement add the default image url 
       // 
       stBinaryUrl = stBinaryUrl.ToLower ( );
-      stBinaryUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, PageField.Value );
+      stBinaryUrl = Global.concatinateHttpUrl (  Global.TempUrl, PageField.Value );
 
       this.LogDebug ( "stImageUrl: " + stBinaryUrl );
 
@@ -4769,7 +4769,7 @@ namespace Evado.UniForm.WebClient
         //
         // If in display model display the http link.
         //
-        stLinkUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, stLinkUrl );
+        stLinkUrl = Global.concatinateHttpUrl (  Global.TempUrl, stLinkUrl );
 
         this.LogValue ( "Final URL: " + stLinkUrl );
 
@@ -5059,7 +5059,9 @@ namespace Evado.UniForm.WebClient
         stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
       }
 
-      stImageUrl = Global.concatinateHttpUrl ( Global.FileServiceUrl, PageField.Value );
+      stImageUrl = Global.concatinateHttpUrl (  Global.StaticImageUrl, PageField.Value );
+
+      this.LogValue ( "stImageUrl: " + stImageUrl );
 
       if ( width == String.Empty )
       {
