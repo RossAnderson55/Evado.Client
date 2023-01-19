@@ -3790,6 +3790,17 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:100%;' class='cell value cell-input-telephones-value cf' ";
+      string minLabel = PageField.GetParameter ( EuFieldParameters.Min_Label );
+      string maxLabel = PageField.GetParameter ( EuFieldParameters.Max_Label );
+      float increment = PageField.GetParameterflt ( EuFieldParameters.Increment );
+
+      if ( increment == 0
+        || increment == Evado.Model.EvStatics.CONST_NUMERIC_NULL
+        || increment == Evado.Model.EvStatics.CONST_NUMERIC_ERROR ) 
+      {
+        increment = 2.5F;
+      }
+      this.LogDebug ( "Increment {0}.", increment );
       //
       // Set the column layout to display the analogue scale below the field title and instructions.
       //
@@ -3805,17 +3816,18 @@ namespace Evado.UniForm.WebClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "'>" );
-      sbHtml.Append ( "<input type='range' "
-        + "id='" + PageField.FieldId + "' "
-        + "name='" + PageField.FieldId + "' "
-        + "value='" + PageField.Value + "' "
-        + "tabindex = '" + _TabIndex + "' "
-        + "min='0' "
-        + "max='100' "
-        + "step='2.5' "
-        + "tabindex = '" + _TabIndex + "' "
-        + "class='form-control-analogue' "
-        + "data-parsley-trigger=\"change\" " );
+
+      sbHtml.Append ( "<input type='range' " );
+      sbHtml.Append ( "id='" + PageField.FieldId + "' " );
+      sbHtml.Append ( "name='" + PageField.FieldId + "' " );
+      sbHtml.Append ( "value='" + PageField.Value + "' " );
+      sbHtml.Append ( "tabindex = '" + _TabIndex + "' " );
+      sbHtml.Append ( "min='0' " );
+      sbHtml.Append ( "max='100' " );
+      sbHtml.Append ( "step='" + increment + "' " );
+      sbHtml.Append ( "tabindex = '" + _TabIndex + "' " );
+      sbHtml.Append ( "class='form-control-analogue' " );
+      sbHtml.Append ( "data-parsley-trigger=\"change\" " );
 
       if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
       {
@@ -3852,6 +3864,21 @@ namespace Evado.UniForm.WebClient
       sbHtml.AppendLine ( "</td>" );
       sbHtml.AppendLine ( "</tr>" );
       sbHtml.AppendLine ( "</table>" );
+
+      if ( minLabel != String.Empty
+        && maxLabel != String.Empty )
+      {
+        sbHtml.AppendLine ( "<br/><table style='width:100%; ' >" );
+        sbHtml.AppendLine ( "<tr>" );
+        sbHtml.Append ( "<td style='text-align: left; width:50%;'> " );
+        sbHtml.Append ( minLabel );
+        sbHtml.AppendLine ( "</td>" );
+        sbHtml.Append ( "<td style='text-align: right; width:50%;'> " );
+        sbHtml.Append ( maxLabel );
+        sbHtml.AppendLine ( "</td>" );
+        sbHtml.AppendLine ( "</tr>" );
+        sbHtml.AppendLine ( "</table>" );
+      }
 
       sbHtml.AppendLine ( "</div>" );
 

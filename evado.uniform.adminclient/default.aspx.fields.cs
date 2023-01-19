@@ -3113,7 +3113,7 @@ namespace Evado.UniForm.AdminClient
                     + ", '" + Evado.UniForm.Model.EuTableColHeader.ItemTypeText + "'"
                     + " )\" class='form-control' " );
 
-                if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
                   sbHtml.Append ( " readonly='readonly' " );
                 }
@@ -3151,7 +3151,7 @@ namespace Evado.UniForm.AdminClient
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' " );
 
-                if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
                   sbHtml.Append ( " readonly='readonly' " );
                 }
@@ -3181,7 +3181,7 @@ namespace Evado.UniForm.AdminClient
                     + "onchange=\"Evado.Form.onDateValidation( this, this.value  )\" "
                     + "  class='form-control' data-behaviour='datepicker' " );
 
-                if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
                   sbHtml.Append ( " readonly='readonly' " );
                 }
@@ -3219,7 +3219,7 @@ namespace Evado.UniForm.AdminClient
                   sbHtml.Append ( " checked='checked' " );
                 }
 
-                if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
                   sbHtml.Append ( " disabled='disabled' " );
                 }
@@ -3230,7 +3230,7 @@ namespace Evado.UniForm.AdminClient
                 // Bold the selected item when in display mode as the button may not
                 // be obvious in some browsers.
                 //
-                if ( (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                   && ( stValue.ToLower ( ) == "yes" ) )
                 {
                   sbHtml.Append ( "<strong>Yes</strong>\r\n" );
@@ -3255,7 +3255,7 @@ namespace Evado.UniForm.AdminClient
                   sbHtml.Append ( "checked=\"checked\" " );
                 }
 
-                if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
                   sbHtml.Append ( "disabled='disabled' " );
                 }
@@ -3268,7 +3268,7 @@ namespace Evado.UniForm.AdminClient
                 // Bold the selected item when in display mode as the button may not
                 // be obvious in some browsers.
                 //
-                if ( (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                   && ( stValue.ToLower ( ) == "no" ) )
                 {
                   sbHtml.Append ( "<strong>No</strong>\r\n" );
@@ -3316,7 +3316,7 @@ namespace Evado.UniForm.AdminClient
                       sbHtml.Append ( " checked='checked' " );
                     }
 
-                    if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                    if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                     {
                       sbHtml.Append ( " disabled='disabled' " );
                     }
@@ -3327,7 +3327,7 @@ namespace Evado.UniForm.AdminClient
                     // Bold the selected item when in display mode as the button may not
                     // be obvious in some browsers.
                     //
-                    if ( (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                    if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                       && ( stValue == optionList [ i ].Value ) )
                     {
                       sbHtml.Append ( "<strong>" + optionList [ i ].Description + "<strong>\r\n" );
@@ -3357,7 +3357,7 @@ namespace Evado.UniForm.AdminClient
                   sbHtml.Append ( "checked='checked' " );
                 }
 
-                if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
                   sbHtml.Append ( "disabled='disabled' " );
                 }
@@ -3387,7 +3387,7 @@ namespace Evado.UniForm.AdminClient
                     + "value='" + stValue + "' "
                     + " onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
-                if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
                   sbHtml.Append ( "disabled='disabled' " );
                 }
@@ -3472,7 +3472,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      string stBinaryUrl =  Global.TempUrl + PageField.Value;
+      string stBinaryUrl = Global.TempUrl + PageField.Value;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       this.TestFileUpload.Visible = true;
 
@@ -3480,7 +3480,7 @@ namespace Evado.UniForm.AdminClient
       // If the url does not include a http statement add the default image url 
       // 
       stBinaryUrl = stBinaryUrl.ToLower ( );
-      stBinaryUrl = Global.concatinateHttpUrl (  Global.TempUrl, PageField.Value );
+      stBinaryUrl = Global.concatinateHttpUrl ( Global.TempUrl, PageField.Value );
 
       this.LogDebug ( "stImageUrl: " + stBinaryUrl );
 
@@ -3531,7 +3531,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createSoundField (
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField)
+      Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "createSoundField method." );
       //
@@ -3789,6 +3789,19 @@ namespace Evado.UniForm.AdminClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:100%;' class='cell value cell-input-telephones-value cf' ";
+      string minLabel = PageField.GetParameter ( EuFieldParameters.Min_Label );
+      string maxLabel = PageField.GetParameter ( EuFieldParameters.Max_Label );
+      float increment = PageField.GetParameterflt ( EuFieldParameters.Increment );
+
+      if( increment == 0
+        || increment == Evado.Model.EvStatics.CONST_NUMERIC_NULL 
+        || increment == Evado.Model.EvStatics.CONST_NUMERIC_ERROR )
+      {
+        this.LogDebug ( "Set Default Increment" );
+        increment = 2.5F;
+      }
+      this.LogDebug ( "Increment {0}.", increment );
+
       //
       // Set the column layout to display the analogue scale below the field title and instructions.
       //
@@ -3804,17 +3817,18 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "'>" );
-      sbHtml.Append ( "<input type='range' "
-        + "id='" + PageField.FieldId + "' "
-        + "name='" + PageField.FieldId + "' "
-        + "value='" + PageField.Value + "' "
-        + "tabindex = '" + _TabIndex + "' "
-        + "min='0' "
-        + "max='100' "
-        + "step='2.5' "
-        + "tabindex = '" + _TabIndex + "' "
-        + "class='form-control-analogue' "
-        + "data-parsley-trigger=\"change\" " );
+
+      sbHtml.Append ( "<input type='range' " );
+      sbHtml.Append ( "id='" + PageField.FieldId + "' " );
+      sbHtml.Append ( "name='" + PageField.FieldId + "' " );
+      sbHtml.Append ( "value='" + PageField.Value + "' " );
+      sbHtml.Append ( "tabindex = '" + _TabIndex + "' " );
+      sbHtml.Append ( "min='0' " );
+      sbHtml.Append ( "max='100' " );
+      sbHtml.Append ( "step='" + increment + "' " );
+      sbHtml.Append ( "tabindex = '" + _TabIndex + "' " );
+      sbHtml.Append ( "class='form-control-analogue' " );
+      sbHtml.Append ( "data-parsley-trigger=\"change\" " );
 
       if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
       {
@@ -3831,7 +3845,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "/>" );
       sbHtml.AppendLine ( "</span>" );
 
-      sbHtml.AppendLine ( "<br/><table style='width:100%; ' >" );
+      sbHtml.AppendLine ( "<table style='width:100%; ' >" );
       sbHtml.AppendLine ( "<tr>" );
       sbHtml.Append ( "<td style='text-align: left; width:2.5%;'> " );
       sbHtml.Append ( "|<br/>" );
@@ -3841,17 +3855,31 @@ namespace Evado.UniForm.AdminClient
       {
         sbHtml.Append ( "<td style='text-align: center; width:5%;'> " );
         int value = i * 5;
-          sbHtml.Append ( "|<br/>" );
-          sbHtml.Append ( value.ToString ( "0#" ) );
+        sbHtml.Append ( "|<br/>" );
+        sbHtml.Append ( value.ToString ( "0#" ) );
         sbHtml.AppendLine ( "</td>" );
       }
       sbHtml.Append ( "<td style='text-align: right; width:2.5%;'> " );
-        sbHtml.Append ( "|<br/>" );
-        sbHtml.Append ( "100" );
+      sbHtml.Append ( "|<br/>" );
+      sbHtml.Append ( "100" );
       sbHtml.AppendLine ( "</td>" );
       sbHtml.AppendLine ( "</tr>" );
       sbHtml.AppendLine ( "</table>" );
 
+      if ( minLabel != String.Empty
+        && maxLabel != String.Empty )
+      {
+        sbHtml.AppendLine ( "<table style='width:100%; ' >" );
+        sbHtml.AppendLine ( "<tr>" );
+        sbHtml.Append ( "<td style='text-align: left; width:50%;'> " );
+        sbHtml.Append ( minLabel );
+        sbHtml.AppendLine ( "</td>" );
+        sbHtml.Append ( "<td style='text-align: right; width:50%;'> " );
+        sbHtml.Append ( maxLabel );
+        sbHtml.AppendLine ( "</td>" );
+        sbHtml.AppendLine ( "</tr>" );
+        sbHtml.AppendLine ( "</table>" );
+      }
       sbHtml.AppendLine ( "</div>" );
 
       this._TabIndex += 2;
@@ -4114,14 +4142,14 @@ namespace Evado.UniForm.AdminClient
          + "value='" + arrValue [ 0 ] + "' "
          + "size='" + stSize + "' class='form-control' style='display: inline-block;' data-parsley-trigger=\"change\" " );
 
-        if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           //sbHtml.Append ( " required " );
         }
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           sbHtml.Append ( " disabled='disabled' " );
         }
@@ -4192,7 +4220,7 @@ namespace Evado.UniForm.AdminClient
          + "value='" + arrValue [ 3 ] + "' "
          + "size='" + 5 + "' class='form-control' style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           //sbHtml.Append ( " required " );
         }
@@ -4292,14 +4320,14 @@ namespace Evado.UniForm.AdminClient
          + "value='' "
          + "size='" + stSize + "' class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           //sbHtml.Append ( " required " );
         }
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           sbHtml.Append ( " disabled='disabled' " );
         }
@@ -4318,14 +4346,14 @@ namespace Evado.UniForm.AdminClient
          + "value='' "
          + "size='" + stSize + "' class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           //sbHtml.Append ( " required " );
         }
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           sbHtml.Append ( " disabled='disabled' " );
         }
@@ -4345,14 +4373,14 @@ namespace Evado.UniForm.AdminClient
          + "maxlength='" + stSize + "' "
          + "size='" + stSize + "' class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           //sbHtml.Append ( " required " );
         }
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           sbHtml.Append ( " disabled='disabled' " );
         }
@@ -4372,14 +4400,14 @@ namespace Evado.UniForm.AdminClient
          + "class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" "
          + "size='6' maxlength='6' " );
 
-        if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           //sbHtml.Append ( " required " );
         }
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           sbHtml.Append ( " disabled='disabled' " );
         }
@@ -4399,7 +4427,7 @@ namespace Evado.UniForm.AdminClient
          + "size='" + stSize + "' "
          + "class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+        if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
         {
           sbHtml.Append ( " disabled='disabled' " );
         }
@@ -4541,7 +4569,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.Append ( " class='sigName' " );
       sbHtml.Append ( "style='width: " + canvasWidth + "px; '" );
 
-      if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
       {
         sbHtml.Append ( " disabled='disabled' " );
       }
@@ -4687,14 +4715,14 @@ namespace Evado.UniForm.AdminClient
          + "class='form-control' "
          + "data-parsley-trigger=\"change\" " );
 
-      if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
+      if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
       {
         //sbHtml.Append ( " required " );
       }
 
       //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-      if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
       {
         sbHtml.Append ( " disabled='disabled' " );
       }
@@ -4768,7 +4796,7 @@ namespace Evado.UniForm.AdminClient
         //
         // If in display model display the http link.
         //
-        stLinkUrl = Global.concatinateHttpUrl (  Global.TempUrl, stLinkUrl );
+        stLinkUrl = Global.concatinateHttpUrl ( Global.TempUrl, stLinkUrl );
 
         this.LogValue ( "Final URL: " + stLinkUrl );
 
@@ -4786,7 +4814,7 @@ namespace Evado.UniForm.AdminClient
       //
       // If in edit mode display the data enty fields.
       //
-      if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
       {
         //
         // Insert the field data control
@@ -4890,7 +4918,7 @@ namespace Evado.UniForm.AdminClient
       // the page is edit enabled display a field to collect the Video Url and title.
       //
 
-      if (  PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
       {
         //
         // Insert the field data control
