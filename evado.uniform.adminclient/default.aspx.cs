@@ -31,6 +31,8 @@ using System.Net.Http;
 
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
+using System.ComponentModel.Design;
+using System.Web.UI.MobileControls;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -315,7 +317,7 @@ namespace Evado.UniForm.AdminClient
         //
         this.initialiseHistory ( );
 
-        this.__CommandId.Value = EuStatics.LoginCommandId.ToString ( );
+        this.__CommandId.Value = EuStatics.CONST_LOGIN_COMMAND_ID.ToString ( );
 
         this.litPageContent.Visible = true;
         if ( Global.EnablePageHistory == true )
@@ -1172,7 +1174,7 @@ namespace Evado.UniForm.AdminClient
       {
         this.LogDebug ( "Send empty command to the server. " );
 
-        this.UserSession.CommandGuid = EuStatics.LoginCommandId;
+        this.UserSession.CommandGuid = EuStatics.CONST_LOGIN_COMMAND_ID;
       }
       else
       {
@@ -1355,7 +1357,7 @@ namespace Evado.UniForm.AdminClient
       try
       {
 
-        if ( CommandId == EuStatics.LoginCommandId )
+        if ( CommandId == EuStatics.CONST_LOGIN_COMMAND_ID )
         {
           this.LogDebug ( "Commandid = LoginCommandId return empty command." );
 
@@ -1369,7 +1371,7 @@ namespace Evado.UniForm.AdminClient
         Evado.UniForm.Model.EuCommand historyCommand = this.getHistoryCommand ( CommandId );
 
         if ( historyCommand.Id != Guid.Empty
-          && historyCommand.Id != EuStatics.LoginCommandId )
+          && historyCommand.Id != EuStatics.CONST_LOGIN_COMMAND_ID )
         {
           this.LogDebug ( "Return history command: " + historyCommand.Title );
           this.LogMethodEnd ( "getCommandObject" );
@@ -2812,9 +2814,22 @@ namespace Evado.UniForm.AdminClient
       // If the Command identifier is empty then exit.
       //
       if ( PageCommand.Id == Guid.Empty
-        || PageCommand.Id == EuStatics.LoginCommandId )
+        || PageCommand.Id == EuStatics.CONST_LOGIN_COMMAND_ID )
       {
+        this.initialiseHistory ( );
         this.LogDebug ( "The command identifier is null or login." );
+        this.LogMethodEnd ( "addHistoryCommand" );
+        return;
+      }
+
+      //
+      // If the page command is a secondary home page exit.
+      ///*
+      if ( PageCommand.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_2_ID
+        || PageCommand.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_3_ID
+        || PageCommand.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_4_ID )
+      {
+        this.LogDebug ( "EXIT: Secondary page commands." );
         this.LogMethodEnd ( "addHistoryCommand" );
         return;
       }
@@ -2844,14 +2859,6 @@ namespace Evado.UniForm.AdminClient
         this.LogDebug ( "Not a command that has a history. i.e." + PageCommand.Type );
         this.LogMethodEnd ( "addHistoryCommand" );
         return;
-      }
-
-      //
-      // if the Command is in the list exit.
-      //
-      if ( this.deleteHistoryCommand ( PageCommand.Id ) == true )
-      {
-        this.LogDebug ( "The command exists in the list and has been deleted." );
       }
 
       this.LogDebug ( "ADDING: Command : " + PageCommand.Title + " to history." );
@@ -3120,7 +3127,7 @@ namespace Evado.UniForm.AdminClient
       this.UserSession.AppData.Page.Exit = new Evado.UniForm.Model.EuCommand ( );
 
       this.litExitCommand.Text = String.Empty;
-      this.__CommandId.Value = EuStatics.LoginCommandId.ToString ( );
+      this.__CommandId.Value = EuStatics.CONST_LOGIN_COMMAND_ID.ToString ( );
 
       //
       // display the logo if one is defined.

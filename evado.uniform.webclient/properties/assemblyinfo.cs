@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration ( "" )]
 [assembly: AssemblyCompany ( "Evado Holdings Pty. Ltd." )]
 [assembly: AssemblyProduct ( "Evado UnIFORM Web Client" )]
-[assembly: AssemblyCopyright ( "(c) Evado Holdings Pty. Ltd. 2011 - 2022 All rights reserved" )]
+[assembly: AssemblyCopyright ( "(c) Evado Holdings Pty. Ltd. 2011 - 2023 All rights reserved" )]
 [assembly: AssemblyTrademark( "UniFORM" )]
 [assembly: AssemblyCulture ( "en-AU" )]		
 
@@ -43,8 +43,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion ( "5.0.1.*" )]
-[assembly: AssemblyFileVersion ( "5.0.1" )]
+[assembly: AssemblyVersion ( "5.1.0.*" )]
+[assembly: AssemblyFileVersion ( "5.1.0" )]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 

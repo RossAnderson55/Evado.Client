@@ -70,7 +70,7 @@ namespace Evado.UniForm.WebClient
       // Reinitialise the history each time the home page is displayed.
       //
       /*
-      if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_DEFAULT_HOME_PAGE_ID
+      if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND__ID
         || this.UserSession.AppData.Page.PageId == Evado.Model.EvStatics.CONST_HOME_PAGE_ID )
       {
         this.LogDebug ( "Home Page encountered." );
@@ -490,10 +490,10 @@ namespace Evado.UniForm.WebClient
         //
         // Add a link to previous page.
         //
-        if ( this.UserSession.AppData.Page.Exit.Id != Guid.Empty
-          || this.UserSession.AppData.Page.Exit.Title != String.Empty )
+        if ( this.UserSession.AppData.Page.Exit.Title != String.Empty )
         {
-          if ( this.UserSession.AppData.Page.Exit.Type != Evado.UniForm.Model.EuCommandTypes.Logout_Command )
+          if ( this.UserSession.AppData.Page.Id != Evado.Model.EvStatics.CONST_DEFAULT_HOME_PAGE_ID
+            && this.UserSession.AppData.Page.Exit.Type != Evado.UniForm.Model.EuCommandTypes.Logout_Command )
           {
             this.litExitCommand.Text = this.createCommandLink ( this.UserSession.AppData.Page.Exit );
             this.litExitCommand.Visible = true;
@@ -854,9 +854,6 @@ namespace Evado.UniForm.WebClient
       divFieldGroupStyle += "'";
       divFieldContainerStyle += "'";
 
-
-
-
       sbHtml.AppendLine ( "<!--- OPENING GROUP --->" );
       if ( stFieldName != String.Empty
         && stFieldValue != String.Empty )
@@ -889,7 +886,14 @@ namespace Evado.UniForm.WebClient
       //
       // Add the gorups description if it exists.
       //
+      string descriptionBackground = String.Empty;
       String description = String.Empty;
+
+      if ( PageGroup.Title == EuLabels.Page_Message_Error_Group_Title )
+      {
+        descriptionBackground = " Red ";
+      }
+
       if ( PageGroup.Description != null )
       {
         description = PageGroup.Description;
@@ -902,7 +906,7 @@ namespace Evado.UniForm.WebClient
         textAlignment = textAlignment.ToLower ( );
 
         sbHtml.AppendLine ( "<!--- OPENNING DESCRIPTION --->" );
-        sbHtml.AppendLine ( "<div class='description cf " + textAlignment + " '>" );
+        sbHtml.AppendLine ( "<div class='description cf " + textAlignment + descriptionBackground + " '>" );
 
         if ( description.Contains ( "</" ) == true
           || description.Contains ( "/>" ) == true

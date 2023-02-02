@@ -306,7 +306,7 @@ namespace Evado.UniForm.WebClient
         //
         this.initialiseHistory ( );
 
-        this.__CommandId.Value = EuStatics.LoginCommandId.ToString ( );
+        this.__CommandId.Value = EuStatics.CONST_LOGIN_COMMAND_ID.ToString ( );
 
         this.litPageContent.Visible = true;
         if ( Global.EnablePageHistory == true )
@@ -1093,7 +1093,7 @@ namespace Evado.UniForm.WebClient
       {
         this.LogDebug ( "Send empty command to the server. " );
 
-        this.UserSession.CommandGuid = EuStatics.LoginCommandId;
+        this.UserSession.CommandGuid = EuStatics.CONST_LOGIN_COMMAND_ID;
       }
       else
       {
@@ -1276,7 +1276,7 @@ namespace Evado.UniForm.WebClient
       try
       {
 
-        if ( CommandId == EuStatics.LoginCommandId )
+        if ( CommandId == EuStatics.CONST_LOGIN_COMMAND_ID )
         {
           this.LogDebug ( "Commandid = LoginCommandId return empty command." );
 
@@ -1290,7 +1290,7 @@ namespace Evado.UniForm.WebClient
         Evado.UniForm.Model.EuCommand historyCommand = this.getHistoryCommand ( CommandId );
 
         if ( historyCommand.Id != Guid.Empty
-          && historyCommand.Id != EuStatics.LoginCommandId )
+          && historyCommand.Id != EuStatics.CONST_LOGIN_COMMAND_ID )
         {
           this.LogDebug ( "Return history command: " + historyCommand.Title );
           this.LogMethodEnd ( "getCommandObject" );
@@ -2733,11 +2733,25 @@ namespace Evado.UniForm.WebClient
       // If the Command identifier is empty then exit.
       //
       if ( PageCommand.Id == Guid.Empty
-        || PageCommand.Id == EuStatics.LoginCommandId )
+        || PageCommand.Id == EuStatics.CONST_LOGIN_COMMAND_ID )
       {
+        this.initialiseHistory ( );
         this.LogDebug ( "The command identifier is null or login." );
         this.LogMethodEnd ( "addHistoryCommand" );
         return;
+      }
+
+      //
+      // If the page command is a secondary home page exit.
+      //
+      if ( PageCommand.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_2_ID
+        || PageCommand.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_3_ID
+        || PageCommand.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_4_ID )
+      {
+        PageCommand.Id = Evado.Model.EvStatics.CONST_HOME_COMMAND_ID;
+        //this.LogDebug ( "EXIT: Secondary page commands." );
+        //this.LogMethodEnd ( "addHistoryCommand" );
+        //return;
       }
 
       //
@@ -2748,7 +2762,7 @@ namespace Evado.UniForm.WebClient
         && PageCommand.Method != Evado.UniForm.Model.EuMethods.Get_Object
         && PageCommand.Method != Evado.UniForm.Model.EuMethods.List_of_Objects )
       {
-        this.LogDebug ( "No commands added to the list" );
+        this.LogDebug ( "EXIT: No commands added to the list" );
         this.LogMethodEnd ( "addHistoryCommand" );
         return;
       }
@@ -2762,7 +2776,7 @@ namespace Evado.UniForm.WebClient
         || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Synchronise_Add
         || PageCommand.Type == Evado.UniForm.Model.EuCommandTypes.Synchronise_Save )
       {
-        this.LogDebug ( "Not a command that has a history. i.e." + PageCommand.Type );
+        this.LogDebug ( "EXIT Not a command that has a history. i.e." + PageCommand.Type );
         this.LogMethodEnd ( "addHistoryCommand" );
         return;
       }
@@ -2777,25 +2791,28 @@ namespace Evado.UniForm.WebClient
 
       this.LogDebug ( "ADDING: Command : " + PageCommand.Title + " to history." );
 
-      //
-      // Shorten the PageCommand title if it is greater then 20 characters
-      //        
-      if ( PageCommand.Title.Length > 20 )
-      {
-        PageCommand.Title = PageCommand.Title.Substring ( 0, 20 ) + "...";
-      }
-
-      //
-      // Empty the header values as they are set by the client.
-      //
-      PageCommand.Header = new List<Evado.UniForm.Model.EuParameter> ( );
 
       //
       // If they do not match add the new previous page Command to the list.
       //  This is to stop consequetive duplicates.
       //
-      this.UserSession.CommandHistoryList.Add ( PageCommand );
+      if ( this.hasHistoryCommand ( PageCommand.Id ) == false )
+      {
+        //
+        // Shorten the PageCommand title if it is greater then 20 characters
+        //        
+        if ( PageCommand.Title.Length > 20 )
+        {
+          PageCommand.Title = PageCommand.Title.Substring ( 0, 20 ) + "...";
+        }
 
+        //
+        // Empty the header values as they are set by the client.
+        //
+        PageCommand.Header = new List<Evado.UniForm.Model.EuParameter> ( );
+
+        this.UserSession.CommandHistoryList.Add ( PageCommand );
+      }
       this.LogDebug ( "this.UserSession.CommandHistoryList.Count: {0}.", this.UserSession.CommandHistoryList.Count );
 
       this.LogMethodEnd ( "addHistoryCommand" );
@@ -3050,7 +3067,7 @@ namespace Evado.UniForm.WebClient
       this.UserSession.AppData.Page.Exit = new Evado.UniForm.Model.EuCommand ( );
 
       this.litExitCommand.Text = String.Empty;
-      this.__CommandId.Value = EuStatics.LoginCommandId.ToString ( );
+      this.__CommandId.Value = EuStatics.CONST_LOGIN_COMMAND_ID.ToString ( );
 
       //
       // display the logo if one is defined.
