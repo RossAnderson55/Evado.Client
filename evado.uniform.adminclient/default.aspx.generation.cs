@@ -56,7 +56,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbPageHistoryPills = new StringBuilder ( );
       int leftColumnPercentage = 0;
       int rightColumnPercentage = 0;
-      this.Title = Global.TitlePrefix + this.UserSession.AppData.Title;
+      this.Title = Global.TitlePrefix + " - " + this.UserSession.AppData.Title;
       this.litCommandContent.Visible = true;
       bool displayGroupsAsPanels = this.UserSession.AppData.Page.GetDisplayGroupsAsPanels ( );
 

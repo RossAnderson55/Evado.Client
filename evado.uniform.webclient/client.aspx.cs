@@ -80,6 +80,7 @@ namespace Evado.UniForm.WebClient
     protected void Page_Load ( object sender, System.EventArgs E )
     {
       Global.ClearDebugLog ( );
+      Global.LogAppendGlobal ( );
       this.LogMethod ( "Page_Load event" );
       this.LogDebug ( "EnablePageHistory: " + Global.EnablePageHistory );
       try
@@ -2391,7 +2392,7 @@ namespace Evado.UniForm.WebClient
     private void UploadPageImages ( )
     {
       this.LogMethod ( "UploadPageImages method" );
-      this.LogDebug ( "Global.ImageFilePath: " + Global.BinaryFilePath );
+      this.LogDebug ( "Global.BinaryFilePath: " + Global.BinaryFilePath );
       this.LogDebug ( "Number of files: " + Context.Request.Files.Count );
       try
       {
@@ -3045,7 +3046,7 @@ namespace Evado.UniForm.WebClient
       //
       this.initialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
-      this.Title = Global.TitlePrefix + this.UserSession.AppData.Title;
+      this.Title = Global.TitlePrefix + " - "+ this.UserSession.AppData.Title;
       this.imgLogo.Src = Global.DefaultLogoUrl;
       this.meetingStatus.Value = Evado.Model.EvMeeting.States.Null.ToString ( );
 

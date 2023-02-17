@@ -82,9 +82,9 @@ namespace Evado.UniForm.AdminClient
     protected void Page_Load ( object sender, System.EventArgs E )
     {
       Global.ClearDebugLog ( );
+      Global.LogAppendGlobal ( );
       this.LogMethod ( "Page_Load event" );
-      this.LogDebug ( "EnablePageHistory: " + Global.EnablePageHistory );
-      try
+      this.LogDebug ( "EnablePageHistory: " + Global.EnablePageHistory );      try
       {
         this.LogValue ( "UserHostAddress: " + Request.UserHostAddress );
         this.LogDebug ( "UserHostName: " + Request.UserHostName );
@@ -3114,7 +3114,7 @@ namespace Evado.UniForm.AdminClient
       //
       this.initialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
-      this.Title = Global.TitlePrefix + this.UserSession.AppData.Title;
+      this.Title = Global.TitlePrefix + " - " + this.UserSession.AppData.Title;
       this.imgLogo.Src = Global.DefaultLogoUrl;
 
       this.fsLoginBox.Visible = true;

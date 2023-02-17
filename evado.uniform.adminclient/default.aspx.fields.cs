@@ -625,7 +625,7 @@ namespace Evado.UniForm.AdminClient
       // 
       // If the url does not include a http statement add the default image url 
       // 
-      stImageUrl = Global.concatinateHttpUrl ( Global.StaticImageUrl, stImageUrl );
+      stImageUrl = Global.concatinateHttpUrl ( Global.TempUrl, stImageUrl );
 
       this.LogDebug ( "stImageUrl: " + stImageUrl );
 

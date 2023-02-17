@@ -54,6 +54,7 @@ namespace Evado.UniForm.WebClient
     protected void Page_Load ( object sender, System.EventArgs E )
     {
       Global.ClearDebugLog ( );
+      Global.LogAppendGlobal ( );
       this.LogMethod ( "Page_Load event" );
       try
       {
@@ -96,6 +97,7 @@ namespace Evado.UniForm.WebClient
       // 
       // Write footer
       // 
+      this.Title = Global.TitlePrefix;
       this.litCopyright.Text = Global.AssemblyAttributes.Copyright;
       this.litFooterText.Text = EuLabels.Footer_Text;
       this.litVersion.Text = "Version: " + Global.AssemblyAttributes.FullVersion ;
