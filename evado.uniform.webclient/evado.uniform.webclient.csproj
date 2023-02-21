@@ -77,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\webattributes.cs" />
+    <Compile Include="client.history.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
