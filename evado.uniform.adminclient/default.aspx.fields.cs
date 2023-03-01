@@ -1540,10 +1540,15 @@ namespace Evado.UniForm.AdminClient
       }
       else
       {
-        sbHtml.AppendLine ( "<input type='text' "
-          + "id='" + PageField.FieldId + "' "
-          + "name='" + PageField.FieldId + "' "
-          + "value='" + PageField.Value + "' disabled='disabled' />" );
+        if ( PageField.Value.Contains ( "1900" ) == false 
+          && PageField.Value.Contains ( "1901" ) == false )
+        {
+          sbHtml.AppendLine ( "<input type='text' "
+            + "id='" + PageField.FieldId + "' "
+            + "name='" + PageField.FieldId + "' "
+            + "value='" + PageField.Value + "' "
+            + "disabled='disabled' />" );
+        }
 
         sbHtml.AppendLine ( "</span>" );
       }
@@ -3793,8 +3798,8 @@ namespace Evado.UniForm.AdminClient
       string maxLabel = PageField.GetParameter ( EuFieldParameters.Max_Label );
       float increment = PageField.GetParameterflt ( EuFieldParameters.Increment );
 
-      if( increment == 0
-        || increment == Evado.Model.EvStatics.CONST_NUMERIC_NULL 
+      if ( increment == 0
+        || increment == Evado.Model.EvStatics.CONST_NUMERIC_NULL
         || increment == Evado.Model.EvStatics.CONST_NUMERIC_ERROR )
       {
         this.LogDebug ( "Set Default Increment" );

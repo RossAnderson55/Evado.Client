@@ -1541,10 +1541,15 @@ namespace Evado.UniForm.WebClient
       }
       else
       {
-        sbHtml.AppendLine ( "<input type='text' "
-          + "id='" + PageField.FieldId + "' "
-          + "name='" + PageField.FieldId + "' "
-          + "value='" + PageField.Value + "' disabled='disabled' />" );
+        if ( PageField.Value.Contains ( "1900" ) == false
+          && PageField.Value.Contains ( "1901" ) == false )
+        {
+          sbHtml.AppendLine ( "<input type='text' "
+            + "id='" + PageField.FieldId + "' "
+            + "name='" + PageField.FieldId + "' "
+            + "value='" + PageField.Value + "' "
+            + "disabled='disabled' />" );
+        }
 
         sbHtml.AppendLine ( "</span>" );
       }
