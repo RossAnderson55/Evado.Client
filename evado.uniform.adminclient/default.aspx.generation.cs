@@ -353,6 +353,16 @@ namespace Evado.UniForm.AdminClient
       this.litHistory.Text = sbPageHistoryPills.ToString ( );
       this.litPageMenu.Text = sbPageMenuPills.ToString ( );
 
+      //
+      // hide the history and exit command if anonymous access is enabled.
+      //
+      if ( this.UserSession.AppData.Status == Model.EuAppData.StatusCodes.Anonymous_Edit_Access )
+      {
+        this.litExitCommand.Visible = false;
+        this.litHistory.Visible = false;
+        this.litPageMenu.Visible = false;
+      }
+
       this.LogMethodEnd ( "generatePage" );
     }//END generatePage method
 
@@ -1020,6 +1030,10 @@ namespace Evado.UniForm.AdminClient
               break;
             }
           case Evado.Model.EvDataTypes.Boolean:
+            {
+              this.createBooleanField ( sbHtml, groupField );
+              break;
+            }
           case Evado.Model.EvDataTypes.Yes_No:
             {
               this.createYesNoField ( sbHtml, groupField );

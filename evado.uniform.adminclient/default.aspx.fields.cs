@@ -2452,7 +2452,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createBooleanField" );
+      this.LogMethod ( "createYesNoField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -2596,6 +2596,99 @@ namespace Evado.UniForm.AdminClient
       // Insert the field footer elemements
       //
       this.createFieldFooter ( sbHtml, PageField );
+
+    }//END Field Method
+
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a boolean field html markup
+    /// </summary>
+    /// <param name="sbHtml">StringBuilder:  containing html string content</param>
+    /// <param name="PageField">Field object.</param>
+    // ----------------------------------------------------------------------------------
+    private void createBooleanField (
+      StringBuilder sbHtml,
+      Evado.UniForm.Model.EuField PageField )
+    {
+      this.LogMethod ( "createBooleanField" );
+      //
+      // Initialise the methods variables and objects.
+      //
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
+      int titleColumnWidth = 100 - valueColumnWidth;
+      String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
+      String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
+      //
+      // Set the normal validation parameters.
+      //
+      string stValidationMethod = " onclick=\"Evado.Form.onSelectionValidation( this, this.value )\" ";
+
+      if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
+      {
+        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        valueColumnWidth = ( int ) widthValue;
+        titleColumnWidth = 100 - valueColumnWidth;
+      }
+      this.LogDebug ( "valueColumnWidth: " + valueColumnWidth );
+
+      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-bool-value cf' ";
+
+      sbHtml.AppendLine ( "<!-- START BOOLEAND FIELD -->" );
+      //
+      // Ineert the field header
+      //
+      createFieldHeader ( sbHtml, PageField, titleColumnWidth, false );
+
+      //
+      // Insert the field elements
+      //
+      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
+
+      //
+      // yes input control
+      //
+      sbHtml.AppendLine ( "<label>" );
+      sbHtml.Append ( "<input "
+       + "type='checkbox' "
+       + "id='" + PageField.FieldId + "_Y' "
+       + "name='" + PageField.FieldId + "' "
+       + "tabindex = '" + _TabIndex + "' "
+       + "value=\"Yes\" "
+       + "data-parsley-trigger=\"change\" " );
+
+      if ( PageField.Value.ToLower() == "yes"
+        || PageField.Value.ToLower ( ) == "1"
+        || PageField.Value.ToLower ( ) == "true" )
+      {
+        sbHtml.Append ( " checked='checked' " );
+      }
+
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
+
+      if ( stCmdOnChange == "1" )
+      {
+        sbHtml.Append ( this.createOnChangeEvent ( ) );
+      }
+      else
+      {
+        sbHtml.Append ( "\r\n " + stValidationMethod );
+      }
+
+      sbHtml.AppendLine ( "/>" );
+
+      sbHtml.AppendLine ( "</div>" );
+
+      this._TabIndex += 1;
+
+      //
+      // Insert the field footer elemements
+      //
+      this.createFieldFooter ( sbHtml, PageField );
+
+      sbHtml.AppendLine ( "<!-- END BOOLEAND FIELD -->" );
 
     }//END Field Method
 
@@ -3197,6 +3290,35 @@ namespace Evado.UniForm.AdminClient
 
                 break;
               }//END Date case.
+
+            case Evado.Model.EvDataTypes.Boolean:
+              {
+                sbHtml.Append ( "<td align='middle'>" );
+                sbHtml.AppendLine ( "<input "
+                    + "id='" + stDataId + "' "
+                    + "name='" + stDataId + "' "
+                    + "maxlength='" + header.Width + "' "
+                    + "size='" + header.Width + "' "
+                    + "tabindex = '" + _TabIndex + "' "
+                    + "type='checkbox'"
+                    + "value='Yes' class='form-control' " );
+
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                {
+                  sbHtml.Append ( " readonly='readonly' " );
+                }
+
+                if ( stValue.ToLower() == "yes" )
+                {
+                  sbHtml.Append ( " checked='checked' " );
+                }
+
+                sbHtml.Append ( "/>" );
+
+                this._TabIndex++;
+
+                break;
+              }//END Text State.
 
             case Evado.Model.EvDataTypes.Yes_No:
               {

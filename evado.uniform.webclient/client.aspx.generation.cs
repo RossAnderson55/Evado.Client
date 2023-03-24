@@ -23,6 +23,7 @@ namespace Evado.UniForm.WebClient
     private void GeneratePage ( )
     {
       this.LogMethod ( "generatePage" );
+      this.LogDebug ( "Status: " + this.UserSession.AppData.Status );
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
       this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
       this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
@@ -32,8 +33,11 @@ namespace Evado.UniForm.WebClient
       // initialise method variables and objects.
       //
       this.litPageContent.Visible = true;
+      this.litExitCommand.Visible = true;
+      this.litHistory.Visible = false;
+      this.litHistory.Visible = false;
 
-      if ( Global.EnablePageMenu == true )
+      if ( Global.EnablePageMenu == true)
       {
         this.litPageMenu.Visible = true;
       }
@@ -42,6 +46,9 @@ namespace Evado.UniForm.WebClient
       {
         this.litHistory.Visible = true;
       }
+      this.LogDebug ( "litExitCommand.Visible: {0}.", this.litExitCommand.Visible );
+      this.LogDebug ( "litHistory.Visible: {0}.", this.litHistory.Visible );
+      this.LogDebug ( "this.litHistory.Visible: {0}.", this.litHistory.Visible );
 
       //
       // set the meeting values.
@@ -359,6 +366,19 @@ namespace Evado.UniForm.WebClient
       this.litHistory.Text = sbPageHistoryPills.ToString ( );
       this.litPageMenu.Text = sbPageMenuPills.ToString ( );
 
+      //
+      // hide the history and exit command if anonymous access is enabled.
+      //
+      if ( this.UserSession.AppData.Status == Model.EuAppData.StatusCodes.Anonymous_Edit_Access )
+      {
+        this.litExitCommand.Visible = false;
+        this.litHistory.Visible = false;
+        this.litPageMenu.Visible = false;
+      }
+      this.LogDebug ( "litExitCommand.Visible: {0}.", this.litExitCommand.Visible );
+      this.LogDebug ( "litHistory.Visible: {0}.", this.litHistory.Visible );
+      this.LogDebug ( "this.litHistory.Visible: {0}.", this.litHistory.Visible );
+
       this.LogMethodEnd ( "generatePage" );
     }//END generatePage method
 
@@ -510,6 +530,7 @@ namespace Evado.UniForm.WebClient
               linkIndex++;
             }
           }
+
         }
         else
         {
@@ -540,7 +561,9 @@ namespace Evado.UniForm.WebClient
 
       stHtml.AppendLine ( "<ul id='Main_Menu'>" );
       //stHtml.AppendLine ( "\t<li id='Command' ><a class='btn' style='text-align:right;'><img src='./css/Command-Arrow.png' alt='>>'/></a>" );
-      stHtml.AppendLine ( "\t<li id='Command' ><a class='btn' style='text-align:right;'><img src='./css/Menu-icon.png' alt='>>'/></a>" );
+
+        stHtml.AppendLine ( "\t<li id='Command' ><a class='btn' style='text-align:right;'><img src='./css/Menu-icon.png' alt='>>'/></a>" );
+     
       stHtml.AppendLine ( "\t\t<ul>" );
 
 
@@ -572,7 +595,7 @@ namespace Evado.UniForm.WebClient
 
       this.litCommandContent.Text = stHtml.ToString ( );
 
-      this.LogMethodEnd ( "generateCommands" );
+        this.LogMethodEnd ( "generateCommands" );
     }//END generatePageCommands method
 
     // ==================================================================================

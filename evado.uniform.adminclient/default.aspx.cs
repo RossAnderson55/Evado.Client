@@ -509,7 +509,7 @@ namespace Evado.UniForm.AdminClient
 
         if ( Global.DebugLogOn == true )
         {
-          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"json-data.txt", jsonData );
+          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"Cmd-json-data.txt", jsonData );
         }
 
         //
@@ -651,11 +651,6 @@ namespace Evado.UniForm.AdminClient
         this.LogDebug ( "Serialising the PageComment object" );
 
         jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( fileObject );
-
-        if ( Global.DebugLogOn == true )
-        {
-          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath, @"jsonData-1.txt", jsonData );
-        }
 
         this.LogDebug ( "jsonData.Length  {0}.", jsonData.Length );
 
