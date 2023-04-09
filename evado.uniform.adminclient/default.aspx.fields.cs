@@ -3611,7 +3611,7 @@ namespace Evado.UniForm.AdminClient
 
       this.LogDebug ( "stImageUrl: " + stBinaryUrl );
 
-      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-image-value cf' ";
+      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-text-value cf' ";
 
       //
       // Ineert the field header
@@ -3625,9 +3625,12 @@ namespace Evado.UniForm.AdminClient
       {
         sbHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
 
-        sbHtml.AppendLine ( "<input name='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
-          + "type='file' id='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
-          + "size='80' />" );
+        sbHtml.AppendLine ( "<input " 
+          + "name='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' " 
+          + "id='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
+          + "type='file' "
+          + "class='form-control' "
+          + "size='100' />" );
       }
       else
       {
@@ -4883,7 +4886,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      int stWidth = 50;
+      int stWidth = 98;
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
@@ -4892,14 +4895,12 @@ namespace Evado.UniForm.AdminClient
         titleColumnWidth = 100 - valueColumnWidth;
       }
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
-      {
-        stWidth = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
-      }
-
       string stValue = PageField.Value;
       string stLinkUrl = PageField.Value;
-      string stLinkTitle = PageField.Title;
+      string stLinkTitle = PageField.Value;
+
+      int index = stLinkUrl.LastIndexOf ( '/' );
+      stLinkTitle = stLinkUrl.Substring ( index+1 );
 
       if ( stValue.Contains ( "^" ) == true )
       {
@@ -4927,7 +4928,7 @@ namespace Evado.UniForm.AdminClient
 
         this.LogValue ( "Final URL: " + stLinkUrl );
 
-        sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+        sbHtml.AppendLine ( "<div style=\"width:"+ stWidth + "%;\" > " );
 
         sbHtml.AppendLine ( "<span>" );
         sbHtml.AppendLine ( "<strong>" );
