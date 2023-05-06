@@ -1989,7 +1989,7 @@ namespace Evado.UniForm.AdminClient
               //
               // iterate through each row adding the column value if a floating number.
               //
-              foreach ( EuTableRow row in field.Table.Rows )
+              foreach (  Evado.Model.EvTableRow row in field.Table.Rows )
               {
                 float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ] );
                 if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
@@ -2310,12 +2310,12 @@ namespace Evado.UniForm.AdminClient
           if ( value != null )
           {
             this.LogDebug ( " value: " + value
-               + " TypeId: " + FormField.Table.Header [ Col ].TypeId );
+               + " DataType: " + FormField.Table.Header [ Col ].DataType );
 
             //
             // If NA is entered set to numeric null.
             //
-            if ( FormField.Table.Header [ Col ].TypeId == Evado.Model.EvDataTypes.Numeric )
+            if ( FormField.Table.Header [ Col ].DataType == Evado.Model.EvDataTypes.Numeric )
             {
               if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
               {

@@ -3069,7 +3069,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Sum the data widths to compute the column widths.
       //
-      foreach ( Evado.UniForm.Model.EuTableColHeader header in PageField.Table.Header )
+      foreach ( Evado.Model.EvTableHeader header in PageField.Table.Header )
       {
         if ( header.Text != String.Empty )
         {
@@ -3084,7 +3084,7 @@ namespace Evado.UniForm.AdminClient
       // 
       // Iterate through the field table header items
       // 
-      foreach ( Evado.UniForm.Model.EuTableColHeader header in PageField.Table.Header )
+      foreach ( Evado.Model.EvTableHeader header in PageField.Table.Header )
       {
         // 
         // Skip rows that have not header text
@@ -3118,12 +3118,12 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.Append ( "<strong>" + header.Text + "</strong> " );
 
-        if ( header.TypeId == Evado.Model.EvDataTypes.Date )
+        if ( header.DataType== Evado.Model.EvDataTypes.Date )
         {
           sbHtml.Append ( "<br/><span class='Smaller_Italics'>(DD MMM YYYY)</span>" );
         }
 
-        if ( header.TypeId == Evado.Model.EvDataTypes.Numeric )
+        if ( header.DataType== Evado.Model.EvDataTypes.Numeric )
         {
           if ( header.OptionsOrUnit == String.Empty )
           {
@@ -3171,7 +3171,7 @@ namespace Evado.UniForm.AdminClient
 
       for ( int column = 0; column < PageField.Table.ColumnCount; column++ )
       {
-        Evado.UniForm.Model.EuTableColHeader header = PageField.Table.Header [ column ];
+        Evado.Model.EvTableHeader header = PageField.Table.Header [ column ];
         try
         {
           string stDataId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
@@ -3185,7 +3185,7 @@ namespace Evado.UniForm.AdminClient
             continue;
           }
 
-          switch ( header.TypeId )
+          switch ( header.DataType)
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
               {
@@ -3208,7 +3208,7 @@ namespace Evado.UniForm.AdminClient
                     + "onchange=\"Evado.Form.onTextValidation( this"
                     + ", '" + stDataId + "'"
                     + ", '" + stValue + "'"
-                    + ", '" + Evado.UniForm.Model.EuTableColHeader.ItemTypeText + "'"
+                    + ", '" + Evado.Model.EvTableHeader.ItemTypeText + "'"
                     + " )\" class='form-control' " );
 
                 if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )

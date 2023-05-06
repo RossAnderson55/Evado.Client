@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web.UI.MobileControls;
 
 ///Evado. namespace references.
 
@@ -1301,6 +1302,11 @@ namespace Evado.UniForm.AdminClient
             this.generateTiledCommandGroup ( sbHtml, PageGroup );
             break;
           }
+        case Evado.UniForm.Model.EuGroupCommandListLayouts.Tabular_Commands:
+          {
+            this.generateTabularCommandGroup ( sbHtml, PageGroup );
+            break;
+          }
         default:
           {
             this.generateDefaultCommandGroup ( sbHtml, PageGroup );
@@ -1435,6 +1441,155 @@ namespace Evado.UniForm.AdminClient
 
       sbHtml.Append ( "</table>" );
     }
+
+    //===================================================================================
+    /// <summary>
+    /// This method generates the tabular group Command group html content.
+    /// </summary>
+    /// <param name="sbHtml">StringBuilding containing the html </param>
+    /// <param name="PageGroup">PageGroup object</param>
+    //-----------------------------------------------------------------------------------
+    private void generateTabularCommandGroup (
+      StringBuilder sbHtml,
+      Evado.UniForm.Model.EuGroup PageGroup )
+    {
+      this.LogMethod ( "generateTabularCommandGroup" );
+      this.LogDebug ( "Group.Title: " + PageGroup.Title );
+      //
+      // Initialise the methods variables and objects.
+      //
+      int GroupCommandIndex = 0;
+      bool bEventRow = false;
+
+      //
+      // Setting the default command bacground colours.
+      //
+      String background_Default = "White";
+      String background_Alternative = "Gray";
+      String background_Highlighted = "Dark_Red";
+
+      var tableHeader = PageGroup.GetParameter ( Model.EuGroupParameters.Command_Tabular_Header );
+
+      String [ ] arTableHeader = tableHeader.Split ( '|' );
+
+      if ( arTableHeader.Length <= 1 )
+      {
+        this.LogDebug ( "Only one column so user virtual command structure" );
+        this.generateTabularCommandGroup ( sbHtml, PageGroup );
+        this.LogMethodEnd ( "generateTabularCommandGroup" );
+        return;
+      }
+
+
+      this.LogDebug ( "1 background_Default: " + background_Default );
+      this.LogDebug ( "1 background_Alternative: " + background_Alternative );
+      this.LogDebug ( "1 background_Highlighted: " + background_Highlighted );
+
+      //
+      // Update the colour if it is in the group settings.
+      //
+      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default ) == true )
+      {
+        background_Default = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default );
+      }
+      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alternative ) == true )
+      {
+        background_Alternative = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alternative );
+      }
+      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Highlighted ) == true )
+      {
+        background_Highlighted = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Highlighted );
+      }
+
+      this.LogDebug ( "2 background_Default: " + background_Default );
+      this.LogDebug ( "2 background_Alternative: " + background_Alternative );
+      this.LogDebug ( "2 background_Highlighted: " + background_Highlighted );
+      //
+      // Define the table header.
+      //
+      sbHtml.Append ( "<table  class='NavigationTable'>" );
+
+      sbHtml.AppendLine ( "<tr> " );
+      foreach ( String header in arTableHeader )
+      {
+        sbHtml.AppendLine ( "<td class=\"" + background_Default + "\"> "
+          + header
+          + "</td>" );
+      }
+      sbHtml.AppendLine ( "</tr> " );
+
+      foreach ( Evado.UniForm.Model.EuCommand command in PageGroup.CommandList )
+      {
+        //
+        // skip null commands
+        //
+        if ( command == null )
+        {
+          this.LogDebug ( "Command is null." );
+          continue;
+        }
+
+        this.LogDebug ( "Command:" + command.Title );
+
+        string [ ] arTitle = command.Title.Split ( '|' );
+
+        this.LogDebug ( "3 background: " + background_Default );
+        this.LogDebug ( "3 alternative: " + background_Alternative );
+        this.LogDebug ( "3 highlighted: " + background_Highlighted );
+
+        sbHtml.AppendLine ( "<tr> " );
+
+        for ( int index = 0; index < arTitle.Length && index < arTableHeader.Length; index++ )
+        {
+          if ( bEventRow == false )
+          {
+            if ( index == 0 )
+            {
+              sbHtml.AppendLine ( "<td class=\"" + background_Default + "\" "
+                  + "onmouseover=\"this.className='" + background_Highlighted + "'\" "
+                  + "onmouseout=\"this.className='" + background_Default + "'\" "
+                  + "onclick=\"javascript:onPostBack('" + command.Id + "')\"> "
+                  + arTitle [ index ]
+                  + "</td>" );
+            }
+            else
+            {
+              sbHtml.AppendLine ( "<td class=\"" + background_Default + "\" > "
+                  + arTitle [ index ]
+                  + "</td>" );
+            }
+            bEventRow = true;
+          }
+          else
+          {
+            if ( index == 0 )
+            {
+              sbHtml.AppendLine ( "<td class=\"" + background_Alternative + "\" "
+              + "onmouseover=\"this.className='" + background_Highlighted + "'\" "
+              + "onmouseout=\"this.className='" + background_Alternative + "'\" "
+              + "onclick=\"javascript:onPostBack('" + command.Id + "')\"> "
+                  + arTitle [ index ]
+              + "</td>" );
+            }
+            else
+            {
+              sbHtml.AppendLine ( "<td class=\"" + background_Alternative + "\" > "
+                  + arTitle [ index ]
+                  + "</td>" );
+            }
+            bEventRow = false;
+          }
+        }
+        sbHtml.AppendLine ( "</tr>" );
+
+        GroupCommandIndex++;
+
+
+      }//END page object iteration loop
+
+      sbHtml.Append ( "</table>" );
+      this.LogMethodEnd ( "generateTabularCommandGroup" );
+    }//END generateTabularCommandGroup method
 
     //===================================================================================
     /// <summary>
