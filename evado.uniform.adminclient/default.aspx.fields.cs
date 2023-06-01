@@ -1540,7 +1540,7 @@ namespace Evado.UniForm.AdminClient
       }
       else
       {
-        if ( PageField.Value.Contains ( "1900" ) == false 
+        if ( PageField.Value.Contains ( "1900" ) == false
           && PageField.Value.Contains ( "1901" ) == false )
         {
           sbHtml.AppendLine ( "<input type='text' "
@@ -2656,7 +2656,7 @@ namespace Evado.UniForm.AdminClient
        + "value=\"Yes\" "
        + "data-parsley-trigger=\"change\" " );
 
-      if ( PageField.Value.ToLower() == "yes"
+      if ( PageField.Value.ToLower ( ) == "yes"
         || PageField.Value.ToLower ( ) == "1"
         || PageField.Value.ToLower ( ) == "true" )
       {
@@ -3073,13 +3073,14 @@ namespace Evado.UniForm.AdminClient
       {
         if ( header.Text != String.Empty )
         {
-          int i = 0;
-          if ( int.TryParse ( header.Width, out i ) == true )
-          {
-            iWidth += i;
-          }
+           iWidth += header.Width;
         }
       }//END header iteration loop to sum width.
+
+      if ( iWidth == 0 )
+      {
+        iWidth = ( int ) 100 / PageField.Table.Header.Length;
+      }
 
       // 
       // Iterate through the field table header items
@@ -3094,16 +3095,9 @@ namespace Evado.UniForm.AdminClient
           continue;
         }
 
-        int i = 0;
-        if ( int.TryParse ( header.Width, out i ) == true )
-        {
-          float celWidth = 100 * i / iWidth;
-          stWidth = "Width:" + celWidth + "%";
-        }
-        else
-        {
-          stWidth = "Width:" + header.Width + "%";
-        }
+        int i = header.Width;
+        float celWidth = 100 * i / iWidth;
+        stWidth = "Width:" + celWidth + "%";
 
         if ( PageField.Table.ColumnCount == 1 )
         {
@@ -3118,12 +3112,12 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.Append ( "<strong>" + header.Text + "</strong> " );
 
-        if ( header.DataType== Evado.Model.EvDataTypes.Date )
+        if ( header.DataType == Evado.Model.EvDataTypes.Date )
         {
           sbHtml.Append ( "<br/><span class='Smaller_Italics'>(DD MMM YYYY)</span>" );
         }
 
-        if ( header.DataType== Evado.Model.EvDataTypes.Numeric )
+        if ( header.DataType == Evado.Model.EvDataTypes.Numeric )
         {
           if ( header.OptionsOrUnit == String.Empty )
           {
@@ -3185,7 +3179,7 @@ namespace Evado.UniForm.AdminClient
             continue;
           }
 
-          switch ( header.DataType)
+          switch ( header.DataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
               {
@@ -3308,7 +3302,7 @@ namespace Evado.UniForm.AdminClient
                   sbHtml.Append ( " readonly='readonly' " );
                 }
 
-                if ( stValue.ToLower() == "yes" )
+                if ( stValue.ToLower ( ) == "yes" )
                 {
                   sbHtml.Append ( " checked='checked' " );
                 }
@@ -3625,8 +3619,8 @@ namespace Evado.UniForm.AdminClient
       {
         sbHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
 
-        sbHtml.AppendLine ( "<input " 
-          + "name='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' " 
+        sbHtml.AppendLine ( "<input "
+          + "name='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
           + "id='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
           + "type='file' "
           + "class='form-control' "
@@ -4900,7 +4894,7 @@ namespace Evado.UniForm.AdminClient
       string stLinkTitle = PageField.Value;
 
       int index = stLinkUrl.LastIndexOf ( '/' );
-      stLinkTitle = stLinkUrl.Substring ( index+1 );
+      stLinkTitle = stLinkUrl.Substring ( index + 1 );
 
       if ( stValue.Contains ( "^" ) == true )
       {
@@ -4928,7 +4922,7 @@ namespace Evado.UniForm.AdminClient
 
         this.LogValue ( "Final URL: " + stLinkUrl );
 
-        sbHtml.AppendLine ( "<div style=\"width:"+ stWidth + "%;\" > " );
+        sbHtml.AppendLine ( "<div style=\"width:" + stWidth + "%;\" > " );
 
         sbHtml.AppendLine ( "<span>" );
         sbHtml.AppendLine ( "<strong>" );

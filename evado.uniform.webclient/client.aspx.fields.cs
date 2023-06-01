@@ -2981,13 +2981,14 @@ namespace Evado.UniForm.WebClient
       {
         if ( header.Text != String.Empty )
         {
-          int i = 0;
-          if ( int.TryParse ( header.Width, out i ) == true )
-          {
-            iWidth += i;
-          }
+          int i = header.Width;
         }
       }//END header iteration loop to sum width.
+
+      if ( iWidth == 0 )
+      {
+        iWidth = ( int ) 100 / PageField.Table.Header.Length;
+      }
 
       // 
       // Iterate through the field table header items
@@ -3002,16 +3003,9 @@ namespace Evado.UniForm.WebClient
           continue;
         }
 
-        int i = 0;
-        if ( int.TryParse ( header.Width, out i ) == true )
-        {
-          float celWidth = 100 * i / iWidth;
-          stWidth = "Width:" + celWidth + "%";
-        }
-        else
-        {
-          stWidth = "Width:" + header.Width + "%";
-        }
+        int i = header.Width;
+        float celWidth = 100 * i / iWidth;
+        stWidth = "Width:" + celWidth + "%";
 
         if ( PageField.Table.ColumnCount == 1 )
         {
@@ -3026,12 +3020,12 @@ namespace Evado.UniForm.WebClient
 
         sbHtml.Append ( "<strong>" + header.Text + "</strong> " );
 
-        if ( header.DataType== Evado.Model.EvDataTypes.Date )
+        if ( header.DataType == Evado.Model.EvDataTypes.Date )
         {
           sbHtml.Append ( "<br/><span class='Smaller_Italics'>(DD MMM YYYY)</span>" );
         }
 
-        if ( header.DataType== Evado.Model.EvDataTypes.Numeric )
+        if ( header.DataType == Evado.Model.EvDataTypes.Numeric )
         {
           if ( header.OptionsOrUnit == String.Empty )
           {
@@ -3093,7 +3087,7 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
-          switch ( header.DataType)
+          switch ( header.DataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
               {
@@ -3470,7 +3464,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "createBinaryField method." );
-      this.LogDebug ( "TempUrl: " +  Global.TempUrl );
+      this.LogDebug ( "TempUrl: " + Global.TempUrl );
       this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       this.LogDebug ( "PageField.Value: " + PageField.Value );
       //
@@ -3478,7 +3472,7 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      string stBinaryUrl =  Global.TempUrl + PageField.Value;
+      string stBinaryUrl = Global.TempUrl + PageField.Value;
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       this.TestFileUpload.Visible = true;
 
@@ -3486,7 +3480,7 @@ namespace Evado.UniForm.WebClient
       // If the url does not include a http statement add the default image url 
       // 
       stBinaryUrl = stBinaryUrl.ToLower ( );
-      stBinaryUrl = Global.concatinateHttpUrl (  Global.TempUrl, PageField.Value );
+      stBinaryUrl = Global.concatinateHttpUrl ( Global.TempUrl, PageField.Value );
 
       this.LogDebug ( "stImageUrl: " + stBinaryUrl );
 
@@ -3508,7 +3502,7 @@ namespace Evado.UniForm.WebClient
           + "name='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
           + "id='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
           + "type='file' "
-          + "class='form-control' " 
+          + "class='form-control' "
           + "size='100' />" );
       }
       else
@@ -3804,7 +3798,7 @@ namespace Evado.UniForm.WebClient
 
       if ( increment == 0
         || increment == Evado.Model.EvStatics.CONST_NUMERIC_NULL
-        || increment == Evado.Model.EvStatics.CONST_NUMERIC_ERROR ) 
+        || increment == Evado.Model.EvStatics.CONST_NUMERIC_ERROR )
       {
         increment = 2.5F;
       }
@@ -4801,7 +4795,7 @@ namespace Evado.UniForm.WebClient
         //
         // If in display model display the http link.
         //
-        stLinkUrl = Global.concatinateHttpUrl (  Global.TempUrl, stLinkUrl );
+        stLinkUrl = Global.concatinateHttpUrl ( Global.TempUrl, stLinkUrl );
 
         this.LogValue ( "Final URL: " + stLinkUrl );
 
@@ -5091,7 +5085,7 @@ namespace Evado.UniForm.WebClient
         stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
       }
 
-      stImageUrl = Global.concatinateHttpUrl (  Global.StaticImageUrl, PageField.Value );
+      stImageUrl = Global.concatinateHttpUrl ( Global.StaticImageUrl, PageField.Value );
 
       this.LogValue ( "stImageUrl: " + stImageUrl );
 

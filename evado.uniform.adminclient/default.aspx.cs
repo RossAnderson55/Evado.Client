@@ -461,27 +461,27 @@ namespace Evado.UniForm.AdminClient
       // Add the header data
       //
 
-      this.UserSession.PageCommand.AddHeader (
+      this.UserSession.PageCommand.SetHeaderValue (
         Evado.UniForm.Model.EuCommandHeaderParameters.UserId,
         this.UserSession.UserId );
 
-      this.UserSession.PageCommand.AddHeader (
+      this.UserSession.PageCommand.SetHeaderValue (
         Evado.UniForm.Model.EuCommandHeaderParameters.DeviceId,
         Evado.UniForm.Model.EuStatics.CONST_WEB_CLIENT );
 
-      this.UserSession.PageCommand.AddHeader (
+      this.UserSession.PageCommand.SetHeaderValue (
         Evado.UniForm.Model.EuCommandHeaderParameters.Client_Url,
         this.GetRequestHeader ( "Host" ) );
 
-      this.UserSession.PageCommand.AddHeader (
+      this.UserSession.PageCommand.SetHeaderValue (
         Evado.UniForm.Model.EuCommandHeaderParameters.OSVersion,
         Evado.UniForm.Model.EuStatics.CONST_WEB_NET_VERSION );
 
-      this.UserSession.PageCommand.AddHeader (
+      this.UserSession.PageCommand.SetHeaderValue (
         Evado.UniForm.Model.EuCommandHeaderParameters.User_Url,
         Request.UserHostName );
 
-      this.UserSession.PageCommand.AddHeader (
+      this.UserSession.PageCommand.SetHeaderValue (
         Evado.UniForm.Model.EuCommandHeaderParameters.DateTime,
         DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
 
