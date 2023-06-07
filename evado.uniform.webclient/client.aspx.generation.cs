@@ -1101,6 +1101,10 @@ namespace Evado.UniForm.WebClient
               break;
             }
           case Evado.Model.EvDataTypes.Boolean:
+            {
+              this.createBooleanField ( sbHtml, groupField );
+              break;
+            }
           case Evado.Model.EvDataTypes.Yes_No:
             {
               this.createYesNoField ( sbHtml, groupField );
