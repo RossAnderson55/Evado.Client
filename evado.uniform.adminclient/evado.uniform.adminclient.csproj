@@ -154,6 +154,7 @@
     <None Include="images\thumbs.db" />
     <Content Include="js\parsley.js" />
     <Content Include="js\underscore.js" />
+    <Content Include="temp\HtmlPage1.html" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -173,7 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="logs\" />
-    <Folder Include="temp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Evado.Clinical\evado.model\evado.model.csproj">
