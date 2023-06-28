@@ -1816,13 +1816,38 @@ input[type="date"] {
   margin 0;
 }
 
-.radio-table input[type="radio"],
-.checkbox-table input[type="checkbox"] {
+.table .data {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.radio-table,
+.checkbox-table{
   margin: 0px;
   margin: 0px;
   width: 0px;
-  align-items:center;
+  text-align: center;
 }
+
+  .radio-table input[type="radio"],
+  .checkbox-table input[type="checkbox"] {
+    margin: 0px;
+    margin: 0px;
+    width: 0px;
+    text-align: center;
+  }
+
+.radio-table .label,
+.checkbox-table .label {
+  margin: 0px;
+  padding: 10px;
+  text-align: left;
+  display: inline-block;
+  font-weight: normal;
+  background-color: #F8F8F8;
+  color: #000000;
+}
+
   .radio input[type="radio"],
   .checkbox input[type="checkbox"] {
     margin: 0px;
@@ -1889,6 +1914,7 @@ input[type="date"] {
   background-color: #99CCFF; /* #b72521;*/
   color: #000000;
 }
+
 .radio + .radio,
 .checkbox + .checkbox {
   margin-top: -5px;

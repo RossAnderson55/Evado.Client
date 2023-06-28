@@ -3074,7 +3074,7 @@ namespace Evado.UniForm.WebClient
       {
         if ( header.Text != String.Empty )
         {
-          int i = header.Width;
+          iWidth += header.Width;
         }
       }//END header iteration loop to sum width.
 
@@ -3180,11 +3180,12 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
+          this.LogDebug ( "stDataId: {0}, DataType: {1}, stValue: {2}.", stDataId, header.DataType, stValue );
           switch ( header.DataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
               {
-                sbHtml.Append ( "<td align='middle'>" );
+                sbHtml.Append ( "<td class='data'>" );
                 sbHtml.Append ( PageField.Table.Rows [ Row ].Column [ column ] );
 
                 sbHtml.Append ( "</td>" );
@@ -3193,7 +3194,7 @@ namespace Evado.UniForm.WebClient
               }//END Text State.
             case Evado.Model.EvDataTypes.Text:
               {
-                sbHtml.Append ( "<td style='align:middle'>" );
+                sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<input "
                     + "id='" + stDataId + "' "
                     + "name='" + stDataId + "' "
@@ -3224,7 +3225,7 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Numeric:
               {
-                sbHtml.Append ( "<td style='align:middle'>" );
+                sbHtml.Append ( "<td class='data'>" );
                 //
                 // Set the field value.
                 //
@@ -3266,9 +3267,53 @@ namespace Evado.UniForm.WebClient
                 break;
               }//END Numeric case.ase FieldTableColumnHeader.ItemTypeText:
 
+            case Evado.Model.EvDataTypes.Integer:
+              {
+                sbHtml.Append ( "<td class='data'>" );
+                //
+                // Set the field value.
+                //
+                try
+                {
+                  if ( stValue != String.Empty )
+                  {
+                    stValue = Evado.Model.EvStatics.decodeFieldNumeric ( stValue );
+                  }
+                }
+                catch { }
+
+                sbHtml.AppendLine ( "<input "
+                    + "id='" + stDataId + "' "
+                    + "name='" + stDataId + "' "
+                    + "tabindex = '" + _TabIndex + "' "
+                    + "maxlength='10' "
+                    + "size='5' "
+                    + "type='text' "
+                    + "value='" + stValue + "' "
+                    + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
+                    + " class='form-control' " );
+
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                {
+                  sbHtml.Append ( " readonly='readonly' " );
+                }
+
+                sbHtml.Append ( "/>" );
+                if ( header.OptionsOrUnit != String.Empty )
+                {
+                  sbHtml.AppendLine ( " " + header.OptionsOrUnit );
+                }
+
+                this._TabIndex++;
+
+                sbHtml.Append ( "</td>" );
+
+                break;
+              }//END Numeric case.ase FieldTableColumnHeader.ItemTypeText:
+
             case Evado.Model.EvDataTypes.Date:
               {
-                sbHtml.Append ( "<td style='align:middle'>" );
+                sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<input "
                     + "id='" + stDataId + "' "
                     + "name='" + stDataId + "' "
@@ -3297,7 +3342,7 @@ namespace Evado.UniForm.WebClient
             case Evado.Model.EvDataTypes.Boolean:
             case Evado.Model.EvDataTypes.Yes_No:
               {
-                sbHtml.Append ( "<td style='align:center' class='checkbox-table'>" );
+                sbHtml.Append ( "<td class='data checkbox-table'>" );
 
 
                 sbHtml.AppendLine ( "<label>" );
@@ -3329,7 +3374,7 @@ namespace Evado.UniForm.WebClient
             /*
           case Evado.Model.EvDataTypes.Yes_No:
             {
-              sbHtml.Append ( "<td align='left'>" );
+                sbHtml.Append ( "<td class='data'>" );
               if ( stValue.ToLower ( ) == "true" || stValue == "1" || stValue == "Yes" )
               {
                 stValue = "yes";
@@ -3425,7 +3470,7 @@ namespace Evado.UniForm.WebClient
             */
             case Evado.Model.EvDataTypes.Radio_Button_List:
               {
-                sbHtml.Append ( "<td style='align:left'>" );
+                sbHtml.Append ( "<td class='data'>" );
                 List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
 
                 // 
@@ -3514,7 +3559,7 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Selection_List:
               {
-                sbHtml.Append ( "<td style='align:center'>" );
+                sbHtml.Append ( "<td class='data'>" );
                 List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
 
                 /*
