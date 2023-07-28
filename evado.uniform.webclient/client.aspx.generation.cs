@@ -71,7 +71,11 @@ namespace Evado.UniForm.WebClient
       int rightColumnPercentage = 0;
       this.Title = Global.TitlePrefix + " - " + this.UserSession.AppData.Title;
       this.litCommandContent.Visible = true;
-      bool displayGroupsAsPanels = this.UserSession.AppData.Page.GetDisplayGroupsAsPanels ( );
+
+      //
+      // display the group panel navigator.
+      //
+      this.DisplayGroupPanelNavigator ( );
 
       //
       // Reinitialise the history each time the home page is displayed.
@@ -88,7 +92,7 @@ namespace Evado.UniForm.WebClient
       //
       // Groups are displayed a panels enable and initialise the page objects.
       //
-      if ( displayGroupsAsPanels == true )
+      if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == true )
       {
         this.PagedGroups.Visible = true;
 
@@ -102,9 +106,9 @@ namespace Evado.UniForm.WebClient
       // If the anonymous access mode exit.
       //
 
-      this.LogDebug ( "Anonymous_Page_Access: " + this.UserSession.AppData.Page.GetAnonymousPageAccess ( ) );
+      this.LogDebug ( "AnonymousPageAccess: " + this.UserSession.AppData.Page.AnonymousPageAccess );
 
-      if ( this.UserSession.AppData.Page.GetAnonymousPageAccess ( ) == false )
+      if ( this.UserSession.AppData.Page.AnonymousPageAccess == false )
       {
         this.LogDebug ( "Anonyous_Page_Access = false" );
 
@@ -241,9 +245,23 @@ namespace Evado.UniForm.WebClient
           // else place is in the central body.
           //
           this.LogDebug ( "ADD: " + group.Title + " to center column" );
-          this.generateGroup ( sbCentreBody, count, true, displayGroupsAsPanels );
 
-          this.generatePageMenuPills ( sbPageMenuPills, group );
+          if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == false )
+          {
+            this.generateGroup ( sbCentreBody, count, true, this.UserSession.AppData.Page.DisplayGroupsAsPanels );
+
+            this.generatePageMenuPills ( sbPageMenuPills, group );
+          }
+          else
+          {
+            //
+            // display a single group if the group index matches the count.
+            //
+            if ( count == this.UserSession.PanelDisplayGroupIndex )
+            {
+              this.generateGroup ( sbCentreBody, count, true, this.UserSession.AppData.Page.DisplayGroupsAsPanels );
+            }
+          }
 
         }//END Group interation loop
 
@@ -381,6 +399,62 @@ namespace Evado.UniForm.WebClient
 
       this.LogMethodEnd ( "generatePage" );
     }//END generatePage method
+
+    // ==================================================================================	
+    /// <summary>
+    /// This method displays the group panel navigator
+    /// </summary>
+    // --------------------------------------------------------------------------------
+    public void DisplayGroupPanelNavigator ( )
+    {
+      this.LogMethod ( "DisplayGroupPanelNavigator" );
+
+      //
+      // if the group panel navitation is disabled exit.
+      //
+      if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == false )
+      {
+        this.LogMethodEnd ( "DisplayGroupPanelNavigator" );
+        return;
+      }
+
+      //
+      // initialise methods variables.
+      //
+      StringBuilder panelHtml = new StringBuilder ( );
+      int previousIndex = this.UserSession.PanelDisplayGroupIndex++;
+      int nextIndex = this.UserSession.PanelDisplayGroupIndex--;
+
+      if ( previousIndex < 0 )
+      {
+        previousIndex = 0;
+      }
+
+      if ( nextIndex >= this.UserSession.AppData.Page.GroupList.Count )
+      {
+        int groupCount = this.UserSession.AppData.Page.GroupList.Count;
+        nextIndex = groupCount--;
+      }
+
+      //
+      // define the table content for the navigator.
+      //
+      panelHtml.AppendLine ( "< tr >" );
+      panelHtml.AppendLine ( "<td style = 'width: 50%;' >" );
+      panelHtml.AppendLine ( "<a id = \"btnPageLeft\" class=\"LinkBackground btn btn-danger\"" );
+      panelHtml.AppendLine ( "style=\"width: 100px\" href=\"javascript:onChangeGroup('" + previousIndex + "')\"><< Previous</a>" );
+      panelHtml.AppendLine ( "</td>" );
+      panelHtml.AppendLine ( "<td style = 'width: 50%;' >" );
+      panelHtml.AppendLine ( "<a id=\"btnPageRight\" class=\"LinkBackground btn btn-danger\"" );
+      panelHtml.AppendLine ( "style=\"width: 100px; float: right;\" href=\"javascript:onChangeGroup('" + nextIndex + "')\">Next >> </a>" );
+      panelHtml.AppendLine ( "</td>" );
+      panelHtml.AppendLine ( "</tr>" );
+
+      this.litPanelNavigator.Text = panelHtml.ToString ( );
+
+      this.LogMethodEnd ( "DisplayGroupPanelNavigator" );
+
+    }//END DisplayGroupPanelNavigator method
 
     // ==================================================================================
     /// <summary>

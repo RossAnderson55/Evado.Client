@@ -22,6 +22,7 @@ using System.Web;
 using System.Web.SessionState;
 using System.Web.Security;
 using System.Net;
+using Evado.UniForm.Model;
 
 //Evado. namespace references.
 
@@ -49,6 +50,23 @@ namespace Evado.UniForm.WebClient
         return AppData.Status;
       }
     }
+
+    /// <summary>
+    /// This property indicated if group panel navigation is enabled.
+    /// </summary>
+    public bool EnableGroupPanelNavigation
+    {
+      get
+      {
+        string value = this.AppData.Page.GetParameter ( EuPageParameters.Group_Panel_Navigation );
+        return Evado.Model.EvStatics.getBool ( value );
+      }
+    }
+
+    /// <summary>
+    /// This property defines the Group index to be displayed if Group Panel Navigation is enabled.
+    /// </summary>
+    public int PanelDisplayGroupIndex { set; get; } = 0;
 
     /// <summary>
     /// this field contains the current command object.
@@ -94,11 +112,6 @@ namespace Evado.UniForm.WebClient
     /// This field defines the group field width as a percentage of the page width.
     /// </summary>
     public int GroupFieldWidth = 60;
-
-    /// <summary>
-    /// This field contains the panel display group index.
-    /// </summary>
-    public int PanelDisplayGroupIndex = -1;
 
     /// <summary>
     /// This field contains the field annotation list for the current field .

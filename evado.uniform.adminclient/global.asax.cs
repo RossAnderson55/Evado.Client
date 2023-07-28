@@ -663,7 +663,7 @@ namespace Evado.UniForm.AdminClient
     private static System.Text.StringBuilder _ClientLog = new System.Text.StringBuilder ( );
     private static System.Text.StringBuilder _GlobalLog = new System.Text.StringBuilder ( );
 
-    private const String CONST_SERVICE_LOG_FILE_NAME = @"web-client-log-";
+    private const String CONST_SERVICE_LOG_FILE_NAME = @"admin-client-log-";
 
     //  =================================================================================
     /// <summary>
@@ -880,7 +880,7 @@ namespace Evado.UniForm.AdminClient
 
     private static System.Text.StringBuilder _DebuLog = new System.Text.StringBuilder ( );
 
-    private const String CONST_DEBUG_LOG_FILE_NAME = @"web-client-debug-";
+    private const String CONST_DEBUG_LOG_FILE_NAME = @"admin-client-debug-";
 
     public static String Debuglog = Global._DebuLog.ToString ( );
 
@@ -952,7 +952,7 @@ namespace Evado.UniForm.AdminClient
       //
       // if the debug log path is defined output the debug log to the given path.
       //
-      if ( Global.TempPath == String.Empty )
+      if ( Global.LogFilePath == String.Empty )
       {
         return;
       }
@@ -1007,7 +1007,7 @@ namespace Evado.UniForm.AdminClient
       //
       // if the debug log path is defined output the debug log to the given path.
       //
-      if ( Global.TempPath == String.Empty )
+      if ( Global.LogFilePath == String.Empty )
       {
         return;
       }

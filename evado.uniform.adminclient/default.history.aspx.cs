@@ -76,7 +76,7 @@ namespace Evado.UniForm.AdminClient
       //
       // If the anonoyous access mode exit.
       //
-      if ( this.UserSession.AppData.Page.GetAnonymousPageAccess ( ) == true )
+      if ( this.UserSession.AppData.Page.AnonymousPageAccess  == true )
       {
         this.LogDebug ( "Anonyous_Page_Access = true" );
         this.LogMethodEnd ( "addHistoryCommand" );

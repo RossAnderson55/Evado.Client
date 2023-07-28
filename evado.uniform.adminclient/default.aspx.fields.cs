@@ -3168,8 +3168,8 @@ namespace Evado.UniForm.AdminClient
         Evado.Model.EvTableHeader header = PageField.Table.Header [ column ];
         try
         {
-          string stDataId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
-          string stValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
+          string colId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
+          string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
 
           // 
           // Skip rows that have not header text
@@ -3179,7 +3179,7 @@ namespace Evado.UniForm.AdminClient
             continue;
           }
 
-          this.LogDebug ( "stDataId: {0}, DataType: {1}, stValue: {2}.", stDataId, header.DataType, stValue );
+          this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, header.DataType, colValue );
           switch ( header.DataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
@@ -3195,16 +3195,16 @@ namespace Evado.UniForm.AdminClient
               {
                 sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<input "
-                    + "id='" + stDataId + "' "
-                    + "name='" + stDataId + "' "
+                    + "id='" + colId + "' "
+                    + "name='" + colId + "' "
                     + "maxlength='" + header.Width + "' "
                     + "size='" + header.Width + "' "
                     + "tabindex = '" + _TabIndex + "' "
                     + "type='text'"
-                    + "value='" + stValue + "' "
+                    + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onTextValidation( this"
-                    + ", '" + stDataId + "'"
-                    + ", '" + stValue + "'"
+                    + ", '" + colId + "'"
+                    + ", '" + colValue + "'"
                     + ", '" + Evado.Model.EvTableHeader.ItemTypeText + "'"
                     + " )\" class='form-control' " );
 
@@ -3230,21 +3230,21 @@ namespace Evado.UniForm.AdminClient
                 //
                 try
                 {
-                  if ( stValue != String.Empty )
+                  if ( colValue != String.Empty )
                   {
-                    stValue = Evado.Model.EvStatics.decodeFieldNumeric ( stValue );
+                    colValue = Evado.Model.EvStatics.decodeFieldNumeric ( colValue );
                   }
                 }
                 catch { }
 
                 sbHtml.AppendLine ( "<input "
-                    + "id='" + stDataId + "' "
-                    + "name='" + stDataId + "' "
+                    + "id='" + colId + "' "
+                    + "name='" + colId + "' "
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='10' "
                     + "type='text' "
-                    + "value='" + stValue + "' "
+                    + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' " );
 
@@ -3274,21 +3274,21 @@ namespace Evado.UniForm.AdminClient
                 //
                 try
                 {
-                  if ( stValue != String.Empty )
+                  if ( colValue != String.Empty )
                   {
-                    stValue = Evado.Model.EvStatics.decodeFieldNumeric ( stValue );
+                    colValue = Evado.Model.EvStatics.decodeFieldNumeric ( colValue );
                   }
                 }
                 catch { }
 
                 sbHtml.AppendLine ( "<input "
-                    + "id='" + stDataId + "' "
-                    + "name='" + stDataId + "' "
+                    + "id='" + colId + "' "
+                    + "name='" + colId + "' "
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='5' "
                     + "type='text' "
-                    + "value='" + stValue + "' "
+                    + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' " );
 
@@ -3314,13 +3314,13 @@ namespace Evado.UniForm.AdminClient
               {
                 sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<input "
-                    + "id='" + stDataId + "' "
-                    + "name='" + stDataId + "' "
+                    + "id='" + colId + "' "
+                    + "name='" + colId + "' "
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='12' "
                     + "size='12' "
                     + "type='text' "
-                    + "value='" + stValue + "' "
+                    + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onDateValidation( this, this.value  )\" "
                     + "  class='form-control' data-behaviour='datepicker' " );
 
@@ -3339,134 +3339,57 @@ namespace Evado.UniForm.AdminClient
               }//END Date case.
 
             case Evado.Model.EvDataTypes.Boolean:
-            case Evado.Model.EvDataTypes.Yes_No:
+          case Evado.Model.EvDataTypes.Yes_No:
               {
-                sbHtml.Append ( "<td class='data checkbox-table'>" );
+                sbHtml.Append ( "<td class='data'>" );
+                List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
 
-
-                sbHtml.AppendLine ( "<label>" );
-                sbHtml.AppendLine ( "<input "
-                    + "id='" + stDataId + "' "
-                    + "name='" + stDataId + "' "
-                    + "type='checkbox' "
-                    + "value='Yes' " );
+                /*
+                 * Create the selectionlist HTML
+                 */
+                sbHtml.Append ( "<select "
+                    + "id='" + colId + "' "
+                    + "name='" + colId + "' "
+                    + "tabindex = '" + _TabIndex + "' "
+                    + "value='" + colValue + "' "
+                    + " class='column-control' style= width: 60%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
                 if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
-                  sbHtml.Append ( " readonly='readonly' " );
+                  sbHtml.Append ( "disabled='disabled' " );
                 }
 
-                if ( stValue.ToLower ( ) == "yes" )
+                sbHtml.Append ( ">\r\n" );
+
+                if ( colValue.ToLower ( ) == "yes"
+                  || colValue.ToLower ( ) == "true" )
                 {
-                  sbHtml.Append ( " checked='checked' " );
+                  sbHtml.Append ( "<option value='Yes' selected='selected' >Yes</option>" );
+                }
+                else
+                {
+                  sbHtml.Append ( "<option value='Yes' >Yes</option>" );
                 }
 
-                sbHtml.Append ( "/>" );
-                sbHtml.AppendLine ( "</label>" );
+                if ( colValue.ToLower ( ) == "no"
+                  || colValue.ToLower ( ) == "false"
+                  || colValue == "" )
+                {
+                  sbHtml.Append ( "<option value='No' selected='selected' >No</option>" );
+                }
+                else
+                {
+                  sbHtml.Append ( "<option value='No' >No</option>" );
+                }
+
+                sbHtml.Append ( " </select>" );
 
                 this._TabIndex++;
 
                 sbHtml.Append ( "</td>" );
 
                 break;
-              }//END Text State.
-            /*
-          case Evado.Model.EvDataTypes.Yes_No:
-            {
-                sbHtml.Append ( "<td class='data'>" );
-              if ( stValue.ToLower ( ) == "true" || stValue == "1" || stValue == "Yes" )
-              {
-                stValue = "yes";
-              }
-              else
-              {
-                stValue = "no";
-              }
-
-              sbHtml.AppendLine ( "<div class='radio-inline'>" );
-              sbHtml.AppendLine ( "<label>" );
-              sbHtml.Append ( "<input type='radio' "
-                 + "id='" + stDataId + "_1' "
-                 + "name='" + stDataId + "' "
-                 + "tabindex = '" + _TabIndex + "' "
-                 + "value='Yes' "
-                 + "onclick=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
-
-              if ( stValue.ToLower ( ) == "yes" )
-              {
-                sbHtml.Append ( " checked='checked' " );
-              }
-
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-              {
-                sbHtml.Append ( " disabled='disabled' " );
-              }
-
-              sbHtml.AppendLine ( "/>" );
-
-              //
-              // Bold the selected item when in display mode as the button may not
-              // be obvious in some browsers.
-              //
-              if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-                && ( stValue.ToLower ( ) == "yes" ) )
-              {
-                sbHtml.Append ( "<strong>Yes</strong>\r\n" );
-              }
-              else
-              {
-                sbHtml.Append ( "Yes\r\n" );
-              }
-
-              sbHtml.AppendLine ( "</label></div>\r\n" );
-
-              sbHtml.Append ( "<div class='radio-inline'><label>\r\n"
-                 + "<input type='radio' "
-                 + "id='" + stDataId + "_2' "
-                 + "name='" + stDataId + "' "
-                 + "tabindex = '" + _TabIndex + "' "
-                 + "value='No' "
-                 + "onclick=\"onSelectionValidation ( this, this.value  )\" " );
-
-              if ( stValue.ToLower ( ) == "no" )
-              {
-                sbHtml.Append ( "checked=\"checked\" " );
-              }
-
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-              {
-                sbHtml.Append ( "disabled='disabled' " );
-              }
-
-              sbHtml.AppendLine ( "/>" );
-
-              this._TabIndex++;
-
-              //
-              // Bold the selected item when in display mode as the button may not
-              // be obvious in some browsers.
-              //
-              if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-                && ( stValue.ToLower ( ) == "no" ) )
-              {
-                sbHtml.Append ( "<strong>No</strong>\r\n" );
-              }
-              else
-              {
-                sbHtml.Append ( "No\r\n" );
-              }
-
-              sbHtml.AppendLine ( "</label>" );
-
-              sbHtml.AppendLine ( "</div>" );
-
-              this._TabIndex++;
-
-        sbHtml.Append ( "</td>" );
-
-              break;
-            }//END Yes No  Case.
-            */
+              }//END Yes No  Case.
             case Evado.Model.EvDataTypes.Radio_Button_List:
               {
                 sbHtml.Append ( "<td class='data'>" );
@@ -3485,13 +3408,13 @@ namespace Evado.UniForm.AdminClient
                     sbHtml.Append ( "<div class='radio'><label>\r\n"
                        + "<input "
                        + "type='radio' "
-                       + "id='" + stDataId + "_" + ( i + 1 ) + "' "
-                       + "name='" + stDataId + "' "
+                       + "id='" + colId + "_" + ( i + 1 ) + "' "
+                       + "name='" + colId + "' "
                        + "tabindex = '" + _TabIndex + "' "
                        + "value='" + optionList [ i ].Value + "' "
                        + "onclick=\"onSelectionValidation( this, this.value  )\" " );
 
-                    if ( stValue == optionList [ i ].Value )
+                    if ( colValue == optionList [ i ].Value )
                     {
                       sbHtml.Append ( " checked='checked' " );
                     }
@@ -3508,7 +3431,7 @@ namespace Evado.UniForm.AdminClient
                     // be obvious in some browsers.
                     //
                     if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-                      && ( stValue == optionList [ i ].Value ) )
+                      && ( colValue == optionList [ i ].Value ) )
                     {
                       sbHtml.Append ( "<strong>" + optionList [ i ].Description + "<strong>\r\n" );
                     }
@@ -3529,8 +3452,8 @@ namespace Evado.UniForm.AdminClient
                 sbHtml.Append ( "<div class='radio'><label>\r\n"
                    + "<input "
                    + "type='radio' "
-                   + "id='" + stDataId + "_" + ( optionList.Count + 1 ) + "' "
-                   + "name='" + stDataId + "' "
+                   + "id='" + colId + "_" + ( optionList.Count + 1 ) + "' "
+                   + "name='" + colId + "' "
                    + "tabindex = '" + _TabIndex + "' "
                    + "value='' " );
 
@@ -3565,11 +3488,11 @@ namespace Evado.UniForm.AdminClient
                  * Create the selectionlist HTML
                  */
                 sbHtml.Append ( "<select "
-                    + "id='" + stDataId + "' "
-                    + "name='" + stDataId + "' "
+                    + "id='" + colId + "' "
+                    + "name='" + colId + "' "
                     + "tabindex = '" + _TabIndex + "' "
-                    + "value='" + stValue + "' "
-                    + " onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
+                    + "value='" + colValue + "' "
+                    + " class='column-control' style= width: 90%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
                 if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                 {
@@ -3578,7 +3501,7 @@ namespace Evado.UniForm.AdminClient
 
                 sbHtml.Append ( ">\r\n" );
 
-                if ( stValue == String.Empty )
+                if ( colValue == String.Empty )
                 {
                   sbHtml.Append ( "<option value='' selected='selected' ></option>" );
                 }
@@ -3603,7 +3526,7 @@ namespace Evado.UniForm.AdminClient
                     //
                     sbHtml.Append ( " <option value=\"" + optionList [ i ].Value + "\" " );
 
-                    if ( optionList [ i ].Value == stValue )
+                    if ( optionList [ i ].Value == colValue )
                     {
                       sbHtml.Append ( " selected='selected' " );
                     }
@@ -3620,6 +3543,11 @@ namespace Evado.UniForm.AdminClient
 
                 break;
               }//END Selection List  Case.
+            default:
+              {
+                this.LogDebug ( "DataType {0}, was not displayed.", header.DataType );
+                break;
+              }
 
           }//END Switch statement
         }
@@ -4957,7 +4885,10 @@ namespace Evado.UniForm.AdminClient
       string stLinkTitle = PageField.Value;
 
       int index = stLinkUrl.LastIndexOf ( '/' );
-      stLinkTitle = stLinkUrl.Substring ( index + 1 );
+      if ( index > 0 )
+      {
+        stLinkTitle = stLinkUrl.Substring ( index + 1 );
+      }
 
       if ( stValue.Contains ( "^" ) == true )
       {

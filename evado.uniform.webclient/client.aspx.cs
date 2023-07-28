@@ -59,6 +59,7 @@ namespace Evado.UniForm.WebClient
 
     private EucSession UserSession = new EucSession ( );
 
+    private bool LocalCommand = false;
 
 
     ///*********************************************************************************
@@ -180,22 +181,24 @@ namespace Evado.UniForm.WebClient
             {
               if ( this.fsLoginBox.Visible == false )
               {
-                //
-                // Update the Command with page data objects.
-                //
-                this.GetPageCommandParameters ( );
+                if ( this.LocalCommand == false )
+                {
+                  //
+                  // Update the Command with page data objects.
+                  //
+                  this.GetPageCommandParameters ( );
 
-                this.LogDebug ( "CURRENT PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );
+                  this.LogDebug ( "CURRENT PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );
 
-                //
-                // Send the Command to the server.
-                //
-                this.SendPageCommand ( );
+                  //
+                  // Send the Command to the server.
+                  //
+                  this.SendPageCommand ( );
 
-                //this.SendFileRequest ( "evado.jpg", "image/jpg" );
+                  //this.SendFileRequest ( "evado.jpg", "image/jpg" );
 
-                this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
-
+                  this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
+                }
                 //
                 // The client recieves a login request to display the login page.
                 //
@@ -215,6 +218,7 @@ namespace Evado.UniForm.WebClient
                 else
                 {
                   this.LogValue ( "Commence page generation" );
+                  this.LogValue ( "groupIndex: {0}.", this.groupIndex.Value );
                   //
                   // Generate the page layout.
                   //
@@ -253,6 +257,7 @@ namespace Evado.UniForm.WebClient
       // write out the debug log.
       //
       Global.OutputtDebugLog ( );
+
       //
       // write out the client log.
       //
@@ -342,6 +347,15 @@ namespace Evado.UniForm.WebClient
         this.UserSession.PageUrl = this.Request.RawUrl.Substring ( 0, intCount );
       }
       this.LogDebug ( "RawUrl: " + this.UserSession.PageUrl );
+      
+      //
+      // set the group index if is set.
+      //
+      if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == true )
+      {
+        this.UserSession.PanelDisplayGroupIndex = Evado.Model.EvStatics.getInteger ( this.groupIndex.Value );
+      }
+      this.LogDebug ( "GroupIndex: " + this.UserSession.PanelDisplayGroupIndex );
 
     }//END initialiseGlobalVariables method
 
@@ -1106,6 +1120,12 @@ namespace Evado.UniForm.WebClient
         }
         else
         {
+          if ( this.groupIndex.Value != String.Empty )
+          {
+            this.LocalCommand = true;
+          }
+          this.LogDebug ( "LocalCommand: {0}.", this.LocalCommand );
+
           this.LogDebug ( "Current and previous CommandId match." );
         }
       }

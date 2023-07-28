@@ -56,6 +56,8 @@ namespace Evado.UniForm.AdminClient
     public const string CONST_FIELD_UPPER_SUFFIX = "_Upper";
     private const float WidthPixelFactor = 8F;
 
+    private bool LocalCommand = false;
+
     private const int CONST_FILE_SEGMENT_LENGTH = 40000;
 
     private EucSession UserSession = new EucSession ( );
@@ -84,7 +86,7 @@ namespace Evado.UniForm.AdminClient
       Global.ClearDebugLog ( );
       Global.LogAppendGlobal ( );
       this.LogMethod ( "Page_Load event" );
-      this.LogDebug ( "EnablePageHistory: " + Global.EnablePageHistory );      try
+      this.LogDebug ( "EnablePageHistory: " + Global.EnablePageHistory ); try
       {
         this.LogValue ( "UserHostAddress: " + Request.UserHostAddress );
         this.LogDebug ( "UserHostName: " + Request.UserHostName );
@@ -138,7 +140,7 @@ namespace Evado.UniForm.AdminClient
         //
         this.LogDebug ( "CURRENT PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );
         this.LogDebug ( "fsLoginBox.Visible: " + this.fsLoginBox.Visible );
-
+        this.LogDebug ( "SameCommand: " + this.LocalCommand );
         //
         // Send the anonymous command and display the returned page.
         //
@@ -181,24 +183,26 @@ namespace Evado.UniForm.AdminClient
             {
               if ( this.fsLoginBox.Visible == false )
               {
-                //
-                // Update the Command with page data objects.
-                //
-                this.GetPageCommandParameters ( );
+                if ( this.LocalCommand == false )
+                {
+                  //
+                  // Update the Command with page data objects.
+                  //
+                  this.GetPageCommandParameters ( );
 
-                this.LogDebug ( "CURRENT PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );
+                  this.LogDebug ( "CURRENT PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );
 
-                //
-                // Send the Command to the server.
-                //
-                this.SendPageCommand ( );
+                  //
+                  // Send the Command to the server.
+                  //
+                  this.SendPageCommand ( );
 
-                //this.SendFileRequest ( "ross-evado.png", "image/png" );
+                  //this.SendFileRequest ( "ross-evado.png", "image/png" );
 
-                //this.SendFileRequest ( "ross-home-page.png", "image/png" );
+                  //this.SendFileRequest ( "ross-home-page.png", "image/png" );
 
-                this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
-
+                  this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
+                }
                 //
                 // The client recieves a login request to display the login page.
                 //
@@ -219,6 +223,8 @@ namespace Evado.UniForm.AdminClient
                 {
                   this.LogValue ( "Commence page generation" );
 
+                  //this.PagedGroups.Visible = true;
+                  this.LogValue ( "groupIndex: {0}.", this.groupIndex.Value );
                   //
                   // Generate the page layout.
                   //
@@ -352,6 +358,13 @@ namespace Evado.UniForm.AdminClient
         this.UserSession.PageUrl = this.Request.RawUrl.Substring ( 0, intCount );
       }
       this.LogDebug ( "RawUrl: " + this.UserSession.PageUrl );
+
+      this.LogDebug ( "DisplayGroupsAsPanels: " + this.UserSession.AppData.Page.DisplayGroupsAsPanels );
+      if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == true )
+      {
+        this.UserSession.PanelDisplayGroupIndex = Evado.Model.EvStatics.getInteger ( this.groupIndex.Value );
+      }
+      this.LogDebug ( "GroupIndex: " + this.UserSession.PanelDisplayGroupIndex );
 
     }//END initialiseGlobalVariables method
 
@@ -1181,6 +1194,12 @@ namespace Evado.UniForm.AdminClient
         }
         else
         {
+          if( this.groupIndex.Value != String.Empty )
+          { 
+          this.LocalCommand = true;
+          }
+          this.LogDebug ( "LocalCommand: {0}.", this.LocalCommand );
+
           this.LogDebug ( "Current and previous CommandId match." );
         }
       }
@@ -1989,7 +2008,7 @@ namespace Evado.UniForm.AdminClient
               //
               // iterate through each row adding the column value if a floating number.
               //
-              foreach (  Evado.Model.EvTableRow row in field.Table.Rows )
+              foreach ( Evado.Model.EvTableRow row in field.Table.Rows )
               {
                 float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ] );
                 if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR

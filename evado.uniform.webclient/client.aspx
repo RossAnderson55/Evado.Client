@@ -74,170 +74,184 @@
 </head>
 <body onload="pageLoad()">
   <form id="form1" runat="server">
-  <div>
-    <asp:HiddenField ID="__CommandId" runat="server" Value="" />
-  </div>
-  <script type="text/javascript">
+    <div>
+      <asp:HiddenField ID="__CommandId" runat="server" Value="" />
+    </div>
+    <script type="text/javascript">
     <!--
-    var theForm = document.forms['form1'];
-    var postSent = false;
-    var computedScript = false;
+  var theForm = document.forms['form1'];
+  var postSent = false;
+  var computedScript = false;
 
-    if (!theForm) {
-      theForm = document.form1;
+  if (!theForm) {
+    theForm = document.form1;
+  }
+
+  function submitForm(form) {
+    console.log("submitForm function");
+    if (postSent == true) {
+      //console.log("Post has been sent.");
+      return;
     }
 
-    function submitForm(form) {
-      console.log("submitForm function");
-      if (postSent == true) {
-        //console.log("Post has been sent.");
-        return;
-      }
+    console.log("window.width" + window.innerWidth);
+    console.log("window.height" + window.innerHeight);
 
-      console.log("window.width" + window.innerWidth);
-      console.log("window.height" + window.innerHeight);
+    document.getElementById("windowWidth").value = window.innerWidth;
+    document.getElementById("windowHeight").value = window.innerHeight;
+    postSent = true;
+    //get the form element's document to create the input control with
+    //(this way will work across windows in IE8)
+    var button = form.ownerDocument.createElement('input');
+    //make sure it can't be seen/disrupts layout (even momentarily)
+    button.style.display = 'none';
+    //make it such that it will invoke submit if clicked
+    button.type = 'submit';
+    //append it and click it
+    form.appendChild(button).click();
+    //if it was prevented, make sure we don't get a build up of buttons
+    form.removeChild(button);
 
-      document.getElementById("windowWidth").value = window.innerWidth;
-      document.getElementById("windowHeight").value = window.innerHeight;
-      postSent = true;
-      //get the form element's document to create the input control with
-      //(this way will work across windows in IE8)
-      var button = form.ownerDocument.createElement('input');
-      //make sure it can't be seen/disrupts layout (even momentarily)
-      button.style.display = 'none';
-      //make it such that it will invoke submit if clicked
-      button.type = 'submit';
-      //append it and click it
-      form.appendChild(button).click();
-      //if it was prevented, make sure we don't get a build up of buttons
-      form.removeChild(button);
+  }
 
+  function onPostBack(commandIdentifier) {
+    console.log("onPostBack function");
 
+    console.log(" commandIdentifier" + commandIdentifier);
+
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+      theForm.__CommandId.value = commandIdentifier;
+      submitForm(theForm);
     }
+  }
 
-    function onPostBack(commandIdentifier) {
-      console.log("onPostBack function");
+  function onChangeGroup(groupIndex) {
+    console.log("onChangeGroup function");
 
-      console.log(" commandIdentifier" + commandIdentifier);
+    console.log(" groupIndex: " + groupIndex);
 
-      if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-        theForm.__CommandId.value = commandIdentifier;
-        submitForm(theForm);
-      }
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+      theForm.groupIndex.value = groupIndex;
+      console.log("form.groupIndex: " + theForm.groupIndex.value);
+      submitForm(theForm);
     }
+  }
     // -->
-  </script>
-  <input id="windowWidth" type="hidden" runat="server" />
-  <input id="windowHeight" type="hidden" runat="server" />
-  <!--  EVADO FORM PAGE -->
-  <div id="page">
-    <!-- HEADER -->
-    <div id="page-header-section">
-      <div id="form-header-buttons-section">
-        <div id="form-header-left-buttons">
-          <asp:Literal ID="litExitCommand" runat="server" />
+    </script>
+    <input id="windowWidth" type="hidden" runat="server" />
+    <input id="windowHeight" type="hidden" runat="server" />
+    <input id="groupIndex" type="hidden" runat="server" />
+    <!--  EVADO FORM PAGE -->
+    <div id="page">
+      <!-- HEADER -->
+      <div id="page-header-section">
+        <div id="form-header-buttons-section">
+          <div id="form-header-left-buttons">
+            <asp:Literal ID="litExitCommand" runat="server" />
+          </div>
+          <div id="form-header-right-buttons ">
+            <asp:Literal ID="litCommandContent" runat="server" />
+          </div>
+          <div class="header">
+            <asp:Literal ID="litHeaderTitle" runat="server" />&nbsp;
+          </div>
         </div>
-        <div id="form-header-right-buttons ">
-          <asp:Literal ID="litCommandContent" runat="server" />
-        </div>
-        <div class="header">
-          <asp:Literal ID="litHeaderTitle" runat="server" />&nbsp;
-        </div>
-      </div>
-      <div class="form-heading e-menu-bar" id="pageMenu">
-        <!-- TODO: breadcrumbs should be generated by litPageMenu -->
-        <!-- breadcrumbs for history navigation: 
+        <div class="form-heading e-menu-bar" id="pageMenu">
+          <!-- TODO: breadcrumbs should be generated by litPageMenu -->
+          <!-- breadcrumbs for history navigation: 
         <ol class="breadcrumb">
           <li><a href="#">Home</a></li>
           <li><a href="#">Library</a></li>
           <li class="active">Data</li>
         </ol>
         -->
-        <asp:Literal ID="litHistory" runat="server" />
-        <asp:Literal ID="litPageMenu" runat="server" />
+          <asp:Literal ID="litHistory" runat="server" />
+          <asp:Literal ID="litPageMenu" runat="server" />
+        </div>
       </div>
-    </div>
-    <!-- PAGE BODY -->
-    <div id="page-body">
-      <!-- 
+      <!-- PAGE BODY -->
+      <div id="page-body">
+        <!-- 
       Page body section built dynamically 
       -->
-      <div id="form-body-dynamic-section" class="cf">
-        <asp:Literal ID="litPageContent" runat="server" />
-        <div id="PagedGroups" visible="false" runat="server">
-          <br />
-          <table style='width: 100%;'>
-            <tr>
-              <td style='width: 50%;'>
-                <asp:Button ID="btnPageLeft" Text=" << Previous " CssClass="LinkBackground btn btn-danger"
-                  Style="width: 100px" OnClick="btnPageLeft_OnClick" runat="server" />
-              </td>
-              <td style='width: 50%;'>
-                <asp:Button ID="btnPageRight" Text=" Next >> " CssClass="LinkBackground btn btn-danger"
-                  Style="width: 100px; float: right;" OnClick="btnPageRight_OnClick" runat="server" />
-              </td>
-            </tr>
-          </table>
-        </div>
-        <asp:Literal ID="litErrorMessage" Visible="false" runat="Server" />
-        <!-- 
+        <div id="form-body-dynamic-section" class="cf">
+          <asp:Literal ID="litPageContent" runat="server" />
+          <div id="PagedGroups" visible="false" runat="server">
+            <br />
+            <table style='width: 100%;'>
+              <tr>
+                <td style='width: 50%;'>
+                  <asp:Button ID="btnPageLeft" Text=" << Previous " CssClass="LinkBackground btn btn-danger"
+                    Style="width: 100px" OnClick="btnPageLeft_OnClick" runat="server" />
+                </td>
+                <td style='width: 50%;'>
+                  <asp:Button ID="btnPageRight" Text=" Next >> " CssClass="LinkBackground btn btn-danger"
+                    Style="width: 100px; float: right;" OnClick="btnPageRight_OnClick" runat="server" />
+                </td>
+              </tr>
+            </table>
+          </div>
+          <asp:Literal ID="litErrorMessage" Visible="false" runat="Server" />
+          <!-- 
         Login dialog box
         -->
-        <div id="fsLoginBox" class="Fields cf field-group-container" visible="false" style="text-align: center;"
-          runat="server">
-          <p id="pLogo" runat="server">
-            <img id="imgLogo" src="" runat="server" /></p>
-          <h2>
-            Login</h2>
-          <asp:Literal ID="litLoginError" Visible="false" runat="Server" />
-          <table id="login-form">
-            <tr>
-              <td class="Prompt" style="width: 40%;">
-                <label for="fldUserId" style="text-align: right; font-size: 10pt;" class="control-label">
-                  UserId:
-                </label>
-              </td>
-              <td>
-                <input id="fldUserId" type="text" runat="server" size="50" class="form-control" />
-              </td>
-            </tr>
-            <tr>
-              <td class="Prompt">
-                <label for="fldPassword" style="text-align: right; font-size: 10pt;" class="control-label">
-                  Password:</label>
-              </td>
-              <td>
-                <input id="fldPassword" type="password" runat="server" size="50" class="form-control" />
-              </td>
-            </tr>
-            <tr>
-              <td>
-              </td>
-              <td class="submit">
-                <asp:Button ID="btnLogin" Text=" Login " CssClass="LinkBackground btn btn-danger"
-                  Style="width: 100%" OnClick="btnLogin_OnClick" runat="server" />
-              </td>
-            </tr>
-          </table>
-        </div>
-        <!-- 
+          <div id="fsLoginBox" class="Fields cf field-group-container" visible="false" style="text-align: center;"
+            runat="server">
+            <p id="pLogo" runat="server">
+              <img id="imgLogo" src="" runat="server" />
+            </p>
+            <h2>Login</h2>
+            <asp:Literal ID="litLoginError" Visible="false" runat="Server" />
+            <table id="login-form">
+              <tr>
+                <td class="Prompt" style="width: 40%;">
+                  <label for="fldUserId" style="text-align: right; font-size: 10pt;" class="control-label">
+                    UserId:
+                  </label>
+                </td>
+                <td>
+                  <input id="fldUserId" type="text" runat="server" size="50" class="form-control" />
+                </td>
+              </tr>
+              <tr>
+                <td class="Prompt">
+                  <label for="fldPassword" style="text-align: right; font-size: 10pt;" class="control-label">
+                    Password:</label>
+                </td>
+                <td>
+                  <input id="fldPassword" type="password" runat="server" size="50" class="form-control" />
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="submit">
+                  <asp:Button ID="btnLogin" Text=" Login " CssClass="LinkBackground btn btn-danger"
+                    Style="width: 100%" OnClick="btnLogin_OnClick" runat="server" />
+                </td>
+              </tr>
+            </table>
+          </div>
+          <!-- 
        Object serialisation
        -->
-        <asp:Literal ID="litSerialisedLinks" runat="server" />
-        <!--
+          <asp:Literal ID="litSerialisedLinks" runat="server" />
+          <!--
         <asp:fileupload id="TestFileUpload" runat="server" Visible="false" />
         -->
-      <input id="meetingUrl" type="hidden" runat="server" />
-      <input id="meetingDisplayName" type="hidden"  runat="server" />
-      <input id="meetingParameters" type="hidden"  runat="server" />
-      <input id="meetingStatus" type="hidden" runat="server" />
-      <input id="lastMeetingStatus" type="hidden" runat="server" />
-      <input id="groupNo" type="hidden" runat="server" />
-      <input id="pageId" type="hidden" runat="server" />
+          <input id="meetingUrl" type="hidden" runat="server" />
+          <input id="meetingDisplayName" type="hidden" runat="server" />
+          <input id="meetingParameters" type="hidden" runat="server" />
+          <input id="meetingStatus" type="hidden" runat="server" />
+          <input id="lastMeetingStatus" type="hidden" runat="server" />
+          <input id="groupNo" type="hidden" runat="server" />
+          <input id="pageId" type="hidden" runat="server" />
+        </div>
       </div>
     </div>
-  </div>
-  <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2022 -->
+    <table id="form-footer">
+      <asp:Literal ID="litPanelNavigator" runat="server" />
+    </table>
+    <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2022 -->
   </form>
 </body>
 </html>

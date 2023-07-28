@@ -284,7 +284,7 @@ namespace Evado.UniForm.WebClient
       // Set the application log path  LogPath
       //
       Global.LogFilePath = Global.ApplicationPath + Global.LogFilePath;
-
+      
       if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_LOG_FILE_PATH ] != null )
       {
         string stConfigLogPath = ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_LOG_FILE_PATH ];
@@ -379,6 +379,7 @@ namespace Evado.UniForm.WebClient
           Global.DebugLogOn = true;
         }
       }
+      Global.DebugLogOn = true;
       Global.GlobalValue ( "DebugLogOn: " + Global.DebugLogOn );
       // 
       // Set the debug mode.
@@ -390,6 +391,7 @@ namespace Evado.UniForm.WebClient
           Global.DebugDisplayOn = true;
         }
       }
+
       Global.GlobalValue ( "DebugDisplayOn: " + Global.DebugDisplayOn );
 
       if ( ConfigurationManager.AppSettings [ "JavaDebug" ] != null )
@@ -951,7 +953,7 @@ namespace Evado.UniForm.WebClient
       //
       // if the debug log path is defined output the debug log to the given path.
       //
-      if ( Global.TempPath == String.Empty )
+      if ( Global.LogFilePath == String.Empty )
       {
         return;
       }
@@ -1006,7 +1008,7 @@ namespace Evado.UniForm.WebClient
       //
       // if the debug log path is defined output the debug log to the given path.
       //
-      if ( Global.TempPath == String.Empty )
+      if ( Global.LogFilePath == String.Empty )
       {
         return;
       }
