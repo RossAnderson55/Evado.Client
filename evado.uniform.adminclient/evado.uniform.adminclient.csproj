@@ -84,7 +84,9 @@
     <Compile Include="default.aspx.generation.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="default.history.aspx.cs" />
+    <Compile Include="default.aspx.history.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="EucEnumerators.cs" />
     <Compile Include="EucKeyValuePair.cs" />
     <Compile Include="EucSession.cs" />
