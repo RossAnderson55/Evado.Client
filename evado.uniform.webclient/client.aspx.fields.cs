@@ -4974,6 +4974,9 @@ namespace Evado.UniForm.WebClient
            + "id='" + PageField.FieldId + "' "
            + "name='" + PageField.FieldId + "' "
            + "value='" + PageField.Value + "' /> " );
+
+      sbHtml.AppendLine ( "</div>" );
+
       this._TabIndex += 2;
 
       //

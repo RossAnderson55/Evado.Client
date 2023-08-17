@@ -419,13 +419,21 @@ span.required {
   border-top: none;
 }
 
+.field-group .grp-description {
+  padding: 4px;
+  vertical-align: middle;
+  border-bottom-width: thin;
+  border-bottom-style: solid;
+  border-bottom-color: silver;
+}
+
 .field-group .description {
   padding: 4px 4px 10px 4px;
   vertical-align: top;
 }
 
 .field-group .description table {
-  padding: 4px 4px 10px 4px;
+  padding: 4px;
   vertical-align: top;
 }
 

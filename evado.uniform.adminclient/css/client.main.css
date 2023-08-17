@@ -416,7 +416,15 @@ span.required {
 }
 
 .field-group .fields .group-row.field:first-child {
-  border-top: none;
+  border-top: none;  
+}
+
+.field-group .grp-description {
+  padding: 4px;
+  vertical-align: middle;
+  border-bottom-width: thin;
+  border-bottom-style: solid;
+  border-bottom-color: silver;
 }
 
 .field-group .description {

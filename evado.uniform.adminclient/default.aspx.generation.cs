@@ -935,20 +935,24 @@ namespace Evado.UniForm.AdminClient
         textAlignment = textAlignment.ToLower ( );
 
         sbHtml.AppendLine ( "<!--- OPENNING DESCRIPTION --->" );
-        sbHtml.AppendLine ( "<div class='description cf " + textAlignment + descriptionBackground + " '>" );
+        sbHtml.AppendLine ( "<div>" );
+        sbHtml.AppendLine ( "<div class='grp-description cf " + textAlignment + descriptionBackground + " '>" );
 
         if ( description.Contains ( "</" ) == true
           || description.Contains ( "/>" ) == true
           || description.Contains ( "[[/" ) == true
-          || description.Contains ( "/]]" ) == true )
+          || description.Contains ( "/]]" ) == true
+          || description.Contains ( "[/" ) == true
+          || description.Contains ( "/]" ) == true )
         {
           description = this.decodeHtmlText ( description );
-          sbHtml.Append ( description );
+          sbHtml.AppendLine ( description );
         }
         else
         {
           sbHtml.AppendLine ( Evado.Model.EvStatics.EncodeMarkDown ( description ) );
         }
+        sbHtml.AppendLine ( "</div>" );
         sbHtml.AppendLine ( "</div>" );
         sbHtml.AppendLine ( "<!-- CLOSING DESCRIPTION -->" );
       }
