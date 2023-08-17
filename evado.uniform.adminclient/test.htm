@@ -5,7 +5,7 @@
 <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
 <head id="Head1">
   <title>
-    Admin Client - Subject T0600-S00001, Visit: T0600-SV000006 :  M06 - 12 month followup visit
+    Admin Client - UniFORM Test Home Page
   </title>
   <link rel="icon" type="image/png" href="./favicon.png" />
   <style type="text/css" media="screen, print, projection">
@@ -32,71 +32,80 @@
     <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
 
     <div>
-      <input type="hidden" name="__CommandId" id="__CommandId" value="b3f269b1-2c78-4bf7-a382-8ff472986d5b" />
+      <input type="hidden" name="__CommandId" id="__CommandId" value="797b477b-1bcb-4ca6-a588-f455aabdc1d1" />
     </div>
     <script type="text/javascript">
     <!--
-  var theForm = document.forms['form1'];
-  var postSent = false;
-  var computedScript = false;
+      var theForm = document.forms['form1'];
+      var postSent = false;
+      var computedScript = false;
 
-  if (!theForm) {
-    theForm = document.form1;
-  }
+      if (!theForm) {
+        theForm = document.form1;
+      }
 
-  function submitForm(form) {
-    console.log("submitForm function");
-    if (postSent == true) {
-      //console.log("Post has been sent.");
-      return;
-    }
+      function submitForm(form) {
+        console.log("submitForm function");
+        if (postSent == true) {
+          console.log("Post has been sent.");
+          return;
+        }
 
-    console.log("window.width" + window.innerWidth);
-    console.log("window.height" + window.innerHeight);
+        console.log("window.width" + window.innerWidth);
+        console.log("window.height" + window.innerHeight);
 
-    document.getElementById("windowWidth").value = window.innerWidth;
-    document.getElementById("windowHeight").value = window.innerHeight;
-    postSent = true;
-    //get the form element's document to create the input control with
-    //(this way will work across windows in IE8)
-    var button = form.ownerDocument.createElement('input');
-    //make sure it can't be seen/disrupts layout (even momentarily)
-    button.style.display = 'none';
-    //make it such that it will invoke submit if clicked
-    button.type = 'submit';
-    //append it and click it
-    form.appendChild(button).click();
-    //if it was prevented, make sure we don't get a build up of buttons
-    form.removeChild(button);
+        document.getElementById("windowWidth").value = window.innerWidth;
+        document.getElementById("windowHeight").value = window.innerHeight;
+        postSent = true;
+        //get the form element's document to create the input control with
+        //(this way will work across windows in IE8)
+        var button = form.ownerDocument.createElement('input');
+        //make sure it can't be seen/disrupts layout (even momentarily)
+        button.style.display = 'none';
+        //make it such that it will invoke submit if clicked
+        button.type = 'submit';
+        //append it and click it
+        form.appendChild(button).click();
+        //if it was prevented, make sure we don't get a build up of buttons
+        form.removeChild(button);
+      }
 
+      function onPostBack(commandIdentifier) {
+        console.log("onPostBack function");
 
-  }
+        console.log(" commandIdentifier: " + commandIdentifier);
 
-  function onPostBack(commandIdentifier) {
-    console.log("onPostBack function");
+        if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+          theForm.__CommandId.value = commandIdentifier;
+          submitForm(theForm);
+        }
+      }
 
-    console.log(" commandIdentifier" + commandIdentifier);
+      function onChangeGroup(groupIndex) {
+        console.log("onChangeGroup function");
 
-    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-      theForm.__CommandId.value = commandIdentifier;
-      submitForm(theForm);
-    }
-  }
-    // -->
+        console.log(" groupIndex: " + groupIndex);
+
+        if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+          theForm.groupIndex.value = groupIndex;
+          console.log("form.groupIndex: " + theForm.groupIndex.value);
+          submitForm(theForm);
+        }
+      }
+
+      // -->
     </script>
 
-    <input name="windowWidth" type="hidden" id="windowWidth" value="1064" />
-    <input name="windowHeight" type="hidden" id="windowHeight" value="660" />
+    <input name="windowWidth" type="hidden" id="windowWidth" value="1311" />
+    <input name="windowHeight" type="hidden" id="windowHeight" value="827" />
+    <input name="groupIndex" type="text" id="groupIndex" />
     <!--  EVADO FORM PAGE -->
     <div id="page">
       <!-- HEADER -->
       <div id="page-header-section">
         <div id="form-header-buttons-section">
           <div id="form-header-left-buttons">
-            <a class='btn btn-danger cmd-button' href="javascript:onPostBack('6996c386-317d-4991-9e6e-e899f4fdf969')">
-              Visits
-              Scheduled vi...
-            </a>
+            <a class='btn btn-danger cmd-button' href="javascript:onPostBack('1d0717a8-b253-4b87-b294-a5a8e6e108f8')">Home Page</a>
 
           </div>
           <div id="form-header-right-buttons ">
@@ -105,7 +114,25 @@
                 <a class='btn' style='text-align:right;'><img src='./css/Menu-icon.png' alt='>>' /></a>
                 <ul>
                   <li>
-                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('7d1b89f1-e739-4335-9218-2328cbcae951')">Unlock record</a>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('f67c1fe8-4e6a-48aa-90a2-2156cb49073b')">Standard Flds</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('151e7281-11d7-41d5-8956-020ae163bdab')">Diabled Standard Flds</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('bf63826b-d6fd-4908-b075-b343c5e75af8')">Special Flds</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('ea31b672-8e29-469c-8f7b-93018eb74acd')">Disabled Special Flds</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('6d019036-654a-4d11-9074-8b5310e5d21e')">Range Flds</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('1b9c54bf-d377-44c5-826c-ae7e60889e46')">Chart Fields</a>
+                  </li>
+                  <li>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('b0c98074-f775-466e-96bd-e519eef3d258')">Fld Annotation</a>
                   </li>
                 </ul>
               </li>
@@ -113,7 +140,7 @@
 
           </div>
           <div class="header">
-            Subject T0600-S00001, Visit: T0600-SV000006 :  M06 - 12 month followup visit&nbsp;
+            UniFORM Test Home Page&nbsp;
           </div>
         </div>
         <div class="form-heading e-menu-bar" id="pageMenu">
@@ -125,18 +152,8 @@
             <li class="active">Data</li>
           </ol>
           -->
-          <ol class='breadcrumb'>
-            <li><a href="javascript:onPostBack('caac166b-801f-4065-afe2-f58e237ce2df')">T0600-SV000006</a></li>
-            <li><a href="javascript:onPostBack('6ff565a2-ae55-4092-83a5-fe51f66bb269')">Home Page</a></li>
-            <li><a href="javascript:onPostBack('45c06c3a-29bd-4d4b-9834-1477bd43cac4')">T0600-S00001</a></li>
-            <li>
-              <a href="javascript:onPostBack('6996c386-317d-4991-9e6e-e899f4fdf969')">
-                Visits
-                Scheduled vi...
-              </a>
-            </li>
-          </ol>
-
+          <ol class='breadcrumb'><li><a href="javascript:onPostBack('1d0717a8-b253-4b87-b294-a5a8e6e108f8')">Home Page</a></li></ol>
+          <ul class='nav nav-pills'><li class='active'><a href='#'>All</a></li><li><a href='#20d22f6f-72be-4b86-92b3-6598026610c6-grp'>Simple fields</a></li><li><a href='#63ccb4c0-b479-44f1-ad5e-fd27644bc38c-grp'>Selection fields</a></li><li><a href='#c8335be8-3efa-44ec-9a04-696864d50177-grp'>Page Menu</a></li></ul>
         </div>
       </div>
       <!-- PAGE BODY -->
@@ -145,99 +162,799 @@
         Page body section built dynamically
         -->
         <div id="form-body-dynamic-section" class="cf">
+          <!-- OPENING BODY COLUMNS -->
+          <div style='display:inline-block; width:98%; margin:0; padding:0;'>
+            <!-- OPENING LEFT BODY COLUMN -->
+            <div style='width:20%;  float: left;'>
+              <!--- OPENING GROUP --->
+              <div id='c8335be8-3efa-44ec-9a04-696864d50177-grp' class='field-group large' style='width:100%; '>
+                <span class='group-title'> Page Menu</span>
+                <div class='field-group-container' style=''>
 
-          <!--- OPENING GROUP --->
-          <div id='325cec6d-4c92-430a-9eea-ed681c83792a-grp' class='field-group large' style='width:98%; '>
-            <span class='group-title'> Binary files</span>
-            <div class='field-group-container' style=''>
+                  <table class='NavigationTable'>
+                    <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('f67c1fe8-4e6a-48aa-90a2-2156cb49073b')"> Standard Flds</td></tr>
+                    <tr> <td class="Gray" onmouseover="this.className='Dark_Red'" onmouseout="this.className='Gray'" onclick="javascript:onPostBack('151e7281-11d7-41d5-8956-020ae163bdab')"> Diabled Standard Flds</td></tr>
+                    <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('bf63826b-d6fd-4908-b075-b343c5e75af8')"> Special Flds</td></tr>
+                    <tr> <td class="Gray" onmouseover="this.className='Dark_Red'" onmouseout="this.className='Gray'" onclick="javascript:onPostBack('ea31b672-8e29-469c-8f7b-93018eb74acd')"> Disabled Special Flds</td></tr>
+                    <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('6d019036-654a-4d11-9074-8b5310e5d21e')"> Range Flds</td></tr>
+                    <tr> <td class="Gray" onmouseover="this.className='Dark_Red'" onmouseout="this.className='Gray'" onclick="javascript:onPostBack('1b9c54bf-d377-44c5-826c-ae7e60889e46')"> Chart Fields</td></tr>
+                    <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('b0c98074-f775-466e-96bd-e519eef3d258')"> Fld Annotation</td></tr>
+                  </table>
+                </div>
+              </div>
+              <!-- GROUP FOOTER -->
+              <!-- CLOSING LEFT BODY COLUMN -->
+            </div>
+            <!-- CENTER CENTER BODY COLUMN -->
+            <div style='margin-left:21%;width: 79%'>
+              <!--- OPENING GROUP --->
+              <div id='20d22f6f-72be-4b86-92b3-6598026610c6-grp' class='field-group large' style=''>
+                <span class='group-title'> Simple fields</span>
+                <div class='field-group-container' style=''>
 
-              <div class='fields'>
-                <!-- FIELD HEADER = back-xray-w900.jpg -->
-                <div id='b44ce8e9-c103-404d-af42-7160f32be970-row' class='group-row field  cf '>
-                  <div style='width:40%; ' class='cell title cell-display-text-title'>
-                    <label>
-                      back-xray-W900.jpg
-                    </label>
-                    <div class='error-container '>
-                      <div id='b44ce8e9-c103-404d-af42-7160f32be970-err-row' class='cell cell-error-value'>
-                        <span id='spb44ce8e9-c103-404d-af42-7160f32be970-err'></span>
+                  <!--- OPENNING DESCRIPTION --->
+                  <div class='description cf left-align '>
+                    <p>Dynamic Layout</p>
+
+                  </div>
+                  <!-- CLOSING DESCRIPTION -->
+                  <div class='fields'>
+                    <!-- -------------------------------------------------------------------------
+                           FIELD HEADER = ROT01 DATA TYPE = Read_Only_Text LAYOUT = Left_Justified
+                    -->
+                    <div id='957059b9-0df4-41a1-ab64-e67a13d26fda-row' class='group-row field  cf '>
+                      <div style='width:40%; ' class='cell title cell-display-text-title'>
+                        <label>
+                          Read only text:
+                        </label>
+                      </div>
+                      
+                      <div style='width:60%; padding-top:10px; ' class='cell value cell-display-text-title'>
+                        <h1>Header 1</h1>
+
+                        <h2>header 2</h2>
+
+                        <p>
+                          Text attributes <em>italic</em>, <em>italic</em>, <strong>bold</strong>, <strong>bold</strong>, <code>monospace</code>   <em>underline</em>.<br />
+                          Bullet list:<br />
+                          * apples<br />
+                          * oranges<br />
+                          * pears<br />
+                          Numbered list:<br />
+                          1. apples<br />
+                          2. oranges<br />
+                          3. pears<br />
+                          A <a href="http://Evado.com">Evado</a>.
+                        </p>
+
                       </div>
                     </div>
+                    <!--      FIELD FOOTER = ROT01 DATA TYPE = Read_Only_Text
+                    ------------------------------------------------------------------------- -->
+                    <!-- -------------------------------------------------------------------------
+                            FIELD HEADER = TXT01 DATA TYPE = Text LAYOUT = Left_Justified
+                     -->
+                    <div id='957059b9-0df4-41a1-ab64-e67a13d26fda-row' class='group-row field  cf '>
+                      <div style='width:40%; ' class='cell title cell-display-text-title'>
+                        <label>
+                          Text:
+                        </label>
+                      </div>
+                      <div style='width:60%' class='cell value cell-input-text-value cf'>
+                        <div id='sp957059b9-0df4-41a1-ab64-e67a13d26fda'>
+                          <input type='text' id='TXT01' name='TXT01' value='Text Content' tabindex='102' maxlength='25' size='25' data-fieldid='TXT01' class='form-control' onchange="Evado.Form.onTextChange( this, this.value )" data-parsley-trigger="change"
+                                 disabled='disabled' />
+                        </div>
+                      </div>
+                    </div>
+                    <!--      FIELD FOOTER = TXT01 DATA TYPE = Text
+                    ------------------------------------------------------------------------- -->
+                    <!-- -------------------------------------------------------------------------
+                            FIELD HEADER = Http01 DATA TYPE = Http_Link LAYOUT = Left_Justified
+                     -->
+                    <div id='dd096a29-6596-48c0-8d16-675abbf477dd-row' class='group-row field  cf '>
+                      <div style='width:40%; ' class='cell title cell-display-text-title'>
+                        <label>
+                          Default Image
+                        </label>
+                      </div>
+                      
+                      <div style='width:60%' class='cell value cell-input-text-value cf'>
+                        <div style="width:98%;">
+                          <span>
+                            <strong>
+                              <a href='http://192.168.3.8:8080/images/temp/default_image.jpg' target='_blank' tabindex='105'>default_Image.jpg</a>
+                            </strong>
+                          </span>
+                        </div>
+                        <input type='hidden' id='Http01' name='Http01' value='http://192.168.3.8:8080/images/temp/default_Image.jpg' />
+                      </div>
+                      <!--      FIELD FOOTER = Http01 DATA TYPE = Http_Link
+                      ------------------------------------------------------------------------- -->
+                      <!-- -------------------------------------------------------------------------
+                              FIELD HEADER = Http03 DATA TYPE = Http_Link LAYOUT = Left_Justified
+                       -->
+                      <div id='dd096a29-6596-48c0-8d16-675abbf477dd-row' class='group-row field  cf '>
+                        <div style='width:40%; ' class='cell title cell-display-text-title'>
+                          <label>
+                            Default Image
+                          </label>
+                        </div><div style='width:60%' class='cell value cell-input-text-value cf'>
+                          <div style="width:98%;">
+                            <span>
+                              <strong>
+                                <a href='http://192.168.3.8:8080/images/temp/default_image.jpg' target='_blank' tabindex='108'>default_Image.jpg</a>
+                              </strong>
+                            </span>
+                          </div>
+                          <input type='hidden' id='Http03' name='Http03' value='http://192.168.3.8:8080/images/temp/default_Image.jpg' />
+                        </div>
+                        <!--      FIELD FOOTER = Http03 DATA TYPE = Http_Link
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = BOOL01 DATA TYPE = Boolean LAYOUT = Left_Justified
+                         -->
+                        <div id='fa1535bf-c01c-4cbd-ab25-dad235b1c417-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Boolean:
+                            </label>
+                            <div class='description'>
+                              <p>
+                                This field hides or displays the 'Annotation Fields' field group and makes DT01, 'Date content:' mandatory.<br />
+                                Background Green
+                              </p>
+                            </div>
+                          </div><div style='width:60%' class='cell value cell-bool-value cf'>
+                            <label>
+                              <input type='checkbox' id='BOOL01_Y' name='BOOL01' tabindex='111' value="Yes" data-parsley-trigger="change" checked='checked' disabled='disabled'
+                                     onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                            </label>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = BOOL01 DATA TYPE = Boolean
+                        ------------------------------------------------------------------------- -->
+                        <!-- END BOOLEAND FIELD -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = FT01 DATA TYPE = Free_Text LAYOUT = Left_Justified
+                         -->
+                        <div id='f7db54db-1680-491a-883e-84b4d52baeb7-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Free Text:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-textarea-value cf'>
+                            <div id='spf7db54db-1680-491a-883e-84b4d52baeb7'>
+<textarea id='FT01' name='FT01' tabindex='113' rows='10' cols='48' maxlength='960' class='form-control' onchange="Evado.Form.onTextChange( this, this.value )" data-parsley-trigger="change"
+          disabled='disabled'>Free Text Content</textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = FT01 DATA TYPE = Free_Text
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = DT01 DATA TYPE = Date LAYOUT = Left_Justified
+                         -->
+                        <div id='bd9310e6-7696-48ee-aa2b-bb9949999cec-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Date content:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-date-value '>
+                            <span id='spbd9310e6-7696-48ee-aa2b-bb9949999cec' class='form-field-container-inline'>
+                              <input type='text' id='DT01' name='DT01' value='22 May 2013' disabled='disabled' />
+                            </span>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = DT01 DATA TYPE = Date
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = DT01A DATA TYPE = Date LAYOUT = Left_Justified
+                         -->
+                        <div id='be9310e6-7696-48ee-aa2b-bb9949999cec-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Year content:
+                            </label>
+                            <div class='description'>
+                              <p>Field Description Upper limit 2014</p>
+                            </div>
+                          </div><div style='width:60%' class='cell value cell-date-value '>
+                            <span id='spbe9310e6-7696-48ee-aa2b-bb9949999cec' class='form-field-container-inline'>
+                              <input type='text' id='DT01A' name='DT01A' value='22 May 2013' disabled='disabled' />
+                            </span>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = DT01A DATA TYPE = Date
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = TM01 DATA TYPE = Time LAYOUT = Left_Justified
+                         -->
+                        <div id='3a5a7ab8-6dc7-4d77-bcbc-18d8d9678093-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Time content:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-date-value '> <input type='text' id='TM01' name='TM01' value='17:43:06' disabled='disabled' /></div>
+                        </div>
+                        <!--      FIELD FOOTER = TM01 DATA TYPE = Time
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = TM01A DATA TYPE = Time LAYOUT = Left_Justified
+                         -->
+                        <div id='3a5a7ab8-6dc7-4d77-bcbc-18d8d9678093-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Time content:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-date-value '> <input type='text' id='TM01A' name='TM01A' value='17:43' disabled='disabled' /></div>
+                        </div>
+                        <!--      FIELD FOOTER = TM01A DATA TYPE = Time
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = NR01A DATA TYPE = Float_Range LAYOUT = Left_Justified
+                         -->
+                        <div id='3a5a7ab8-6dc7-4d77-bcbc-18d8d9678093-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Numeric range content:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-number-value'>
+                            <span id='sp1-3a5a7ab8-6dc7-4d77-bcbc-18d8d9678093'>
+                              <input type='text' id='NR01A_Lower' name='NR01A_Lower' value='123.45' tabindex='120' maxlength='15' size='15'
+                                     data-fieldid='NR01A' data-min-value='-1000000' data-max-value='1000000' data-min-alert='-1000000' data-max-alert='1000000' data-min-norm='-1000000' data-max-norm='1000000' data-css-valid='' data-css-alert='' data-css-norm='' onchange="Evado.Form.onRangeValidation( this, this.value )" data-parsley-trigger="change"
+                                     disabled='disabled' />
+                            </span>
+                            <span>&nbsp;-&nbsp;</span>
+                            <span id='sp2-3a5a7ab8-6dc7-4d77-bcbc-18d8d9678093'>
+                              <input type='text' id='NR01A_Upper' name='NR01A_Upper' value='250.05' tabindex='121' maxlength='15' size='15'
+                                     data-fieldid='NR01A' data-min-value='-1000000' data-max-value='1000000' data-min-alert='-1000000' data-max-alert='1000000' data-min-norm='-1000000' data-max-norm='1000000' data-css-valid='' data-css-alert='' data-css-norm='' onchange="Evado.Form.onRangeValidation( this, this.value )" data-parsley-trigger="change"
+                                     disabled='disabled' />
+                            </span>
 
-                  </div><div style='width:60%' class='cell value cell-image-value cf'>
-                    <div id='spb44ce8e9-c103-404d-af42-7160f32be970'>
-                      <a href='https://clinical.evado.com/ws/euws/temp/back-xray-w900.jpg' target='_blank'> <img alt='Image back-xray-w900.jpg' src='https://clinical.evado.com/ws/euws/temp/back-xray-w900.jpg' width='200' /></a>
-                      <input name='back-xray-w900.jpg_FILE' type='file' id='back-xray-w900.jpg_FILE' size='80' />
-                      <input type='hidden' id='back-xray-w900.jpg' name='back-xray-w900.jpg' value='back-xray-w900.jpg' />
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = NR01A DATA TYPE = Float_Range
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = NUM01 DATA TYPE = Numeric LAYOUT = Left_Justified
+                         -->
+                        <div id='7ba011d5-05bf-4aba-b76c-9cb33b2d95c1-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Numeric field:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-number-value cf'>
+                            <span id='sp7ba011d5-05bf-4aba-b76c-9cb33b2d95c1'>
+                              <input type='text' id='NUM01' name='NUM01' value='123.45' maxlength='12' tabindex='124' size='12'
+                                     data-fieldid='NUM01'
+                                     data-min-value='100' data-max-value='200' data-min-alert='130' data-max-alert='175' data-css-valid='Red' data-css-alert='Orange' data-css-norm='Blue'
+                                     onchange="Evado.Form.onRangeValidation( this, this.value )" data-parsley-trigger="change" disabled='disabled' />
+                            </span>
+                            <span class='form-unit'>10<span class='SuperScript'>2</span>/L</span>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = NUM01 DATA TYPE = Numeric
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = NUM02 DATA TYPE = Numeric LAYOUT = Left_Justified
+                         -->
+                        <div id='7ba011d5-05bf-4aba-b76c-9cb33b2d95c1-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Numeric field Custom Validation:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-number-value cf'>
+                            <span id='sp7ba011d5-05bf-4aba-b76c-9cb33b2d95c1'>
+                              <input type='text' id='NUM02' name='NUM02' value='122.45' maxlength='12' tabindex='127' size='12'
+                                     data-fieldid='NUM02'
+                                     data-min-value='100' data-max-value='200' data-min-alert='130' data-max-alert='175' onchange="Evado.Form.onRangeValidation( this, this.value )" data-parsley-trigger="change" disabled='disabled' />
+                            </span>
+                            <span class='form-unit'>10<span class='SuperScript'>2</span>/L</span>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = NUM02 DATA TYPE = Numeric
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = ANA01 DATA TYPE = Analogue_Scale LAYOUT = Column_Layout
+                         -->
+                        <div id='7ba011d5-05bf-4aba-b76c-9ce23b2d95c1-row' class='group-row field  cf '>
+                          <div style='width: 98%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Analogue field:
+                            </label>
+                          </div><div style='width:100%;' class='cell value cell-input-telephones-value cf'>
+                            <span id='sp7ba011d5-05bf-4aba-b76c-9ce23b2d95c1'>
+                              <input type='range' id='ANA01' name='ANA01' value='5' tabindex='130' min='0' max='100' step='2.5' tabindex='130' class='form-control-analogue' data-parsley-trigger="change" disabled='disabled' />
+                            </span>
+                            <table style='width:100%; '>
+                              <tr>
+                                <td style='text-align: left; width:2.5%;'> |<br />0</td>
+                                <td style='text-align: center; width:5%;'> |<br />05</td>
+                                <td style='text-align: center; width:5%;'> |<br />10</td>
+                                <td style='text-align: center; width:5%;'> |<br />15</td>
+                                <td style='text-align: center; width:5%;'> |<br />20</td>
+                                <td style='text-align: center; width:5%;'> |<br />25</td>
+                                <td style='text-align: center; width:5%;'> |<br />30</td>
+                                <td style='text-align: center; width:5%;'> |<br />35</td>
+                                <td style='text-align: center; width:5%;'> |<br />40</td>
+                                <td style='text-align: center; width:5%;'> |<br />45</td>
+                                <td style='text-align: center; width:5%;'> |<br />50</td>
+                                <td style='text-align: center; width:5%;'> |<br />55</td>
+                                <td style='text-align: center; width:5%;'> |<br />60</td>
+                                <td style='text-align: center; width:5%;'> |<br />65</td>
+                                <td style='text-align: center; width:5%;'> |<br />70</td>
+                                <td style='text-align: center; width:5%;'> |<br />75</td>
+                                <td style='text-align: center; width:5%;'> |<br />80</td>
+                                <td style='text-align: center; width:5%;'> |<br />85</td>
+                                <td style='text-align: center; width:5%;'> |<br />90</td>
+                                <td style='text-align: center; width:5%;'> |<br />95</td>
+                                <td style='text-align: right; width:2.5%;'> |<br />100</td>
+                              </tr>
+                            </table>
+                            <table style='width:100%; '>
+                              <tr>
+                                <td style='text-align: left; width:50%;'> Minimum label</td>
+                                <td style='text-align: right; width:50%;'> Maximum label</td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = ANA01 DATA TYPE = Analogue_Scale
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = CMP01 DATA TYPE = Computed_Field LAYOUT = Left_Justified
+                         -->
+                        <div id='7ba011d5-05bf-4aba-b76c-9ce33b2d95c1-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Computed field:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-input-text-value cf'>
+                            <span id='sp7ba011d5-05bf-4aba-b76c-9ce33b2d95c1'>
+                              <input type='text' id='CMP01' name='CMP01' value='0' tabindex='134' maxlength='20' size='20' class='form-control'
+                                     readonly='readonly' />
+                            </span>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = CMP01 DATA TYPE = Computed_Field
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = SND01 DATA TYPE = Sound LAYOUT = Center_Justified
+                         -->
+                        <div id='f17980e3-90f6-4cc7-8b8d-30660d4afa0d-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Sound: ECG
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-sound-value cf'> Sound Field - Note Supported in the web client.</div>
+                        </div>
+                        <!--      FIELD FOOTER = SND01 DATA TYPE = Sound
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = BC01 DATA TYPE = Bar_Code LAYOUT = Left_Justified
+                         -->
+                        <div id='f17980e3-90f6-4cc7-8b8d-35660d4afa0d-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Bar Code 01:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-input-text-value cf'>
+                            <div id='spf17980e3-90f6-4cc7-8b8d-35660d4afa0d'>
+                              <input type='text' id='BC01' name='BC01' value='ECG' tabindex='139' maxlength='20' size='20' data-fieldid='BC01' class='form-control' onchange="Evado.Form.onTextChange( this, this.value )" data-parsley-trigger="change"
+                                     disabled='disabled' />
+                            </div>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = BC01 DATA TYPE = Bar_Code
+                        ------------------------------------------------------------------------- -->
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- GROUP FOOTER -->
-          <!--- OPENING GROUP --->
-          <div id='9c5e8832-151d-42cd-abfd-0cf8bb0f7bb4-grp' class='field-group large' style='width:98%; '>
-            <span class='group-title'> Comments</span>
-            <div class='field-group-container' style=''>
+                  <!-- GROUP FOOTER -->
+                  <!--- OPENING GROUP --->
+                  <div id='63ccb4c0-b479-44f1-ad5e-fd27644bc38c-grp' class='field-group large' style='width:100%; '>
+                    <span class='group-title'> Selection fields</span>
+                    <div class='field-group-container' style=''>
 
-              <div class='fields'>
-                <!-- FIELD HEADER = F_Comments -->
-                <div id='568656cd-ac53-494d-9f01-070a6df57d57-row' class='group-row field  cf '>
-                  <div style='width:40%; ' class='cell title cell-display-text-title'>
-                    <label>
-                      Comments
-                    </label>
-                  </div><div style='width:60%; padding-top=10px; ' class='cell value cell-display-text-title'>
-                    No comments
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- GROUP FOOTER -->
-          <!--- OPENING GROUP --->
-          <div id='f854a14f-559f-4f83-98fb-375a25812dfd-grp' class='field-group large' style='width:98%; '>
-            <span class='group-title'> Signoff log:</span>
-            <div class='field-group-container' style=''>
+                      <!--- OPENNING DESCRIPTION --->
+                      <div class='description cf left-align '>
+                        <p>Layout width set to Full Width</p>
 
-              <div class='fields'>
-                <!-- FIELD HEADER =  -->
-                <div id='46678823-75cb-4987-8962-0dd6da65d332-row' class='group-row field  cf '>
-                  <div style='width:40%; ' class='cell title cell-display-text-title'>
-                    <label>
-                      Signoff log:
-                    </label>
-                  </div><div style='width:60%; padding-top=10px; ' class='cell value cell-display-text-title'>
-                    <p>Visit Attended by Test Site User on 13 Dec 2022 09:41<br /></p>
+                      </div>
+                      <!-- CLOSING DESCRIPTION -->
+                      <div class='fields'>
+                        <!-- -------------------------------------------------------------------------
+                               FIELD HEADER = SL01 DATA TYPE = Selection_List LAYOUT = Center_Justified
+                        -->
+                        <div id='cd50507e-1163-4ca3-8a2a-161da6c82d5c-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Selection List:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-select-value cf'>
+                            <select id='SL01' name='SL01' tabindex='201' value='V-2' class='form-control' data-parsley-trigger="change"
+                                    onclick="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled'>
+                              <option value=""></option>
+                              <option value="V-1">Selection option 1 ABCDEFGHIJ</option>
+                              <option value="V-2" selected='selected'>Selection option 2 abcde</option>
+                              <option value="V-3">Selection option 3</option>
+                              <option value="V-4">Selection option 4 abc</option>
+                              <option value="V-5">Selection option 5 abc124567890</option>
+                            </select>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = SL01 DATA TYPE = Selection_List
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = RBL01 DATA TYPE = Radio_Button_List LAYOUT = Center_Justified
+                         -->
+                        <div id='af8e3e0b-b987-428d-b1fc-3f1fa93bde80-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Radio Button List 1:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-check-value cf'>
+                            <div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='RBL01_2' name='RBL01' tabindex='204' value='V-1' data-parsley-trigger="change"
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'>Radio button option 1 ABCDEFGH</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='RBL01_3' name='RBL01' tabindex='204' value='V-2' data-parsley-trigger="change"
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" checked='checked' disabled='disabled' />
+                                  <span class='label'>Radio button option 2 abcde</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='RBL01_4' name='RBL01' tabindex='204' value='V-3' data-parsley-trigger="change"
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'>Radio button option 3</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='RBL01_5' name='RBL01' tabindex='204' value='V-4' data-parsley-trigger="change"
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'>Radio button option 4 abc</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='RBL01_6' name='RBL01' tabindex='204' value='V-5' data-parsley-trigger="change"
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'>Radio button option 5 abc1234567890</span>
+                                </label>
+                              </div>
+                              <input type='hidden' id='RBL01' name='RBL01' value='V-2' />
+                            </div>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = RBL01 DATA TYPE = Radio_Button_List
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = QRB01 DATA TYPE = Special_Quiz_Radio_Buttons LAYOUT = Left_Justified
+                         -->
+                        <div id='c0e04b26-1e4c-4b16-9c85-521274aff3c8-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Quiz Radio Buttons:
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-radio-value cf'>
+                            <div id='spc0e04b26-1e4c-4b16-9c85-521274aff3c8'>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='QRB01_2' name='QRB01' tabindex='207' data-quiz-value='V-2' data-quiz-answer='Quiz Radio button option 2' value='V-1' data-parsley-trigger="change" onchange="Evado.Form.onQuizValidation( this, this.value )"
+                                         checked='checked' disabled='disabled' />
+                                  <span class='label'>Quiz Radio button option 1</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='QRB01_3' name='QRB01' tabindex='209' data-quiz-value='V-2' data-quiz-answer='Quiz Radio button option 2' value='V-2' data-parsley-trigger="change" onchange="Evado.Form.onQuizValidation( this, this.value )"
+                                         disabled='disabled' />
+                                  <span class='label'>Quiz Radio button option 2</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='QRB01_4' name='QRB01' tabindex='211' data-quiz-value='V-2' data-quiz-answer='Quiz Radio button option 2' value='V-3' data-parsley-trigger="change" onchange="Evado.Form.onQuizValidation( this, this.value )"
+                                         disabled='disabled' />
+                                  <span class='label'>Quiz Radio button option 3</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='QRB01_5' name='QRB01' tabindex='213' data-quiz-value='V-2' data-quiz-answer='Quiz Radio button option 2' value='V-4' data-parsley-trigger="change" onchange="Evado.Form.onQuizValidation( this, this.value )"
+                                         disabled='disabled' />
+                                  <span class='label'>Quiz Radio button option 4 abc</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='QRB01_6' name='QRB01' tabindex='215' data-quiz-value='V-2' data-quiz-answer='Quiz Radio button option 2' value='V-5' data-parsley-trigger="change" onchange="Evado.Form.onQuizValidation( this, this.value )"
+                                         disabled='disabled' />
+                                  <span class='label'>Quiz Radio button option 5 abc1234567890</span>
+                                </label>
+                              </div>
+                              <div class='radio'>
+                                <label>
+                                  <input type='radio' id='QRB01_7' name='QRB01' tabindex='217' value=''
+                                         disabled='disabled' />
+                                  <span class='label' style='font-size: 8pt;'>Not Selected</span>
+                                </label>
+                              </div>
+                            </div>
+                            <input type='text' id='QRB01_ANSWERS' name='QRB01_ANSWERS' value='' />
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = QRB01 DATA TYPE = Special_Quiz_Radio_Buttons
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = HRBL01 DATA TYPE = Horizontal_Radio_Buttons LAYOUT = Center_Justified
+                         -->
+                        <div id='c0e14b26-1e4c-4b16-9c85-521274aff3c8-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Horizontal Radio Button List:
+                            </label>
+                          </div><div style='width:98%;' class='cell value cell-radio-value'>
+                            <div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL01_1' name='HRBL01' value="V-1" tabindex='220' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> Option 1</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL01_2' name='HRBL01' value="V-2" tabindex='220' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" checked='checked' disabled='disabled' />
+                                  <span class='label'> Option2</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL01_3' name='HRBL01' value="V-3" tabindex='220' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> Option3</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL01_4' name='HRBL01' value="V-4" tabindex='220' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> Option4</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL01_5' name='HRBL01' value="V-5" tabindex='220' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> Option 5</span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = HRBL01 DATA TYPE = Horizontal_Radio_Buttons
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = HRBL02 DATA TYPE = Horizontal_Radio_Buttons LAYOUT = Center_Justified
+                         -->
+                        <div id='c0e14b26-1e4c-4b16-9c85-521274aff3c8-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Horizontal Radio Button List:
+                            </label>
+                          </div><div style='width:60%;' class='cell value cell-radio-value'>
+                            <div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_1' name='HRBL02' value="1" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 1</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_2' name='HRBL02' value="2" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" checked='checked' disabled='disabled' />
+                                  <span class='label'> 2</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_3' name='HRBL02' value="3" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 3</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_4' name='HRBL02' value="4" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 4</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_5' name='HRBL02' value="5" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 5</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_6' name='HRBL02' value="6" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 6</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_7' name='HRBL02' value="7" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 7</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_8' name='HRBL02' value="8" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 8</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_9' name='HRBL02' value="9" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 9</span>
+                                </label>
+                              </div>
+                              <div class='radio-inline' style='text-align:center'>
+                                <label>
+                                  <input type='radio' id='HRBL02_10' name='HRBL02' value="10" tabindex='223' data-parsley-trigger="change"
+                                         onchange="Evado.Form.onSelectionValidation( this, this.value )" disabled='disabled' />
+                                  <span class='label'> 10</span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = HRBL02 DATA TYPE = Horizontal_Radio_Buttons
+                        ------------------------------------------------------------------------- -->
+                        <!-- -------------------------------------------------------------------------
+                                FIELD HEADER = CBL03 DATA TYPE = Check_Box_List LAYOUT = Center_Justified
+                         -->
+                        <div id='559de697-aa4c-4e41-af09-443dc01127b1-row' class='group-row field  cf '>
+                          <div style='width:40%; ' class='cell title cell-display-text-title'>
+                            <label>
+                              Check box list
+                            </label>
+                          </div><div style='width:60%' class='cell value cell-check-value cf'>
+                            <div>
+                              <div class='checkbox'>
+                                <label>
+                                  <input type='checkbox' id='CBL03_1' name='CBL03' tabindex='226' value='V-1'
+                                         disabled='disabled'
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                                  <span class='label'>Check box option 1 ABCEDFGH</span>
+                                </label>
+                              </div>
+                              <div class='checkbox'>
+                                <label>
+                                  <input type='checkbox' id='CBL03_2' name='CBL03' tabindex='226' value='V-2'
+                                         disabled='disabled'
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                                  <span class='label'>Check box option 2 ABCDE</span>
+                                </label>
+                              </div>
+                              <div class='checkbox'>
+                                <label>
+                                  <input type='checkbox' id='CBL03_3' name='CBL03' tabindex='226' value='V-3'
+                                         checked='checked' disabled='disabled'
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                                  <span class='label'>Check box option 3</span>
+                                </label>
+                              </div>
+                              <div class='checkbox'>
+                                <label>
+                                  <input type='checkbox' id='CBL03_4' name='CBL03' tabindex='226' value='V-4'
+                                         checked='checked' disabled='disabled'
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                                  <span class='label'>Check box option 4 abc</span>
+                                </label>
+                              </div>
+                              <div class='checkbox'>
+                                <label>
+                                  <input type='checkbox' id='CBL03_5' name='CBL03' tabindex='226' value='V-5'
+                                         disabled='disabled'
+                                         onclick="Evado.Form.onSelectionValidation( this, this.value )" />
+                                  <span class='label'>Check box option 5 abcde1234567890</span>
+                                </label>
+                              </div>
+                              <div style='font-size:8pt;text-align:center;'><span>Multiple Selections</span></div>
+
+                            </div>
+                          </div>
+                        </div>
+                        <!--      FIELD FOOTER = CBL03 DATA TYPE = Check_Box_List
+                        ------------------------------------------------------------------------- -->
+                      </div>
+                    </div>
                   </div>
+                  <!-- GROUP FOOTER -->
+                  <!-- CLOSING LEFT BODY COLUMN -->
                 </div>
               </div>
+              <!-- CLOSING BODY COLUMNS -->
+              <!--
+
+              -->
+              <!--
+              Login dialog box
+              -->
+              <!--
+              Object serialisation
+              -->
+              <!--- OPENING GROUP --->
+              <div id='6f4f6511-f9b7-44b7-a4c9-9eeedab9fb1b-grp' class='field-group large' style='width:98%; '>
+                <span class='group-title'> Serialisation</span>
+                <div class='field-group-container' style=''>
+
+                  <div id='694f0255-5e8a-4665-aadf-aaae2ea166b3-row' class='group-row field layout-normal cf '>
+                    <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_application_data.xml' target='_blank'>XML Serialised Application Data Object</a></strong></span></div>
+                  </div>
+                  <!--      FIELD FOOTER = lnkxmllad DATA TYPE = Http_Link
+                  ------------------------------------------------------------------------- -->
+                  <div id='70d5adf8-6cb7-448d-ad90-d8127de7a5aa-row' class='group-row field layout-normal cf '>
+                    <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_command.xml' target='_blank'>XML Serialised Command Object</a></strong></span></div>
+                  </div>
+                  <!--      FIELD FOOTER = lnkXmlcmd DATA TYPE = Http_Link
+                  ------------------------------------------------------------------------- -->
+                  <div id='c6df1377-ebae-4276-aaea-ad7bf2f4fe74-row' class='group-row field layout-normal cf '>
+                    <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/json_serialised_application_data.txt' target='_blank'>JSON Serialised Application Data Object</a></strong></span></div>
+                  </div>
+                  <!--      FIELD FOOTER = lnkjsonad DATA TYPE = Http_Link
+                  ------------------------------------------------------------------------- -->
+                  <div id='cd3ca38e-f4ca-4a18-af9d-01189b3b176b-row' class='group-row field layout-normal cf '>
+                    <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/json_serialised_command.txt' target='_blank'>JSON Serialised Command Object</a></strong></span></div>
+                  </div>
+                  <!--      FIELD FOOTER = lnkjsonCmd DATA TYPE = Http_Link
+                  ------------------------------------------------------------------------- -->
+                </div>
+              </div>
+              <!-- GROUP FOOTER -->
+              <!--
+
+              -->
             </div>
+            <input name="groupNo" type="hidden" id="groupNo" />
+            <input name="pageId" type="hidden" id="pageId" />
           </div>
-          <!-- GROUP FOOTER -->
-          <!--
-          <input type="file" name="TestFileUpload" id="TestFileUpload" />
-          -->
         </div>
-        <input name="groupNo" type="hidden" id="groupNo" />
-        <input name="pageId" type="hidden" id="pageId" />
-      </div>
-    </div>
-    <table id="form-footer">
-      <tr>
-        <td class="left">
-          (c) Evado Holdings Pty. Ltd. 2011 - 2022 All rights reserved
-        </td>
-        <td class="center">
-          Powered By Evado Digital
-        </td>
-        <td class="right">
-          Version: 5.0.1.30149
-        </td>
-      </tr>
-    </table>
-    <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
+        <table id="form-footer">
+
+          <tr>
+            <td class="left">
+              (c) Evado Holdings Pty. Ltd. 2011 - 2023 All rights reserved
+            </td>
+            <td class="center">
+              Powered By Evado Digital
+            </td>
+            <td class="right">
+              Version: 6.1.1.26934
+            </td>
+          </tr>
+        </table>
+        <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
   </form>
 </body>
 </html>

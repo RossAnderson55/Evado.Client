@@ -883,7 +883,7 @@ namespace Evado.UniForm.AdminClient
 
 
 
-      sbHtml.AppendLine ( "<!--- OPENING GROUP --->" );
+      sbHtml.AppendLine ( "<!---  GROUP HEADER --->" );
       if ( stFieldName != String.Empty
         && stFieldValue != String.Empty )
       {

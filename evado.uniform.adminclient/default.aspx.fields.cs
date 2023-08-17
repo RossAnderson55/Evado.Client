@@ -259,7 +259,10 @@ namespace Evado.UniForm.AdminClient
             stField_Suffix = "_1"; break;
           }
       }
-      sbHtml.AppendLine ( "<!-- FIELD HEADER = " + PageField.FieldId + " -->" );
+      
+      sbHtml.AppendLine ( "<!-- -------------------------------------------------------------------------\r\n"
+        +"        FIELD HEADER = " + PageField.FieldId + " DATA TYPE = " + PageField.Type +
+        " LAYOUT = " + PageField.Layout + "     \r\n -->" );
 
       sbHtml.AppendLine ( "<div id='" + PageField.Id + "-row' " + stFieldRowStyling + " >" );
 
@@ -385,6 +388,9 @@ namespace Evado.UniForm.AdminClient
       Evado.UniForm.Model.EuField PageField )
     {
       sbHtml.Append ( "</div>" );
+
+      sbHtml.AppendLine ( "<!--      FIELD FOOTER = " + PageField.FieldId + " DATA TYPE = " + PageField.Type +
+        "     \r\n------------------------------------------------------------------------- -->" );
     }
 
     // ===================================================================================
@@ -423,7 +429,7 @@ namespace Evado.UniForm.AdminClient
         stHeight = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Height );
       }
 
-      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%; padding-top=10px; ' class='cell value cell-display-text-title' ";
+      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%; padding-top:10px; ' class='cell value cell-display-text-title' ";
       bool fullWidth = false;
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
@@ -2633,7 +2639,6 @@ namespace Evado.UniForm.AdminClient
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-bool-value cf' ";
 
-      sbHtml.AppendLine ( "<!-- START BOOLEAND FIELD -->" );
       //
       // Ineert the field header
       //
@@ -2678,10 +2683,11 @@ namespace Evado.UniForm.AdminClient
       }
 
       sbHtml.AppendLine ( "/>" );
+      sbHtml.AppendLine ( "</label>" );
 
       sbHtml.AppendLine ( "</div>" );
 
-      this._TabIndex += 1;
+      this._TabIndex++;
 
       //
       // Insert the field footer elemements
@@ -4975,6 +4981,7 @@ namespace Evado.UniForm.AdminClient
            + "name='" + PageField.FieldId + "' "
            + "value='" + PageField.Value + "' /> " );
       this._TabIndex += 2;
+      sbHtml.AppendLine ( "</div>" );
 
       //
       // Insert the field footer elemements
