@@ -416,7 +416,7 @@ span.required {
 }
 
 .field-group .fields .group-row.field:first-child {
-  border-top: none;
+  border-top: none;  
 }
 
 .field-group .grp-description {
@@ -433,7 +433,7 @@ span.required {
 }
 
 .field-group .description table {
-  padding: 4px;
+  padding: 4px 4px 10px 4px;
   vertical-align: top;
 }
 
