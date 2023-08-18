@@ -95,7 +95,6 @@
     <asp:Literal ID="litJsLibrary" runat="server" />
     <input id="windowWidth" type="hidden" runat="server" />
     <input id="windowHeight" type="hidden" runat="server" />
-    <input id="groupIndex" type="text" runat="server" />
     <!--  EVADO FORM PAGE -->
     <div id="page">
       <!-- HEADER -->
@@ -198,6 +197,7 @@
         </div>
         <input id="groupNo" type="hidden" runat="server" />
         <input id="pageId" type="hidden" runat="server" />
+        <input id="groupIndex" type="hidden" runat="server" />
       </div>
     </div>
     <table id="form-footer">

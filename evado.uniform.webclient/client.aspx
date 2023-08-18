@@ -140,7 +140,6 @@
     </script>
     <input id="windowWidth" type="hidden" runat="server" />
     <input id="windowHeight" type="hidden" runat="server" />
-    <input id="groupIndex" type="hidden" runat="server" />
     <!--  EVADO FORM PAGE -->
     <div id="page">
       <!-- HEADER -->
@@ -245,6 +244,7 @@
           <input id="lastMeetingStatus" type="hidden" runat="server" />
           <input id="groupNo" type="hidden" runat="server" />
           <input id="pageId" type="hidden" runat="server" />
+          <input id="groupIndex" type="hidden" runat="server" />
         </div>
       </div>
     </div>

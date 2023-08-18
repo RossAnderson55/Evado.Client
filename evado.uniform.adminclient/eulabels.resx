@@ -151,7 +151,7 @@
     <value>{0}{1}?userid={2}&amp;segment={3}</value>
   </data>
   <data name="Footer_Text" xml:space="preserve">
-    <value>Powered By Evado Digital</value>
+    <value>Powered By Evado UniFORM</value>
   </data>
   <data name="Html_Url_Field_title" xml:space="preserve">
     <value>URL:</value>

@@ -60,15 +60,6 @@ namespace Evado.UniForm.WebClient
     protected global::System.Web.UI.HtmlControls.HtmlInputHidden windowHeight;
 
     /// <summary>
-    /// groupIndex control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputHidden groupIndex;
-
-    /// <summary>
     /// litExitCommand control.
     /// </summary>
     /// <remarks>
@@ -301,6 +292,15 @@ namespace Evado.UniForm.WebClient
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlInputHidden pageId;
+
+    /// <summary>
+    /// groupIndex control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputHidden groupIndex;
 
     /// <summary>
     /// litPanelNavigator control.

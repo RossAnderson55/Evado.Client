@@ -160,7 +160,7 @@ namespace Evado.UniForm.AdminClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Powered By Evado Digital.
+        ///   Looks up a localized string similar to Powered By Evado UniFORM.
         /// </summary>
         internal static string Footer_Text {
             get {
