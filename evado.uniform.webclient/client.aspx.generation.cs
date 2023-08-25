@@ -73,11 +73,6 @@ namespace Evado.UniForm.WebClient
       this.litCommandContent.Visible = true;
 
       //
-      // display the group panel navigator.
-      //
-      this.DisplayGroupPanelNavigator ( );
-
-      //
       // Reinitialise the history each time the home page is displayed.
       //
       /*
@@ -88,19 +83,6 @@ namespace Evado.UniForm.WebClient
         this.initialiseHistory ( );
       }
       */
-
-      //
-      // Groups are displayed a panels enable and initialise the page objects.
-      //
-      if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == true )
-      {
-        this.PagedGroups.Visible = true;
-
-        if ( this.UserSession.PanelDisplayGroupIndex == -1 )
-        {
-          this.UserSession.PanelDisplayGroupIndex = 0;
-        }
-      }
 
       //
       // If the anonymous access mode exit.
@@ -199,7 +181,7 @@ namespace Evado.UniForm.WebClient
               && rightColumnPercentage == 0 ) )
           {
             this.LogDebug ( "ADD: " + group.Title + " to main body" );
-            this.generateGroup ( sbMainBody, count, false, false );
+            this.generateGroup ( sbMainBody, count, false );
 
             this.generatePageMenuPills ( sbPageMenuPills, group );
 
@@ -217,7 +199,7 @@ namespace Evado.UniForm.WebClient
 
             this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-            this.generateGroup ( sbLeftBody, count, true, false );
+            this.generateGroup ( sbLeftBody, count, true );
 
             this.generatePageMenuPills ( sbPageMenuPills, group );
             continue;
@@ -234,7 +216,7 @@ namespace Evado.UniForm.WebClient
 
             this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-            this.generateGroup ( sbRightBody, count, false, false );
+            this.generateGroup ( sbRightBody, count, false );
 
             this.generatePageMenuPills ( sbPageMenuPills, group );
 
@@ -246,22 +228,10 @@ namespace Evado.UniForm.WebClient
           //
           this.LogDebug ( "ADD: " + group.Title + " to center column" );
 
-          if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == false )
-          {
-            this.generateGroup ( sbCentreBody, count, true, this.UserSession.AppData.Page.DisplayGroupsAsPanels );
+            this.generateGroup ( sbCentreBody, count, true );
 
             this.generatePageMenuPills ( sbPageMenuPills, group );
-          }
-          else
-          {
-            //
-            // display a single group if the group index matches the count.
-            //
-            if ( count == this.UserSession.PanelDisplayGroupIndex )
-            {
-              this.generateGroup ( sbCentreBody, count, true, this.UserSession.AppData.Page.DisplayGroupsAsPanels );
-            }
-          }
+
 
         }//END Group interation loop
 
@@ -399,62 +369,6 @@ namespace Evado.UniForm.WebClient
 
       this.LogMethodEnd ( "generatePage" );
     }//END generatePage method
-
-    // ==================================================================================	
-    /// <summary>
-    /// This method displays the group panel navigator
-    /// </summary>
-    // --------------------------------------------------------------------------------
-    public void DisplayGroupPanelNavigator ( )
-    {
-      this.LogMethod ( "DisplayGroupPanelNavigator" );
-
-      //
-      // if the group panel navitation is disabled exit.
-      //
-      if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == false )
-      {
-        this.LogMethodEnd ( "DisplayGroupPanelNavigator" );
-        return;
-      }
-
-      //
-      // initialise methods variables.
-      //
-      StringBuilder panelHtml = new StringBuilder ( );
-      int previousIndex = this.UserSession.PanelDisplayGroupIndex++;
-      int nextIndex = this.UserSession.PanelDisplayGroupIndex--;
-
-      if ( previousIndex < 0 )
-      {
-        previousIndex = 0;
-      }
-
-      if ( nextIndex >= this.UserSession.AppData.Page.GroupList.Count )
-      {
-        int groupCount = this.UserSession.AppData.Page.GroupList.Count;
-        nextIndex = groupCount--;
-      }
-
-      //
-      // define the table content for the navigator.
-      //
-      panelHtml.AppendLine ( "< tr >" );
-      panelHtml.AppendLine ( "<td style = 'width: 50%;' >" );
-      panelHtml.AppendLine ( "<a id = \"btnPageLeft\" class=\"LinkBackground btn btn-danger\"" );
-      panelHtml.AppendLine ( "style=\"width: 100px\" href=\"javascript:onChangeGroup('" + previousIndex + "')\"><< Previous</a>" );
-      panelHtml.AppendLine ( "</td>" );
-      panelHtml.AppendLine ( "<td style = 'width: 50%;' >" );
-      panelHtml.AppendLine ( "<a id=\"btnPageRight\" class=\"LinkBackground btn btn-danger\"" );
-      panelHtml.AppendLine ( "style=\"width: 100px; float: right;\" href=\"javascript:onChangeGroup('" + nextIndex + "')\">Next >> </a>" );
-      panelHtml.AppendLine ( "</td>" );
-      panelHtml.AppendLine ( "</tr>" );
-
-      this.litPanelNavigator.Text = panelHtml.ToString ( );
-
-      this.LogMethodEnd ( "DisplayGroupPanelNavigator" );
-
-    }//END DisplayGroupPanelNavigator method
 
     // ==================================================================================
     /// <summary>
@@ -807,8 +721,7 @@ namespace Evado.UniForm.WebClient
     private void generateGroup (
       StringBuilder sbHtml,
       int Index,
-      bool EnableBodyColumns,
-      bool EnablePanelDisplay )
+      bool EnableBodyColumns )
     {
       this.LogMethod ( "generateGroup" );
       this.LogDebug ( "Index: " + Index );

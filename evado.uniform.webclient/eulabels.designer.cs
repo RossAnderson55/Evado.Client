@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Evado.UniForm.WebClient{
+namespace Evado.UniForm.WebClient {
     using System;
     
     
@@ -160,7 +160,7 @@ namespace Evado.UniForm.WebClient{
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Powered By Evado Digital.
+        ///   Looks up a localized string similar to Powered By Evado UniFORM.
         /// </summary>
         internal static string Footer_Text {
             get {

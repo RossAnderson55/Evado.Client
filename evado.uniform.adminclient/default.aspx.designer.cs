@@ -222,42 +222,6 @@ namespace Evado.UniForm.AdminClient
     protected global::System.Web.UI.WebControls.FileUpload TestFileUpload;
 
     /// <summary>
-    /// groupNo control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputHidden groupNo;
-
-    /// <summary>
-    /// pageId control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputHidden pageId;
-
-    /// <summary>
-    /// groupIndex control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputHidden groupIndex;
-
-    /// <summary>
-    /// litPanelNavigator control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.Literal litPanelNavigator;
-
-    /// <summary>
     /// litCopyright control.
     /// </summary>
     /// <remarks>

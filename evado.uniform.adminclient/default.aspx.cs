@@ -56,8 +56,6 @@ namespace Evado.UniForm.AdminClient
     public const string CONST_FIELD_UPPER_SUFFIX = "_Upper";
     private const float WidthPixelFactor = 8F;
 
-    private bool LocalCommand = false;
-
     private const int CONST_FILE_SEGMENT_LENGTH = 40000;
 
     private EucSession UserSession = new EucSession ( );
@@ -140,7 +138,6 @@ namespace Evado.UniForm.AdminClient
         //
         this.LogDebug ( "CURRENT PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );
         this.LogDebug ( "fsLoginBox.Visible: " + this.fsLoginBox.Visible );
-        this.LogDebug ( "SameCommand: " + this.LocalCommand );
         //
         // Send the anonymous command and display the returned page.
         //
@@ -183,8 +180,6 @@ namespace Evado.UniForm.AdminClient
             {
               if ( this.fsLoginBox.Visible == false )
               {
-                if ( this.LocalCommand == false )
-                {
                   //
                   // Update the Command with page data objects.
                   //
@@ -202,7 +197,7 @@ namespace Evado.UniForm.AdminClient
                   //this.SendFileRequest ( "ross-home-page.png", "image/png" );
 
                   this.LogDebug ( "LogoFilename: " + this.UserSession.AppData.LogoFilename );
-                }
+            
                 //
                 // The client recieves a login request to display the login page.
                 //
@@ -223,8 +218,6 @@ namespace Evado.UniForm.AdminClient
                 {
                   this.LogValue ( "Commence page generation" );
 
-                  //this.PagedGroups.Visible = true;
-                  this.LogValue ( "groupIndex: {0}.", this.groupIndex.Value );
                   //
                   // Generate the page layout.
                   //
@@ -358,13 +351,6 @@ namespace Evado.UniForm.AdminClient
         this.UserSession.PageUrl = this.Request.RawUrl.Substring ( 0, intCount );
       }
       this.LogDebug ( "RawUrl: " + this.UserSession.PageUrl );
-
-      this.LogDebug ( "DisplayGroupsAsPanels: " + this.UserSession.AppData.Page.DisplayGroupsAsPanels );
-      if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == true )
-      {
-        this.UserSession.PanelDisplayGroupIndex = Evado.Model.EvStatics.getInteger ( this.groupIndex.Value );
-      }
-      this.LogDebug ( "GroupIndex: " + this.UserSession.PanelDisplayGroupIndex );
 
     }//END initialiseGlobalVariables method
 
@@ -554,11 +540,6 @@ namespace Evado.UniForm.AdminClient
           // Add the exit Command to the history.
           //
           this.addHistoryCommand ( this.UserSession.AppData.Page.Exit );
-
-          //
-          // Reset the panel display group index for the new page data object.
-          //
-          this.UserSession.PanelDisplayGroupIndex = -1;
         }
         else
         {
@@ -1191,16 +1172,6 @@ namespace Evado.UniForm.AdminClient
           this.LogDebug ( "Get the new command object." );
 
           this.UserSession.PageCommand = this.GetCommandObject ( this.UserSession.CommandGuid );
-        }
-        else
-        {
-          if( this.groupIndex.Value != String.Empty )
-          { 
-          this.LocalCommand = true;
-          }
-          this.LogDebug ( "LocalCommand: {0}.", this.LocalCommand );
-
-          this.LogDebug ( "Current and previous CommandId match." );
         }
       }
       this.LogDebug ( "PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );

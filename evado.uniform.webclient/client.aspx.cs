@@ -218,7 +218,6 @@ namespace Evado.UniForm.WebClient
                 else
                 {
                   this.LogValue ( "Commence page generation" );
-                  this.LogValue ( "groupIndex: {0}.", this.groupIndex.Value );
                   //
                   // Generate the page layout.
                   //
@@ -347,15 +346,6 @@ namespace Evado.UniForm.WebClient
         this.UserSession.PageUrl = this.Request.RawUrl.Substring ( 0, intCount );
       }
       this.LogDebug ( "RawUrl: " + this.UserSession.PageUrl );
-      
-      //
-      // set the group index if is set.
-      //
-      if ( this.UserSession.AppData.Page.DisplayGroupsAsPanels == true )
-      {
-        this.UserSession.PanelDisplayGroupIndex = Evado.Model.EvStatics.getInteger ( this.groupIndex.Value );
-      }
-      this.LogDebug ( "GroupIndex: " + this.UserSession.PanelDisplayGroupIndex );
 
     }//END initialiseGlobalVariables method
 
@@ -541,11 +531,6 @@ namespace Evado.UniForm.WebClient
             this.LogDebug ( "{0} Command: ", i, command.getAsString ( false, true ) );
           }
         }
-
-        //
-        // Reset the panel display group index for the new page data object.
-        //
-        this.UserSession.PanelDisplayGroupIndex = -1;
 
         //
         // Update the user session id
@@ -1117,16 +1102,6 @@ namespace Evado.UniForm.WebClient
           this.LogDebug ( "Get the new command object." );
 
           this.UserSession.PageCommand = this.GetCommandObject ( this.UserSession.CommandGuid );
-        }
-        else
-        {
-          if ( this.groupIndex.Value != String.Empty )
-          {
-            this.LocalCommand = true;
-          }
-          this.LogDebug ( "LocalCommand: {0}.", this.LocalCommand );
-
-          this.LogDebug ( "Current and previous CommandId match." );
         }
       }
       this.LogDebug ( "PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );

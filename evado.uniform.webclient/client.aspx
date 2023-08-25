@@ -242,9 +242,6 @@
           <input id="meetingParameters" type="hidden" runat="server" />
           <input id="meetingStatus" type="hidden" runat="server" />
           <input id="lastMeetingStatus" type="hidden" runat="server" />
-          <input id="groupNo" type="hidden" runat="server" />
-          <input id="pageId" type="hidden" runat="server" />
-          <input id="groupIndex" type="hidden" runat="server" />
         </div>
       </div>
     </div>

@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.model", "..\Evado.Cli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.uniform.model", "..\Evado.Clinical_Release\evado.uniform.model\evado.uniform.model.csproj", "{EB6A905C-2E28-4A70-B791-DC807165BCD7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EECC0036-3E01-4C01-9F91-F075D81F8CF8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.uniform.adminclient", "evado.uniform.adminclient\evado.uniform.adminclient.csproj", "{5E743B70-B38C-4E21-9740-A480F19721F4}"
 EndProject
 Global

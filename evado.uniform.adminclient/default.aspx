@@ -195,13 +195,9 @@
         <asp:fileupload id="TestFileUpload" runat="server" Visible="false" />
         -->
         </div>
-        <input id="groupNo" type="hidden" runat="server" />
-        <input id="pageId" type="hidden" runat="server" />
-        <input id="groupIndex" type="hidden" runat="server" />
       </div>
     </div>
     <table id="form-footer">
-      <asp:Literal ID="litPanelNavigator" runat="server" />
       <tr>
         <td class="left">
           <asp:Literal ID="litCopyright" runat="Server" />

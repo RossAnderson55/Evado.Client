@@ -55,22 +55,6 @@ namespace Evado.UniForm.AdminClient
       }
     }
 
-    /// <summary>
-    /// This property indicated if group panel navigation is enabled.
-    /// </summary>
-    public bool EnableGroupPanelNavigation
-    {
-      get
-      {
-        string value = this.AppData.Page.GetParameter ( EuPageParameters.Group_Panel_Navigation );
-        return Evado.Model.EvStatics.getBool ( value );
-      }
-    }
-
-    /// <summary>
-    /// This field contains the panel display group index.
-    /// </summary>
-    public int PanelDisplayGroupIndex { get; set; } = 0;
 
     /// <summary>
     /// this field contains the current command object.

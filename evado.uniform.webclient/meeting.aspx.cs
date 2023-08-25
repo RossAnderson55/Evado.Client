@@ -528,10 +528,6 @@ namespace Evado.UniForm.WebClient
         // - History commands
         // - Page Commands
         //
-        //
-        // Reset the panel display group index for the new page data object.
-        //
-        this.UserSession.PanelDisplayGroupIndex = -1;
 
         //
         // Update the user session id
