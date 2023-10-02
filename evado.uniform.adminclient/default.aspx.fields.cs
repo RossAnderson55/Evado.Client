@@ -1086,7 +1086,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createNumericRangeField method." );
+      this.LogMethod ( "createNumericRangeField" );
       this.LogDebug ( "Field.Type: " + PageField.Type );
       //
       // Initialise the methods variables and objects.
@@ -1580,7 +1580,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createNumericRangeField method." );
+      this.LogMethod ( "createNumericRangeField" );
       this.LogDebug ( "Field.Type: " + PageField.Type );
       //
       // Initialise the methods variables and objects.
@@ -3064,7 +3064,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "getFormFieldTableHeader method." );
+      this.LogMethod ( "getFormFieldTableHeader" );
       // 
       // Initialise local variables.
       // 
@@ -3581,7 +3581,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createBinaryField method." );
+      this.LogMethod ( "createBinaryField" );
       this.LogDebug ( "TempUrl: " + Global.TempUrl );
       this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
       this.LogDebug ( "PageField.Value: " + PageField.Value );
@@ -3654,7 +3654,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createSoundField method." );
+      this.LogMethod ( "createSoundField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3695,7 +3695,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createCurrencyField method." );
+      this.LogMethod ( "createCurrencyField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3762,7 +3762,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createEmailAddressField method." );
+      this.LogMethod ( "createEmailAddressField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3832,7 +3832,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createTelephoneNumberField method." );
+      this.LogMethod ( "createTelephoneNumberField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -3903,7 +3903,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createAnalogueField method." );
+      this.LogMethod ( "createAnalogueField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -4025,7 +4025,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createNameField method." );
+      this.LogMethod ( "createNameField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -4222,7 +4222,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createAddressField method." );
+      this.LogMethod ( "createAddressField" );
       //
       // Initialise the methods variables and objects.
       //
@@ -4581,7 +4581,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createSignatureField method." );
+      this.LogMethod ( "createSignatureField" );
       this.LogValue ( "Field.Status: " + PageField.EditAccess );
       //
       // Initialise the methods variables and objects.
@@ -4795,7 +4795,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "createPasswordField method." );
+      this.LogMethod ( "createPasswordField" );
       //
       // Initialise the methods variables and objects.
       //

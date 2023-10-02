@@ -2273,7 +2273,7 @@ namespace Evado.UniForm.AdminClient
       Evado.UniForm.Model.EuField FormField,
       NameValueCollection ReturnedFormFields )
     {
-      this.LogMethod ( "updateFormTableFields method." );
+      this.LogMethod ( "updateFormTableFields" );
       this.LogValue ( " FieldId: " + FormField.FieldId );
       // 
       // Iterate through the rows and columns of the table filling the 
@@ -2471,7 +2471,7 @@ namespace Evado.UniForm.AdminClient
         // 
         if ( Context.Request.Files.Count == 0 )
         {
-          this.LogDebug ( " No images to upload. Exit method." );
+          this.LogDebug ( " No images to upload. Exit" );
 
           return;
         }

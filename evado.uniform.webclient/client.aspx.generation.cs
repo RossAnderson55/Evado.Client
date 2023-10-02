@@ -35,7 +35,6 @@ namespace Evado.UniForm.WebClient
       this.litPageContent.Visible = true;
       this.litExitCommand.Visible = true;
       this.litHistory.Visible = false;
-      this.litHistory.Visible = false;
 
       if ( Global.EnablePageMenu == true)
       {
@@ -128,18 +127,8 @@ namespace Evado.UniForm.WebClient
         this.generateErrorMessge ( sbMainBody );
       }
 
-
-      string leftColumn = this.UserSession.AppData.Page.GetParameter ( Evado.UniForm.Model.EuPageParameters.Left_Column_Width );
-      string rightColumn = this.UserSession.AppData.Page.GetParameter ( Evado.UniForm.Model.EuPageParameters.Right_Column_Width );
-
-      if ( int.TryParse ( leftColumn, out leftColumnPercentage ) == false )
-      {
-        leftColumnPercentage = 0;
-      }
-      if ( int.TryParse ( rightColumn, out rightColumnPercentage ) == false )
-      {
-        rightColumnPercentage = 0;
-      }
+      leftColumnPercentage = this.UserSession.AppData.Page.LeftColumnWidth;
+      rightColumnPercentage = this.UserSession.AppData.Page.RightColumnWidth;
       int centreWidthPercentage = 100 - leftColumnPercentage - rightColumnPercentage;
 
       this.LogDebug ( "leftColumnPercentage: " + leftColumnPercentage );
@@ -189,49 +178,60 @@ namespace Evado.UniForm.WebClient
           }
 
           //
-          // if the left column exists and the group is allocated to the left column
-          // place the group html in the left body.
+          // Select the column the group is to be added to.
           //
-          if ( pageColumn == Evado.UniForm.Model.EuPageColumnCodes.Left.ToString ( )
-            && leftColumnPercentage > 0 )
+          switch ( group.PageColumnCode )
           {
-            this.LogDebug ( "ADD: " + group.Title + " to left column" );
+            case Model.EuPageColumnCodes.Left:
+            {
+              //
+              // if the left column exists and the group is allocated to the left column
+              // place the group html in the left body.
+              //
+              if ( leftColumnPercentage > 0 )
+              {
+                this.LogDebug ( "ADD: " + group.Title + " to left column" );
 
-            this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
+                this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-            this.generateGroup ( sbLeftBody, count, true );
+                this.generateGroup ( sbLeftBody, count, true );
 
-            this.generatePageMenuPills ( sbPageMenuPills, group );
-            continue;
-          }//END left column only
+                this.generatePageMenuPills ( sbPageMenuPills, group );
+              }
+              continue;
+            }//END left column only
 
-          //
-          // if the right column exists and the group is allocated to the right column
-          // place the group html in the right body.
-          //
-          if ( pageColumn == Evado.UniForm.Model.EuPageColumnCodes.Right.ToString ( )
-            && rightColumnPercentage > 0 )
-          {
-            this.LogDebug ( "ADD: " + group.Title + " to right column" );
+            //
+            // if the right column exists and the group is allocated to the right column
+            // place the group html in the right body.
+            //
+            case Model.EuPageColumnCodes.Right:
+            {
+              if ( rightColumnPercentage > 0 )
+              {
+                this.LogDebug ( "ADD: " + group.Title + " to right column" );
 
-            this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
+                this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-            this.generateGroup ( sbRightBody, count, false );
+                this.generateGroup ( sbRightBody, count, false );
 
-            this.generatePageMenuPills ( sbPageMenuPills, group );
+                this.generatePageMenuPills ( sbPageMenuPills, group );
+              }
+              continue;
+            }
+            default:
+            {
+              //
+              // else place is in the central body.
+              //
+              this.LogDebug ( "ADD: " + group.Title + " to center column" );
 
-            continue;
-          }//END 
+              this.generateGroup ( sbCentreBody, count, false );
 
-          //
-          // else place is in the central body.
-          //
-          this.LogDebug ( "ADD: " + group.Title + " to center column" );
-
-            this.generateGroup ( sbCentreBody, count, true );
-
-            this.generatePageMenuPills ( sbPageMenuPills, group );
-
+              this.generatePageMenuPills ( sbPageMenuPills, group );
+              continue;
+            }
+          }//END page column switch
 
         }//END Group interation loop
 
@@ -752,8 +752,23 @@ namespace Evado.UniForm.WebClient
       }
 
       this.UserSession.GroupFieldWidth = 60;
-      Evado.UniForm.Model.EuFieldValueWidths widthValue = this.UserSession.CurrentGroup.getValueColumnWidth ( );
-      this.UserSession.GroupFieldWidth = ( int ) widthValue;
+      switch ( this.UserSession.CurrentGroup.FieldValueColumnWidth )
+      {
+        case Model.EuFieldValueWidths.Twenty_Percent:
+        {
+          this.UserSession.GroupFieldWidth = 20;
+          break;
+        }
+        case Model.EuFieldValueWidths.Forty_Percent:
+        {
+          this.UserSession.GroupFieldWidth = 40;
+          break;
+        }
+        default:
+        {
+          break;
+        }
+      }
 
       //
       // Set the edit access.
