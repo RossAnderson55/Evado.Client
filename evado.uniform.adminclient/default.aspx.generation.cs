@@ -122,12 +122,19 @@ namespace Evado.UniForm.AdminClient
 
       leftColumnPercentage = this.UserSession.AppData.Page.LeftColumnWidth;
       rightColumnPercentage = this.UserSession.AppData.Page.RightColumnWidth;
-      int centreWidthPercentage = 100 - leftColumnPercentage - rightColumnPercentage;
+      int centerColumPercentage = 100 - leftColumnPercentage - rightColumnPercentage;
+      bool enableBodyColumns = false;
 
-      this.LogDebug ( "leftColumnPercentage: " + leftColumnPercentage );
-      this.LogDebug ( "rightColumnPercentage: " + rightColumnPercentage );
-      this.LogDebug ( "centreWidthPercentage: " + centreWidthPercentage );
+      this.LogDebug ( "Percentage: LeftColumn: {0}, CentreColumn: {1}, rightColumn: {2} ",
+        leftColumnPercentage, centerColumPercentage, rightColumnPercentage );
 
+      if ( leftColumnPercentage > 0
+        || rightColumnPercentage > 0 )
+      {
+        enableBodyColumns = true;
+      }
+
+      this.LogDebug ( "enableBodyColumns: {0}", enableBodyColumns );
       //
       // Generate the group menu.
       //
@@ -143,24 +150,20 @@ namespace Evado.UniForm.AdminClient
         {
           Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.GroupList [ count ];
 
-          //
-          // skip null objects.
-          //
           if ( group == null )
           {
             continue;
           }
 
-          this.LogDebug ( group.Title + " in column: " + group.PageColumnCode );
+          this.LogDebug ( "{0}, Layout: {1}, Column: {2}", group.Title, group.Layout, group.PageColumn );
 
           //
           // Header fields are always at the top of the page.
           //
-          if ( group.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header
-            || ( leftColumnPercentage == 0
-              && rightColumnPercentage == 0 ) )
+          if ( group.Layout == Model.EuGroupLayouts.Page_Header
+             || enableBodyColumns == false )
           {
-            this.LogDebug ( "ADD: " + group.Title + " to header body" );
+            this.LogDebug ( "NO BODY COLUMNS OR HEADER PAGE. ADD: {0}. ", group.Title );
             this.generateGroup ( sbMainBody, count, false );
 
             this.generatePageMenuPills ( sbPageMenuPills, group );
@@ -168,24 +171,21 @@ namespace Evado.UniForm.AdminClient
             continue;
           }
 
-          //
-          // Select the column the group is to be added to.
-          //
-          switch ( group.PageColumnCode )
+          switch ( group.PageColumn )
           {
-            case Model.EuPageColumnCodes.Left:
+            //
+            // if the left column exists and the group is allocated to the left column
+            // place the group html in the left body.
+            //
+            case Model.EuPageColumns.Left:
             {
-              //
-              // if the left column exists and the group is allocated to the left column
-              // place the group html in the left body.
-              //
               if ( leftColumnPercentage > 0 )
               {
                 this.LogDebug ( "ADD: " + group.Title + " to left column" );
 
                 this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-                this.generateGroup ( sbLeftBody, count, true );
+                this.generateGroup ( sbLeftBody, count, enableBodyColumns );
 
                 this.generatePageMenuPills ( sbPageMenuPills, group );
               }
@@ -196,7 +196,7 @@ namespace Evado.UniForm.AdminClient
             // if the right column exists and the group is allocated to the right column
             // place the group html in the right body.
             //
-            case Model.EuPageColumnCodes.Right:
+            case Model.EuPageColumns.Right:
             {
               if ( rightColumnPercentage > 0 )
               {
@@ -204,7 +204,7 @@ namespace Evado.UniForm.AdminClient
 
                 this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-                this.generateGroup ( sbRightBody, count, false );
+                this.generateGroup ( sbRightBody, count, enableBodyColumns );
 
                 this.generatePageMenuPills ( sbPageMenuPills, group );
               }
@@ -217,16 +217,19 @@ namespace Evado.UniForm.AdminClient
               //
               this.LogDebug ( "ADD: " + group.Title + " to center column" );
 
-              this.generateGroup ( sbCentreBody, count, false );
+              this.generateGroup ( sbCentreBody, count, enableBodyColumns );
 
               this.generatePageMenuPills ( sbPageMenuPills, group );
               continue;
             }
-          }//END page column switch
 
+          }
         }//END Group interation loop
-
       }//END multiple groups.
+
+      this.LogDebug ( "sbLeftBody.Length: " + sbLeftBody.Length );
+      this.LogDebug ( "sbCentreBody.Length: " + sbCentreBody.Length );
+      this.LogDebug ( "sbRightBody.Length: " + sbRightBody.Length );
 
       sbPageMenuPills.Append ( "</ul>" );
 
@@ -235,8 +238,6 @@ namespace Evado.UniForm.AdminClient
         || sbRightBody.Length > 0 )
       {
         this.LogDebug ( "Columns exist." );
-        this.LogDebug ( "Left column length: " + sbLeftBody.Length );
-        this.LogDebug ( "Right column length: " + sbRightBody.Length );
 
         sbMainBody.AppendLine ( "<!-- OPENING BODY COLUMNS -->" );
         sbMainBody.AppendLine ( "<div style='display:inline-block; width:98%; margin:0; padding:0;'>" );
@@ -247,7 +248,9 @@ namespace Evado.UniForm.AdminClient
         {
           this.LogDebug ( "Side columns empty." );
 
+          sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
           sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
+          sbMainBody.AppendLine ( "<!-- CLOSING LEFT BODY COLUMN -->" );
         }//END only centre body.
         else
         {
@@ -257,7 +260,7 @@ namespace Evado.UniForm.AdminClient
             && sbCentreBody.Length > 0
             && sbRightBody.Length == 0 )
           {
-            this.LogDebug ( "Add Left column to body (no left column)" );
+            this.LogDebug ( "Add Left column to body (no right column)" );
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
             sbMainBody.AppendLine ( "<div style='width:" + leftColumnPercentage + "%;  float: left;'>" );
@@ -270,7 +273,7 @@ namespace Evado.UniForm.AdminClient
             this.LogDebug ( "Add center column to body" );
 
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-            sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%;width: " + ( centreWidthPercentage - 1 ) + "%' >" );
+            sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%;width: " + ( centerColumPercentage - 1 ) + "%' >" );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -296,7 +299,7 @@ namespace Evado.UniForm.AdminClient
               this.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:0; width:" + ( centreWidthPercentage - 2 ) + "%' >" );
+              sbMainBody.AppendLine ( "<div style='margin-left:0; width:" + ( centerColumPercentage - 2 ) + "%' >" );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -328,7 +331,7 @@ namespace Evado.UniForm.AdminClient
               this.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%; width:" + ( centreWidthPercentage - 2 ) + "%' >" );
+              sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%; width:" + ( centerColumPercentage - 2 ) + "%' >" );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -682,7 +685,7 @@ namespace Evado.UniForm.AdminClient
       }
 
       this.UserSession.GroupFieldWidth = 60;
-      switch( this.UserSession.CurrentGroup.FieldValueColumnWidth)
+      switch ( this.UserSession.CurrentGroup.FieldValueColumnWidth )
       {
         case Model.EuFieldValueWidths.Twenty_Percent:
         {

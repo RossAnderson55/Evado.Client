@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
@@ -26,7 +28,7 @@
   <script type="text/javascript" src="./css/menu.js"></script>
 </head>
 <body>
-  <form name="form1" method="post" action="./default.aspx" id="form1" enctype="multipart/form-data">
+  <form name="form1" method="post" action="./default.aspx?ReturnUrl=%2fra%2feucca%2fdefault.aspx" id="form1" enctype="multipart/form-data">
     <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
 
     <div>
@@ -94,8 +96,8 @@
     // -->
     </script>
 
-    <input name="windowWidth" type="hidden" id="windowWidth" value="1500" />
-    <input name="windowHeight" type="hidden" id="windowHeight" value="802" />
+    <input name="windowWidth" type="hidden" id="windowWidth" />
+    <input name="windowHeight" type="hidden" id="windowHeight" />
     <!--  EVADO FORM PAGE -->
     <div id="page">
       <!-- HEADER -->
@@ -111,7 +113,7 @@
                 <a class='btn' style='text-align:right;'><img src='./css/Menu-icon.png' alt='>>' /></a>
                 <ul>
                   <li>
-                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('1145bed5-7a0b-4861-ab30-b7cc109d3f0c')">Update User Profile</a>
+                    <a class='btn btn-danger cmd-button' style='width: 175px;' href="javascript:onPostBack('92a93222-6f2f-42f4-b305-c62ba109761f')">Update User Profile</a>
                   </li>
                 </ul>
               </li>
@@ -132,7 +134,7 @@
           </ol>
           -->
 
-          <ul class='nav nav-pills'><li class='active'><a href='#'>All</a></li><li><a href='#40769621-c9b5-424f-b09d-8181adc8888b-grp'>Selection</a></li><li><a href='#5cca8246-60da-493a-aef1-4d08dd82a653-grp'> </a></li><li><a href='#53b13a95-bb03-418f-aa4f-f99d97d10ec1-grp'>Welcome Ross Anderson</a></li></ul>
+          <ul class='nav nav-pills'><li class='active'><a href='#'>All</a></li><li><a href='#dca788bf-54b8-4f3b-9a43-eeddec6f71e2-grp'>Selection</a></li><li><a href='#5221cc0a-87e7-4701-bdb5-e9834b7ca451-grp'> </a></li></ul>
         </div>
       </div>
       <!-- PAGE BODY -->
@@ -143,141 +145,112 @@
         <div id="form-body-dynamic-section" class="cf">
           <!-- OPENING BODY COLUMNS -->
           <div style='display:inline-block; width:98%; margin:0; padding:0;'>
-            <!-- OPENING LEFT BODY COLUMN -->
-            <div style='width:15%;  float: left;'>
-              <!---  GROUP HEADER --->
-              <div id='5cca8246-60da-493a-aef1-4d08dd82a653-grp' class='field-group large' style='width:100%; '>
-                <span class='group-title'>  </span>
-                <div class='field-group-container' style=''>
+            <!---  GROUP HEADER --->
+            <div id='dca788bf-54b8-4f3b-9a43-eeddec6f71e2-grp' class='field-group large' style='width:98%; '>
+              <span class='group-title'> Selection</span>
+              <div class='field-group-container' style=''>
 
-                  <table class='NavigationTable'>
-                    <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('981f2c33-7451-4315-a25a-41583eaa14a6')"> Knowledge Base</td></tr>
-                    <tr> <td class="Gray" onmouseover="this.className='Dark_Red'" onmouseout="this.className='Gray'" onclick="javascript:onPostBack('3a448eff-99c0-44dc-a328-d1ed86f1e1e0')"> Administration</td></tr>
-                    <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('af50b231-c19f-455d-a71f-95240a9813be')"> Management</td></tr>
-                    <tr> <td class="Gray" onmouseover="this.className='Dark_Red'" onmouseout="this.className='Gray'" onclick="javascript:onPostBack('83efc16f-826f-45d4-a88c-71236baa68b7')"> Analysis</td></tr>
-                    <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('0a8da8b9-5796-4b36-9214-7239085ce532')"> Audit</td></tr>
-                  </table>
-                </div>
-              </div>
-              <!-- GROUP FOOTER -->
-              <!-- CLOSING LEFT BODY COLUMN -->
-            </div>
-            <!-- CENTER CENTER BODY COLUMN -->
-            <div style='margin-left:16%;width: 85%'>
-              <!---  GROUP HEADER --->
-              <div id='40769621-c9b5-424f-b09d-8181adc8888b-grp' class='field-group large' style='width:98%; '>
-                <span class='group-title'> Selection</span>
-                <div class='field-group-container' style=''>
-
-                  <div class='fields'>
-                    <!-- -------------------------------------------------------------------------
-                           FIELD HEADER = OrgId DATA TYPE = Selection_List LAYOUT = Left_Justified
-                    -->
-                    <div id='dc048f32-8ae6-4d0d-81ce-7189433012e2-row' class='group-row field  cf '>
-                      <div style='width:100%; ' class='cell title cell-display-text-title'>
-                        <label>
-                          OrgId:
-                        </label>
-                        <div class='error-container '>
-                          <div id='dc048f32-8ae6-4d0d-81ce-7189433012e2-err-row' class='cell cell-error-value'>
-                            <span id='spdc048f32-8ae6-4d0d-81ce-7189433012e2-err'></span>
-                          </div>
+                <div class='fields'>
+                  <!-- -------------------------------------------------------------------------
+                         FIELD HEADER = OrgId DATA TYPE = Selection_List LAYOUT = Left_Justified
+                  -->
+                  <div id='4d4f88d1-384d-4015-99d4-0733920e8762-row' class='group-row field  cf '>
+                    <div style='width:40%; ' class='cell title cell-display-text-title'>
+                      <label>
+                        OrgId:
+                      </label>
+                      <div class='error-container '>
+                        <div id='4d4f88d1-384d-4015-99d4-0733920e8762-err-row' class='cell cell-error-value'>
+                          <span id='sp4d4f88d1-384d-4015-99d4-0733920e8762-err'></span>
                         </div>
-
-                      </div><div style='width:0%' class='cell value cell-select-value cf'>
-                        <select id='OrgId' name='OrgId' tabindex='101' value='' class='form-control' data-parsley-trigger="change" onchange="javascript:onPostBack('6ff565a2-ae55-4092-83a5-333333333333')">
-                          <option value="" selected='selected'></option>
-                          <option value="STHM-CCD">STHM-CCD - SVHM - Corinary Care Depaartment, Org type: Department</option>
-                          <option value="SVHM">SVHM - St Vincents Hospital Melbourne, Org type: Primary Institution</option>
-                        </select>
                       </div>
-                    </div>
-                    <!--      FIELD FOOTER = OrgId DATA TYPE = Selection_List
-                    ------------------------------------------------------------------------- -->
-                  </div>
-                  <div class='menu links'>
-                    <a class='btn btn-danger cmd-button' href="javascript:onPostBack('6ff565a2-ae55-4092-83a5-333333333333')">Select</a>
-                  </div>
-                </div>
-              </div>
-              <!-- GROUP FOOTER -->
-              <!---  GROUP HEADER --->
-              <div id='53b13a95-bb03-418f-aa4f-f99d97d10ec1-grp' class='field-group large' style='width:300px; '>
-                <span class='group-title'> Welcome Ross Anderson</span>
-                <div class='field-group-container' style=''>
 
-                  <!--- OPENNING DESCRIPTION --->
-                  <div>
-                    <div class='grp-description cf left-align '>
-                      <p>You have the 'Evado Administrator' role.</p>
-
+                    </div><div style='width:60%' class='cell value cell-select-value cf'>
+                      <select id='OrgId' name='OrgId' tabindex='101' value='SVHM' class='form-control' data-parsley-trigger="change" onchange="javascript:onPostBack('6ff565a2-ae55-4092-83a5-333333333333')">
+                        <option value=""></option>
+                        <option value="STHM-CCD">STHM-CCD - SVHM - Coronary Care Department, Org type: Department</option>
+                        <option value="SVHM" selected='selected'>SVHM - St Vincents Hospital Melbourne, Org type: Primary Institution</option>
+                      </select>
                     </div>
                   </div>
-                  <!-- CLOSING DESCRIPTION -->
+                  <!--      FIELD FOOTER = OrgId DATA TYPE = Selection_List
+                  ------------------------------------------------------------------------- -->
+                </div>
+                <div class='menu links'>
+                  <a class='btn btn-danger cmd-button' href="javascript:onPostBack('6ff565a2-ae55-4092-83a5-333333333333')">Select</a>
                 </div>
               </div>
-              <!-- GROUP FOOTER -->
-              <!-- CLOSING LEFT BODY COLUMN -->
             </div>
-          </div>
-          <!-- CLOSING BODY COLUMNS -->
-          <!--
+            <!-- GROUP FOOTER -->
+            <!---  GROUP HEADER --->
+            <div id='5221cc0a-87e7-4701-bdb5-e9834b7ca451-grp' class='field-group large' style=''>
+              <span class='group-title'>  </span>
+              <div class='field-group-container' style=''>
 
-          -->
-          <!--
-          Login dialog box
-          -->
-          <!--
-          Object serialisation
-          -->
-          <!---  GROUP HEADER --->
-          <div id='db53b4b3-7b2a-4fdb-8ef4-809dc8740e94-grp' class='field-group large' style='width:98%; '>
-            <span class='group-title'> Serialisation</span>
-            <div class='field-group-container' style=''>
-
-              <div id='c741aa75-970e-4ded-bf90-613212a6918e-row' class='group-row field layout-normal cf '>
-                <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_application_data.xml' target='_blank'>XML Serialised Application Data Object</a></strong></span></div>
+                <table class='NavigationTable'>
+                  <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('8ab83d28-6e16-4c26-9ec0-eabf55b15e10')"> Knowledge Base</td></tr>
+                  <tr> <td class="Gray" onmouseover="this.className='Dark_Red'" onmouseout="this.className='Gray'" onclick="javascript:onPostBack('bdf6dee0-7777-4fe0-b182-8bb719780899')"> Administration</td></tr>
+                  <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('9275e109-a004-4f14-9eaa-afb29b81fb58')"> Management</td></tr>
+                  <tr> <td class="Gray" onmouseover="this.className='Dark_Red'" onmouseout="this.className='Gray'" onclick="javascript:onPostBack('06275b54-eef3-4acc-beac-149b11223339')"> Analysis</td></tr>
+                  <tr> <td class="White" onmouseover="this.className='Dark_Red'" onmouseout="this.className='White'" onclick="javascript:onPostBack('fb558d31-296a-4169-b25d-8440b31a595e')"> Audit</td></tr>
+                </table>
               </div>
-              <!--      FIELD FOOTER = lnkxmllad DATA TYPE = Http_Link
-              ------------------------------------------------------------------------- -->
-              <div id='5626288d-7363-48cf-9a31-ddec293d8860-row' class='group-row field layout-normal cf '>
-                <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_command.xml' target='_blank'>XML Serialised Command Object</a></strong></span></div>
-              </div>
-              <!--      FIELD FOOTER = lnkXmlcmd DATA TYPE = Http_Link
-              ------------------------------------------------------------------------- -->
-              <div id='b941aa80-9575-4a70-a51c-ee68144bd8e5-row' class='group-row field layout-normal cf '>
-                <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/json_serialised_application_data.txt' target='_blank'>JSON Serialised Application Data Object</a></strong></span></div>
-              </div>
-              <!--      FIELD FOOTER = lnkjsonad DATA TYPE = Http_Link
-              ------------------------------------------------------------------------- -->
-              <div id='0e35abd4-375e-41c8-a112-2ca24ff350ef-row' class='group-row field layout-normal cf '>
-                <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/json_serialised_command.txt' target='_blank'>JSON Serialised Command Object</a></strong></span></div>
-              </div>
-              <!--      FIELD FOOTER = lnkjsonCmd DATA TYPE = Http_Link
-              ------------------------------------------------------------------------- -->
             </div>
-          </div>
-          <!-- GROUP FOOTER -->
-          <!--
+            <!-- GROUP FOOTER -->
+            <!--
 
-          -->
+            -->
+            <!--
+            Login dialog box
+            -->
+            <!--
+            Object serialisation
+            -->
+            <!---  GROUP HEADER --->
+            <div id='7f8241f0-0d2d-4727-828f-569c8993483c-grp' class='field-group large' style='width:98%; '>
+              <span class='group-title'> Serialisation</span>
+              <div class='field-group-container' style=''>
+
+                <div id='2e3f9487-09a1-49a6-bb27-389699ec7af7-row' class='group-row field layout-normal cf '>
+                  <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_application_data.xml' target='_blank'>XML Serialised Application Data Object</a></strong></span></div>
+                </div>
+                <!--      FIELD FOOTER = lnkxmllad DATA TYPE = Http_Link
+                ------------------------------------------------------------------------- -->
+                <div id='5460a244-84f9-4c62-b65a-b04ffb47b2e9-row' class='group-row field layout-normal cf '>
+                  <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_command.xml' target='_blank'>XML Serialised Command Object</a></strong></span></div>
+                </div>
+                <!--      FIELD FOOTER = lnkXmlcmd DATA TYPE = Http_Link
+                ------------------------------------------------------------------------- -->
+                <div id='e5424a49-0287-49eb-b783-7bc41d45cd13-row' class='group-row field layout-normal cf '>
+                  <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/serialised_application_data.json.txt' target='_blank'>JSON Serialised Application Data Object</a></strong></span></div>
+                </div>
+                <!--      FIELD FOOTER = lnkjsonad DATA TYPE = Http_Link
+                ------------------------------------------------------------------------- -->
+                <div id='adafecc5-c0aa-4f5c-8dc3-9cf67fa0cdfb-row' class='group-row field layout-normal cf '>
+                  <div style='' class='cell title cell-link-value cf'> <span><strong><a href='temp/json_serialised_command.txt' target='_blank'>JSON Serialised Command Object</a></strong></span></div>
+                </div>
+                <!--      FIELD FOOTER = lnkjsonCmd DATA TYPE = Http_Link
+                ------------------------------------------------------------------------- -->
+              </div>
+            </div>
+            <!-- GROUP FOOTER -->
+            <!--
+
+            -->
+          </div>
         </div>
       </div>
-    </div>
-    <table id="form-footer">
-      <tr>
-        <td class="left">
-          (c) Evado Holdings Pty. Ltd. 2011 - 2023 All rights reserved
-        </td>
-        <td class="center">
-          Powered By Evado UniFORM
-        </td>
-        <td class="right">
-          Version: 6.2.0.27743
-        </td>
-      </tr>
-    </table>
-    <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
+      <table id="form-footer">
+        <tr>
+          <td class="left">
+          </td>
+          <td class="center">
+          </td>
+          <td class="right">
+          </td>
+        </tr>
+      </table>
+      <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2020 -->
   </form>
 </body>
 </html>

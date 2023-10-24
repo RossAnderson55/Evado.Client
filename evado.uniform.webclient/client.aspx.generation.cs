@@ -129,11 +129,19 @@ namespace Evado.UniForm.WebClient
 
       leftColumnPercentage = this.UserSession.AppData.Page.LeftColumnWidth;
       rightColumnPercentage = this.UserSession.AppData.Page.RightColumnWidth;
-      int centreWidthPercentage = 100 - leftColumnPercentage - rightColumnPercentage;
+      int centerColumPercentage = 100 - leftColumnPercentage - rightColumnPercentage;
+      bool enableBodyColumns = false;
 
-      this.LogDebug ( "leftColumnPercentage: " + leftColumnPercentage );
-      this.LogDebug ( "rightColumnPercentage: " + rightColumnPercentage );
-      this.LogDebug ( "centreWidthPercentage: " + centreWidthPercentage );
+      this.LogDebug ( "Percentage: LeftColumn: {0}, CentreColumn: {1}, rightColumn: {2} ",
+        leftColumnPercentage, centerColumPercentage, rightColumnPercentage );
+
+      if ( leftColumnPercentage > 0
+        || rightColumnPercentage > 0 )
+      {
+        enableBodyColumns = true;
+      }
+
+      this.LogDebug ( "enableBodyColumns: {0}", enableBodyColumns );
 
       //
       // Generate the group menu.
@@ -160,16 +168,16 @@ namespace Evado.UniForm.WebClient
 
           String pageColumn = group.GetParameter ( Evado.UniForm.Model.EuGroupParameters.Page_Column );
 
-          this.LogDebug ( group.Title + " in column: " + pageColumn );
+
+          this.LogDebug ( "{0}, Layout: {1}, Column: {2}", group.Title, group.Layout, group.PageColumn );
 
           //
           // Header fields are always at the top of the page.
           //
-          if ( group.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header
-            || ( leftColumnPercentage == 0
-              && rightColumnPercentage == 0 ) )
+          if ( group.Layout == Model.EuGroupLayouts.Page_Header
+             || enableBodyColumns == false )
           {
-            this.LogDebug ( "ADD: " + group.Title + " to main body" );
+            this.LogDebug ( "NO BODY COLUMNS OR HEADER PAGE. ADD: {0}. ", group.Title );
             this.generateGroup ( sbMainBody, count, false );
 
             this.generatePageMenuPills ( sbPageMenuPills, group );
@@ -177,12 +185,13 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
+
           //
           // Select the column the group is to be added to.
           //
-          switch ( group.PageColumnCode )
+          switch ( group.PageColumn )
           {
-            case Model.EuPageColumnCodes.Left:
+            case Model.EuPageColumns.Left:
             {
               //
               // if the left column exists and the group is allocated to the left column
@@ -194,7 +203,7 @@ namespace Evado.UniForm.WebClient
 
                 this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-                this.generateGroup ( sbLeftBody, count, true );
+                this.generateGroup ( sbLeftBody, count, enableBodyColumns );
 
                 this.generatePageMenuPills ( sbPageMenuPills, group );
               }
@@ -205,7 +214,7 @@ namespace Evado.UniForm.WebClient
             // if the right column exists and the group is allocated to the right column
             // place the group html in the right body.
             //
-            case Model.EuPageColumnCodes.Right:
+            case Model.EuPageColumns.Right:
             {
               if ( rightColumnPercentage > 0 )
               {
@@ -213,7 +222,7 @@ namespace Evado.UniForm.WebClient
 
                 this.UserSession.AppData.Page.GroupList [ count ].Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-                this.generateGroup ( sbRightBody, count, false );
+                this.generateGroup ( sbRightBody, count, enableBodyColumns );
 
                 this.generatePageMenuPills ( sbPageMenuPills, group );
               }
@@ -226,7 +235,7 @@ namespace Evado.UniForm.WebClient
               //
               this.LogDebug ( "ADD: " + group.Title + " to center column" );
 
-              this.generateGroup ( sbCentreBody, count, false );
+              this.generateGroup ( sbCentreBody, count, enableBodyColumns );
 
               this.generatePageMenuPills ( sbPageMenuPills, group );
               continue;
@@ -279,7 +288,7 @@ namespace Evado.UniForm.WebClient
             this.LogDebug ( "Add center column to body" );
 
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-            sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%;width: " + ( centreWidthPercentage - 1 ) + "%' >" );
+            sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%;width: " + ( centerColumPercentage - 1 ) + "%' >" );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -305,7 +314,7 @@ namespace Evado.UniForm.WebClient
               this.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:0; width:" + ( centreWidthPercentage - 2 ) + "%' >" );
+              sbMainBody.AppendLine ( "<div style='margin-left:0; width:" + ( centerColumPercentage - 2 ) + "%' >" );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -337,7 +346,7 @@ namespace Evado.UniForm.WebClient
               this.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%; width:" + ( centreWidthPercentage - 2 ) + "%' >" );
+              sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%; width:" + ( centerColumPercentage - 2 ) + "%' >" );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -725,10 +734,6 @@ namespace Evado.UniForm.WebClient
     {
       this.LogMethod ( "generateGroup" );
       this.LogDebug ( "Index: " + Index );
-      //
-      // Initialise the methods variables and objects.
-      //
-
       //
       // Extract the group object from the list.
       //
