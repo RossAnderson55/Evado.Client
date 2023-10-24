@@ -409,7 +409,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -721,7 +721,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -1944,7 +1944,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        widthValue = PageField.getValueColumnWidth ( );
+        widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -2468,7 +2468,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -2626,7 +2626,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -2717,7 +2717,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        widthValue = PageField.getValueColumnWidth ( );
+        widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -2854,7 +2854,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -4876,7 +4876,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.getValueColumnWidth ( );
+        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }

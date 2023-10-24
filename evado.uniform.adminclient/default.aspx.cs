@@ -1017,13 +1017,13 @@ namespace Evado.UniForm.AdminClient
       /// 
       /// Open the stream to the file.
       /// 
-      using ( StreamWriter sw = new StreamWriter ( Global.ApplicationPath + @"temp\json_serialised_application_data.txt" ) )
+      using ( StreamWriter sw = new StreamWriter ( Global.ApplicationPath + @"temp\serialised_application_data.json.txt" ) )
       {
         sw.Write ( serialisedText );
 
       }/// End StreamWrite
 
-      groupField = serialisationGroup.createHtmlLinkField ( "lnkjsonad", "JSON Serialised Application Data Object", "temp/json_serialised_application_data.txt" );
+      groupField = serialisationGroup.createHtmlLinkField ( "lnkjsonad", "JSON Serialised Application Data Object", "temp/serialised_application_data.json.txt" );
 
       ///
       ///  JSON Command 
