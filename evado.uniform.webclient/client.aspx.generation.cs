@@ -20,7 +20,7 @@ namespace Evado.UniForm.WebClient
     /// This method uses the global ApplicationData object to generates the page layout.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void GeneratePage ( )
+    private void GeneratePage( )
     {
       this.LogMethod ( "generatePage" );
       this.LogDebug ( "Status: " + this.UserSession.AppData.Status );
@@ -36,7 +36,7 @@ namespace Evado.UniForm.WebClient
       this.litExitCommand.Visible = true;
       this.litHistory.Visible = false;
 
-      if ( Global.EnablePageMenu == true)
+      if ( Global.EnablePageMenu == true )
       {
         this.litPageMenu.Visible = true;
       }
@@ -154,7 +154,7 @@ namespace Evado.UniForm.WebClient
       //
       if ( this.UserSession.AppData.Page.GroupList.Count > 0 )
       {
-        for ( int count = 0; count < this.UserSession.AppData.Page.GroupList.Count; count++ )
+        for ( int count = 0 ; count < this.UserSession.AppData.Page.GroupList.Count ; count++ )
         {
           Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.GroupList [ count ];
 
@@ -253,8 +253,6 @@ namespace Evado.UniForm.WebClient
         || sbRightBody.Length > 0 )
       {
         this.LogDebug ( "Columns exist." );
-        this.LogDebug ( "Left column length: " + sbLeftBody.Length );
-        this.LogDebug ( "Right column length: " + sbRightBody.Length );
 
         sbMainBody.AppendLine ( "<!-- OPENING BODY COLUMNS -->" );
         sbMainBody.AppendLine ( "<div style='display:inline-block; width:98%; margin:0; padding:0;'>" );
@@ -265,20 +263,22 @@ namespace Evado.UniForm.WebClient
         {
           this.LogDebug ( "Side columns empty." );
 
+          sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
           sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
+          sbMainBody.AppendLine ( "<!-- CLOSING LEFT BODY COLUMN -->" );
         }//END only centre body.
         else
         {
-          this.LogDebug ( "Side columns have content." );
+          this.LogDebug ( "left columns has content." );
 
           if ( sbLeftBody.Length > 0
             && sbCentreBody.Length > 0
             && sbRightBody.Length == 0 )
           {
-            this.LogDebug ( "Add Left column to body (no left column)" );
+            this.LogDebug ( "Add Left column to body (no right column)" );
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendLine ( "<div style='width:" + leftColumnPercentage + "%;  float: left;'>" );
+            sbMainBody.AppendFormat ( "<div style='width:{0}%;  float: left;'>\r\n", leftColumnPercentage );
 
             sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
@@ -288,7 +288,8 @@ namespace Evado.UniForm.WebClient
             this.LogDebug ( "Add center column to body" );
 
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-            sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%;width: " + ( centerColumPercentage - 1 ) + "%' >" );
+            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;'  >\r\n",
+              ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -303,8 +304,8 @@ namespace Evado.UniForm.WebClient
             {
               this.LogDebug ( "Add right column to body (no left column)" );
 
-              sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='width:" + rightColumnPercentage + "%; '>" );
+              sbMainBody.AppendLine ( "<!-- OPENING RIGH BODY COLUMN -->" );
+              sbMainBody.AppendFormat ( "<div style='width:{0}%;  float: right;'>\r\n", rightColumnPercentage );
 
               sbMainBody.AppendLine ( sbRightBody.ToString ( ) );
 
@@ -314,7 +315,8 @@ namespace Evado.UniForm.WebClient
               this.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:0; width:" + ( centerColumPercentage - 2 ) + "%' >" );
+              sbMainBody.AppendFormat ( "<div style='margin-left:0; width:{0}%; ;'>\r\n",
+                 ( centerColumPercentage - 1 ) );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -326,7 +328,7 @@ namespace Evado.UniForm.WebClient
               this.LogDebug ( "Add left column to body" );
 
               sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='width:" + leftColumnPercentage + "%; float:left'>" );
+              sbMainBody.AppendFormat ( "<div style='width:{0}%; float:left;  padding-right: 10px;'>\r\n", leftColumnPercentage );
 
               sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
@@ -336,7 +338,7 @@ namespace Evado.UniForm.WebClient
               this.LogDebug ( "Add right column to body" );
 
               sbMainBody.AppendLine ( "<!-- OPENING RIGHT BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='width:" + rightColumnPercentage + "%; float:right'>" );
+              sbMainBody.AppendFormat ( "<div style='width:{0}%; float:right'>\r\n", rightColumnPercentage );
 
               sbMainBody.AppendLine ( sbRightBody.ToString ( ) );
 
@@ -346,7 +348,8 @@ namespace Evado.UniForm.WebClient
               this.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%; width:" + ( centerColumPercentage - 2 ) + "%' >" );
+              sbMainBody.AppendFormat ( "<div style='margin-left:{0}%; width:{1}%' >\r\n",
+                ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -384,7 +387,7 @@ namespace Evado.UniForm.WebClient
     /// This method loads the page's javascript libraries
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void setMeetingValues ( )
+    private void setMeetingValues( )
     {
       this.LogMethod ( "setMeetingValues" );
       this.LogDebug ( "AppData.MeetingStatus: {0}.", this.UserSession.AppData.MeetingStatus );
@@ -439,7 +442,7 @@ namespace Evado.UniForm.WebClient
     /// Write Debug comments property.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void generateErrorMessge ( StringBuilder sbHtml )
+    private void generateErrorMessge( StringBuilder sbHtml )
     {
       this.LogMethod ( "generateErrorMessge" );
       String message = this.UserSession.AppData.Message.ToLower ( );
@@ -477,7 +480,7 @@ namespace Evado.UniForm.WebClient
     /// when the relevant Command is required.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void generatePageCommands ( )
+    private void generatePageCommands( )
     {
       this.LogMethod ( "generateCommands" );
       this.LogDebug ( "CommandList.Count: " + this.UserSession.AppData.Page.CommandList.Count );
@@ -559,8 +562,8 @@ namespace Evado.UniForm.WebClient
       stHtml.AppendLine ( "<ul id='Main_Menu'>" );
       //stHtml.AppendLine ( "\t<li id='Command' ><a class='btn' style='text-align:right;'><img src='./css/Command-Arrow.png' alt='>>'/></a>" );
 
-        stHtml.AppendLine ( "\t<li id='Command' ><a class='btn' style='text-align:right;'><img src='./css/Menu-icon.png' alt='>>'/></a>" );
-     
+      stHtml.AppendLine ( "\t<li id='Command' ><a class='btn' style='text-align:right;'><img src='./css/Menu-icon.png' alt='>>'/></a>" );
+
       stHtml.AppendLine ( "\t\t<ul>" );
 
 
@@ -592,7 +595,7 @@ namespace Evado.UniForm.WebClient
 
       this.litCommandContent.Text = stHtml.ToString ( );
 
-        this.LogMethodEnd ( "generateCommands" );
+      this.LogMethodEnd ( "generateCommands" );
     }//END generatePageCommands method
 
     // ==================================================================================
@@ -600,7 +603,7 @@ namespace Evado.UniForm.WebClient
     /// This mehod generates the HTMl for a page group.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private String createPageCommandLink (
+    private String createPageCommandLink(
       Evado.UniForm.Model.EuCommand command )
     {
       //this.LogMethod ( "createPageCommandLink" );
@@ -649,7 +652,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="cssClass">String: Css classes</param>
     /// <returns>Html string</returns>
     // ---------------------------------------------------------------------------------
-    private String createCommandLink (
+    private String createCommandLink(
       Evado.UniForm.Model.EuCommand command,
       string cssClass = "btn btn-danger cmd-button" )
     {
@@ -675,7 +678,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="cssClass">String: Css classes</param>
     /// <returns>Html string</returns>
     // ---------------------------------------------------------------------------------
-    private String createHttpCommandLink (
+    private String createHttpCommandLink(
       Evado.UniForm.Model.EuCommand Command,
       string cssClass = "btn btn-danger cmd-button" )
     {
@@ -701,7 +704,7 @@ namespace Evado.UniForm.WebClient
     /// This method generates the HTMl for a menu pills.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void generateHistoryMenuPills (
+    private void generateHistoryMenuPills(
       StringBuilder stHtml,
       Evado.UniForm.Model.EuCommand command )
     {
@@ -713,7 +716,7 @@ namespace Evado.UniForm.WebClient
     /// This method generates the HTMl for a menu pills.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void generatePageMenuPills ( StringBuilder sbHtml, Evado.UniForm.Model.EuGroup group )
+    private void generatePageMenuPills( StringBuilder sbHtml, Evado.UniForm.Model.EuGroup group )
     {
       this.LogMethod ( "generatePageMenuPills" );
 
@@ -727,7 +730,7 @@ namespace Evado.UniForm.WebClient
     /// This method generates the HTMl for a page group.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void generateGroup (
+    private void generateGroup(
       StringBuilder sbHtml,
       int Index,
       bool EnableBodyColumns )
@@ -814,7 +817,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageGroup">The group obbject</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void generateGroupHeader (
+    private void generateGroupHeader(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuGroup PageGroup,
       bool EnableBodyColumns )
@@ -966,7 +969,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageGroup">The group obbject</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void generateGroupFooter (
+    private void generateGroupFooter(
       StringBuilder sbHtml )
     {
       sbHtml.AppendLine ( "</div>" );
@@ -981,7 +984,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageGroup">The group obbject</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private Guid getField_ID ( String FieldId )
+    private Guid getField_ID( String FieldId )
     {
       //
       // Iterate through group fields to find the field's Id 
@@ -1009,7 +1012,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="GroupStatus">The groups edit status</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void generateGroupFields (
+    private void generateGroupFields(
       StringBuilder sbHtml,
       int GroupIndex,
       Evado.UniForm.Model.EuGroup PageGroup )
@@ -1046,7 +1049,7 @@ namespace Evado.UniForm.WebClient
       //
       // iterate throught the field list
       //
-      for ( int count = 0; count < PageGroup.FieldList.Count; count++ )
+      for ( int count = 0 ; count < PageGroup.FieldList.Count ; count++ )
       {
         Evado.UniForm.Model.EuField groupField = PageGroup.FieldList [ count ];
 
@@ -1081,192 +1084,192 @@ namespace Evado.UniForm.WebClient
         switch ( groupField.Type )
         {
           case Evado.Model.EvDataTypes.Read_Only_Text:
-            {
-              this.createReadOnlyField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createReadOnlyField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Text:
-            {
-              this.createTextField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createTextField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Password:
-            {
-              this.createPasswordField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createPasswordField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Http_Link:
-            {
-              this.createHttpLinkField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createHttpLinkField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Free_Text:
-            {
-              this.createFreeTextField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createFreeTextField ( sbHtml, groupField );
+            break;
+          }
 
           case Evado.Model.EvDataTypes.Html_Content:
-            {
-              this.createHtmlField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createHtmlField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Boolean:
-            {
-              this.createBooleanField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createBooleanField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Yes_No:
-            {
-              this.createYesNoField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createYesNoField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Date:
           case Evado.Model.EvDataTypes.Year:
-            {
-              this.createDateField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createDateField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Time:
-            {
-              this.createTimeField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createTimeField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Numeric:
           case Evado.Model.EvDataTypes.Integer:
-            {
-              this.createNumericField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createNumericField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Streamed_Video:
-            {
-              this.createStreamedVideoField ( sbHtml, groupField ); // 
-              break;
-            }
+          {
+            this.createStreamedVideoField ( sbHtml, groupField ); // 
+            break;
+          }
           case Evado.Model.EvDataTypes.External_Image:
-            {
-              this.createExternalImageField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createExternalImageField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Image:
-            {
-              this.createImageField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createImageField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Binary_File:
-            {
-              this.createBinaryField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createBinaryField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Sound:
-            {
-              this.createSoundField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createSoundField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Bar_Code:
-            {
-              this.createTextField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createTextField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Radio_Button_List:
-            {
-              this.createRadioButtonField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createRadioButtonField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Special_Quiz_Radio_Buttons:
-            {
-              this.createQuizRadioButtonField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createQuizRadioButtonField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Horizontal_Radio_Buttons:
-            {
-              this.createHorizontalRadioButtonField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createHorizontalRadioButtonField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Selection_List:
-            {
-              this.createSelectionListField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createSelectionListField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Check_Box_List:
-            {
-              this.createCheckboxField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createCheckboxField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Table:
-            {
-              this.createTableField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createTableField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Currency:
-            {
-              this.createCurrencyField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createCurrencyField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Email_Address:
-            {
-              this.createEmailAddressField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createEmailAddressField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Telephone_Number:
-            {
-              this.createTelephoneNumberField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createTelephoneNumberField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Analogue_Scale:
-            {
-              this.createAnalogueField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createAnalogueField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Name:
-            {
-              this.createNameField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createNameField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Address:
-            {
-              this.createAddressField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createAddressField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Signature:
-            {
-              this.createSignatureField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createSignatureField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Integer_Range:
           case Evado.Model.EvDataTypes.Float_Range:
           case Evado.Model.EvDataTypes.Double_Range:
-            {
-              this.LogDebug ( "calling createNumericRangeField method." );
+          {
+            this.LogDebug ( "calling createNumericRangeField method." );
 
-              this.createNumericRangeField ( sbHtml, groupField );
-              break;
-            }
+            this.createNumericRangeField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Date_Range:
-            {
-              this.LogDebug ( "calling createDateRangeField method." );
+          {
+            this.LogDebug ( "calling createDateRangeField method." );
 
-              this.createDateRangeField ( sbHtml, groupField );
-              break;
-            }
+            this.createDateRangeField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Computed_Field:
-            {
-              this.createComputedField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createComputedField ( sbHtml, groupField );
+            break;
+          }
           case Evado.Model.EvDataTypes.Donut_Chart:
           case Evado.Model.EvDataTypes.Line_Chart:
           case Evado.Model.EvDataTypes.Bar_Chart:
           case Evado.Model.EvDataTypes.Pie_Chart:
           case Evado.Model.EvDataTypes.Stacked_Bar_Chart:
-            {
-              this.createPlotChartField ( sbHtml, groupField );
-              break;
-            }
+          {
+            this.createPlotChartField ( sbHtml, groupField );
+            break;
+          }
           default:
-            {
-              break;
-            }
+          {
+            break;
+          }
         }//END Case Statement
 
       }//END page object iteration loop
@@ -1286,7 +1289,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="GroupCommand">Evado.UniForm.Model.EuCommand object</param>
     /// <returns>String Title with embedded html</returns>
     //-----------------------------------------------------------------------------------
-    private String renderCommandTitleNoImage (
+    private String renderCommandTitleNoImage(
       Evado.UniForm.Model.EuCommand GroupCommand )
     {
       //this.LogMethod ( "renderCommandTitle" );
@@ -1307,7 +1310,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="GroupCommand">Evado.UniForm.Model.EuCommand object</param>
     /// <returns>String Title with embedded html</returns>
     //-----------------------------------------------------------------------------------
-    private String renderCommandTitle (
+    private String renderCommandTitle(
       Evado.UniForm.Model.EuCommand GroupCommand )
     {
       //this.LogMethod ( "renderCommandTitle" );
@@ -1337,7 +1340,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder containing the html content.</param>
     /// <param name="PageGroup">Group object</param>
     // ----------------------------------------------------------------------------------
-    private void generateGroupCommands (
+    private void generateGroupCommands(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuGroup PageGroup )
     {
@@ -1374,20 +1377,20 @@ namespace Evado.UniForm.WebClient
       switch ( PageGroup.CmdLayout )
       {
         case Evado.UniForm.Model.EuGroupCommandListLayouts.Vertical_Orientation:
-          {
-            this.generateVerticalCommandGroup ( sbHtml, PageGroup );
-            break;
-          }
+        {
+          this.generateVerticalCommandGroup ( sbHtml, PageGroup );
+          break;
+        }
         case Evado.UniForm.Model.EuGroupCommandListLayouts.Tiled_Commands:
-          {
-            this.generateTiledCommandGroup ( sbHtml, PageGroup );
-            break;
-          }
+        {
+          this.generateTiledCommandGroup ( sbHtml, PageGroup );
+          break;
+        }
         default:
-          {
-            this.generateDefaultCommandGroup ( sbHtml, PageGroup );
-            break;
-          }
+        {
+          this.generateDefaultCommandGroup ( sbHtml, PageGroup );
+          break;
+        }
       }
 
       this.LogMethodEnd ( "generateGroupCommands" );
@@ -1400,7 +1403,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilding containing the html </param>
     /// <param name="PageGroup">PageGroup object</param>
     //-----------------------------------------------------------------------------------
-    private void generateVerticalCommandGroup (
+    private void generateVerticalCommandGroup(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuGroup PageGroup )
     {
@@ -1415,33 +1418,14 @@ namespace Evado.UniForm.WebClient
       //
       // Setting the default command bacground colours.
       //
-      String background_Default = "White";
-      String background_Alternative = "Gray";
-      String background_Highlighted = "Dark_Red";
+      string background_Default = PageGroup.CommandBackground.ToString ( );
+      string background_Alternative = PageGroup.AlternativeCommandBackground.ToString ( );
+      string background_Highlighted = PageGroup.HighlightedCommandBackground.ToString ( );
 
-      this.LogDebug ( "1 background_Default: " + background_Default );
-      this.LogDebug ( "1 background_Alternative: " + background_Alternative );
-      this.LogDebug ( "1 background_Highlighted: " + background_Highlighted );
+      this.LogDebug ( "background_Default: " + background_Default );
+      this.LogDebug ( "background_Alternative: " + background_Alternative );
+      this.LogDebug ( "background_Highlighted: " + background_Highlighted );
 
-      //
-      // Update the colour if it is in the group settings.
-      //
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default ) == true )
-      {
-        background_Default = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default );
-      }
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alternative ) == true )
-      {
-        background_Alternative = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alternative );
-      }
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Highlighted ) == true )
-      {
-        background_Highlighted = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Highlighted );
-      }
-
-      this.LogDebug ( "2 background_Default: " + background_Default );
-      this.LogDebug ( "2 background_Alternative: " + background_Alternative );
-      this.LogDebug ( "2 background_Highlighted: " + background_Highlighted );
       //
       // Define the table header.
       //
@@ -1525,7 +1509,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilding containing the html </param>
     /// <param name="PageGroup">PageGroup object</param>
     //-----------------------------------------------------------------------------------
-    private void generateTiledCommandGroup (
+    private void generateTiledCommandGroup(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuGroup PageGroup )
     {
@@ -1616,9 +1600,9 @@ namespace Evado.UniForm.WebClient
             count += 1;
           }
 
-          for ( int i = 0; i < rowCount; i++ )
+          for ( int i = 0 ; i < rowCount ; i++ )
           {
-            for ( int j = 0; j < columnCount; j++ )
+            for ( int j = 0 ; j < columnCount ; j++ )
             {
               Evado.UniForm.Model.EuCommand command = null;
 
@@ -1683,7 +1667,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="tileWidth">String: title width </param>
     /// <param name="defaultColor">String the default colour</param>
     //-----------------------------------------------------------------------------------
-    private void generateCommandTile (
+    private void generateCommandTile(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuCommand groupCommand,
       string tileWidth,
@@ -1767,7 +1751,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder containing the html content.</param>
     /// <param name="PageGroup">Group object</param>
     //-----------------------------------------------------------------------------------
-    private void generateDefaultCommandGroup (
+    private void generateDefaultCommandGroup(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuGroup PageGroup )
     {

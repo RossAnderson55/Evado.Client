@@ -254,7 +254,7 @@ namespace Evado.UniForm.AdminClient
         }//END only centre body.
         else
         {
-          this.LogDebug ( "Side columns have content." );
+          this.LogDebug ( "left columns has content." );
 
           if ( sbLeftBody.Length > 0
             && sbCentreBody.Length > 0
@@ -263,7 +263,7 @@ namespace Evado.UniForm.AdminClient
             this.LogDebug ( "Add Left column to body (no right column)" );
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendLine ( "<div style='width:" + leftColumnPercentage + "%;  float: left;'>" );
+            sbMainBody.AppendFormat ( "<div style='width:{0}%;  float: left;'>\r\n", leftColumnPercentage );
 
             sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
@@ -273,7 +273,8 @@ namespace Evado.UniForm.AdminClient
             this.LogDebug ( "Add center column to body" );
 
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-            sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%;width: " + ( centerColumPercentage - 1 ) + "%' >" );
+            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;'  >\r\n",
+              ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -288,8 +289,8 @@ namespace Evado.UniForm.AdminClient
             {
               this.LogDebug ( "Add right column to body (no left column)" );
 
-              sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='width:" + rightColumnPercentage + "%; '>" );
+              sbMainBody.AppendLine ( "<!-- OPENING RIGH BODY COLUMN -->" );
+              sbMainBody.AppendFormat ( "<div style='width:{0}%;  float: right;'>\r\n", rightColumnPercentage );
 
               sbMainBody.AppendLine ( sbRightBody.ToString ( ) );
 
@@ -299,7 +300,8 @@ namespace Evado.UniForm.AdminClient
               this.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:0; width:" + ( centerColumPercentage - 2 ) + "%' >" );
+              sbMainBody.AppendFormat ( "<div style='margin-left:0; width:{0}%; ;'>\r\n",
+                 ( centerColumPercentage - 1 ) );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -311,7 +313,7 @@ namespace Evado.UniForm.AdminClient
               this.LogDebug ( "Add left column to body" );
 
               sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='width:" + leftColumnPercentage + "%; float:left'>" );
+              sbMainBody.AppendFormat ( "<div style='width:{0}%; float:left;  padding-right: 10px;'>\r\n", leftColumnPercentage );
 
               sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
@@ -321,7 +323,7 @@ namespace Evado.UniForm.AdminClient
               this.LogDebug ( "Add right column to body" );
 
               sbMainBody.AppendLine ( "<!-- OPENING RIGHT BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='width:" + rightColumnPercentage + "%; float:right'>" );
+              sbMainBody.AppendFormat ( "<div style='width:{0}%; float:right'>\r\n", rightColumnPercentage );
 
               sbMainBody.AppendLine ( sbRightBody.ToString ( ) );
 
@@ -331,7 +333,8 @@ namespace Evado.UniForm.AdminClient
               this.LogDebug ( "Add center column to body" );
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-              sbMainBody.AppendLine ( "<div style='margin-left:" + ( leftColumnPercentage + 1 ) + "%; width:" + ( centerColumPercentage - 2 ) + "%' >" );
+              sbMainBody.AppendFormat ( "<div style='margin-left:{0}%; width:{1}%' >\r\n",
+                ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -955,12 +958,6 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "PageGroup.Status: {0}.", PageGroup.EditAccess );
       this.LogDebug ( "PageGroup.CmdLayout: {0}.", PageGroup.CmdLayout );
       this.LogDebug ( "PageGroup.Status: {0}.", PageGroup.EditAccess );
-
-      String stCssDefault = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default );
-      String stCssValid = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Validation );
-      String stCssAlert = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alert );
-      String stCssNormal = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Normal );
-
       //
       // if no field exit method.
       //
@@ -1352,33 +1349,14 @@ namespace Evado.UniForm.AdminClient
       //
       // Setting the default command bacground colours.
       //
-      String background_Default = "White";
-      String background_Alternative = "Gray";
-      String background_Highlighted = "Dark_Red";
+      string background_Default = PageGroup.CommandBackground.ToString ( );
+      string background_Alternative = PageGroup.AlternativeCommandBackground.ToString ( );
+      string background_Highlighted = PageGroup.HighlightedCommandBackground.ToString ( );
 
-      this.LogDebug ( "1 background_Default: " + background_Default );
-      this.LogDebug ( "1 background_Alternative: " + background_Alternative );
-      this.LogDebug ( "1 background_Highlighted: " + background_Highlighted );
+      this.LogDebug ( "background_Default: " + background_Default );
+      this.LogDebug ( "background_Alternative: " + background_Alternative );
+      this.LogDebug ( "background_Highlighted: " + background_Highlighted );
 
-      //
-      // Update the colour if it is in the group settings.
-      //
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default ) == true )
-      {
-        background_Default = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default );
-      }
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alternative ) == true )
-      {
-        background_Alternative = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alternative );
-      }
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Highlighted ) == true )
-      {
-        background_Highlighted = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Highlighted );
-      }
-
-      this.LogDebug ( "2 background_Default: " + background_Default );
-      this.LogDebug ( "2 background_Alternative: " + background_Alternative );
-      this.LogDebug ( "2 background_Highlighted: " + background_Highlighted );
       //
       // Define the table header.
       //
@@ -1477,9 +1455,13 @@ namespace Evado.UniForm.AdminClient
       //
       // Setting the default command bacground colours.
       //
-      String background_Default = "White";
-      String background_Alternative = "Gray";
-      String background_Highlighted = "Dark_Red";
+      string background_Default = PageGroup.CommandBackground.ToString ( );
+      string background_Alternative = PageGroup.AlternativeCommandBackground.ToString ( );
+      string background_Highlighted = PageGroup.HighlightedCommandBackground.ToString ( );
+
+      this.LogDebug ( "background_Default: " + background_Default );
+      this.LogDebug ( "background_Alternative: " + background_Alternative );
+      this.LogDebug ( "background_Highlighted: " + background_Highlighted );
 
       var tableHeader = PageGroup.GetParameter ( Model.EuGroupParameters.Command_Tabular_Header );
 
@@ -1493,30 +1475,6 @@ namespace Evado.UniForm.AdminClient
         return;
       }
 
-
-      this.LogDebug ( "1 background_Default: " + background_Default );
-      this.LogDebug ( "1 background_Alternative: " + background_Alternative );
-      this.LogDebug ( "1 background_Highlighted: " + background_Highlighted );
-
-      //
-      // Update the colour if it is in the group settings.
-      //
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default ) == true )
-      {
-        background_Default = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default );
-      }
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alternative ) == true )
-      {
-        background_Alternative = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alternative );
-      }
-      if ( PageGroup.hasParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Highlighted ) == true )
-      {
-        background_Highlighted = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Highlighted );
-      }
-
-      this.LogDebug ( "2 background_Default: " + background_Default );
-      this.LogDebug ( "2 background_Alternative: " + background_Alternative );
-      this.LogDebug ( "2 background_Highlighted: " + background_Highlighted );
       //
       // Define the table header.
       //
