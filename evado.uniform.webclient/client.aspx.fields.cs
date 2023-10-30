@@ -1940,7 +1940,6 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
-      String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
@@ -2022,7 +2021,7 @@ namespace Evado.UniForm.WebClient
          + "value='" + option.Value + "' "
          + "data-parsley-trigger=\"change\" " );
 
-        if ( stCmdOnChange == "1" )
+        if ( PageField.SendCmdOnChange == true )
         {
           sbHtml.Append ( this.createOnChangeEvent ( ) );
         }
@@ -2076,7 +2075,7 @@ namespace Evado.UniForm.WebClient
          + "value='' "
          + "data-parsley-trigger=\"change\" " );
 
-        if ( stCmdOnChange == "1" )
+        if (  PageField.SendCmdOnChange == true )
         {
           sbHtml.Append ( this.createOnChangeEvent ( ) );
         }
@@ -2302,7 +2301,6 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%;' class='cell value cell-radio-value' ";
-      String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
       this.LogDebug ( "valueColumnWidth {0}.", valueColumnWidth );
 
       string options = Evado.Model.EvStatics.getOptionListAsString ( PageField.OptionList, false );
@@ -2353,7 +2351,7 @@ namespace Evado.UniForm.WebClient
          + "tabindex = '" + _TabIndex + "' "
          + "data-parsley-trigger=\"change\" " );
 
-        if ( stCmdOnChange == "1" )
+        if ( PageField.SendCmdOnChange == true )
         {
           sbHtml.Append ( this.createOnChangeEvent ( ) );
         }
@@ -2460,7 +2458,7 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
-      String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
+       
       //
       // Set the normal validation parameters.
       //
@@ -2527,7 +2525,7 @@ namespace Evado.UniForm.WebClient
         sbHtml.Append ( " disabled='disabled' " );
       }
 
-      if ( stCmdOnChange == "1" )
+      if (  PageField.SendCmdOnChange == true )
       {
         sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
@@ -2574,7 +2572,7 @@ namespace Evado.UniForm.WebClient
         sbHtml.Append ( " disabled='disabled' " );
       }
 
-      if ( stCmdOnChange == "1" )
+      if (  PageField.SendCmdOnChange == true )
       {
         sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
@@ -2618,7 +2616,7 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
-      String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
+       
       //
       // Set the normal validation parameters.
       //
@@ -2669,7 +2667,7 @@ namespace Evado.UniForm.WebClient
         sbHtml.Append ( " disabled='disabled' " );
       }
 
-      if ( stCmdOnChange == "1" )
+      if (  PageField.SendCmdOnChange == true )
       {
         sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
@@ -2712,7 +2710,7 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
-      String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
+       
 
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
@@ -2794,7 +2792,7 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        if ( stCmdOnChange == "1" )
+        if (  PageField.SendCmdOnChange == true )
         {
           sbHtml.Append ( this.createOnChangeEvent ( ) );
         }
@@ -2859,15 +2857,13 @@ namespace Evado.UniForm.WebClient
         titleColumnWidth = 100 - valueColumnWidth;
       }
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-select-value cf' ";
-      String stCmdOnChange = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Snd_Cmd_On_Change );
+       
 
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
       }
-
-      this.LogDebug ( "stCmdOnChange: " + stCmdOnChange );
 
       //
       // Set the normal validation parameters.
@@ -2897,7 +2893,7 @@ namespace Evado.UniForm.WebClient
 
       //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-      if ( stCmdOnChange == "1" )
+      if (  PageField.SendCmdOnChange == true )
       {
         sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
