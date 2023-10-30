@@ -1507,15 +1507,6 @@ namespace Evado.UniForm.AdminClient
       // 
       foreach ( Evado.UniForm.Model.EuGroup group in this.UserSession.AppData.Page.GroupList )
       {
-        //
-        // Set the group edit access for inherited edit access.
-        //
-        if ( this.UserSession.AppData.Page.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled
-          && group.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
-        {
-          group.EditAccess = Evado.UniForm.Model.EuEditAccess.Enabled;
-        }
-
         for ( int count = 0; count < group.FieldList.Count; count++ )
         {
           group.FieldList [ count ] = this.UpdateFormField (
@@ -1686,12 +1677,6 @@ namespace Evado.UniForm.AdminClient
       string stAnnotation = String.Empty;
       string stQuery = String.Empty;
       string stAssessmentStatus = String.Empty;
-
-      if ( GroupStatus == Evado.UniForm.Model.EuEditAccess.Enabled
-        && FormField.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
-      {
-        FormField.EditAccess = Evado.UniForm.Model.EuEditAccess.Enabled;
-      }
 
       //
       // If a binary or image file return it without processing.
@@ -2629,11 +2614,6 @@ namespace Evado.UniForm.AdminClient
         //
         groupStatus = group.EditAccess;
 
-        if ( group.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
-        {
-          groupStatus = this.UserSession.AppData.Page.EditAccess;
-        }
-
         //
         // Iterat through the group fields.
         //
@@ -2643,11 +2623,6 @@ namespace Evado.UniForm.AdminClient
           // Set the edit access.
           //
           fieldStatus = field.EditAccess;
-
-          if ( field.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
-          {
-            fieldStatus = groupStatus;
-          }
 
           this.LogDebug ( "Group: " + group.Title
             + ", field.FieldId: " + field.FieldId

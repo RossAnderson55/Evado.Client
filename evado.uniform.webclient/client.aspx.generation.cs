@@ -745,12 +745,6 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "Title: " + this.UserSession.CurrentGroup.Title );
       this.LogDebug ( "Group.Status: " + this.UserSession.CurrentGroup.EditAccess );
 
-      if ( this.UserSession.CurrentGroup.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
-      {
-        this.UserSession.CurrentGroup.EditAccess = this.UserSession.AppData.Page.EditAccess;
-      }
-      this.LogDebug ( "Update Group.Status: " + this.UserSession.CurrentGroup.EditAccess );
-
       if ( this.UserSession.CurrentGroup.FieldList.Count == 0
         && this.UserSession.CurrentGroup.CommandList.Count == 0
         && this.UserSession.CurrentGroup.Description == null )
@@ -782,11 +776,6 @@ namespace Evado.UniForm.WebClient
       // Set the edit access.
       //
       Evado.UniForm.Model.EuEditAccess groupStatus = this.UserSession.CurrentGroup.EditAccess;
-
-      if ( this.UserSession.CurrentGroup.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
-      {
-        groupStatus = this.UserSession.AppData.Page.EditAccess;
-      }
 
       //
       // set the field set attributes.
@@ -830,7 +819,7 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       int inPercentWidth = PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Percent_Width );
-      int inPixelWidth = PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Pixel_Width );
+      int inPixelWidth = PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Percent_Width );
       int inPixelHeight = PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Pixel_Height );
       string stFieldName = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.Hide_Group_If_Field_Id );
       string stFieldValue = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.Hide_Group_If_Field_Value );
@@ -840,7 +829,7 @@ namespace Evado.UniForm.WebClient
       // Group the page header divs together
       //
       if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header
-        && PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Pixel_Width ) == 0 )
+        && PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Percent_Width ) == 0 )
       {
         PageGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
       }
@@ -1060,14 +1049,6 @@ namespace Evado.UniForm.WebClient
         {
           this.LogDebug ( "SKIP: Field is null" );
           continue;
-        }
-
-        //
-        // Set the edit access.
-        //
-        if ( groupField.EditAccess == Evado.UniForm.Model.EuEditAccess.Inherited )
-        {
-          groupField.EditAccess = PageGroup.EditAccess;
         }
 
         this.LogDebug ( "field.Title: " + groupField.Title
