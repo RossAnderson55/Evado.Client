@@ -3218,7 +3218,36 @@ namespace Evado.UniForm.WebClient
                 sbHtml.Append ( "</td>" );
 
                 break;
-              }//END Text State.
+            }//END Text State.
+
+            case Evado.Model.EvDataTypes.Free_Text:
+            {
+              sbHtml.Append ( "<td class='data'>" );
+              sbHtml.AppendLine ( "<textarea "
+                  + "id='" + colId + "' "
+                  + "name='" + colId + "' "
+                + "tabindex = '" + _TabIndex + "' "
+                + "rows='2' "
+                + "cols='" + header.Width + "' "
+                + "maxlength='500' "
+                + "class='form-control' " );
+
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              {
+                sbHtml.Append ( " disabled='disabled' " );
+              }
+
+              sbHtml.AppendLine ( ">"
+              + colValue
+              + "</textarea>" );
+
+              this._TabIndex++;
+
+              sbHtml.Append ( "</td>" );
+
+              break;
+            }//END Free Text Data Type.
+
 
             case Evado.Model.EvDataTypes.Numeric:
               {
@@ -3337,6 +3366,35 @@ namespace Evado.UniForm.WebClient
               }//END Date case.
 
             case Evado.Model.EvDataTypes.Boolean:
+            {
+              sbHtml.Append ( "<td class='data'>" );
+              bool bVal = Evado.Model.EvStatics.getBool ( colValue );
+              sbHtml.AppendLine ( "<input "
+               + "type='checkbox' "
+               + "id='" + colId + "' "
+               + "name='" + colId + "' "
+               + "tabindex = '" + _TabIndex + "' "
+               + "value='true' " );
+
+              if ( bVal ==  true )
+              {
+                sbHtml.Append ( " checked='checked' " );
+              }
+
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              {
+                sbHtml.Append ( " disabled='disabled' " );
+              }
+
+              sbHtml.AppendLine ( "/>" );
+
+              this._TabIndex++;
+
+              sbHtml.Append ( "</td>" );
+
+              break;
+            }//END Boolean  Case.
+
             case Evado.Model.EvDataTypes.Yes_No:
               {
                 sbHtml.Append ( "<td class='data'>" );
@@ -3388,6 +3446,7 @@ namespace Evado.UniForm.WebClient
 
                 break;
               }//END Yes No  Case.
+
             case Evado.Model.EvDataTypes.Radio_Button_List:
               {
                 sbHtml.Append ( "<td class='data'>" );
@@ -3476,7 +3535,57 @@ namespace Evado.UniForm.WebClient
                 break;
 
               }//END Radio Button  Case.
+            /*
+            case Evado.Model.EvDataTypes.Check_Box_List:
+            {
+              sbHtml.Append ( "<td class='data'>" );
+              List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
 
+              // 
+              // Iterate through the stOptions.
+              // 
+              for ( int i = 0 ; i < optionList.Count ; i++ )
+              {
+                Evado.Model.EvOption option = optionList [ i ];
+
+                this.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.hasValue ( PageField.Value ) );
+
+                int count = i + 1;
+
+                sbHtml.AppendLine ( "<div class='checkbox'>" );
+                sbHtml.AppendLine ( "<label>" );
+
+                sbHtml.AppendLine ( "<input "
+                 + "type='checkbox' "
+                 + "id='" + colId + "_" + count + "' "
+                 + "name='" + colId + "' "
+                 + "tabindex = '" + _TabIndex + "' "
+                 + "value='" + option.Value + "' " ); // + "style='visibility: hidden;' " );
+
+
+                if ( option.hasValue ( PageField.Value ) == true )
+                {
+                  sbHtml.Append ( " checked='checked' " );
+                }
+
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                {
+                  sbHtml.Append ( " disabled='disabled' " );
+                }
+
+                sbHtml.AppendLine ( "/>" );
+                sbHtml.AppendLine ( "<span class='label' >" + option.Description + "</span>" );
+                sbHtml.AppendLine ( "</label>" );
+                sbHtml.AppendLine ( "</div>" );
+
+              }//End option iteration loop.
+
+              sbHtml.Append ( "</td>" );
+
+              break;
+
+            }//ENDcheckbox list  Case.
+            */
             case Evado.Model.EvDataTypes.Selection_List:
               {
                 sbHtml.Append ( "<td class='data'>" );

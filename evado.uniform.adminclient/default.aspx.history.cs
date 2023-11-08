@@ -275,7 +275,7 @@ namespace Evado.UniForm.AdminClient
             //
             // Delete all of the commands after the Command has been found )
             //
-            this.UserSession.CommandHistoryList.RemoveAt ( count );
+            this.UserSession.CommandHistoryList.RemoveAt ( delete );
             delete--;
           }
 
