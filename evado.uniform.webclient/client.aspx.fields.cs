@@ -3363,7 +3363,41 @@ namespace Evado.UniForm.WebClient
                 sbHtml.Append ( "</td>" );
 
                 break;
-              }//END Date case.
+            }//END Date case.
+
+            case Evado.Model.EvDataTypes.Computed_Field:
+            {
+              sbHtml.Append ( "<td class='data'>" );
+              //
+              // Set the field value.
+              //
+              try
+              {
+                if ( colValue != String.Empty )
+                {
+                  colValue = Evado.Model.EvStatics.decodeFieldNumeric ( colValue );
+                }
+              }
+              catch { }
+
+              sbHtml.AppendLine ( "<input "
+                  + "id='" + colId + "' "
+                  + "name='" + colId + "' "
+                  + "tabindex = '" + _TabIndex + "' "
+                  + "maxlength='10' "
+                  + "size='10' "
+                  + "type='text' "
+                  + "value='" + colValue + "' "
+                  + " class='form-control' "
+                  + " readonly='readonly' " +
+                  "/>" );
+
+              this._TabIndex++;
+
+              sbHtml.Append ( "</td>" );
+
+              break;
+            }//END Computed Data Type.
 
             case Evado.Model.EvDataTypes.Boolean:
             {
