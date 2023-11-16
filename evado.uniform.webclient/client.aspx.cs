@@ -32,6 +32,7 @@ using System.Net.Http;
 
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
+using Evado.Model;
 
 namespace Evado.UniForm.WebClient
 {
@@ -2175,9 +2176,6 @@ namespace Evado.UniForm.WebClient
 
     // =============================================================================== 
     /// <summary>
-    /// updateFormFieldTable method.
-    /// 
-    /// Description:
     ///   This method updates the test table field values.
     /// 
     /// </summary>
@@ -2185,19 +2183,19 @@ namespace Evado.UniForm.WebClient
     /// <param name="ReturnedFormFields">Containing the returned formfield values.</param>
     /// <returns>Returns a EvFormField object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuField UpdateFormTableFields (
+    private Evado.UniForm.Model.EuField UpdateFormTableFields(
       Evado.UniForm.Model.EuField FormField,
       NameValueCollection ReturnedFormFields )
     {
-      this.LogMethod ( "updateFormTableFields method." );
+      this.LogMethod ( "updateFormTableFields" );
       this.LogValue ( " FieldId: " + FormField.FieldId );
       // 
       // Iterate through the rows and columns of the table filling the 
       // data object with the test values.
       // 
-      for ( int row = 0; row < FormField.Table.Rows.Count; row++ )
+      for ( int row = 0 ; row < FormField.Table.Rows.Count ; row++ )
       {
-        for ( int Col = 0; Col < FormField.Table.ColumnCount; Col++ )
+        for ( int Col = 0 ; Col < FormField.Table.ColumnCount ; Col++ )
         {
           // 
           // construct the test table field name.
@@ -2221,16 +2219,28 @@ namespace Evado.UniForm.WebClient
             //
             // If NA is entered set to numeric null.
             //
-            if ( FormField.Table.Header [ Col ].DataType == Evado.Model.EvDataTypes.Numeric )
+            switch ( FormField.Table.Header [ Col ].DataType )
             {
-              if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
+              case Evado.Model.EvDataTypes.Numeric:
               {
-                value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
+                if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
+                {
+                  value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
+                }
+                FormField.Table.Rows [ row ].Column [ Col ] = value;
+                break;
+              }
+              case Evado.Model.EvDataTypes.Computed_Field:
+              {
+                this.UpdateTableComputedColumn ( FormField.Table, Col );
+                break;
+              }
+              default:
+              {
+                FormField.Table.Rows [ row ].Column [ Col ] = value;
+                break;
               }
             }
-
-            FormField.Table.Rows [ row ].Column [ Col ] = value;
-
 
           }//END value exists.
 
@@ -2241,6 +2251,152 @@ namespace Evado.UniForm.WebClient
       return FormField;
 
     }//END updateFormFieldTable method
+
+    // =============================================================================== 
+    /// <summary>
+    /// This method computes the table computer column calculation.
+    /// </summary>
+    /// <param name="Table">fEvado.Model.EvTable object</param>
+    /// <param name="ColumnId">int column identifier</param>
+    /// <returns>String value </returns>
+    // ---------------------------------------------------------------------------------
+    private void UpdateTableComputedColumn( Evado.Model.EvTable Table, int ColumnId )
+    {
+      this.LogMethod ( "UpdateTableComputedColumn" );
+
+      String value = String.Empty;
+      EvTableHeader header = Table.Header [ ColumnId ];
+
+      if ( String.IsNullOrEmpty ( header.OptionsOrUnit ) == false )
+      {
+        this.LogMethodEnd ( "UpdateTableComputedColumn" );
+        return;
+      }
+
+      string formula = header.OptionsOrUnit;
+      this.LogDebug ( "Formula: {0}.", formula );
+
+      //
+      // The computed column formula selection.
+      //
+      for ( int rowIndex = 0 ; rowIndex < Table.Rows.Count ; rowIndex++ )
+      {
+        EvTableRow row = Table.Rows [ rowIndex ];
+        float fltValue = 0;
+        float fltValue1 = 0;
+        float fltValue2 = 0;
+
+        //
+        // Iterate through the row values.
+        //
+        for ( int columnIndex = 0 ; columnIndex < row.Column.Length && columnIndex < Table.Header.Length ; columnIndex++ )
+        {
+          //
+          // Skip the computed column.
+          //
+          if ( columnIndex == ColumnId )
+          {
+            continue;
+          }
+
+          //
+          // create teh column identifier.
+          //
+          string colId = ( columnIndex + 1 ).ToString ( "00" );
+          this.LogDebug ( "colId: {0}.", colId );
+
+
+          //
+          // SKIP if not in the selection column list.
+          //
+          if ( formula.Contains ( colId ) == false )
+          {
+
+            this.LogDebug ( "Continue Colid not found in formula" );
+            continue;
+          }
+
+          //
+          // it not possibel numeric values exit.
+          //
+          if ( header.DataType != EvDataTypes.Numeric
+            && header.DataType != EvDataTypes.Integer
+            & header.DataType != EvDataTypes.Multi_Text_Values )
+          {
+            this.LogDebug ( "Continue column data type not compatible." );
+            continue;
+          }
+
+          float fltColValue = 0;
+
+          if ( header.DataType == EvDataTypes.Multi_Text_Values )
+          {
+            fltColValue = EvStatics.SumStringValues ( row.Column [ columnIndex ] );
+          }
+          else
+          {
+            fltColValue = EvStatics.getFloat ( row.Column [ columnIndex ] );
+
+            if ( fltColValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL
+              || fltColValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR )
+            {
+              continue;
+            }
+          }
+
+
+          if ( formula.Contains ( EvTableHeader.COMPUTED_FUNCTION_SUM_ROW_COLUMNS ) == true )
+          {
+            this.LogDebug ( "Row Sum row function found" );
+            fltValue += fltColValue;
+          }
+
+          if ( header.OptionsOrUnit.Contains ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS ) == true )
+          {
+            this.LogDebug ( "Row multiply function found" );
+            string formula1 = header.OptionsOrUnit.Replace ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS, String.Empty );
+            formula1 = formula1.Replace ( "(", String.Empty );
+            formula1 = formula1.Replace ( ")", String.Empty );
+            String [ ] parms = formula1.Split ( ';' );
+
+            if ( parms.Length < 2 )
+            {
+              continue;
+            }
+
+            //
+            // get the first value.
+            //
+            if ( parms [ 0 ] == colId )
+            {
+              fltValue1 = fltColValue;
+            }
+
+            //
+            // get the first value.
+            //
+            if ( parms [ 1 ] == colId )
+            {
+              fltValue2 = fltColValue;
+            }
+          }
+
+          if ( fltValue1 != 0
+            & fltValue2 != 0 )
+          {
+            fltValue = fltValue1 * fltValue2;
+          }
+        }//END row column iteration loop
+
+        if ( fltValue != 0 )
+        {
+          row.Column [ ColumnId ] = fltValue.ToString ( );
+          this.LogDebug ( "Row: {0}, Column:{1}, value: {2}.", rowIndex, ColumnId, row.Column [ ColumnId ] );
+        }
+      }//END row iteration loop
+
+      this.LogMethodEnd ( "UpdateTableComputedColumn" );
+    }//END UpdateTableComputedColumn method
 
     // =============================================================================== 
     /// <summary>
