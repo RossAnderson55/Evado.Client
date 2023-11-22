@@ -1815,15 +1815,20 @@ namespace Evado.UniForm.WebClient
                 this.LogDebug ( "fielid: {0}, field.FieldId: {1}, Value: {2}.",
                   fielId, field.FieldId, field.Value );
 
-                float fValue = Evado.Model.EvStatics.getFloat ( field.Value );
-                if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
-                  || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
-                {
-                  this.LogDebug ( "ERROR: Empty or not a numeric value." );
-                  continue;
-                }
+                float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
+              if ( fValue == 0 )
+              {
+                this.LogDebug ( "ERROR: Empty or not a numeric value." );
+                continue;
+              }
 
-                fieldValue += fValue;
+              if ( field == null )
+              {
+                this.LogDebug ( "ERROR: FIELD NULL." );
+                continue;
+              }
+
+              fieldValue += fValue;
               }
               break;
             }
@@ -1856,15 +1861,14 @@ namespace Evado.UniForm.WebClient
                   }
                   this.LogDebug ( "Add Value  {0}.", field.Value );
 
-                  float fValue = Evado.Model.EvStatics.getFloat ( field.Value );
-                  if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
-                    || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
-                  {
-                    this.LogDebug ( "ERROR: Empty or not a numeric value." );
-                    continue;
-                  }
+                  float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
+                if ( fValue == 0 )
+                {
+                  this.LogDebug ( "ERROR: Empty or not a numeric value." );
+                  continue;
+                }
 
-                  fieldValue += fValue;
+                fieldValue += fValue;
                 }
               }
               break;
@@ -1898,15 +1902,14 @@ namespace Evado.UniForm.WebClient
               //
               foreach (  Evado.Model.EvTableRow row in field.Table.Rows )
               {
-                float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ] );
-                if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
-                  || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
-                {
-                  this.LogDebug ( "ERROR: Empty or not a numeric value." );
-                  continue;
-                }
+                float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ], 0 );
+              if ( fValue == 0 )
+              {
+                this.LogDebug ( "ERROR: Empty or not a numeric value." );
+                continue;
+              }
 
-                fieldValue += fValue;
+              fieldValue += fValue;
               }
 
               break;

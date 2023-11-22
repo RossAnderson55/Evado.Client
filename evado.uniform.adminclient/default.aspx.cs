@@ -1864,6 +1864,7 @@ namespace Evado.UniForm.AdminClient
           return ComputedField.Value;
         }
         computedFormula = computedFormula.Replace ( ")", "" );
+        computedFormula = computedFormula.Replace ( ",", ";" );
         String [ ] arComputerFormula = computedFormula.Split ( '(' );
 
         String formula = arComputerFormula [ 0 ];
@@ -1871,7 +1872,26 @@ namespace Evado.UniForm.AdminClient
 
         this.LogDebug ( "Formula: {0}, fields: '{1}'.", formula, fields );
 
+        //
+        // format the field array for processing.
+        //
         String [ ] arFields = fields.Split ( ';' );
+        bool [ ] negativeValue = new bool [ arFields.Length ];
+
+        for ( int index = 0 ; index < arFields.Length ; index++ )
+        {
+          arFields [ index ] = arFields [ index ].Trim ( );
+
+          if ( arFields [ index ] [ 0 ] == '-' )
+          {
+            negativeValue [ index ] = true;
+            arFields [ index ] = arFields [ index ].Substring ( 1 );
+          }
+          else
+          {
+            negativeValue [ index ] = false;
+          }
+        }
 
         switch ( formula )
         {
@@ -1881,21 +1901,33 @@ namespace Evado.UniForm.AdminClient
             // Iterate through the field idenifiers retrieving the field value 
             // and if numeric add it to the fieldValue variale.
             //
-            foreach ( string fielId in arFields )
+            for ( int index = 0 ; index < arFields.Length ; index++ )
             {
+              string fielId = arFields [ index ];
               EuField field = this.UserSession.AppData.Page.getField ( fielId );
+
+              if( field == null )
+              {
+                this.LogDebug ( "ERROR: FIELD NULL." );
+                continue;
+              }
+
               this.LogDebug ( "fielid: {0}, field.FieldId: {1}, Value: {2}.",
                 fielId, field.FieldId, field.Value );
 
-              float fValue = Evado.Model.EvStatics.getFloat ( field.Value );
-              if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
-                || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
+              float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
+              if ( fValue == 0 )
               {
                 this.LogDebug ( "ERROR: Empty or not a numeric value." );
                 continue;
               }
-
+              if( negativeValue[index] == true )
+              {
+                fieldValue -= fValue;
+              }
+              else { 
               fieldValue += fValue;
+              }
             }
             break;
           }
@@ -1928,9 +1960,8 @@ namespace Evado.UniForm.AdminClient
                 }
                 this.LogDebug ( "Add Value  {0}.", field.Value );
 
-                float fValue = Evado.Model.EvStatics.getFloat ( field.Value );
-                if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
-                  || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
+                float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
+                if ( fValue== 0 )
                 {
                   this.LogDebug ( "ERROR: Empty or not a numeric value." );
                   continue;
@@ -1970,9 +2001,8 @@ namespace Evado.UniForm.AdminClient
             //
             foreach ( Evado.Model.EvTableRow row in field.Table.Rows )
             {
-              float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ] );
-              if ( fValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR
-                || fValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL )
+              float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ], 0 );
+              if ( fValue == 0 )
               {
                 this.LogDebug ( "ERROR: Empty or not a numeric value." );
                 continue;
