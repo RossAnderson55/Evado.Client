@@ -240,7 +240,7 @@ namespace Evado.UniForm.AdminClient
         this.LogDebug ( "Columns exist." );
 
         sbMainBody.AppendLine ( "<!-- OPENING BODY COLUMNS -->" );
-        sbMainBody.AppendLine ( "<div style='display:inline-block; width:98%; margin:0; padding:0;'>" );
+        sbMainBody.AppendLine ( "<div class='body-column-header'>" );
 
         if ( sbLeftBody.Length == 0
           && sbCentreBody.Length > 0
@@ -755,7 +755,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Group the page header divs together
       //
-      if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header)
+      if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header )
       {
         PageGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
       }
@@ -766,9 +766,11 @@ namespace Evado.UniForm.AdminClient
       string divFieldContainerStyle = " style='";
       string divFieldGroupStyle = " style='";
 
-      if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header )
+      if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header
+        || PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Full_Width )
       {
         divFieldGroupStyle += "width:98%; ";
+        /*
       }
       else
         if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Full_Width )
@@ -781,6 +783,8 @@ namespace Evado.UniForm.AdminClient
         {
           divFieldGroupStyle += "width:100%; ";
         }
+        
+        */
       }
       else
             if ( inPercentWidth > 0 )
