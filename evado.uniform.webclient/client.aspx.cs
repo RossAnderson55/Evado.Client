@@ -33,6 +33,7 @@ using System.Net.Http;
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
 using Evado.Model;
+using System.Runtime.Remoting.Messaging;
 
 namespace Evado.UniForm.WebClient
 {
@@ -2198,8 +2199,23 @@ namespace Evado.UniForm.WebClient
       // 
       for ( int row = 0 ; row < FormField.Table.Rows.Count ; row++ )
       {
-        for ( int Col = 0 ; Col < FormField.Table.ColumnCount ; Col++ )
+        for ( int Col = 0 ; Col < FormField.Table.Header.Length ; Col++ )
         {
+          EvTableHeader header = FormField.Table.Header [ Col ];
+
+          if ( header.Text == String.Empty )
+          {
+            continue;
+          }
+
+//
+// reset boolean data types as update not resetn selected values.
+//
+          if ( header.DataType == EvDataTypes.Boolean )
+          {
+            FormField.Table.Rows [ row ].Column [ Col ] = String.Empty;
+          }
+
           // 
           // construct the test table field name.
           // 
@@ -2222,7 +2238,7 @@ namespace Evado.UniForm.WebClient
             //
             // If NA is entered set to numeric null.
             //
-            switch ( FormField.Table.Header [ Col ].DataType )
+            switch ( header.DataType )
             {
               case Evado.Model.EvDataTypes.Numeric:
               {

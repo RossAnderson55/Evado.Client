@@ -1906,7 +1906,7 @@ namespace Evado.UniForm.AdminClient
               string fielId = arFields [ index ];
               EuField field = this.UserSession.AppData.Page.getField ( fielId );
 
-              if( field == null )
+              if ( field == null )
               {
                 this.LogDebug ( "ERROR: FIELD NULL." );
                 continue;
@@ -1921,12 +1921,13 @@ namespace Evado.UniForm.AdminClient
                 this.LogDebug ( "ERROR: Empty or not a numeric value." );
                 continue;
               }
-              if( negativeValue[index] == true )
+              if ( negativeValue [ index ] == true )
               {
                 fieldValue -= fValue;
               }
-              else { 
-              fieldValue += fValue;
+              else
+              {
+                fieldValue += fValue;
               }
             }
             break;
@@ -1961,7 +1962,7 @@ namespace Evado.UniForm.AdminClient
                 this.LogDebug ( "Add Value  {0}.", field.Value );
 
                 float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
-                if ( fValue== 0 )
+                if ( fValue == 0 )
                 {
                   this.LogDebug ( "ERROR: Empty or not a numeric value." );
                   continue;
@@ -2297,8 +2298,22 @@ namespace Evado.UniForm.AdminClient
       // 
       for ( int row = 0 ; row < FormField.Table.Rows.Count ; row++ )
       {
-        for ( int Col = 0 ; Col < FormField.Table.ColumnCount ; Col++ )
+        for ( int Col = 0 ; Col < FormField.Table.Header.Length ; Col++ )
         {
+          EvTableHeader header = FormField.Table.Header [ Col ];
+
+          if ( header.Text == String.Empty )
+          {
+            continue;
+          }
+
+          //
+          // reset boolean data types as update not resetn selected values.
+          //
+          if( header.DataType == EvDataTypes.Boolean )
+          {
+            FormField.Table.Rows [ row ].Column [ Col ] = String.Empty;
+          }
           // 
           // construct the test table field name.
           // 
@@ -2321,7 +2336,7 @@ namespace Evado.UniForm.AdminClient
             //
             // If NA is entered set to numeric null.
             //
-            switch ( FormField.Table.Header [ Col ].DataType )
+            switch ( header.DataType )
             {
               case Evado.Model.EvDataTypes.Numeric:
               {
