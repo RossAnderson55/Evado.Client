@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
 using Evado.Model;
+using System.Runtime.Remoting.Messaging;
+using System.Data.Common;
 
 namespace Evado.UniForm.AdminClient
 {

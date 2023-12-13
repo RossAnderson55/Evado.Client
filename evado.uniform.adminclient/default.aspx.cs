@@ -37,6 +37,7 @@ using System.Web.UI.WebControls;
 using Evado.Model;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -2310,7 +2311,7 @@ namespace Evado.UniForm.AdminClient
           //
           // reset boolean data types as update not resetn selected values.
           //
-          if( header.DataType == EvDataTypes.Boolean )
+          if ( header.DataType == EvDataTypes.Boolean )
           {
             FormField.Table.Rows [ row ].Column [ Col ] = String.Empty;
           }
@@ -2356,7 +2357,6 @@ namespace Evado.UniForm.AdminClient
               {
                 FormField.Table.Rows [ row ].Column [ Col ] = value;
                 break;
-
               }
             }
 
@@ -2898,6 +2898,9 @@ namespace Evado.UniForm.AdminClient
       //
       for ( int iRow = 0 ; iRow < field.Table.Rows.Count ; iRow++ )
       {
+        string stName = field.FieldId + "_" + ( iRow + 1 ) + "_0";
+        this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].No );
+
         //
         // Iterate through the columns in the table.
         //
@@ -2908,7 +2911,7 @@ namespace Evado.UniForm.AdminClient
           //
           if ( field.Table.Rows [ iRow ].Column [ iCol ] != String.Empty )
           {
-            string stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
+            stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
             this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].Column [ iCol ] );
 
           }//END has a value.
