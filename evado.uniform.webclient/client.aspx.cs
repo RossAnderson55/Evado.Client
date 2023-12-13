@@ -2799,7 +2799,7 @@ namespace Evado.UniForm.WebClient
       //
       for ( int iRow = 0; iRow < field.Table.Rows.Count; iRow++ )
       {
-        string stName = field.FieldId + "_" + ( iRow + 1 );
+        string stName = field.FieldId + "_" + ( iRow + 1 ) + "_0";
         this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].No );
 
         //
