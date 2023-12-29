@@ -3400,26 +3400,36 @@ namespace Evado.UniForm.AdminClient
 
             case Evado.Model.EvDataTypes.Boolean:
             {
-              sbHtml.Append ( "<td class='data'>" ); 
+              this.LogDebug ( "Boolean (checkbox), Cid: {0}, Value: {1}.", colId, colValue );
+              sbHtml.Append ( "<td class='data'>" );
               bool bVal = Evado.Model.EvStatics.getBool ( colValue );
-              sbHtml.AppendLine ( "<input "
-               + "type='checkbox' "
-               + "id='" + colId + "' "
-               + "name='" + colId + "' "
-               + "tabindex = '" + _TabIndex + "' "
-               + "value='true' " );
-
-              if ( bVal == true )
-              {
-                sbHtml.Append ( " checked='checked' " );
-              }
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
               {
-                sbHtml.Append ( " disabled='disabled' " );
+                if ( bVal == true )
+                {
+                  sbHtml.Append ( "Yes" );
+                }
+                else
+                {
+                }
               }
+              else
+              {
+                sbHtml.AppendLine ( "<input "
+                 + "type='checkbox' "
+                 + "id='" + colId + "' "
+                 + "name='" + colId + "' "
+                 + "tabindex = '" + _TabIndex + "' "
+                 + "value='true' " );
 
-              sbHtml.AppendLine ( "/>" );
+                if ( bVal == true )
+                {
+                  sbHtml.Append ( " checked='checked' " );
+                }
+
+                sbHtml.AppendLine ( "/>" );
+              }
 
               this._TabIndex++;
 
