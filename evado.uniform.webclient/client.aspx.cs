@@ -1,7 +1,7 @@
 /***************************************************************************************
- * <copyright file="webclinical\default.aspx.cs" company="EVADO HOLDING PTY. LTD.">
+ * <copyright file="webclinical\cleint.aspx.cs" company="EVADO HOLDING PTY. LTD.">
  *     
- *      Copyright (c) 2011 - 2020 EVADO HOLDING PTY. LTD.  All rights reserved.
+ *      Copyright (c) 2011 - 2024 EVADO HOLDING PTY. LTD.  All rights reserved.
  *     
  *      The use and distribution terms for this software are contained in the file
  *      named license.txt, which can be found in the root of this distribution.

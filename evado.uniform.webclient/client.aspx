@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2022 -->
+<!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2024 -->
 <head id="Head1" runat="server">
   <title>UniFORM Web Client </title>
   <link rel="icon" type="image/png" href="./favicon.png" />
@@ -248,7 +248,7 @@
     <table id="form-footer">
       <asp:Literal ID="litPanelNavigator" runat="server" />
     </table>
-    <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2022 -->
+    <!-- COPYRIGHT (C) EVADO HOLDING PTY. LTD.	 2011 - 2024 -->
   </form>
 </body>
 </html>
