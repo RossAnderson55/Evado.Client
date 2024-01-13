@@ -133,12 +133,12 @@
     <Content Include="css\client.main.css" />
     <Content Include="css\client.video.css" />
     <Content Include="css\menu.css" />
-    <Content Include="css\menu.js" />
     <Content Include="css\report.css" />
     <Content Include="client.aspx" />
     <Content Include="default.aspx" />
     <Content Include="js\bootstrap-datetimepicker.js" />
     <Content Include="js\evado.video.js" />
+    <Content Include="js\menu.js" />
     <Content Include="js\signaturePad.js" />
     <Content Include="js\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\bootstrap.js" />

@@ -233,6 +233,12 @@ input, select, textarea {
   color: black;
   background-color: White;
 }
+.hide {
+  display: none;
+}
+. unhide {
+  display: initial;
+}
 
 .FrameHeader {
   border-bottom-style: solid;

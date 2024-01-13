@@ -87,13 +87,19 @@ $(function () {
   });
 
   $('#form1').on('uniform:field:invalid', function (event, data) {
-    var errCell = $(event.target).closest('.group-row').find('.error-container .cell-error-value span')
+    var errCell = $(event.target).closest('.group-row').find('.error-container .cell-error-value span');
     errCell.text(data.message);
+
+    var errContainer = $(event.target).closest('.group-row').find('.error-container');
+    errContainer.removeAttr( 'style');
   });
 
   $('#form1').on('uniform:field:valid', function (event) {
     var errCell = $(event.target).closest('.group-row').find('.error-container .cell-error-value span')
     errCell.empty();
+
+    var errContainer = $(event.target).closest('.group-row').find('.error-container');
+    errContainer.add('style', 'display: none;');
   });
 
   window.requiredFieldsIncomplete = [];

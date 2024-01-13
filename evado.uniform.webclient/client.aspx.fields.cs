@@ -186,11 +186,15 @@ namespace Evado.UniForm.WebClient
 
           this.LogDebug ( "stDescription: {0}.", stDescription );
         }
+        stDescription = stDescription.Replace ( "<p>", "" );
+        stDescription = stDescription.Replace ( "</p>", "" );
       }
 
       if ( stAnnotation != String.Empty )
       {
         stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
+        stAnnotation = stAnnotation.Replace ( "<p>", "" );
+        stAnnotation = stAnnotation.Replace ( "</p>", "" );
       }
 
       String stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
@@ -300,7 +304,7 @@ namespace Evado.UniForm.WebClient
 
         if ( PageField.IsEnabled == true )
         {
-          sbHtml.AppendLine ( "<div class='error-container '>" );
+          sbHtml.AppendLine ( "<div class='error-container style='display: none' >" );
           sbHtml.AppendLine ( "<div id='" + PageField.Id + "-err-row' class='cell cell-error-value'>" );
           sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "-err'></span>" );
           sbHtml.AppendLine ( "</div></div>\r\n" );

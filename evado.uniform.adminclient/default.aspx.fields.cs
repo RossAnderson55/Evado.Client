@@ -169,15 +169,16 @@ namespace Evado.UniForm.AdminClient
           stDescription = stDescription.Replace ( "{images}", Global.StaticImageUrl );
           stDescription = stDescription.Replace ( "[", "<" );
           stDescription = stDescription.Replace ( "]", ">" );
-
-          this.LogDebug ( "stDescription: {0}.", stDescription );
         }
+        stDescription = stDescription.Replace ( "<p>", "" );
+        stDescription = stDescription.Replace ( "</p>", "" );
       }
 
       if ( stAnnotation != String.Empty )
       {
         stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
       }
+      this.LogDebug ( "stDescription: {0}.", stDescription );
 
       String stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
       String stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
@@ -289,12 +290,12 @@ namespace Evado.UniForm.AdminClient
 
         if ( PageField.IsEnabled == true )
         {
-          sbHtml.AppendLine ( "<div class='error-container '>" );
+          sbHtml.AppendLine ( "<div class='error-container ' style='display: none'>" );
           sbHtml.AppendLine ( "<div id='" + PageField.Id + "-err-row' class='cell cell-error-value'>" );
           sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "-err'></span>" );
           sbHtml.AppendLine ( "</div></div>\r\n" );
         }
-      }
+      } 
 
       if ( stDescription != String.Empty )
       {
