@@ -3063,7 +3063,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "getFormFieldTableHeader" );
+      this.LogMethod ( "getFormFieldTableHeader method." );
       // 
       // Initialise local variables.
       // 
@@ -3117,20 +3117,37 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.Append ( "<strong>" + header.Text + "</strong> " );
 
-        if ( header.DataType == Evado.Model.EvDataTypes.Date )
+        switch ( header.DataType )
         {
-          sbHtml.Append ( "<br/><span class='Smaller_Italics'>(DD MMM YYYY)</span>" );
-        }
-
-        if ( header.DataType == Evado.Model.EvDataTypes.Numeric )
-        {
-          if ( header.OptionsOrUnit == String.Empty )
+          case Evado.Model.EvDataTypes.Date:
           {
-            sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678)</span>" );
+            sbHtml.Append ( "<br/><span class='Smaller_Italics'>(DD MMM YYYY)</span>" );
+            break;
           }
-          else
+
+          case Evado.Model.EvDataTypes.Numeric:
           {
-            sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678 " + header.OptionsOrUnit + ")</span>" );
+            if ( header.OptionsOrUnit == String.Empty )
+            {
+              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678)</span>" );
+            }
+            else
+            {
+              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678 " + header.OptionsOrUnit + ")</span>" );
+            }
+            break;
+          }
+          case Evado.Model.EvDataTypes.Integer:
+          {
+            if ( header.OptionsOrUnit == String.Empty )
+            {
+              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23)</span>" );
+            }
+            else
+            {
+              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23 " + header.OptionsOrUnit + ")</span>" );
+            }
+            break;
           }
         }
 
@@ -3286,10 +3303,6 @@ namespace Evado.UniForm.AdminClient
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
                     + "/>" );
-              }
-              if ( header.OptionsOrUnit != String.Empty )
-              {
-                sbHtml.AppendLine ( " " + header.OptionsOrUnit );
               }
 
               this._TabIndex++;

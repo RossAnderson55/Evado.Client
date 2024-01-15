@@ -3129,30 +3129,48 @@ namespace Evado.UniForm.WebClient
 
         sbHtml.Append ( "<strong>" + header.Text + "</strong> " );
 
-        if ( header.DataType == Evado.Model.EvDataTypes.Date )
+        switch ( header.DataType )
         {
-          sbHtml.Append ( "<br/><span class='Smaller_Italics'>(DD MMM YYYY)</span>" );
+          case Evado.Model.EvDataTypes.Date:
+          {
+            sbHtml.Append ( "<br/><span class='Smaller_Italics'>(DD MMM YYYY)</span>" );
+            break;
+          }
+
+          case Evado.Model.EvDataTypes.Numeric:
+          {
+            if ( header.OptionsOrUnit == String.Empty )
+            {
+              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678)</span>" );
+            }
+            else
+            {
+              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678 " + header.OptionsOrUnit + ")</span>" );
+            }
+            break;
+          }
+          case Evado.Model.EvDataTypes.Integer:
+          {
+            if ( header.OptionsOrUnit == String.Empty )
+            {
+              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23)</span>" );
+            }
+            else
+            {
+              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23 " + header.OptionsOrUnit + ")</span>" );
+            }
+            break;
+          }
         }
 
-        if ( header.DataType == Evado.Model.EvDataTypes.Numeric )
-        {
-          if ( header.OptionsOrUnit == String.Empty )
-          {
-            sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678)</span>" );
-          }
-          else
-          {
-            sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678 " + header.OptionsOrUnit + ")</span>" );
-          }
-        }
-
-        sbHtml.Append ( "</td>" );
+      sbHtml.Append ( "</td>" );
 
       }//END table header iteration loop.
 
       sbHtml.Append ( "</tr>" );
 
     }//END getTableFieldHeader method
+
     // =================================================================================
     /// <summary>
     ///   This method generates the table form field's row data as html markup.
@@ -3297,10 +3315,6 @@ namespace Evado.UniForm.WebClient
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
                     + "/>" );
-              }
-              if ( header.OptionsOrUnit != String.Empty )
-              {
-                sbHtml.AppendLine ( " " + header.OptionsOrUnit );
               }
 
               this._TabIndex++;
