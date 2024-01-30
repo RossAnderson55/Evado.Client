@@ -3189,6 +3189,11 @@ namespace Evado.UniForm.WebClient
       this.LogMethod ( "getTableFieldDataRow" );
       this.LogDebug ( "Row: " + Row );
 
+      if( PageField.Table.Rows [ Row ].Hide == true )
+      {
+        return;
+      }
+
       // 
       // Open the fieldtable data cells
       // 
@@ -3676,6 +3681,7 @@ namespace Evado.UniForm.WebClient
 
               break;
             }//END Selection List  Case.
+
             default:
             {
               this.LogDebug ( "DataType {0}, was not displayed.", header.DataType );
