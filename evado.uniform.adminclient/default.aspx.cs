@@ -1690,6 +1690,7 @@ namespace Evado.UniForm.AdminClient
         || FormField.Type == Evado.Model.EvDataTypes.Image )
       {
         this.LogDebug ( "Binary or Image field found but not processed" );
+        this.LogMethodEnd ( "updateFormField" );
         return FormField;
       }
 
@@ -1697,131 +1698,136 @@ namespace Evado.UniForm.AdminClient
       // 
       // If the test is in EDIT mode update the fields values.
       // 
-      if ( FormField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
+      if ( FormField.EditAccess != Evado.UniForm.Model.EuEditAccess.Enabled )
       {
-        //
-        // If field type is a single value update it 
-        //
-        switch ( FormField.Type )
-        {
-          case Evado.Model.EvDataTypes.Check_Box_List:
-          {
-            FormField.Value = this.GetCheckButtonListFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId,
-              FormField.Value,
-              FormField.OptionList.Count );
-            break;
-          }
-          case Evado.Model.EvDataTypes.Address:
-          {
-            FormField.Value = this.GetAddressFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId );
-            break;
-          }
+        this.LogDebug ( "User does not have edit access." );
+        this.LogMethodEnd ( "updateFormField" );
 
-          case Evado.Model.EvDataTypes.Name:
-          {
-            FormField.Value = this.GetNameFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId );
-            break;
-          }
-
-          case Evado.Model.EvDataTypes.Streamed_Video:
-          {
-            // 
-            // Iterate through the option list to compare values.
-            // 
-            string videoUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
-
-            this.LogDebug ( "videoUrl:" + videoUrl );
-
-            FormField.Value = videoUrl;
-            break;
-          }
-          case Evado.Model.EvDataTypes.Http_Link:
-          {
-            // 
-            // Iterate through the option list to compare values.
-            // 
-            string httpUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX );
-            string httpTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX );
-
-            this.LogDebug ( "httpUrl:" + httpUrl + " httpTitle:" + httpTitle );
-
-            FormField.Value = httpUrl + "^" + httpTitle;
-            break;
-          }
-
-          case Evado.Model.EvDataTypes.Integer_Range:
-          case Evado.Model.EvDataTypes.Float_Range:
-          case Evado.Model.EvDataTypes.Double_Range:
-          case Evado.Model.EvDataTypes.Date_Range:
-          {
-            FormField.Value = this.GetRangeFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId );
-            break;
-          }
-
-          case Evado.Model.EvDataTypes.Signature:
-          {
-            FormField.Value = this.getSignatureFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId );
-            break;
-          }
-          case Evado.Model.EvDataTypes.Table:
-          {
-            FormField = this.UpdateFormTableFields (
-                         FormField,
-                         ReturnedFormFields );
-            break;
-          }
-          case Evado.Model.EvDataTypes.Computed_Field:
-          {
-            FormField.Value = this.updateComputedField ( FormField );
-
-            this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
-            break;
-          }
-          default:
-          {
-            stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
-
-            this.LogDebug ( "Field stValue: " + stValue );
-            // 
-            // Does the returned field value exist
-            // 
-            if ( stValue != null )
-            {
-              if ( FormField.Value != stValue )
-              {
-                if ( FormField.Type == Evado.Model.EvDataTypes.Numeric )
-                {
-                  this.LogDebug ( "Numeric Field Change: Id: '" + FormField.FieldId
-                   + "' Old: '" + FormField.Value + "' New: '" + stValue + "' " );
-
-                  FormField.Value = Evado.Model.EvStatics.convertTextNullToNumNull ( stValue );
-                }
-
-                // 
-                // Set field value.
-                // 
-                FormField.Value = stValue;
-
-              }//END Update field value.
-
-            }//END Value exists.
-
-            break;
-          }
-
-        }//END Switch
-
+        return FormField;
       }//END updating field
+
+      //
+      // If field type is a single value update it 
+      //
+      switch ( FormField.Type )
+      {
+        case Evado.Model.EvDataTypes.Check_Box_List:
+        {
+          FormField.Value = this.GetCheckButtonListFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId,
+            FormField.Value,
+            FormField.OptionList.Count );
+          break;
+        }
+        case Evado.Model.EvDataTypes.Address:
+        {
+          FormField.Value = this.GetAddressFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId );
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Name:
+        {
+          FormField.Value = this.GetNameFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId );
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Streamed_Video:
+        {
+          // 
+          // Iterate through the option list to compare values.
+          // 
+          string videoUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
+
+          this.LogDebug ( "videoUrl:" + videoUrl );
+
+          FormField.Value = videoUrl;
+          break;
+        }
+        case Evado.Model.EvDataTypes.Http_Link:
+        {
+          // 
+          // Iterate through the option list to compare values.
+          // 
+          string httpUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX );
+          string httpTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX );
+
+          this.LogDebug ( "httpUrl:" + httpUrl + " httpTitle:" + httpTitle );
+
+          FormField.Value = httpUrl + "^" + httpTitle;
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Integer_Range:
+        case Evado.Model.EvDataTypes.Float_Range:
+        case Evado.Model.EvDataTypes.Double_Range:
+        case Evado.Model.EvDataTypes.Date_Range:
+        {
+          FormField.Value = this.GetRangeFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId );
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Signature:
+        {
+          FormField.Value = this.getSignatureFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId );
+          break;
+        }
+        case Evado.Model.EvDataTypes.Table:
+        {
+          FormField = this.UpdateFormTableFields (
+                       FormField,
+                       ReturnedFormFields );
+          break;
+        }
+        case Evado.Model.EvDataTypes.Computed_Field:
+        {
+          FormField.Value = this.updateComputedField ( FormField );
+
+          this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
+          break;
+        }
+        default:
+        {
+          stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
+
+          this.LogDebug ( "Field stValue: " + stValue );
+          // 
+          // Does the returned field value exist
+          // 
+          if ( stValue != null )
+          {
+            if ( FormField.Value != stValue )
+            {
+              if ( FormField.Type == Evado.Model.EvDataTypes.Numeric )
+              {
+                this.LogDebug ( "Numeric Field Change: Id: '" + FormField.FieldId
+                 + "' Old: '" + FormField.Value + "' New: '" + stValue + "' " );
+
+                FormField.Value = Evado.Model.EvStatics.convertTextNullToNumNull ( stValue );
+              }
+
+              // 
+              // Set field value.
+              // 
+              FormField.Value = stValue;
+
+            }//END Update field value.
+
+          }//END Value exists.
+
+          break;
+        }
+
+      }//END Switch
+
 
       // 
       // stReturn the test field object.
@@ -2319,7 +2325,8 @@ namespace Evado.UniForm.AdminClient
           // construct the test table field name.
           // 
           string tableFieldId = FormField.FieldId + "_" + ( row + 1 ) + "_" + ( Col + 1 );
-          this.LogDebug ( "\r\n form fieldId: " + tableFieldId );
+          this.LogDebug ( "" );
+          this.LogDebug ( "tableFieldId: " + tableFieldId );
 
           // 
           // Get the table field and update the test field object.
@@ -2329,42 +2336,45 @@ namespace Evado.UniForm.AdminClient
           // 
           // Does the returned field value exist
           // 
-          if ( value != null )
+          if ( value == null )
           {
-            this.LogDebug ( " value: " + value
-               + " DataType: " + FormField.Table.Header [ Col ].DataType );
+            continue;
+          }
+          this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ Col ].DataType, value );
 
-            //
-            // If NA is entered set to numeric null.
-            //
-            switch ( header.DataType )
+          //
+          // If NA is entered set to numeric null.
+          //
+          switch ( header.DataType )
+          {
+            case Evado.Model.EvDataTypes.Numeric:
             {
-              case Evado.Model.EvDataTypes.Numeric:
+              if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
               {
-                if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
-                {
-                  value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
-                }
-                FormField.Table.Rows [ row ].Column [ Col ] = value;
-                break;
+                value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
               }
-              case Evado.Model.EvDataTypes.Computed_Field:
-              {
-                this.UpdateTableComputedColumn ( FormField.Table, Col );
-                break;
-              }
-              default:
-              {
-                FormField.Table.Rows [ row ].Column [ Col ] = value;
-                break;
-              }
+              FormField.Table.Rows [ row ].Column [ Col ] = value;
+              break;
             }
-
-          }//END value exists.
+            case Evado.Model.EvDataTypes.Computed_Field:
+            {
+              break;
+            }
+            default:
+            {
+              FormField.Table.Rows [ row ].Column [ Col ] = value;
+              break;
+            }
+          }
 
         }//END column interation loop
 
       }//END row interation loop
+
+      //
+      // execute table computations.
+      //
+      this.UpdateTableComputedColumn ( FormField.Table );
 
       return FormField;
 
@@ -2375,23 +2385,52 @@ namespace Evado.UniForm.AdminClient
     /// This method computes the table computer column calculation.
     /// </summary>
     /// <param name="Table">fEvado.Model.EvTable object</param>
-    /// <param name="ColumnId">int column identifier</param>
+    /// <param name="ColumnIndex">int column identifier</param>
     /// <returns>String value </returns>
     // ---------------------------------------------------------------------------------
-    private void UpdateTableComputedColumn( Evado.Model.EvTable Table, int ColumnId )
+    private void UpdateTableComputedColumn( Evado.Model.EvTable Table )
     {
       this.LogMethod ( "UpdateTableComputedColumn" );
 
       String value = String.Empty;
-      EvTableHeader header = Table.Header [ ColumnId ];
+      int computedColumnIndex = -1;
+      EvTableHeader computedColumnHeader = new EvTableHeader ( );
 
-      if ( String.IsNullOrEmpty ( header.OptionsOrUnit ) == false )
+
+      //
+      // Look for a computed field in the table header.
+      //
+      for ( int index = 0 ; index < Table.Header.Length ; index++ )
       {
+        this.LogDebug ( "Header.DataType: {0}, Formula: {1}", Table.Header [ index ].DataType, Table.Header [ index ].OptionsOrUnit );
+
+        if ( Table.Header [ index ].DataType == EvDataTypes.Computed_Field )
+        {
+          computedColumnHeader = Table.Header [ index ];
+          computedColumnIndex = index;
+        }
+      }
+
+      this.LogDebug ( "Header.DataType: {0}, Formula: {1}", computedColumnHeader.DataType, computedColumnHeader.OptionsOrUnit );
+
+      //
+      // exit if a computed field is not found.
+      //
+      if ( computedColumnIndex == -1 )
+      {
+        this.LogDebug ( "No computer field found" );
         this.LogMethodEnd ( "UpdateTableComputedColumn" );
         return;
       }
 
-      string formula = header.OptionsOrUnit;
+      if ( computedColumnHeader.OptionsOrUnit == String.Empty )
+      {
+        this.LogDebug ( "No formula found" );
+        this.LogMethodEnd ( "UpdateTableComputedColumn" );
+        return;
+      }
+
+      string formula = computedColumnHeader.OptionsOrUnit;
       this.LogDebug ( "Formula: {0}.", formula );
 
       //
@@ -2409,108 +2448,126 @@ namespace Evado.UniForm.AdminClient
         //
         for ( int columnIndex = 0 ; columnIndex < row.Column.Length && columnIndex < Table.Header.Length ; columnIndex++ )
         {
+          EvTableHeader columnHeader = Table.Header [ columnIndex ];
+
+          this.LogDebug ( "Header.DataType: {0}", columnHeader.DataType, columnHeader.OptionsOrUnit );
           //
-          // Skip the computed column.
+          // it not possibel numeric values exit.
           //
-          if ( columnIndex == ColumnId )
+          if ( columnHeader.DataType != EvDataTypes.Numeric
+            && columnHeader.DataType != EvDataTypes.Integer
+            & columnHeader.DataType != EvDataTypes.Multi_Text_Values )
           {
+            this.LogDebug ( "Continue column data type not compatible." );
             continue;
           }
 
           //
           // create teh column identifier.
           //
-          string colId = ( columnIndex + 1 ).ToString ( "00" );
-          this.LogDebug ( "colId: {0}.", colId );
-
+          string columnId = ( columnIndex + 1 ).ToString ( "00" );
+          this.LogDebug ( "colId: {0}.", columnId );
 
           //
           // SKIP if not in the selection column list.
           //
-          if ( formula.Contains ( colId ) == false )
+          if ( formula.Contains ( columnId ) == false )
           {
-
-            this.LogDebug ( "Continue Colid not found in formula" );
-            continue;
-          }
-
-          //
-          // it not possibel numeric values exit.
-          //
-          if ( header.DataType != EvDataTypes.Numeric
-            && header.DataType != EvDataTypes.Integer
-            & header.DataType != EvDataTypes.Multi_Text_Values )
-          {
-            this.LogDebug ( "Continue column data type not compatible." );
+            this.LogDebug ( "Continue columnId not found in formula" );
             continue;
           }
 
           float fltColValue = 0;
 
-          if ( header.DataType == EvDataTypes.Multi_Text_Values )
+          //
+          // Get the column value as a float value.
+          //
+          if ( computedColumnHeader.DataType == EvDataTypes.Multi_Text_Values )
           {
             fltColValue = EvStatics.SumStringValues ( row.Column [ columnIndex ] );
+
+            this.LogDebug ( "ColumnValue: {0}.", fltColValue );
           }
           else
           {
-            fltColValue = EvStatics.getFloat ( row.Column [ columnIndex ] );
-
-            if ( fltColValue == Evado.Model.EvStatics.CONST_NUMERIC_NULL
-              || fltColValue == Evado.Model.EvStatics.CONST_NUMERIC_ERROR )
-            {
-              continue;
-            }
+            fltColValue = EvStatics.getFloat ( row.Column [ columnIndex ], 0 );
           }
 
+          //
+          // skip of the value is zero, or 'empty'.
+          //
+          if ( fltColValue == 0 )
+          {
+            this.LogDebug ( "fltColValue = 0" );
+            continue;
+          }
 
+          //
+          // Proccess the sum row columns function.
+          //
           if ( formula.Contains ( EvTableHeader.COMPUTED_FUNCTION_SUM_ROW_COLUMNS ) == true )
           {
             this.LogDebug ( "Row Sum row function found" );
             fltValue += fltColValue;
           }
 
-          if ( header.OptionsOrUnit.Contains ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS ) == true )
+          //
+          // Process the multiple column values function.
+          //
+          else if ( formula.Contains ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS ) == true )
           {
             this.LogDebug ( "Row multiply function found" );
-            string formula1 = header.OptionsOrUnit.Replace ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS, String.Empty );
+            string formula1 = formula.Replace ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS, String.Empty );
             formula1 = formula1.Replace ( "(", String.Empty );
             formula1 = formula1.Replace ( ")", String.Empty );
+            formula1 = formula1.Replace ( ",", ";" );
+
             String [ ] parms = formula1.Split ( ';' );
+
+            this.LogDebug ( "parm array length: {0}.", parms.Length );
 
             if ( parms.Length < 2 )
             {
+              this.LogDebug ( "Parm length less than 2" );
               continue;
             }
 
+            for ( int i = 0 ; i < parms.Length ; i++ )
+            {
+              this.LogDebug ( "i: {0}, Value: {1}.", i, parms [ i ] );
+            }
+
             //
             // get the first value.
             //
-            if ( parms [ 0 ] == colId )
+            if ( parms [ 0 ].Trim ( ) == columnId )
             {
               fltValue1 = fltColValue;
+              this.LogDebug ( "Value1: Row: {0}, Col: {1}, Value1: {2}", rowIndex, columnIndex, fltValue1 );
             }
 
             //
             // get the first value.
             //
-            if ( parms [ 1 ] == colId )
+            if ( parms [ 1 ].Trim ( ) == columnId )
             {
               fltValue2 = fltColValue;
+              this.LogDebug ( "Value2: Row: {0}, Col: {1}, Value1: {2}", rowIndex, columnIndex, fltValue2 );
             }
-          }
-
-          if ( fltValue1 != 0
-            & fltValue2 != 0 )
-          {
-            fltValue = fltValue1 * fltValue2;
           }
         }//END row column iteration loop
 
-        if ( fltValue != 0 )
+        if ( fltValue1 != 0
+            && fltValue2 != 0 
+            && formula.Contains ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS ) == true )
         {
-          row.Column [ ColumnId ] = fltValue.ToString ( );
-          this.LogDebug ( "Row: {0}, Column:{1}, value: {2}.", rowIndex, ColumnId, row.Column [ ColumnId ] );
+          fltValue = fltValue1 * fltValue2;
+          this.LogDebug ( "fltValue1: Row: {0}, fltValue2: {1}, fltValue: {2}", fltValue1, fltValue2, fltValue );
         }
+
+        row.Column [ computedColumnIndex ] = fltValue.ToString ( );
+        this.LogDebug ( "Computered Column: Row: {0}, Column:{1}, value: {2}.", rowIndex, computedColumnIndex, row.Column [ computedColumnIndex ] );
+
       }//END row iteration loop
 
       this.LogMethodEnd ( "UpdateTableComputedColumn" );
@@ -2898,7 +2955,7 @@ namespace Evado.UniForm.AdminClient
       //
       for ( int iRow = 0 ; iRow < field.Table.Rows.Count ; iRow++ )
       {
-        string stName = field.FieldId + "_" + ( iRow + 1 ) +"_0";
+        string stName = field.FieldId + "_" + ( iRow + 1 ) + "_0";
         this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].No );
 
         //
