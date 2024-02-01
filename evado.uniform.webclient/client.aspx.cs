@@ -1758,6 +1758,7 @@ namespace Evado.UniForm.WebClient
 
     }//END updateFormField method
 
+
     // =============================================================================== 
     /// <summary>
     /// This method updates the Computed form fields.
@@ -1765,63 +1766,81 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     /// <param name="ComputedField">Evado.Uniform.Model.EuField object</param>
     // ---------------------------------------------------------------------------------
-    private String updateComputedField ( EuField ComputedField )
+    private String updateComputedField( EuField ComputedField )
     {
       this.LogMethod ( "updateComputedField" );
       // 
       // Initialise methods variables and objects.
       //
       String computedFormula = ComputedField.GetParameter ( EuFieldParameters.Computed_Formula );
+      float computedFieldValue = 0F;
 
-      if ( String.IsNullOrEmpty ( computedFormula ) == true )
+      if ( computedFormula == String.Empty )
       {
         this.LogDebug ( "EXIT: formula is empty" );
         this.LogMethodEnd ( "updateComputedField" );
         return ComputedField.Value;
       }
+      if ( computedFormula.Contains ( "(" ) == false )
+      {
+        this.LogDebug ( "EXIT: formula incomplete" );
+        this.LogMethodEnd ( "updateComputedField" );
+        return ComputedField.Value;
+      }
 
-      int OpenBracketIndex = computedFormula.IndexOf ( '(' );
-      int CloseBracketIndex = computedFormula.IndexOf ( ')' );
-      float fieldValue = 0;
-      this.LogDebug ( "computedFormula: {0}.", computedFormula );
       try
       {
-        if ( computedFormula.Contains ( "(" ) == false )
+        computedFormula = computedFormula.Replace ( "(", "^" );
+        computedFormula = computedFormula.Replace ( ")", "^" );
+
+        string [ ] arComputedFormula = computedFormula.Split ( '^' );
+
+        if ( arComputedFormula.Length > 1 )
         {
-          this.LogDebug ( "EXIT: formula incomplete" );
-          this.LogMethodEnd ( "updateComputedField" );
-          return ComputedField.Value;
+          this.LogDebug ( "computedFormula: {0}, Formula: {1}, parameter: {2}.",
+            computedFormula, arComputedFormula [ 0 ], arComputedFormula [ 1 ] );
         }
-        computedFormula = computedFormula.Replace ( ")", "" );
-        String [ ] arComputerFormula = computedFormula.Split ( '(' );
 
-        String formula = arComputerFormula [ 0 ];
-        String fields = arComputerFormula [ 1 ]; ;
+        //
+        // Set the formula and the field references.
+        //
+        String formula = arComputedFormula [ 0 ];
+        String parameters = arComputedFormula [ 1 ];
+        parameters = parameters.Replace ( ",", ";" );
 
-        this.LogDebug ( "Formula: {0}, fields: '{1}'.", formula, fields );
+        String [ ] arParameters = parameters.Split ( ';' );
+        bool [ ] negativeValue = new bool [ arParameters.Length ];
 
-        String [ ] arFields = fields.Split ( ';' );
+        //
+        // determine if there are negative fields.
+        //
+        for ( int index = 0 ; index < arParameters.Length ; index++ )
+        {
+          arParameters [ index ] = arParameters [ index ].Trim ( );
+
+          if ( arParameters [ index ] [ 0 ] == '-' )
+          {
+            negativeValue [ index ] = true;
+            arParameters [ index ] = arParameters [ index ].Substring ( 1 );
+          }
+          else
+          {
+            negativeValue [ index ] = false;
+          }
+        }
 
         switch ( formula )
         {
           case EuField.COMPUTED_FUNCTION_SUM_FIELDS:
+          {
+            //
+            // Iterate through the field idenifiers retrieving the field value 
+            // and if numeric add it to the fieldValue variale.
+            //
+            for ( int index = 0 ; index < arParameters.Length ; index++ )
             {
-              //
-              // Iterate through the field idenifiers retrieving the field value 
-              // and if numeric add it to the fieldValue variale.
-              //
-              foreach ( string fielId in arFields )
-              {
-                EuField field = this.UserSession.AppData.Page.getField ( fielId );
-                this.LogDebug ( "fielid: {0}, field.FieldId: {1}, Value: {2}.",
-                  fielId, field.FieldId, field.Value );
-
-                float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
-              if ( fValue == 0 )
-              {
-                this.LogDebug ( "ERROR: Empty or not a numeric value." );
-                continue;
-              }
+              string fielId = arParameters [ index ];
+              EuField field = this.UserSession.AppData.Page.getField ( fielId );
 
               if ( field == null )
               {
@@ -1829,97 +1848,129 @@ namespace Evado.UniForm.WebClient
                 continue;
               }
 
-              fieldValue += fValue;
+              //this.LogDebug ( "fielId: {0}, field.FieldId: {1}, Value: {2}.",
+              //   fielId, field.FieldId, field.Value );
+
+              float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
+              if ( fValue == 0 )
+              {
+                // this.LogDebug ( "ERROR: Empty or not a numeric value." );
+                continue;
               }
-              break;
+              if ( negativeValue [ index ] == true )
+              {
+                computedFieldValue -= fValue;
+              }
+              else
+              {
+                computedFieldValue += fValue;
+              }
             }
+            break;
+          }
           case EuField.COMPUTED_FUNCTION_SUM_CATEGORY:
+          {
+            //
+            // get the computed fields fied category
+            //
+            string fieldCategory = arComputedFormula [ 1 ].Trim ( );
+            this.LogDebug ( "ComputedField: fieldCategory: {0}.", fieldCategory );
+
+            //
+            // Iterate through the page groups 
+            //
+            foreach ( EuGroup group in this.UserSession.AppData.Page.GroupList )
             {
               //
-              // get the computed fields fied category
+              // Iterate through the fields in each group. Retrieving the field
+              // and if in the computed field category add its value to the fieldValue variale.
               //
-              string fieldCategory = fields.Trim ( );
-              this.LogDebug ( "ComputedField: fieldCategory: {0}.", fieldCategory );
-
-              //
-              // Iterate through the page groups 
-              //
-              foreach ( EuGroup group in this.UserSession.AppData.Page.GroupList )
+              foreach ( EuField field in group.FieldList )
               {
-                //
-                // Iterate through the fields in each group. Retrieving the field
-                // and if in the computed field category add its value to the fieldValue variale.
-                //
-                foreach ( EuField field in group.FieldList )
+                string category = field.GetParameter ( EuFieldParameters.Category );
+
+                this.LogDebug ( "fieldCategory: {0}, Field.Categrory: {1}.", fieldCategory, category );
+
+                if ( category.ToUpper ( ) != fieldCategory.ToUpper ( ) )
                 {
-                  string category = field.GetParameter ( EuFieldParameters.Category );
+                  continue;
+                }
+                //this.LogDebug ( "Adding, field.Value: {0}.", field.Value );
 
-                  this.LogDebug ( "field: fieldCategory: {0}.", category );
-
-                  if ( category.ToUpper ( ) != fieldCategory.ToUpper ( ) )
-                  {
-                    continue;
-                  }
-                  this.LogDebug ( "Add Value  {0}.", field.Value );
-
-                  float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
+                float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
                 if ( fValue == 0 )
                 {
                   this.LogDebug ( "ERROR: Empty or not a numeric value." );
                   continue;
                 }
 
-                fieldValue += fValue;
-                }
+                computedFieldValue += fValue;
               }
-              break;
             }
+            break;
+          }
           case EuField.COMPUTED_FUNCTION_SUM_COLUMN:
+          {
+            if ( arParameters.Length == 0 )
             {
-              if ( arFields.Length == 0 )
-              {
-                break;
-              }
-              //
-              // Retrieve the tale field identifier and tale column (0-9).
-              //
-              String taleFieldId = arFields [ 0 ].Trim ( );
-              String columnId = arFields [ 1 ].Trim ( );
-              int column = Evado.Model.EvStatics.getInteger ( columnId );
-              column--;
-
-              if ( column < 0 || column > 9 )
-              {
-                break;
-              }
-
-              //
-              // retrieve the tale field
-              //
-              EuField field = this.UserSession.AppData.Page.getField ( taleFieldId );
-
-              //
-              // iterate through each row adding the column value if a floating number.
-              //
-              foreach (  Evado.Model.EvTableRow row in field.Table.Rows )
-              {
-                float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ], 0 );
-              if ( fValue == 0 )
-              {
-                this.LogDebug ( "ERROR: Empty or not a numeric value." );
-                continue;
-              }
-
-              fieldValue += fValue;
-              }
-
               break;
             }
+            //
+            // Retrieve the tale field identifier and tale column (0-9).
+            //
+            String tableFieldId = arParameters [ 0 ].Trim ( );
+            String columnId = arParameters [ 1 ].Trim ( );
+            int columnIndex = Evado.Model.EvStatics.getInteger ( columnId );
+            columnIndex--;
+
+            this.LogDebug ( " tableFieldId: {0}, columnId: {1}, columnIndex: {2}.", tableFieldId, columnId, columnIndex );
+
+            if ( columnIndex < 0 || columnIndex > 9 )
+            {
+              break;
+            }
+
+            //
+            // retrieve the tale field
+            //
+            EuField field = this.UserSession.AppData.Page.getField ( tableFieldId );
+
+            if ( field == null )
+            {
+              //this.LogDebug ( "ERROR: FIELD NULL." );
+              break;
+            }
+            if ( field.Table == null )
+            {
+              this.LogDebug ( "ERROR: FIELD TABLE  NULL." );
+              break;
+            }
+
+            //
+            // iterate through each row adding the column value if a floating number.
+            //
+            foreach ( Evado.Model.EvTableRow row in field.Table.Rows )
+            {
+              if ( columnIndex < row.Column.Length )
+              {
+                float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ columnIndex ], 0 );
+                if ( fValue == 0 )
+                {
+                  this.LogDebug ( "ERROR: Empty or not a numeric value, Value: {0}, .", row.Column [ columnIndex ] );
+                  continue;
+                }
+
+                computedFieldValue += fValue;
+              }//field index ok
+            }//END row interation loop
+
+            break;
+          }
         }//End Switch
 
-        ComputedField.Value = fieldValue.ToString ( );
-        this.LogDebug ( "ComputedField.Value: '{0}'.",
-          ComputedField.Value );
+        ComputedField.Value = computedFieldValue.ToString ( );
+
+        this.LogDebug ( "ComputedField.Value: '{0}'.", ComputedField.Value );
       }
       catch ( Exception Ex )
       {
@@ -2485,8 +2536,8 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       String FormDataId )
     {
-      this.LogMethod ( "getReturnedFormFieldValue" );
-      this.LogDebug ( "FormDataId: " + FormDataId );
+      //this.LogMethod ( "getReturnedFormFieldValue" );
+     //this.LogDebug ( "FormDataId: " + FormDataId );
       // 
       // Initialise the method variables and objects.
       // 
@@ -2511,8 +2562,8 @@ namespace Evado.UniForm.WebClient
         // 
         if ( aKeys [ index ].ToString ( ).ToLower ( ) == FormDataId.ToLower ( ) )
         {
-          this.LogDebug ( "Index: " + index + ", key: " + key
-            + " Value: " + aValues [ 0 ] );
+         // this.LogDebug ( "Index: " + index + ", key: " + key
+         //   + " Value: " + aValues [ 0 ] );
           //
           // stReturn the first value.
           //

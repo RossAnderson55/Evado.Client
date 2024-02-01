@@ -1698,7 +1698,8 @@ namespace Evado.UniForm.AdminClient
       // 
       // If the test is in EDIT mode update the fields values.
       // 
-      if ( FormField.EditAccess != Evado.UniForm.Model.EuEditAccess.Enabled )
+      if ( FormField.EditAccess != Evado.UniForm.Model.EuEditAccess.Enabled
+       && FormField.Type != EvDataTypes.Computed_Field )
       {
         this.LogDebug ( "User does not have edit access." );
         this.LogMethodEnd ( "updateFormField" );
@@ -1789,6 +1790,7 @@ namespace Evado.UniForm.AdminClient
         }
         case Evado.Model.EvDataTypes.Computed_Field:
         {
+          this.LogDebug ( "Computed Field." );
           FormField.Value = this.updateComputedField ( FormField );
 
           this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
@@ -1850,49 +1852,55 @@ namespace Evado.UniForm.AdminClient
       // Initialise methods variables and objects.
       //
       String computedFormula = ComputedField.GetParameter ( EuFieldParameters.Computed_Formula );
+      float computedFieldValue = 0F;
 
-      if ( String.IsNullOrEmpty ( computedFormula ) == true )
+      if ( computedFormula == String.Empty )
       {
         this.LogDebug ( "EXIT: formula is empty" );
         this.LogMethodEnd ( "updateComputedField" );
         return ComputedField.Value;
       }
+      if ( computedFormula.Contains ( "(" ) == false )
+      {
+        this.LogDebug ( "EXIT: formula incomplete" );
+        this.LogMethodEnd ( "updateComputedField" );
+        return ComputedField.Value;
+      }
 
-      int OpenBracketIndex = computedFormula.IndexOf ( '(' );
-      int CloseBracketIndex = computedFormula.IndexOf ( ')' );
-      float fieldValue = 0;
-      this.LogDebug ( "computedFormula: {0}.", computedFormula );
       try
       {
-        if ( computedFormula.Contains ( "(" ) == false )
+        computedFormula = computedFormula.Replace ( "(", "^" );
+        computedFormula = computedFormula.Replace ( ")", "^" );
+
+        string [ ] arComputedFormula = computedFormula.Split ( '^' );
+
+        if ( arComputedFormula.Length > 1 )
         {
-          this.LogDebug ( "EXIT: formula incomplete" );
-          this.LogMethodEnd ( "updateComputedField" );
-          return ComputedField.Value;
+          this.LogDebug ( "computedFormula: {0}, Formula: {1}, parameter: {2}.",
+            computedFormula, arComputedFormula [ 0 ], arComputedFormula [ 1 ] );
         }
-        computedFormula = computedFormula.Replace ( ")", "" );
-        computedFormula = computedFormula.Replace ( ",", ";" );
-        String [ ] arComputerFormula = computedFormula.Split ( '(' );
-
-        String formula = arComputerFormula [ 0 ];
-        String fields = arComputerFormula [ 1 ]; ;
-
-        this.LogDebug ( "Formula: {0}, fields: '{1}'.", formula, fields );
 
         //
-        // format the field array for processing.
+        // Set the formula and the field references.
         //
-        String [ ] arFields = fields.Split ( ';' );
-        bool [ ] negativeValue = new bool [ arFields.Length ];
+        String formula = arComputedFormula [ 0 ];
+        String parameters = arComputedFormula [ 1 ];
+        parameters = parameters.Replace ( ",", ";" );
 
-        for ( int index = 0 ; index < arFields.Length ; index++ )
+        String [ ] arParameters = parameters.Split ( ';' );
+        bool [ ] negativeValue = new bool [ arParameters.Length ];
+
+        //
+        // determine if there are negative fields.
+        //
+        for ( int index = 0 ; index < arParameters.Length ; index++ )
         {
-          arFields [ index ] = arFields [ index ].Trim ( );
+          arParameters [ index ] = arParameters [ index ].Trim ( );
 
-          if ( arFields [ index ] [ 0 ] == '-' )
+          if ( arParameters [ index ] [ 0 ] == '-' )
           {
             negativeValue [ index ] = true;
-            arFields [ index ] = arFields [ index ].Substring ( 1 );
+            arParameters [ index ] = arParameters [ index ].Substring ( 1 );
           }
           else
           {
@@ -1908,9 +1916,9 @@ namespace Evado.UniForm.AdminClient
             // Iterate through the field idenifiers retrieving the field value 
             // and if numeric add it to the fieldValue variale.
             //
-            for ( int index = 0 ; index < arFields.Length ; index++ )
+            for ( int index = 0 ; index < arParameters.Length ; index++ )
             {
-              string fielId = arFields [ index ];
+              string fielId = arParameters [ index ];
               EuField field = this.UserSession.AppData.Page.getField ( fielId );
 
               if ( field == null )
@@ -1919,22 +1927,22 @@ namespace Evado.UniForm.AdminClient
                 continue;
               }
 
-              this.LogDebug ( "fielid: {0}, field.FieldId: {1}, Value: {2}.",
-                fielId, field.FieldId, field.Value );
+              //this.LogDebug ( "fielId: {0}, field.FieldId: {1}, Value: {2}.",
+             //   fielId, field.FieldId, field.Value );
 
               float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
               if ( fValue == 0 )
               {
-                this.LogDebug ( "ERROR: Empty or not a numeric value." );
+               // this.LogDebug ( "ERROR: Empty or not a numeric value." );
                 continue;
               }
               if ( negativeValue [ index ] == true )
               {
-                fieldValue -= fValue;
+                computedFieldValue -= fValue;
               }
               else
               {
-                fieldValue += fValue;
+                computedFieldValue += fValue;
               }
             }
             break;
@@ -1944,7 +1952,7 @@ namespace Evado.UniForm.AdminClient
             //
             // get the computed fields fied category
             //
-            string fieldCategory = fields.Trim ( );
+            string fieldCategory = arComputedFormula [ 1 ].Trim ( );
             this.LogDebug ( "ComputedField: fieldCategory: {0}.", fieldCategory );
 
             //
@@ -1960,13 +1968,13 @@ namespace Evado.UniForm.AdminClient
               {
                 string category = field.GetParameter ( EuFieldParameters.Category );
 
-                this.LogDebug ( "field: fieldCategory: {0}.", category );
+                this.LogDebug ( "fieldCategory: {0}, Field.Categrory: {1}.", fieldCategory, category );
 
                 if ( category.ToUpper ( ) != fieldCategory.ToUpper ( ) )
                 {
                   continue;
                 }
-                this.LogDebug ( "Add Value  {0}.", field.Value );
+                //this.LogDebug ( "Adding, field.Value: {0}.", field.Value );
 
                 float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
                 if ( fValue == 0 )
@@ -1975,26 +1983,28 @@ namespace Evado.UniForm.AdminClient
                   continue;
                 }
 
-                fieldValue += fValue;
+                computedFieldValue += fValue;
               }
             }
             break;
           }
           case EuField.COMPUTED_FUNCTION_SUM_COLUMN:
           {
-            if ( arFields.Length == 0 )
+            if ( arParameters.Length == 0 )
             {
               break;
             }
             //
             // Retrieve the tale field identifier and tale column (0-9).
             //
-            String taleFieldId = arFields [ 0 ].Trim ( );
-            String columnId = arFields [ 1 ].Trim ( );
-            int column = Evado.Model.EvStatics.getInteger ( columnId );
-            column--;
+            String tableFieldId = arParameters [ 0 ].Trim ( );
+            String columnId = arParameters [ 1 ].Trim ( );
+            int columnIndex = Evado.Model.EvStatics.getInteger ( columnId );
+            columnIndex--;
 
-            if ( column < 0 || column > 9 )
+            this.LogDebug ( " tableFieldId: {0}, columnId: {1}, columnIndex: {2}.", tableFieldId, columnId, columnIndex );
+
+            if ( columnIndex < 0 || columnIndex > 9 )
             {
               break;
             }
@@ -2002,30 +2012,44 @@ namespace Evado.UniForm.AdminClient
             //
             // retrieve the tale field
             //
-            EuField field = this.UserSession.AppData.Page.getField ( taleFieldId );
+            EuField field = this.UserSession.AppData.Page.getField ( tableFieldId );
+
+            if ( field == null )
+            {
+              //this.LogDebug ( "ERROR: FIELD NULL." );
+              break;
+            }
+            if ( field.Table == null )
+            {
+              this.LogDebug ( "ERROR: FIELD TABLE  NULL." );
+              break;
+            }
 
             //
             // iterate through each row adding the column value if a floating number.
             //
             foreach ( Evado.Model.EvTableRow row in field.Table.Rows )
             {
-              float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ column ], 0 );
-              if ( fValue == 0 )
+              if ( columnIndex < row.Column.Length )
               {
-                this.LogDebug ( "ERROR: Empty or not a numeric value." );
-                continue;
-              }
+                float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ columnIndex ], 0 );
+                if ( fValue == 0 )
+                {
+                  this.LogDebug ( "ERROR: Empty or not a numeric value, Value: {0}, .", row.Column [ columnIndex ] );
+                  continue;
+                }
 
-              fieldValue += fValue;
-            }
+                computedFieldValue += fValue;
+              }//field index ok
+            }//END row interation loop
 
             break;
           }
         }//End Switch
 
-        ComputedField.Value = fieldValue.ToString ( );
-        this.LogDebug ( "ComputedField.Value: '{0}'.",
-          ComputedField.Value );
+        ComputedField.Value = computedFieldValue.ToString ( );
+
+        this.LogDebug ( "ComputedField.Value: '{0}'.", ComputedField.Value );
       }
       catch ( Exception Ex )
       {
@@ -2096,7 +2120,6 @@ namespace Evado.UniForm.AdminClient
       return stSignatureBlock;
 
     }//END getCheckButtonListFieldValue method
-
 
     // =============================================================================== 
     /// <summary>
@@ -2325,8 +2348,8 @@ namespace Evado.UniForm.AdminClient
           // construct the test table field name.
           // 
           string tableFieldId = FormField.FieldId + "_" + ( row + 1 ) + "_" + ( Col + 1 );
-          this.LogDebug ( "" );
-          this.LogDebug ( "tableFieldId: " + tableFieldId );
+          //this.LogDebug ( "" );
+          //this.LogDebug ( "tableFieldId: " + tableFieldId );
 
           // 
           // Get the table field and update the test field object.
@@ -2558,7 +2581,7 @@ namespace Evado.UniForm.AdminClient
         }//END row column iteration loop
 
         if ( fltValue1 != 0
-            && fltValue2 != 0 
+            && fltValue2 != 0
             && formula.Contains ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS ) == true )
         {
           fltValue = fltValue1 * fltValue2;
@@ -2575,9 +2598,6 @@ namespace Evado.UniForm.AdminClient
 
     // =============================================================================== 
     /// <summary>
-    /// getReturnedFormFieldValue method.
-    /// 
-    /// Description:
     ///   This method generates the Java script object variables for the test.
     /// 
     /// </summary>
@@ -2589,8 +2609,8 @@ namespace Evado.UniForm.AdminClient
     NameValueCollection ReturnedFormFields,
     String FormDataId )
     {
-      this.LogMethod ( "getReturnedFormFieldValue" );
-      this.LogDebug ( "FormDataId: " + FormDataId );
+      //this.LogMethod ( "getReturnedFormFieldValue" );
+      //this.LogDebug ( "FormDataId: " + FormDataId );
       // 
       // Initialise the method variables and objects.
       // 
@@ -2615,8 +2635,8 @@ namespace Evado.UniForm.AdminClient
         // 
         if ( aKeys [ index ].ToString ( ).ToLower ( ) == FormDataId.ToLower ( ) )
         {
-          this.LogDebug ( "Index: " + index + ", key: " + key
-            + " Value: " + aValues [ 0 ] );
+         // this.LogDebug ( "Index: " + index + ", key: " + key
+          //  + " Value: " + aValues [ 0 ] );
           //
           // stReturn the first value.
           //
@@ -2978,7 +2998,6 @@ namespace Evado.UniForm.AdminClient
       }//END row iteration loop.
 
     }//END updateWebPageCommandTableObject method
-
 
     ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #endregion
