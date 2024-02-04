@@ -1928,12 +1928,12 @@ namespace Evado.UniForm.AdminClient
               }
 
               //this.LogDebug ( "fielId: {0}, field.FieldId: {1}, Value: {2}.",
-             //   fielId, field.FieldId, field.Value );
+              //   fielId, field.FieldId, field.Value );
 
               float fValue = Evado.Model.EvStatics.getFloat ( field.Value, 0 );
               if ( fValue == 0 )
               {
-               // this.LogDebug ( "ERROR: Empty or not a numeric value." );
+                // this.LogDebug ( "ERROR: Empty or not a numeric value." );
                 continue;
               }
               if ( negativeValue [ index ] == true )
@@ -2338,6 +2338,14 @@ namespace Evado.UniForm.AdminClient
           }
 
           //
+          // skip all readonly table data.
+          //
+          if ( header.DataType == EvDataTypes.Read_Only_Text )
+          {
+            continue;
+          }
+
+          //
           // reset boolean data types as update not resetn selected values.
           //
           if ( header.DataType == EvDataTypes.Boolean )
@@ -2391,6 +2399,15 @@ namespace Evado.UniForm.AdminClient
           }
 
         }//END column interation loop
+
+        var dateStamp = FormField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
+
+        if( dateStamp == true )
+        {
+          string dateTime = DateTime.Now.ToString ( "HH:mm" );
+
+          FormField.Table.Rows [ row ].DateStamp = dateTime;
+        }
 
       }//END row interation loop
 
@@ -2635,7 +2652,7 @@ namespace Evado.UniForm.AdminClient
         // 
         if ( aKeys [ index ].ToString ( ).ToLower ( ) == FormDataId.ToLower ( ) )
         {
-         // this.LogDebug ( "Index: " + index + ", key: " + key
+          // this.LogDebug ( "Index: " + index + ", key: " + key
           //  + " Value: " + aValues [ 0 ] );
           //
           // stReturn the first value.
@@ -2984,6 +3001,14 @@ namespace Evado.UniForm.AdminClient
         for ( int iCol = 0 ; iCol < field.Table.ColumnCount ; iCol++ )
         {
           //
+          // skip all read only fields as they cannot be updated.
+          //
+          if ( field.Table.Header [ iCol ].DataType == EvDataTypes.Read_Only_Text )
+          {
+            continue;
+          }
+
+          //
           // If the cel is not readonly and has a value then add it to the parameters.
           //
           if ( field.Table.Rows [ iRow ].Column [ iCol ] != String.Empty )
@@ -2994,6 +3019,12 @@ namespace Evado.UniForm.AdminClient
           }//END has a value.
 
         }//END column iteration loop.
+
+        if ( field.Table.Rows [ iRow ].DateStamp != String.Empty )
+        {
+          stName = field.FieldId + "_" + ( iRow + 1 ) + "_DT";
+          this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].DateStamp );
+        }
 
       }//END row iteration loop.
 

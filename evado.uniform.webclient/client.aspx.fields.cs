@@ -3071,7 +3071,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // --------------------------------------------------------------------------------
-    private void getTableFieldHeader (
+    private void getTableFieldHeader(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -3080,6 +3080,7 @@ namespace Evado.UniForm.WebClient
       // Initialise local variables.
       // 
       string stWidth = String.Empty;
+      bool dateStampRows = PageField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
       int iWidth = 0;
 
       sbHtml.Append ( "<tr>" );
@@ -3112,8 +3113,11 @@ namespace Evado.UniForm.WebClient
           continue;
         }
 
+        int fullWidth = 100;
         int i = header.Width;
-        float celWidth = 100 * i / iWidth;
+        if ( dateStampRows == true )
+        { fullWidth = 95; } // to provide room for the date stamp.
+        float celWidth = fullWidth * i / iWidth;
         stWidth = "Width:" + celWidth + "%";
 
         if ( PageField.Table.ColumnCount == 1 )
@@ -3163,11 +3167,18 @@ namespace Evado.UniForm.WebClient
           }
         }
 
-      sbHtml.Append ( "</td>" );
+        sbHtml.AppendLine ( "</td>" );
 
       }//END table header iteration loop.
 
-      sbHtml.Append ( "</tr>" );
+      if ( dateStampRows == true )
+      {
+        sbHtml.Append ( "<td style='Width:5%;text-align:center;' >" );
+        sbHtml.Append ( Evado.UniForm.Model.EuLabels.Table_Row_Date_Stamp_Header );
+        sbHtml.AppendLine ( "</td>" );
+      }
+
+      sbHtml.AppendLine ( "</tr>" );
 
     }//END getTableFieldHeader method
 
