@@ -3366,10 +3366,6 @@ namespace Evado.UniForm.AdminClient
                     + " class='form-control' " 
                     + "/>" );
               }
-              if ( header.OptionsOrUnit != String.Empty )
-              {
-                sbHtml.AppendLine ( " " + header.OptionsOrUnit );
-              }
 
               this._TabIndex++;
 
