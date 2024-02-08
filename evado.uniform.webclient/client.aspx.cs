@@ -2947,13 +2947,6 @@ namespace Evado.UniForm.WebClient
 
         }//END column iteration loop.
 
-        if ( field.Table.Rows [ iRow ].DateStamp != String.Empty )
-        {
-          stName = field.FieldId + "_" + ( iRow + 1 ) + "_DT";
-          this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].DateStamp );
-        }
-
-
       }//END row iteration loop.
 
     }//END updateWebPageCommandTableObject method

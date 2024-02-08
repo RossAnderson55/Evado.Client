@@ -2988,6 +2988,7 @@ namespace Evado.UniForm.WebClient
       return String.Empty;
     }
 
+
     // ===================================================================================
     /// <summary>
     /// This method creates a table field html markup
@@ -2995,7 +2996,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createTableField (
+    private void createTableField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -3046,7 +3047,7 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the rows in the table.
       // 
-      for ( int row = 0; row < PageField.Table.Rows.Count; row++ )
+      for ( int row = 0 ; row < PageField.Table.Rows.Count ; row++ )
       {
         this.createTableFieldDataRow (
         sbHtml,
@@ -3081,25 +3082,8 @@ namespace Evado.UniForm.WebClient
       // 
       string stWidth = String.Empty;
       bool dateStampRows = PageField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
-      int iWidth = 0;
 
       sbHtml.Append ( "<tr>" );
-      //
-      // Sum the data widths to compute the column widths.
-      //
-      foreach ( Evado.Model.EvTableHeader header in PageField.Table.Header )
-      {
-        if ( header.Text != String.Empty )
-        {
-          iWidth += header.Width;
-        }
-      }//END header iteration loop to sum width.
-
-      if ( iWidth == 0 )
-      {
-        iWidth = ( int ) 100 / PageField.Table.Header.Length;
-      }
-
       // 
       // Iterate through the field table header items
       // 
@@ -3113,23 +3097,8 @@ namespace Evado.UniForm.WebClient
           continue;
         }
 
-        int fullWidth = 100;
-        int i = header.Width;
-        if ( dateStampRows == true )
-        { fullWidth = 95; } // to provide room for the date stamp.
-        float celWidth = fullWidth * i / iWidth;
-        stWidth = "Width:" + celWidth + "%";
 
-        if ( PageField.Table.ColumnCount == 1 )
-        {
-          stWidth = "Width:100%";
-        }
-        if ( PageField.Table.ColumnCount == 2 )
-        {
-          stWidth = "Width:50%";
-        }
-
-        sbHtml.Append ( "<td style='" + stWidth + ";text-align:center;' >" );
+        sbHtml.Append ( "<td style='" + header.Width + "%;text-align:center;' >" );
 
         sbHtml.Append ( "<strong>" + header.Text + "</strong> " );
 
@@ -3171,13 +3140,6 @@ namespace Evado.UniForm.WebClient
 
       }//END table header iteration loop.
 
-      if ( dateStampRows == true )
-      {
-        sbHtml.Append ( "<td style='Width:5%;text-align:center;' >" );
-        sbHtml.Append ( Evado.UniForm.Model.EuLabels.Table_Row_Date_Stamp_Header );
-        sbHtml.AppendLine ( "</td>" );
-      }
-
       sbHtml.AppendLine ( "</tr>" );
 
     }//END getTableFieldHeader method
@@ -3200,10 +3162,14 @@ namespace Evado.UniForm.WebClient
       this.LogMethod ( "getTableFieldDataRow" );
       this.LogDebug ( "Row: " + Row );
 
-      if( PageField.Table.Rows [ Row ].Hide == true )
+      if ( PageField.Table.Rows [ Row ].Hide == true )
       {
         return;
       }
+      //
+      // initialise the methods variables and objects.
+      //
+      bool dateStampRows = PageField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
 
       // 
       // Open the fieldtable data cells
