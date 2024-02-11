@@ -15,6 +15,15 @@ namespace Evado.UniForm.AdminClient
   public partial class DefaultPage : EvPersistentPageState
   {
     private int _TabIndex = 0;
+    //
+    // The following margins are margins within the column widths.
+    //
+    private const float Left_Col_Left_Margin = 1; // %
+    private const float Left_Col_Right_Margin = 0.5F; // %
+    private const float Center_Col_Left_Margin = 0.5F; // %
+    private const float Center_Col_Right_Margin = 1.5F; // %
+    private const float Right_Col_Left_Margin = 1; // %
+    private const float Right_Col_Right_Margin = 0.5F; // %
 
     // ==================================================================================
     /// <summary>
@@ -264,16 +273,18 @@ namespace Evado.UniForm.AdminClient
             this.LogDebug ( "leftColumnPercentage: {0}.", ( leftColumnPercentage - 1 ) );
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendFormat ( "<div style='width:{0}%; margin-left:1%;display-inline-block;'>\r\n", ( leftColumnPercentage - 1 ) );
+            sbMainBody.AppendFormat ( "<div style='width:{0}%; margin-left:" + Left_Col_Left_Margin + "%;display-inline-block;'>\r\n",
+              ( leftColumnPercentage - Left_Col_Right_Margin ) );
 
             sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
             sbMainBody.AppendLine ( "<!-- CLOSING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendLine ( "</div>" ); 
+            sbMainBody.AppendLine ( "</div>" );
 
             this.LogDebug ( "Add center column to body" );
 
-            this.LogDebug ( "leftColumnPercentage: {0}, width: {1}", ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
+            this.LogDebug ( "leftColumnPercentage: {0}, width: {1}",
+              ( leftColumnPercentage + Center_Col_Left_Margin ), ( centerColumPercentage - Center_Col_Right_Margin ) );
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
 
             sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;display-inline-block'  >\r\n",
@@ -304,7 +315,7 @@ namespace Evado.UniForm.AdminClient
 
               sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
               sbMainBody.AppendFormat ( "<div style='margin-left:0; width:{0}%; ;'>\r\n",
-                 ( centerColumPercentage - 1 ) );
+                 ( centerColumPercentage - Right_Col_Left_Margin ) );
 
               sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -822,7 +833,10 @@ namespace Evado.UniForm.AdminClient
           + "class='" + Css_Class_Field_Group + "' " + divFieldGroupStyle + "> " );
       }
 
-
+      if ( PageGroup.Title == String.Empty )
+      {
+        PageGroup.Title = "&nbsp;";
+      }
       sbHtml.AppendLine ( "<span class='" + Css_Class_Group_Title + "'> " + PageGroup.Title + "</span>" );
       sbHtml.AppendLine ( "<div class='" + Css_Class_Field_Group_Container + "' " + divFieldContainerStyle + " >\r\n " );
 
