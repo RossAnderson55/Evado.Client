@@ -261,19 +261,22 @@ namespace Evado.UniForm.AdminClient
             && sbRightBody.Length == 0 )
           {
             this.LogDebug ( "Add Left column to body (no right column)" );
+            this.LogDebug ( "leftColumnPercentage: {0}.", ( leftColumnPercentage - 1 ) );
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendFormat ( "<div style='width:{0}%;  float: left;'>\r\n", leftColumnPercentage );
+            sbMainBody.AppendFormat ( "<div style='width:{0}%; margin-left:1%;display-inline-block;'>\r\n", ( leftColumnPercentage - 1 ) );
 
             sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
             sbMainBody.AppendLine ( "<!-- CLOSING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendLine ( "</div>" );
+            sbMainBody.AppendLine ( "</div>" ); 
 
             this.LogDebug ( "Add center column to body" );
 
+            this.LogDebug ( "leftColumnPercentage: {0}, width: {1}", ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;'  >\r\n",
+
+            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;display-inline-block'  >\r\n",
               ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );

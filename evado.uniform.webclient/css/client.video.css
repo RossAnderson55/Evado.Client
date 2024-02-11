@@ -42,13 +42,15 @@ body
   background-color:#EAEAEA;
 }
 
-#clientFrame
-{
+#clientFrame {
+  margin: 0;
   padding: 0;
+  border: none;
   border: none;
 }
 
 #meeting {
+  margin: 0;
   padding: 0;
   border: none;
   background-color: #EAEAEA;

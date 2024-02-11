@@ -1,22 +1,7 @@
-/***************************************************************************************
- * <copyright file="webclinical\client.aspx.generation.cs" company="EVADO HOLDING PTY. LTD.">
- *     
- *      Copyright (c) 2011 - 2024 EVADO HOLDING PTY. LTD.  All rights reserved.
- *     
- *      The use and distribution terms for this software are contained in the file
- *      named license.txt, which can be found in the root of this distribution.
- *      By using this software in any fashion, you are agreeing to be bound by the
- *      terms of this license.
- *     
- *      You must not remove this notice, or any other, from this software.
- *     
- * </copyright>
- * 
- ****************************************************************************************/
-
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web.UI.MobileControls;
 
 ///Evado. namespace references.
 
@@ -38,19 +23,15 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void GeneratePage( )
     {
-      this.LogMethod ( "generatePage" );
-      this.LogDebug ( "Status: " + this.UserSession.AppData.Status );
+      this.LogMethod ( "GeneratePage" );
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
       this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
       this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
       this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
-      this.LogDebug ( "TempUrl: {0}.", Global.TempUrl );
       //
       // initialise method variables and objects.
       //
       this.litPageContent.Visible = true;
-      this.litExitCommand.Visible = true;
-      this.litHistory.Visible = false;
 
       if ( Global.EnablePageMenu == true )
       {
@@ -61,14 +42,6 @@ namespace Evado.UniForm.WebClient
       {
         this.litHistory.Visible = true;
       }
-      this.LogDebug ( "litExitCommand.Visible: {0}.", this.litExitCommand.Visible );
-      this.LogDebug ( "litHistory.Visible: {0}.", this.litHistory.Visible );
-      this.LogDebug ( "this.litHistory.Visible: {0}.", this.litHistory.Visible );
-
-      //
-      // set the meeting values.
-      //
-      this.setMeetingValues ( );
 
       //
       // initialise the methods variables and objects.
@@ -90,20 +63,24 @@ namespace Evado.UniForm.WebClient
       //
       // Reinitialise the history each time the home page is displayed.
       //
-      /*
-      if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND__ID
+
+      if ( this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_ID
+        || this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_2_ID
+        || this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_3_ID
+        || this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_4_ID
+        || this.UserSession.AppData.Page.Id == Evado.Model.EvStatics.CONST_HOME_COMMAND_5_ID
         || this.UserSession.AppData.Page.PageId == Evado.Model.EvStatics.CONST_HOME_PAGE_ID )
       {
         this.LogDebug ( "Home Page encountered." );
         this.initialiseHistory ( );
       }
-      */
+
 
       //
       // If the anonymous access mode exit.
       //
 
-      this.LogDebug ( "AnonymousPageAccess: " + this.UserSession.AppData.Page.AnonymousPageAccess );
+      this.LogDebug ( "Anonymous_Page_Access: " + this.UserSession.AppData.Page.AnonymousPageAccess );
 
       if ( this.UserSession.AppData.Page.AnonymousPageAccess == false )
       {
@@ -158,7 +135,6 @@ namespace Evado.UniForm.WebClient
       }
 
       this.LogDebug ( "enableBodyColumns: {0}", enableBodyColumns );
-
       //
       // Generate the group menu.
       //
@@ -174,16 +150,10 @@ namespace Evado.UniForm.WebClient
         {
           Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.GroupList [ count ];
 
-          //
-          // skip null objects.
-          //
           if ( group == null )
           {
             continue;
           }
-
-          String pageColumn = group.GetParameter ( Evado.UniForm.Model.EuGroupParameters.Page_Column );
-
 
           this.LogDebug ( "{0}, Layout: {1}, Column: {2}", group.Title, group.Layout, group.PageColumn );
 
@@ -201,18 +171,14 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
-
-          //
-          // Select the column the group is to be added to.
-          //
           switch ( group.PageColumn )
           {
+            //
+            // if the left column exists and the group is allocated to the left column
+            // place the group html in the left body.
+            //
             case Model.EuPageColumns.Left:
             {
-              //
-              // if the left column exists and the group is allocated to the left column
-              // place the group html in the left body.
-              //
               if ( leftColumnPercentage > 0 )
               {
                 this.LogDebug ( "ADD: " + group.Title + " to left column" );
@@ -256,11 +222,14 @@ namespace Evado.UniForm.WebClient
               this.generatePageMenuPills ( sbPageMenuPills, group );
               continue;
             }
-          }//END page column switch
 
+          }
         }//END Group interation loop
-
       }//END multiple groups.
+
+      this.LogDebug ( "sbLeftBody.Length: " + sbLeftBody.Length );
+      this.LogDebug ( "sbCentreBody.Length: " + sbCentreBody.Length );
+      this.LogDebug ( "sbRightBody.Length: " + sbRightBody.Length );
 
       sbPageMenuPills.Append ( "</ul>" );
 
@@ -271,7 +240,7 @@ namespace Evado.UniForm.WebClient
         this.LogDebug ( "Columns exist." );
 
         sbMainBody.AppendLine ( "<!-- OPENING BODY COLUMNS -->" );
-        sbMainBody.AppendLine ( "<div style='display:inline-block; width:98%; margin:0; padding:0;'>" );
+        sbMainBody.AppendLine ( "<div class='body-column-header'>" );
 
         if ( sbLeftBody.Length == 0
           && sbCentreBody.Length > 0
@@ -292,9 +261,10 @@ namespace Evado.UniForm.WebClient
             && sbRightBody.Length == 0 )
           {
             this.LogDebug ( "Add Left column to body (no right column)" );
+            this.LogDebug ( "leftColumnPercentage: {0}.", ( leftColumnPercentage - 1 ) );
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendFormat ( "<div style='width:{0}%;  float: left;'>\r\n", leftColumnPercentage );
+            sbMainBody.AppendFormat ( "<div style='width:{0}%; margin-left:1%;display-inline-block;'>\r\n", ( leftColumnPercentage - 1 ) );
 
             sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
@@ -303,8 +273,10 @@ namespace Evado.UniForm.WebClient
 
             this.LogDebug ( "Add center column to body" );
 
+            this.LogDebug ( "leftColumnPercentage: {0}, width: {1}", ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
-            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;'  >\r\n",
+
+            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;display-inline-block'  >\r\n",
               ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
@@ -391,67 +363,9 @@ namespace Evado.UniForm.WebClient
         this.litHistory.Visible = false;
         this.litPageMenu.Visible = false;
       }
-      this.LogDebug ( "litExitCommand.Visible: {0}.", this.litExitCommand.Visible );
-      this.LogDebug ( "litHistory.Visible: {0}.", this.litHistory.Visible );
-      this.LogDebug ( "this.litHistory.Visible: {0}.", this.litHistory.Visible );
 
       this.LogMethodEnd ( "generatePage" );
     }//END generatePage method
-
-    // ==================================================================================
-    /// <summary>
-    /// This method loads the page's javascript libraries
-    /// </summary>
-    // ---------------------------------------------------------------------------------
-    private void setMeetingValues( )
-    {
-      this.LogMethod ( "setMeetingValues" );
-      this.LogDebug ( "AppData.MeetingStatus: {0}.", this.UserSession.AppData.MeetingStatus );
-      //
-      // Passes the meeting status to the application data meeting status.
-      //
-      this.meetingStatus.Value = this.UserSession.AppData.MeetingStatus.ToString ( );
-      this.LogDebug ( "meetingStatus.Value: {0}.", this.meetingStatus.Value );
-
-      //
-      // if the meeting is commenced then pass the meeting parameters to the meeting parameter fields.
-      // A java script event will pass these values to the parent default page.
-      //
-      if ( this.meetingStatus.Value == Evado.Model.EvMeeting.States.Meeting_Commenced.ToString ( ) )
-      {
-        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url ) == true )
-        {
-          this.LogDebug ( "meeting commenced" );
-          this.meetingUrl.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Url );
-
-        }
-        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName ) == true )
-        {
-          String value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_DisplayName );
-          this.meetingDisplayName.Value = value.Replace ( " ", "%20" );
-        }
-
-        if ( this.UserSession.AppData.HasParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters ) == true )
-        {
-          this.meetingParameters.Value = this.UserSession.AppData.GetParameter ( Evado.UniForm.Model.EuAppData.ParameterList.Meeting_Parameters );
-        }
-      }
-      else
-      {
-        this.LogDebug ( "meeting closed" );
-        this.meetingUrl.Value = String.Empty;
-        this.meetingDisplayName.Value = String.Empty;
-        this.meetingParameters.Value = String.Empty;
-      }
-
-      this.LogDebug ( "meetingUrl.Value:{0}.", this.meetingUrl.Value );
-      this.LogDebug ( "meetingDisplayName.Value:{0}.", this.meetingDisplayName.Value );
-      this.LogDebug ( "meetingParameters.Value:{0}.", this.meetingParameters.Value );
-
-
-      this.LogMethodEnd ( "setMeetingValues" );
-
-    }//ENd setMeetingValues method
 
     // ==================================================================================
     /// <summary>
@@ -546,7 +460,6 @@ namespace Evado.UniForm.WebClient
               linkIndex++;
             }
           }
-
         }
         else
         {
@@ -577,9 +490,7 @@ namespace Evado.UniForm.WebClient
 
       stHtml.AppendLine ( "<ul id='Main_Menu'>" );
       //stHtml.AppendLine ( "\t<li id='Command' ><a class='btn' style='text-align:right;'><img src='./css/Command-Arrow.png' alt='>>'/></a>" );
-
       stHtml.AppendLine ( "\t<li id='Command' ><a class='btn' style='text-align:right;'><img src='./css/Menu-icon.png' alt='>>'/></a>" );
-
       stHtml.AppendLine ( "\t\t<ul>" );
 
 
@@ -752,7 +663,11 @@ namespace Evado.UniForm.WebClient
       bool EnableBodyColumns )
     {
       this.LogMethod ( "generateGroup" );
-      this.LogDebug ( "Index: " + Index );
+      this.LogDebug ( "Index: {0}, EnableBodyColumns: {1}.", Index, EnableBodyColumns );
+      //
+      // Initialise the methods variables and objects.
+      //
+
       //
       // Extract the group object from the list.
       //
@@ -827,7 +742,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuGroup PageGroup,
       bool EnableBodyColumns )
     {
-      this.LogMethod ( "generateGroupHeader method." );
+      this.LogMethod ( "generateGroupHeader" );
       this.LogDebug ( "Group: " + PageGroup.Title );
       this.LogDebug ( "Group.Layout: " + PageGroup.Layout );
       this.LogDebug ( "EnableBodyColumns: " + EnableBodyColumns );
@@ -835,7 +750,6 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       int inPercentWidth = PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Percent_Width );
-      int inPixelWidth = PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Percent_Width );
       int inPixelHeight = PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Pixel_Height );
       string stFieldName = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.Hide_Group_If_Field_Id );
       string stFieldValue = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.Hide_Group_If_Field_Value );
@@ -844,8 +758,7 @@ namespace Evado.UniForm.WebClient
       //
       // Group the page header divs together
       //
-      if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header
-        && PageGroup.GetParameterInt ( Evado.UniForm.Model.EuGroupParameters.Percent_Width ) == 0 )
+      if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header )
       {
         PageGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
       }
@@ -856,9 +769,11 @@ namespace Evado.UniForm.WebClient
       string divFieldContainerStyle = " style='";
       string divFieldGroupStyle = " style='";
 
-      if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header )
+      if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Page_Header
+        || PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Full_Width )
       {
         divFieldGroupStyle += "width:98%; ";
+        /*
       }
       else
         if ( PageGroup.Layout == Evado.UniForm.Model.EuGroupLayouts.Full_Width )
@@ -871,11 +786,8 @@ namespace Evado.UniForm.WebClient
         {
           divFieldGroupStyle += "width:100%; ";
         }
-      }
-      else
-          if ( inPixelWidth > 0 )
-      {
-        divFieldGroupStyle += "width:" + inPixelWidth + "px; ";
+        
+        */
       }
       else
             if ( inPercentWidth > 0 )
@@ -892,7 +804,10 @@ namespace Evado.UniForm.WebClient
       divFieldGroupStyle += "'";
       divFieldContainerStyle += "'";
 
-      sbHtml.AppendLine ( "<!--- OPENING GROUP --->" );
+
+
+
+      sbHtml.AppendLine ( "<!---  GROUP HEADER --->" );
       if ( stFieldName != String.Empty
         && stFieldValue != String.Empty )
       {
@@ -915,7 +830,7 @@ namespace Evado.UniForm.WebClient
       {
         sbHtml.AppendLine ( "<div class='debug-info'>"
           + " L: " + PageGroup.Layout
-          + " W: " + inPixelWidth
+          + " W: " + inPercentWidth
           + " S: " + PageGroup.EditAccess
           + " GT: " + PageGroup.GroupType
           + "</div>\r\n" );
@@ -1026,17 +941,12 @@ namespace Evado.UniForm.WebClient
       // Initialise the methods variables and objects.
       //
       this.LogMethod ( "generateGroupFields" );
-      this.LogDebug ( "PageGroup.Title: " + PageGroup.Title );
-      this.LogDebug ( "PageGroup.GroupType: " + PageGroup.GroupType );
-      this.LogDebug ( "PageGroup.Status: " + PageGroup.EditAccess );
-      this.LogDebug ( "PageGroup.CmdLayout: " + PageGroup.CmdLayout );
-      this.LogDebug ( "PageGroup.Status: " + PageGroup.EditAccess );
-
-      String stCssDefault = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Default );
-      String stCssValid = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Validation );
-      String stCssAlert = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Alert );
-      String stCssNormal = PageGroup.GetParameter ( Evado.UniForm.Model.EuGroupParameters.BG_Normal );
-
+      this.LogDebug ( "GroupIndex: {0}.", GroupIndex );
+      this.LogDebug ( "PageGroup.Title: {0}.", PageGroup.Title );
+      this.LogDebug ( "PageGroup.GroupType: {0}.", PageGroup.GroupType );
+      this.LogDebug ( "PageGroup.Status: {0}.", PageGroup.EditAccess );
+      this.LogDebug ( "PageGroup.CmdLayout: {0}.", PageGroup.CmdLayout );
+      this.LogDebug ( "PageGroup.Status: {0}.", PageGroup.EditAccess );
       //
       // if no field exit method.
       //
@@ -1237,14 +1147,14 @@ namespace Evado.UniForm.WebClient
           case Evado.Model.EvDataTypes.Float_Range:
           case Evado.Model.EvDataTypes.Double_Range:
           {
-            this.LogDebug ( "calling createNumericRangeField method." );
+            this.LogDebug ( "calling createNumericRangeField" );
 
             this.createNumericRangeField ( sbHtml, groupField );
             break;
           }
           case Evado.Model.EvDataTypes.Date_Range:
           {
-            this.LogDebug ( "calling createDateRangeField method." );
+            this.LogDebug ( "calling createDateRangeField" );
 
             this.createDateRangeField ( sbHtml, groupField );
             break;
@@ -1383,6 +1293,11 @@ namespace Evado.UniForm.WebClient
           this.generateTiledCommandGroup ( sbHtml, PageGroup );
           break;
         }
+        case Evado.UniForm.Model.EuGroupCommandListLayouts.Tabular_Commands:
+        {
+          this.generateTabularCommandGroup ( sbHtml, PageGroup );
+          break;
+        }
         default:
         {
           this.generateDefaultCommandGroup ( sbHtml, PageGroup );
@@ -1498,6 +1413,135 @@ namespace Evado.UniForm.WebClient
 
       sbHtml.Append ( "</table>" );
     }
+
+    //===================================================================================
+    /// <summary>
+    /// This method generates the tabular group Command group html content.
+    /// </summary>
+    /// <param name="sbHtml">StringBuilding containing the html </param>
+    /// <param name="PageGroup">PageGroup object</param>
+    //-----------------------------------------------------------------------------------
+    private void generateTabularCommandGroup(
+      StringBuilder sbHtml,
+      Evado.UniForm.Model.EuGroup PageGroup )
+    {
+      this.LogMethod ( "generateTabularCommandGroup" );
+      this.LogDebug ( "Group.Title: " + PageGroup.Title );
+      //
+      // Initialise the methods variables and objects.
+      //
+      int GroupCommandIndex = 0;
+      bool bEventRow = false;
+
+      //
+      // Setting the default command bacground colours.
+      //
+      string background_Default = PageGroup.CommandBackground.ToString ( );
+      string background_Alternative = PageGroup.AlternativeCommandBackground.ToString ( );
+      string background_Highlighted = PageGroup.HighlightedCommandBackground.ToString ( );
+
+      this.LogDebug ( "background_Default: " + background_Default );
+      this.LogDebug ( "background_Alternative: " + background_Alternative );
+      this.LogDebug ( "background_Highlighted: " + background_Highlighted );
+
+      var tableHeader = PageGroup.GetParameter ( Model.EuGroupParameters.Command_Tabular_Header );
+
+      String [ ] arTableHeader = tableHeader.Split ( '|' );
+
+      if ( arTableHeader.Length <= 1 )
+      {
+        this.LogDebug ( "Only one column so user virtual command structure" );
+        this.generateTabularCommandGroup ( sbHtml, PageGroup );
+        this.LogMethodEnd ( "generateTabularCommandGroup" );
+        return;
+      }
+
+      //
+      // Define the table header.
+      //
+      sbHtml.Append ( "<table  class='NavigationTable'>" );
+
+      sbHtml.AppendLine ( "<tr> " );
+      foreach ( String header in arTableHeader )
+      {
+        sbHtml.AppendLine ( "<td class=\"" + background_Default + "\"> "
+          + header
+          + "</td>" );
+      }
+      sbHtml.AppendLine ( "</tr> " );
+
+      foreach ( Evado.UniForm.Model.EuCommand command in PageGroup.CommandList )
+      {
+        //
+        // skip null commands
+        //
+        if ( command == null )
+        {
+          this.LogDebug ( "Command is null." );
+          continue;
+        }
+
+        this.LogDebug ( "Command:" + command.Title );
+
+        string [ ] arTitle = command.Title.Split ( '|' );
+
+        this.LogDebug ( "3 background: " + background_Default );
+        this.LogDebug ( "3 alternative: " + background_Alternative );
+        this.LogDebug ( "3 highlighted: " + background_Highlighted );
+
+        sbHtml.AppendLine ( "<tr> " );
+
+        for ( int index = 0 ; index < arTitle.Length && index < arTableHeader.Length ; index++ )
+        {
+          if ( bEventRow == false )
+          {
+            if ( index == 0 )
+            {
+              sbHtml.AppendLine ( "<td class=\"" + background_Default + "\" "
+                  + "onmouseover=\"this.className='" + background_Highlighted + "'\" "
+                  + "onmouseout=\"this.className='" + background_Default + "'\" "
+                  + "onclick=\"javascript:onPostBack('" + command.Id + "')\"> "
+                  + arTitle [ index ]
+                  + "</td>" );
+            }
+            else
+            {
+              sbHtml.AppendLine ( "<td class=\"" + background_Default + "\" > "
+                  + arTitle [ index ]
+                  + "</td>" );
+            }
+            bEventRow = true;
+          }
+          else
+          {
+            if ( index == 0 )
+            {
+              sbHtml.AppendLine ( "<td class=\"" + background_Alternative + "\" "
+              + "onmouseover=\"this.className='" + background_Highlighted + "'\" "
+              + "onmouseout=\"this.className='" + background_Alternative + "'\" "
+              + "onclick=\"javascript:onPostBack('" + command.Id + "')\"> "
+                  + arTitle [ index ]
+              + "</td>" );
+            }
+            else
+            {
+              sbHtml.AppendLine ( "<td class=\"" + background_Alternative + "\" > "
+                  + arTitle [ index ]
+                  + "</td>" );
+            }
+            bEventRow = false;
+          }
+        }
+        sbHtml.AppendLine ( "</tr>" );
+
+        GroupCommandIndex++;
+
+
+      }//END page object iteration loop
+
+      sbHtml.Append ( "</table>" );
+      this.LogMethodEnd ( "generateTabularCommandGroup" );
+    }//END generateTabularCommandGroup method
 
     //===================================================================================
     /// <summary>
