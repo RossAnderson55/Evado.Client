@@ -3186,7 +3186,6 @@ namespace Evado.UniForm.AdminClient
             {
               sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
               sbHtml.Append ( PageField.Table.Rows [ Row ].Column [ column ] );
-              sbHtml.Append ( "</td>" );
 
               break;
             }//END Text Data Type.
@@ -3210,7 +3209,7 @@ namespace Evado.UniForm.AdminClient
                   + "tabindex = '" + _TabIndex + "' "
                   + "type='text'"
                   + "value='" + colValue + "' "
-                  + "class='form-control' " 
+                  + "class='form-control' "
                   + "/>" );
               }
 
@@ -3238,7 +3237,7 @@ namespace Evado.UniForm.AdminClient
                 + "rows='2' "
                 + "cols='" + header.Width + "' "
                 + "maxlength='500' "
-                + "class='form-control' " 
+                + "class='form-control' "
                 + ">"
                 + colValue
                 + "</textarea>" );
@@ -3279,7 +3278,7 @@ namespace Evado.UniForm.AdminClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='10' "
-                    + "type='text' "
+                    + "type='number' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
@@ -3321,10 +3320,10 @@ namespace Evado.UniForm.AdminClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='5' "
-                    + "type='text' "
+                    + "type='number' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
-                    + " class='form-control' " 
+                    + " class='form-control' "
                     + "/>" );
               }
 
@@ -3341,7 +3340,7 @@ namespace Evado.UniForm.AdminClient
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
               {
-                  sbHtml.Append ( colValue );
+                sbHtml.Append ( colValue );
               }
               else
               {
@@ -3351,10 +3350,10 @@ namespace Evado.UniForm.AdminClient
                   + "tabindex = '" + _TabIndex + "' "
                   + "maxlength='12' "
                   + "size='12' "
-                  + "type='text' "
+                  + "type='date' "
                   + "value='" + colValue + "' "
                   + "onchange=\"Evado.Form.onDateValidation( this, this.value  )\" "
-                  + "  class='form-control' data-behaviour='datepicker' " 
+                  + "  class='form-control' data-behaviour='datepicker' "
                   + "/>" );
               }
 
@@ -3404,17 +3403,23 @@ namespace Evado.UniForm.AdminClient
               this.LogDebug ( "Boolean (checkbox), Cid: {0}, Value: {1}.", colId, colValue );
               sbHtml.Append ( "<td class='data'>" );
               bool bVal = Evado.Model.EvStatics.getBool ( colValue );
+              string value = "Yes";
+
+              if ( header.OptionsOrUnit != String.Empty )
+              {
+                value = header.OptionsOrUnit;
+              }
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
               {
                 if ( bVal == true )
                 {
-                  sbHtml.Append ( "Yes" );
+                  sbHtml.Append ( value );
                 }
               }
               else
               {
-                sbHtml.AppendLine ( "<input "
+                sbHtml.AppendLine ( "<div class='checkbox'><label><input "
                  + "type='checkbox' "
                  + "id='" + colId + "' "
                  + "name='" + colId + "' "
@@ -3427,6 +3432,9 @@ namespace Evado.UniForm.AdminClient
                 }
 
                 sbHtml.AppendLine ( "/>" );
+
+                sbHtml.AppendLine ( "<span class='label' >" + value + "</span>" );
+                sbHtml.AppendLine ( "</label></div>" );
               }
 
               this._TabIndex++;
@@ -3531,11 +3539,11 @@ namespace Evado.UniForm.AdminClient
                   if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
                     && ( colValue == optionList [ i ].Value ) )
                   {
-                    sbHtml.Append ( "<strong>" + optionList [ i ].Description + "<strong>\r\n" );
+                    sbHtml.Append ( "<strong>" + optionList [ i ].Description + "<strong>" );
                   }
                   else
                   {
-                    sbHtml.Append ( optionList [ i ].Description + "\r\n" );
+                    sbHtml.Append ( optionList [ i ].Description );
                   }
                   sbHtml.AppendLine ( "</label></div>" );
 
