@@ -132,7 +132,10 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\client.main.css" />
     <Content Include="css\client.video.css" />
+    <Content Include="css\flot.css" />
+    <Content Include="css\jquery.signaturepad.css" />
     <Content Include="css\menu.css" />
+    <Content Include="css\menu.js" />
     <Content Include="css\report.css" />
     <Content Include="client.aspx" />
     <Content Include="default.aspx" />
