@@ -1579,7 +1579,6 @@ namespace Evado.UniForm.WebClient
       return -1;
 
     }//END getAnnotationValue method 
-
     // =============================================================================== 
     /// <summary>
     /// updateFormField method.
@@ -1619,6 +1618,7 @@ namespace Evado.UniForm.WebClient
         || FormField.Type == Evado.Model.EvDataTypes.Image )
       {
         this.LogDebug ( "Binary or Image field found but not processed" );
+        this.LogMethodEnd ( "updateFormField" );
         return FormField;
       }
 
@@ -1626,131 +1626,138 @@ namespace Evado.UniForm.WebClient
       // 
       // If the test is in EDIT mode update the fields values.
       // 
-      if ( FormField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
+      if ( FormField.EditAccess != Evado.UniForm.Model.EuEditAccess.Enabled
+       && FormField.Type != EvDataTypes.Computed_Field )
       {
-        //
-        // If field type is a single value update it 
-        //
-        switch ( FormField.Type )
-        {
-          case Evado.Model.EvDataTypes.Check_Box_List:
-          {
-            FormField.Value = this.GetCheckButtonListFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId,
-              FormField.Value,
-              FormField.OptionList.Count );
-            break;
-          }
-          case Evado.Model.EvDataTypes.Address:
-          {
-            FormField.Value = this.GetAddressFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId );
-            break;
-          }
+        this.LogDebug ( "User does not have edit access." );
+        this.LogMethodEnd ( "updateFormField" );
 
-          case Evado.Model.EvDataTypes.Name:
-          {
-            FormField.Value = this.GetNameFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId );
-            break;
-          }
-
-          case Evado.Model.EvDataTypes.Streamed_Video:
-          {
-            // 
-            // Iterate through the option list to compare values.
-            // 
-            string videoUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
-
-            this.LogDebug ( "videoUrl:" + videoUrl );
-
-            FormField.Value = videoUrl;
-            break;
-          }
-          case Evado.Model.EvDataTypes.Http_Link:
-          {
-            // 
-            // Iterate through the option list to compare values.
-            // 
-            string httpUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX );
-            string httpTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX );
-
-            this.LogDebug ( "httpUrl:" + httpUrl + " httpTitle:" + httpTitle );
-
-            FormField.Value = httpUrl + "^" + httpTitle;
-            break;
-          }
-
-          case Evado.Model.EvDataTypes.Integer_Range:
-          case Evado.Model.EvDataTypes.Float_Range:
-          case Evado.Model.EvDataTypes.Double_Range:
-          case Evado.Model.EvDataTypes.Date_Range:
-          {
-            FormField.Value = this.GetRangeFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId );
-            break;
-          }
-
-          case Evado.Model.EvDataTypes.Signature:
-          {
-            FormField.Value = this.getSignatureFieldValue (
-              ReturnedFormFields,
-              FormField.FieldId );
-            break;
-          }
-          case Evado.Model.EvDataTypes.Table:
-          {
-            FormField = this.UpdateFormTableFields (
-                         FormField,
-                         ReturnedFormFields );
-            break;
-          }
-          case Evado.Model.EvDataTypes.Computed_Field:
-          {
-            FormField.Value = this.updateComputedField ( FormField );
-
-            this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
-            break;
-          }
-          default:
-          {
-            stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
-
-            this.LogDebug ( "Field stValue: " + stValue );
-            // 
-            // Does the returned field value exist
-            // 
-            if ( stValue != null )
-            {
-              if ( FormField.Value != stValue )
-              {
-                if ( FormField.Type == Evado.Model.EvDataTypes.Numeric )
-                {
-                  this.LogDebug ( "Numeric Field Change: Id: '" + FormField.FieldId
-                   + "' Old: '" + FormField.Value + "' New: '" + stValue + "' " );
-
-                  FormField.Value = Evado.Model.EvStatics.convertTextNullToNumNull ( stValue );
-                }
-
-                // 
-                // Set field value.
-                // 
-                FormField.Value = stValue;
-
-              }//END Update field value.
-
-            }//END Value exists.
-
-            break;
-          }
-
-        }//END Switch
-
+        return FormField;
       }//END updating field
+
+      //
+      // If field type is a single value update it 
+      //
+      switch ( FormField.Type )
+      {
+        case Evado.Model.EvDataTypes.Check_Box_List:
+        {
+          FormField.Value = this.GetCheckButtonListFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId,
+            FormField.Value,
+            FormField.OptionList.Count );
+          break;
+        }
+        case Evado.Model.EvDataTypes.Address:
+        {
+          FormField.Value = this.GetAddressFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId );
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Name:
+        {
+          FormField.Value = this.GetNameFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId );
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Streamed_Video:
+        {
+          // 
+          // Iterate through the option list to compare values.
+          // 
+          string videoUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
+
+          this.LogDebug ( "videoUrl:" + videoUrl );
+
+          FormField.Value = videoUrl;
+          break;
+        }
+        case Evado.Model.EvDataTypes.Http_Link:
+        {
+          // 
+          // Iterate through the option list to compare values.
+          // 
+          string httpUrl = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX );
+          string httpTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX );
+
+          this.LogDebug ( "httpUrl:" + httpUrl + " httpTitle:" + httpTitle );
+
+          FormField.Value = httpUrl + "^" + httpTitle;
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Integer_Range:
+        case Evado.Model.EvDataTypes.Float_Range:
+        case Evado.Model.EvDataTypes.Double_Range:
+        case Evado.Model.EvDataTypes.Date_Range:
+        {
+          FormField.Value = this.GetRangeFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId );
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Signature:
+        {
+          FormField.Value = this.getSignatureFieldValue (
+            ReturnedFormFields,
+            FormField.FieldId );
+          break;
+        }
+        case Evado.Model.EvDataTypes.Table:
+        {
+          FormField = this.UpdateFormTableFields (
+                       FormField,
+                       ReturnedFormFields );
+          break;
+        }
+        case Evado.Model.EvDataTypes.Computed_Field:
+        {
+          this.LogDebug ( "Computed Field." );
+          FormField.Value = this.updateComputedField ( FormField );
+
+          this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
+          break;
+        }
+        default:
+        {
+          stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
+
+          this.LogDebug ( "Field stValue: " + stValue );
+          // 
+          // Does the returned field value exist
+          // 
+          if ( stValue != null )
+          {
+            if ( FormField.Value != stValue )
+            {
+              if ( FormField.Type == Evado.Model.EvDataTypes.Numeric )
+              {
+                this.LogDebug ( "Numeric Field Change: Id: '" + FormField.FieldId
+                 + "' Old: '" + FormField.Value + "' New: '" + stValue + "' " );
+
+                FormField.Value = Evado.Model.EvStatics.convertTextNullToNumNull ( stValue );
+              }
+
+              // 
+              // Set field value.
+              // 
+              FormField.Value = stValue;
+
+            }//END Update field value.
+
+          }//END Value exists.
+
+          break;
+        }
+
+      }//END Switch
+
 
       // 
       // stReturn the test field object.
@@ -1758,7 +1765,6 @@ namespace Evado.UniForm.WebClient
       return FormField;
 
     }//END updateFormField method
-
 
     // =============================================================================== 
     /// <summary>
