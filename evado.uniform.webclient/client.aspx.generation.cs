@@ -21,7 +21,7 @@ namespace Evado.UniForm.WebClient
     private const float Left_Col_Left_Margin = 1; // %
     private const float Left_Col_Right_Margin = 0.5F; // %
     private const float Center_Col_Left_Margin = 0.5F; // %
-    private const float Center_Col_Right_Margin = 1.5F; // %
+    private const float Center_Col_Right_Margin = 2.0F; // %
     private const float Right_Col_Left_Margin = 1; // %
     private const float Right_Col_Right_Margin = 0.5F; // %
 
@@ -270,11 +270,12 @@ namespace Evado.UniForm.WebClient
             && sbRightBody.Length == 0 )
           {
             this.LogDebug ( "Add Left column to body (no right column)" );
-            this.LogDebug ( "leftColumnPercentage: {0}.", ( leftColumnPercentage - 1 ) );
+            this.LogDebug ( "leftColumnPercentage: {0}, left margin: {1}.", ( leftColumnPercentage - Left_Col_Right_Margin ), Left_Col_Right_Margin );
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendFormat ( "<div style='width:{0}%; margin-left:" + Left_Col_Left_Margin + "%;display-inline-block;'>\r\n",
-              ( leftColumnPercentage - Left_Col_Right_Margin ) );
+            sbMainBody.AppendFormat ( "<div style='width:{0}%; margin-left:{1}%;display-inline-block;'>\r\n",
+              ( leftColumnPercentage - Left_Col_Right_Margin ),
+             Left_Col_Left_Margin );
 
             sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
@@ -285,10 +286,11 @@ namespace Evado.UniForm.WebClient
 
             this.LogDebug ( "leftColumnPercentage: {0}, width: {1}",
               ( leftColumnPercentage + Center_Col_Left_Margin ), ( centerColumPercentage - Center_Col_Right_Margin ) );
+
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
 
             sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;display-inline-block'  >\r\n",
-              ( leftColumnPercentage + 1 ), ( centerColumPercentage - 2 ) );
+              ( leftColumnPercentage + +Center_Col_Left_Margin ), ( centerColumPercentage - Center_Col_Right_Margin ) );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
