@@ -18,11 +18,11 @@ namespace Evado.UniForm.AdminClient
     //
     // The following margins are margins within the column widths.
     //
-    private const float Left_Col_Left_Margin = 1; // %
+    private const float Left_Col_Left_Margin = 0.5F; // %
     private const float Left_Col_Right_Margin = 0.5F; // %
     private const float Center_Col_Left_Margin = 0.5F; // %
-    private const float Center_Col_Right_Margin = 2.0F; // %
-    private const float Right_Col_Left_Margin = 1; // %
+    private const float Center_Col_Right_Margin = 2F; // %
+    private const float Right_Col_Left_Margin = 1F; // %
     private const float Right_Col_Right_Margin = 0.5F; // %
 
     // ==================================================================================
@@ -270,12 +270,14 @@ namespace Evado.UniForm.AdminClient
             && sbRightBody.Length == 0 )
           {
             this.LogDebug ( "Add Left column to body (no right column)" );
-            this.LogDebug ( "leftColumnPercentage: {0}, left margin: {1}.", ( leftColumnPercentage - Left_Col_Right_Margin ), Left_Col_Right_Margin );
+
+            float leftWidth = leftColumnPercentage - Left_Col_Right_Margin - Left_Col_Right_Margin;
+            this.LogDebug ( " left margin: {0}, leftColumnPercentage: {1}$.",
+             Left_Col_Left_Margin, leftColumnPercentage );
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
-            sbMainBody.AppendFormat ( "<div style='width:{0}%; margin-left:{1}%;display-inline-block;'>\r\n",
-              ( leftColumnPercentage - Left_Col_Right_Margin ),
-             Left_Col_Left_Margin );
+            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%; width:{1}%;float:left;'>\r\n",
+              Left_Col_Left_Margin, leftColumnPercentage ); 
 
             sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
@@ -284,13 +286,14 @@ namespace Evado.UniForm.AdminClient
 
             this.LogDebug ( "Add center column to body" );
 
+            float centerWidth = centerColumPercentage - Center_Col_Left_Margin- Center_Col_Right_Margin;
             this.LogDebug ( "leftColumnPercentage: {0}, width: {1}",
-              ( leftColumnPercentage + Center_Col_Left_Margin ), ( centerColumPercentage - Center_Col_Right_Margin ) );
+              ( Center_Col_Left_Margin ), centerWidth );
 
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
 
-            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;display-inline-block'  >\r\n",
-              ( leftColumnPercentage + +Center_Col_Left_Margin ), ( centerColumPercentage - Center_Col_Right_Margin ) );
+            sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;float:right'  >\r\n",
+              (Center_Col_Left_Margin ), centerWidth );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
