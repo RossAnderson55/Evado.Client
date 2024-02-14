@@ -2350,7 +2350,7 @@ namespace Evado.UniForm.AdminClient
           //
           if ( header.DataType == EvDataTypes.Boolean )
           {
-            FormField.Table.Rows [ row ].Column [ Col ] = String.Empty;
+            FormField.Table.Rows [ row ].Column [ Col ] = "false";
           }
           // 
           // construct the test table field name.

@@ -2345,7 +2345,7 @@ namespace Evado.UniForm.WebClient
           //
           if ( header.DataType == EvDataTypes.Boolean )
           {
-            FormField.Table.Rows [ row ].Column [ Col ] = String.Empty;
+            FormField.Table.Rows [ row ].Column [ Col ] = "false";
           }
 
           // 
