@@ -39,7 +39,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder containing the page html.</param>
     /// <param name="PageField">Evado.UniForm.Model.EuField object</param>
     //-----------------------------------------------------------------------------------
-    private void addMandatoryIfAttribute (
+    private void addMandatoryIfAttribute(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -68,7 +68,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Evado.UniForm.Model.EuField: object</param>
     /// <returns>String: css colour class name</returns>
     //-----------------------------------------------------------------------------------
-    private string fieldBackgroundColorClass (
+    private string fieldBackgroundColorClass(
       Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "fieldBackgroundColorClass" );
@@ -100,40 +100,40 @@ namespace Evado.UniForm.WebClient
       switch ( background )
       {
         case Evado.UniForm.Model.EuBackgroundColours.Red:
-          {
-            cssBackgroundColorClass = "Red";
-            break;
-          }
+        {
+          cssBackgroundColorClass = "Red";
+          break;
+        }
         case Evado.UniForm.Model.EuBackgroundColours.Dark_Red:
-          {
-            cssBackgroundColorClass = "Dark_Red";
-            break;
-          }
+        {
+          cssBackgroundColorClass = "Dark_Red";
+          break;
+        }
         case Evado.UniForm.Model.EuBackgroundColours.Orange:
-          {
-            cssBackgroundColorClass = "Orange";
-            break;
-          }
+        {
+          cssBackgroundColorClass = "Orange";
+          break;
+        }
         case Evado.UniForm.Model.EuBackgroundColours.Yellow:
-          {
-            cssBackgroundColorClass = "Yellow";
-            break;
-          }
+        {
+          cssBackgroundColorClass = "Yellow";
+          break;
+        }
         case Evado.UniForm.Model.EuBackgroundColours.Green:
-          {
-            cssBackgroundColorClass = "Green";
-            break;
-          }
+        {
+          cssBackgroundColorClass = "Green";
+          break;
+        }
         case Evado.UniForm.Model.EuBackgroundColours.Blue:
-          {
-            cssBackgroundColorClass = "Blue";
-            break;
-          }
+        {
+          cssBackgroundColorClass = "Blue";
+          break;
+        }
         case Evado.UniForm.Model.EuBackgroundColours.Purple:
-          {
-            cssBackgroundColorClass = "Purple";
-            break;
-          }
+        {
+          cssBackgroundColorClass = "Purple";
+          break;
+        }
       }
       this.LogDebug ( "cssBackgroundColorClass: " + cssBackgroundColorClass );
       this.LogMethodEnd ( "fieldBackgroundColorClass" );
@@ -149,7 +149,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="TabIndex">int: the current tab index.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createFieldHeader (
+    private void createFieldHeader(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField,
       int TitleWidth,
@@ -211,26 +211,26 @@ namespace Evado.UniForm.WebClient
       switch ( PageField.Layout )
       {
         case Evado.UniForm.Model.EuFieldLayoutCodes.Default:
-          {
-            stLayout = "layout-normal";
-            break;
-          }
+        {
+          stLayout = "layout-normal";
+          break;
+        }
         case Evado.UniForm.Model.EuFieldLayoutCodes.Center_Justified:
-          {
-            stLayout = "layout-center-justified";
-            break;
-          }
+        {
+          stLayout = "layout-center-justified";
+          break;
+        }
         case Evado.UniForm.Model.EuFieldLayoutCodes.Column_Layout:
-          {
-            stLayout = "layout-column";
-            stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
-            break;
-          }
+        {
+          stLayout = "layout-column";
+          stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
+          break;
+        }
         case Evado.UniForm.Model.EuFieldLayoutCodes.Left_Justified:
-          {
-            stLayout = "layout-left-justified";
-            break;
-          }
+        {
+          stLayout = "layout-left-justified";
+          break;
+        }
       }
 
       if ( TitleFullWidth == true
@@ -255,29 +255,29 @@ namespace Evado.UniForm.WebClient
       switch ( PageField.Type )
       {
         case Evado.Model.EvDataTypes.Address:
-          {
-            stField_Suffix = "_Address"; break;
-          }
+        {
+          stField_Suffix = "_Address"; break;
+        }
         case Evado.Model.EvDataTypes.Boolean:
-          {
-            stField_Suffix = "_Y"; break;
-          }
+        {
+          stField_Suffix = "_Y"; break;
+        }
         case Evado.Model.EvDataTypes.Check_Box_List:
-          {
-            stField_Suffix = "_1"; break;
-          }
+        {
+          stField_Suffix = "_1"; break;
+        }
         case Evado.Model.EvDataTypes.Image:
-          {
-            stField_Suffix = EuField.CONST_IMAGE_FIELD_SUFFIX; break;
-          }
+        {
+          stField_Suffix = EuField.CONST_IMAGE_FIELD_SUFFIX; break;
+        }
         case Evado.Model.EvDataTypes.Name:
-          {
-            stField_Suffix = "_FirstName"; break;
-          }
+        {
+          stField_Suffix = "_FirstName"; break;
+        }
         case Evado.Model.EvDataTypes.Radio_Button_List:
-          {
-            stField_Suffix = "_1"; break;
-          }
+        {
+          stField_Suffix = "_1"; break;
+        }
       }
       sbHtml.AppendLine ( "<!-- FIELD HEADER = " + PageField.FieldId + " -->" );
 
@@ -400,7 +400,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Field object.</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void createFieldFooter (
+    private void createFieldFooter(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -414,7 +414,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createReadOnlyField (
+    private void createReadOnlyField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -457,44 +457,35 @@ namespace Evado.UniForm.WebClient
       //
       this.createFieldHeader ( sbHtml, PageField, titleColumnWidth, fullWidth );
 
+      String value = PageField.Value;
       //
       // Encode the readlonly text value.
       //
-      if ( PageField.Value != String.Empty )
+      if ( value != String.Empty )
       {
         sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
         //
         // process html content.
         //
-        if ( PageField.Value.Contains ( "[/" ) == true )
+        if ( value.Contains ( "[/" ) == true )
         {
           this.LogDebug ( "No HTML Markup processing" );
 
-          this.LogDebug ( "HTML: encoded value: " + PageField.Value );
+          this.LogDebug ( "HTML: encoded value: " + value );
 
-          String html = this.decodeHtmlText ( PageField.Value );
+          String html = this.decodeHtmlText ( value );
 
           this.LogDebug ( "HTML: decoded value" + html );
           sbHtml.AppendLine ( html );
         }
         else
         {
-          String value = PageField.Value;
+          this.LogDebug ( "Processing markup" );
+          String html = Evado.Model.EvStatics.EncodeMarkDown ( value );
 
-          this.LogDebug ( @"\r exists: " + value.Contains ( "\r" ) );
-          this.LogDebug ( @"\n exists: " + value.Contains ( "\n" ) );
+          this.LogDebug ( "HTML: decoded value" + html );
 
-          if ( value.Contains ( "\r" ) == true || value.Contains ( "\n" ) == true )
-          {
-            this.LogDebug ( "Processing markup" );
-
-            value = Evado.Model.EvStatics.EncodeMarkDown ( value );
-            //value = value.Replace ( "\n", "<br/>" );
-
-            this.LogDebug ( "HTML: decoded value" + value );
-          }
-
-          sbHtml.AppendLine ( value );
+          sbHtml.AppendLine ( html );
         }
         sbHtml.AppendLine ( "</div> " );
       }
@@ -522,7 +513,7 @@ namespace Evado.UniForm.WebClient
     /// 2. Remplace a "]" character with a "greater than" character
     /// </remarks>
     // -------------------------------------------------------------------------------------
-    public String decodeHtmlText ( string EncodedHtmlString )
+    public String decodeHtmlText( string EncodedHtmlString )
     {
       EncodedHtmlString = EncodedHtmlString.Replace ( "[CR]", "\r\n" );
       EncodedHtmlString = EncodedHtmlString.Replace ( "[[CR]]", "\r\n" );
@@ -549,7 +540,7 @@ namespace Evado.UniForm.WebClient
     /// 2. Remplace a "greater than" character with a "]" character
     /// </remarks>
     // -------------------------------------------------------------------------------------
-    public String encodeHtmlText ( string HtmlMarkupText )
+    public String encodeHtmlText( string HtmlMarkupText )
     {
       HtmlMarkupText = HtmlMarkupText.Replace ( "\r\n", "[CR]" );
       HtmlMarkupText = HtmlMarkupText.Replace ( "<", "[" );
@@ -565,7 +556,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createHtmlField (
+    private void createHtmlField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -618,7 +609,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createImageField (
+    private void createImageField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -703,7 +694,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createTextField (
+    private void createTextField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -806,7 +797,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createComputedField (
+    private void createComputedField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -872,7 +863,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createFreeTextField (
+    private void createFreeTextField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -958,7 +949,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createNumericField (
+    private void createNumericField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -1097,7 +1088,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createNumericRangeField (
+    private void createNumericRangeField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -1300,7 +1291,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createDateField (
+    private void createDateField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -1417,7 +1408,7 @@ namespace Evado.UniForm.WebClient
       List<Evado.Model.EvOption> dayList = new List<Evado.Model.EvOption> ( );
       dayList.Add ( new Evado.Model.EvOption ( ) );
 
-      for ( int day = 1; day <= 31; day++ )
+      for ( int day = 1 ; day <= 31 ; day++ )
       {
         dayList.Add ( new Evado.Model.EvOption ( day.ToString ( "00" ) ) );
       }
@@ -1431,7 +1422,7 @@ namespace Evado.UniForm.WebClient
       List<Evado.Model.EvOption> yearList = new List<Evado.Model.EvOption> ( );
       yearList.Add ( new Evado.Model.EvOption ( ) );
 
-      for ( int yr = maxYear; yr >= minYear; yr-- )
+      for ( int yr = maxYear ; yr >= minYear ; yr-- )
       {
         yearList.Add ( new Evado.Model.EvOption ( yr.ToString ( "0000" ) ) );
       }
@@ -1591,7 +1582,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createDateRangeField (
+    private void createDateRangeField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -1721,7 +1712,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createTimeField (
+    private void createTimeField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -1761,7 +1752,7 @@ namespace Evado.UniForm.WebClient
       List<Evado.Model.EvOption> hourList = new List<Evado.Model.EvOption> ( );
       hourList.Add ( new Evado.Model.EvOption ( ) );
 
-      for ( int hr = 0; hr < 24; hr++ )
+      for ( int hr = 0 ; hr < 24 ; hr++ )
       {
         hourList.Add ( new Evado.Model.EvOption ( hr.ToString ( "00" ) ) );
       }
@@ -1770,7 +1761,7 @@ namespace Evado.UniForm.WebClient
       List<Evado.Model.EvOption> minuteList = new List<Evado.Model.EvOption> ( );
       minuteList.Add ( new Evado.Model.EvOption ( ) );
 
-      for ( int min = 0; min < 60; min++ )
+      for ( int min = 0 ; min < 60 ; min++ )
       {
         minuteList.Add ( new Evado.Model.EvOption ( min.ToString ( "00" ) ) );
       }
@@ -1947,7 +1938,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createRadioButtonField (
+    private void createRadioButtonField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -2012,7 +2003,7 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the Options.
       // 
-      for ( int i = 0; i < PageField.OptionList.Count; i++ )
+      for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
       {
         Evado.Model.EvOption option = PageField.OptionList [ i ];
         if ( option.Value == String.Empty )
@@ -2095,7 +2086,7 @@ namespace Evado.UniForm.WebClient
          + "value='' "
          + "data-parsley-trigger=\"change\" " );
 
-        if (  PageField.SendCmdOnChange == true )
+        if ( PageField.SendCmdOnChange == true )
         {
           sbHtml.Append ( this.createOnChangeEvent ( ) );
         }
@@ -2146,7 +2137,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createQuizRadioButtonField (
+    private void createQuizRadioButtonField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -2188,7 +2179,7 @@ namespace Evado.UniForm.WebClient
         // 
         if ( PageField.OptionList.Count > 0 )
         {
-          for ( int i = 0; i < PageField.OptionList.Count; i++ )
+          for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
           {
             Evado.Model.EvOption option = PageField.OptionList [ i ];
             if ( option.Value == String.Empty )
@@ -2310,7 +2301,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Field object.</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void createHorizontalRadioButtonField (
+    private void createHorizontalRadioButtonField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -2352,7 +2343,7 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the Options.
       // 
-      for ( int i = 0; i < PageField.OptionList.Count; i++ )
+      for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
       {
         Evado.Model.EvOption option = PageField.OptionList [ i ];
         if ( option.Value == String.Empty
@@ -2467,7 +2458,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createYesNoField (
+    private void createYesNoField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -2478,7 +2469,7 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
-       
+
       //
       // Set the normal validation parameters.
       //
@@ -2545,7 +2536,7 @@ namespace Evado.UniForm.WebClient
         sbHtml.Append ( " disabled='disabled' " );
       }
 
-      if (  PageField.SendCmdOnChange == true )
+      if ( PageField.SendCmdOnChange == true )
       {
         sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
@@ -2592,7 +2583,7 @@ namespace Evado.UniForm.WebClient
         sbHtml.Append ( " disabled='disabled' " );
       }
 
-      if (  PageField.SendCmdOnChange == true )
+      if ( PageField.SendCmdOnChange == true )
       {
         sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
@@ -2625,7 +2616,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createBooleanField (
+    private void createBooleanField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -2636,7 +2627,7 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
-       
+
       //
       // Set the normal validation parameters.
       //
@@ -2687,7 +2678,7 @@ namespace Evado.UniForm.WebClient
         sbHtml.Append ( " disabled='disabled' " );
       }
 
-      if (  PageField.SendCmdOnChange == true )
+      if ( PageField.SendCmdOnChange == true )
       {
         sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
@@ -2718,7 +2709,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createCheckboxField (
+    private void createCheckboxField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -2730,7 +2721,7 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
-       
+
 
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
@@ -2783,7 +2774,7 @@ namespace Evado.UniForm.WebClient
       //
       // Generate the html code 
       //
-      for ( int i = 0; i < PageField.OptionList.Count; i++ )
+      for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
       {
         Evado.Model.EvOption option = PageField.OptionList [ i ];
 
@@ -2812,7 +2803,7 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        if (  PageField.SendCmdOnChange == true )
+        if ( PageField.SendCmdOnChange == true )
         {
           sbHtml.Append ( this.createOnChangeEvent ( ) );
         }
@@ -2857,7 +2848,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createSelectionListField (
+    private void createSelectionListField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -2877,7 +2868,7 @@ namespace Evado.UniForm.WebClient
         titleColumnWidth = 100 - valueColumnWidth;
       }
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-select-value cf' ";
-       
+
 
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
@@ -2913,7 +2904,7 @@ namespace Evado.UniForm.WebClient
 
       //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-      if (  PageField.SendCmdOnChange == true )
+      if ( PageField.SendCmdOnChange == true )
       {
         sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
@@ -2932,7 +2923,7 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the stOptions.
       //
-      for ( int i = 0; i < PageField.OptionList.Count; i++ )
+      for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
       {
         Evado.Model.EvOption option = PageField.OptionList [ i ];
         /*
@@ -2964,7 +2955,7 @@ namespace Evado.UniForm.WebClient
     /// This mehod generates the HTMl for a page group.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private String createOnChangeEvent ( )
+    private String createOnChangeEvent( )
     {
       this.LogMethod ( "createOnChangeEvent" );
       //
@@ -3049,7 +3040,7 @@ namespace Evado.UniForm.WebClient
       // 
       for ( int row = 0 ; row < PageField.Table.Rows.Count ; row++ )
       {
-        this.createTableFieldDataRow (
+        this.getTableFieldDataRow (
         sbHtml,
         PageField,
         row,
@@ -3153,7 +3144,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="Row">Integer: table row.</param>
     /// <param name="Status">ClientFieldEditCodes enumerated status.</param>
     // --------------------------------------------------------------------------------
-    private void createTableFieldDataRow(
+    private void getTableFieldDataRow(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField,
       int Row,
@@ -3192,7 +3183,7 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
-          this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, header.DataType, colValue );
+          //this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, header.DataType, colValue );
           switch ( header.DataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
@@ -3413,7 +3404,7 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Boolean:
             {
-              this.LogDebug ( "Boolean (checkbox), Cid: {0}, Value: {1}.", colId, colValue );
+             // this.LogDebug ( "Boolean (checkbox), Cid: {0}, Value: {1}.", colId, colValue );
               sbHtml.Append ( "<td class='data'>" );
               bool bVal = Evado.Model.EvStatics.getBool ( colValue );
               string value = "Yes";
@@ -3665,7 +3656,7 @@ namespace Evado.UniForm.WebClient
 
             default:
             {
-              this.LogDebug ( "DataType {0}, was not displayed.", header.DataType );
+              //this.LogDebug ( "DataType {0}, was not displayed.", header.DataType );
               break;
             }
 
@@ -3691,7 +3682,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createBinaryField (
+    private void createBinaryField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -3764,7 +3755,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createSoundField (
+    private void createSoundField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -3805,7 +3796,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createCurrencyField (
+    private void createCurrencyField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -3872,7 +3863,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createEmailAddressField (
+    private void createEmailAddressField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -3942,7 +3933,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createTelephoneNumberField (
+    private void createTelephoneNumberField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -4013,7 +4004,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createAnalogueField (
+    private void createAnalogueField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -4084,7 +4075,7 @@ namespace Evado.UniForm.WebClient
       sbHtml.Append ( "|<br/>" );
       sbHtml.Append ( "0" );
       sbHtml.AppendLine ( "</td>" );
-      for ( int i = 1; i < 20; i++ )
+      for ( int i = 1 ; i < 20 ; i++ )
       {
         sbHtml.Append ( "<td style='text-align: center; width:5%;'> " );
         int value = i * 5;
@@ -4134,7 +4125,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createNameField (
+    private void createNameField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -4161,32 +4152,32 @@ namespace Evado.UniForm.WebClient
       switch ( arrValue.Length )
       {
         case 1:
-          {
-            stFamilyName = arrValue [ 0 ];
-            break;
-          }
+        {
+          stFamilyName = arrValue [ 0 ];
+          break;
+        }
         case 2:
-          {
-            stFirstName = arrValue [ 0 ];
-            stFamilyName = arrValue [ 1 ];
-            break;
-          }
+        {
+          stFirstName = arrValue [ 0 ];
+          stFamilyName = arrValue [ 1 ];
+          break;
+        }
         case 3:
-          {
-            stTitle = arrValue [ 0 ];
-            stFirstName = arrValue [ 1 ];
-            stFamilyName = arrValue [ 2 ];
-            break;
-          }
+        {
+          stTitle = arrValue [ 0 ];
+          stFirstName = arrValue [ 1 ];
+          stFamilyName = arrValue [ 2 ];
+          break;
+        }
         case 4:
         default:
-          {
-            stTitle = arrValue [ 0 ];
-            stFirstName = arrValue [ 1 ];
-            stMiddleName = arrValue [ 2 ];
-            stFamilyName = arrValue [ 3 ];
-            break;
-          }
+        {
+          stTitle = arrValue [ 0 ];
+          stFirstName = arrValue [ 1 ];
+          stMiddleName = arrValue [ 2 ];
+          stFamilyName = arrValue [ 3 ];
+          break;
+        }
       }//END field value switch
 
       //
@@ -4331,7 +4322,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createAddressField (
+    private void createAddressField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -4690,7 +4681,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createSignatureField (
+    private void createSignatureField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -4904,7 +4895,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder containing the page html</param>
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
-    private void createPasswordField (
+    private void createPasswordField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -4980,7 +4971,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder containing the page html</param>
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
-    private void createHttpLinkField (
+    private void createHttpLinkField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -5004,9 +4995,9 @@ namespace Evado.UniForm.WebClient
       string stLinkTitle = PageField.Value;
 
       int index = stLinkUrl.LastIndexOf ( '/' );
-      if( index > 0)
-      { 
-      stLinkTitle = stLinkUrl.Substring ( index + 1 );
+      if ( index > 0 )
+      {
+        stLinkTitle = stLinkUrl.Substring ( index + 1 );
       }
 
       if ( stValue.Contains ( "^" ) == true )
@@ -5113,7 +5104,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder containing the page html</param>
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
-    private void createStreamedVideoField (
+    private void createStreamedVideoField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -5203,7 +5194,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Field object.</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private String getVideoIFrame (
+    private String getVideoIFrame(
       Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "getVideoIFrame" );
@@ -5300,7 +5291,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder containing the page html</param>
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
-    private void createExternalImageField (
+    private void createExternalImageField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -5370,7 +5361,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder containing the page html</param>
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
-    private void createPlotChartField (
+    private void createPlotChartField(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -5398,10 +5389,10 @@ namespace Evado.UniForm.WebClient
       {
         case Evado.Model.EvDataTypes.Donut_Chart:
         case Evado.Model.EvDataTypes.Pie_Chart:
-          {
-            height = width;
-            break;
-          }
+        {
+          height = width;
+          break;
+        }
       }
 
       this.LogDebug ( "Width: " + width + ", height: " + height );
@@ -5464,7 +5455,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PlaceHolder">String plot holder </param>
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
-    private String generatePlotCode (
+    private String generatePlotCode(
       String PlaceHolder,
       Evado.UniForm.Model.EuField PageField )
     {
@@ -5506,89 +5497,89 @@ namespace Evado.UniForm.WebClient
       switch ( PageField.Type )
       {
         case Evado.Model.EvDataTypes.Donut_Chart:
-          {
-            legend = "";
+        {
+          legend = "";
 
-            code.Append ( "$.plot(\"#" + PlaceHolder + "\", " );
-            code.Append ( PlaceHolder );
-            code.AppendLine ( ", { " );
-            code.AppendLine ( " series: { pie: { innerRadius: 0.5, show: true " );
-            code.AppendLine ( " } } }" );
-            code.AppendLine ( " ) " );
-            break;
-          }
+          code.Append ( "$.plot(\"#" + PlaceHolder + "\", " );
+          code.Append ( PlaceHolder );
+          code.AppendLine ( ", { " );
+          code.AppendLine ( " series: { pie: { innerRadius: 0.5, show: true " );
+          code.AppendLine ( " } } }" );
+          code.AppendLine ( " ) " );
+          break;
+        }
         case Evado.Model.EvDataTypes.Pie_Chart:
-          {
-            legend = "";
+        {
+          legend = "";
 
-            code.Append ( "$.plot(\"#" + PlaceHolder + "\", " );
-            code.Append ( PlaceHolder );
-            code.AppendLine ( ", { " );
-            code.AppendLine ( " series: { pie: { show: true " );
-            code.AppendLine ( " } } }" );
-            code.AppendLine ( " ) " );
+          code.Append ( "$.plot(\"#" + PlaceHolder + "\", " );
+          code.Append ( PlaceHolder );
+          code.AppendLine ( ", { " );
+          code.AppendLine ( " series: { pie: { show: true " );
+          code.AppendLine ( " } } }" );
+          code.AppendLine ( " ) " );
 
-            break;
-          }
+          break;
+        }
         case Evado.Model.EvDataTypes.Bar_Chart:
+        {
+          code.Append ( "$.plot(\"#" + PlaceHolder + "\", " );
+          code.AppendLine ( PlaceHolder );
+          code.AppendLine ( ", { " );
+          if ( legend != String.Empty )
           {
-            code.Append ( "$.plot(\"#" + PlaceHolder + "\", " );
-            code.AppendLine ( PlaceHolder );
-            code.AppendLine ( ", { " );
-            if ( legend != String.Empty )
-            {
-              code.Append ( legend + ", " );
-            }
-            if ( plotObject.X_Axis != String.Empty )
-            {
-              code.AppendLine ( plotObject.X_Axis );
-            }
-            else
-            {
-              code.AppendLine ( " var axes = plot.getXAxes ( ).concat ( plot.getYAxes ( ) ); " );
-              code.AppendLine ( "axes.forEach(function(axis) {" );
-              code.AppendLine ( "axis.options.showTicks = true; " );
-              code.AppendLine ( "axis.options.showMinorTicks = false; " );
-              code.AppendLine ( "}" );
-            }
-            code.AppendLine ( " }" );
-            code.AppendLine ( " ) " );
-            break;
+            code.Append ( legend + ", " );
           }
+          if ( plotObject.X_Axis != String.Empty )
+          {
+            code.AppendLine ( plotObject.X_Axis );
+          }
+          else
+          {
+            code.AppendLine ( " var axes = plot.getXAxes ( ).concat ( plot.getYAxes ( ) ); " );
+            code.AppendLine ( "axes.forEach(function(axis) {" );
+            code.AppendLine ( "axis.options.showTicks = true; " );
+            code.AppendLine ( "axis.options.showMinorTicks = false; " );
+            code.AppendLine ( "}" );
+          }
+          code.AppendLine ( " }" );
+          code.AppendLine ( " ) " );
+          break;
+        }
         case Evado.Model.EvDataTypes.Stacked_Bar_Chart:
+        {
+          code.AppendLine ( "	var stack = 0,	bars = true,	lines = false,	steps = false;" );
+
+          code.Append ( "\t$.plot(\"#" + PlaceHolder + "\", " + PlaceHolder );
+          code.AppendLine ( ", { " );
+          if ( legend != String.Empty )
           {
-            code.AppendLine ( "	var stack = 0,	bars = true,	lines = false,	steps = false;" );
-
-            code.Append ( "\t$.plot(\"#" + PlaceHolder + "\", " + PlaceHolder );
-            code.AppendLine ( ", { " );
-            if ( legend != String.Empty )
-            {
-              code.Append ( legend + ", " );
-            }
-            code.AppendLine ( "series: { stack: stack, lines: { show: lines, fill: true, steps: steps	},	bars: { show: bars,	barWidth: 0.6} }" );
-
-            if ( plotObject.X_Axis != String.Empty )
-            {
-              code.AppendLine ( ", " + plotObject.X_Axis );
-            }
-
-            code.AppendLine ( "} ) " );
-            break;
+            code.Append ( legend + ", " );
           }
+          code.AppendLine ( "series: { stack: stack, lines: { show: lines, fill: true, steps: steps	},	bars: { show: bars,	barWidth: 0.6} }" );
+
+          if ( plotObject.X_Axis != String.Empty )
+          {
+            code.AppendLine ( ", " + plotObject.X_Axis );
+          }
+
+          code.AppendLine ( "} ) " );
+          break;
+        }
         case Evado.Model.EvDataTypes.Line_Chart:
         default:
+        {
+          code.Append ( "\t$.plot(\"#" + PlaceHolder + "\", " );
+          code.AppendLine ( PlaceHolder );
+          if ( legend != String.Empty )
           {
-            code.Append ( "\t$.plot(\"#" + PlaceHolder + "\", " );
-            code.AppendLine ( PlaceHolder );
-            if ( legend != String.Empty )
-            {
-              code.AppendLine ( ", { " );
-              code.Append ( legend );
-              code.AppendLine ( " }" );
-            }
-            code.AppendLine ( " ) " );
-            break;
+            code.AppendLine ( ", { " );
+            code.Append ( legend );
+            code.AppendLine ( " }" );
           }
+          code.AppendLine ( " ) " );
+          break;
+        }
       }
 
 

@@ -446,44 +446,34 @@ namespace Evado.UniForm.AdminClient
       //
       this.createFieldHeader ( sbHtml, PageField, titleColumnWidth, fullWidth );
 
+      String value = PageField.Value;
       //
       // Encode the readlonly text value.
       //
-      if ( PageField.Value != String.Empty )
+      if ( value != String.Empty )
       {
         sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
         //
         // process html content.
         //
-        if ( PageField.Value.Contains ( "[/" ) == true )
+        if ( value.Contains ( "[/" ) == true )
         {
           this.LogDebug ( "No HTML Markup processing" );
 
-          this.LogDebug ( "HTML: encoded value: " + PageField.Value );
+          this.LogDebug ( "HTML: encoded value: " + value );
 
-          String html = this.decodeHtmlText ( PageField.Value );
+          String html = this.decodeHtmlText ( value );
 
           this.LogDebug ( "HTML: decoded value" + html );
           sbHtml.AppendLine ( html );
         }
         else
         {
-          String value = PageField.Value;
+          this.LogDebug ( "Processing markup" );
+          String html = Evado.Model.EvStatics.EncodeMarkDown ( value );
+          this.LogDebug ( "HTML: decoded value" + html );
 
-          this.LogDebug ( @"\r exists: " + value.Contains ( "\r" ) );
-          this.LogDebug ( @"\n exists: " + value.Contains ( "\n" ) );
-
-          if ( value.Contains ( "\r" ) == true || value.Contains ( "\n" ) == true )
-          {
-            this.LogDebug ( "Processing markup" );
-
-            value = Evado.Model.EvStatics.EncodeMarkDown ( value );
-            //value = value.Replace ( "\n", "<br/>" );
-
-            this.LogDebug ( "HTML: decoded value" + value );
-          }
-
-          sbHtml.AppendLine ( value );
+          sbHtml.AppendLine ( html );
         }
         sbHtml.AppendLine ( "</div> " );
       }
@@ -513,8 +503,8 @@ namespace Evado.UniForm.AdminClient
     // -------------------------------------------------------------------------------------
     public String decodeHtmlText( string EncodedHtmlString )
     {
-      EncodedHtmlString = EncodedHtmlString.Replace ( "[CR]", "\r\n" );
-      EncodedHtmlString = EncodedHtmlString.Replace ( "[[CR]]", "\r\n" );
+      EncodedHtmlString = EncodedHtmlString.Replace ( "[CR]", "<br/>" );
+      EncodedHtmlString = EncodedHtmlString.Replace ( "[[CR]]", "<br/>" );
       EncodedHtmlString = EncodedHtmlString.Replace ( "[[", "<" );
       EncodedHtmlString = EncodedHtmlString.Replace ( "]]", ">" );
       EncodedHtmlString = EncodedHtmlString.Replace ( "[", "<" );
@@ -3036,7 +3026,7 @@ namespace Evado.UniForm.AdminClient
       // 
       for ( int row = 0 ; row < PageField.Table.Rows.Count ; row++ )
       {
-        this.createTableFieldDataRow (
+        this.getTableFieldDataRow (
         sbHtml,
         PageField,
         row,
@@ -3140,7 +3130,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="Row">Integer: table row.</param>
     /// <param name="Status">ClientFieldEditCodes enumerated status.</param>
     // --------------------------------------------------------------------------------
-    private void createTableFieldDataRow(
+    private void getTableFieldDataRow(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField,
       int Row,
@@ -3179,7 +3169,7 @@ namespace Evado.UniForm.AdminClient
             continue;
           }
 
-          this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, header.DataType, colValue );
+          //this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, header.DataType, colValue );
           switch ( header.DataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
@@ -3400,7 +3390,7 @@ namespace Evado.UniForm.AdminClient
 
             case Evado.Model.EvDataTypes.Boolean:
             {
-              this.LogDebug ( "Boolean (checkbox), Cid: {0}, Value: {1}.", colId, colValue );
+             // this.LogDebug ( "Boolean (checkbox), Cid: {0}, Value: {1}.", colId, colValue );
               sbHtml.Append ( "<td class='data'>" );
               bool bVal = Evado.Model.EvStatics.getBool ( colValue );
               string value = "Yes";
@@ -3652,7 +3642,7 @@ namespace Evado.UniForm.AdminClient
 
             default:
             {
-              this.LogDebug ( "DataType {0}, was not displayed.", header.DataType );
+           //   this.LogDebug ( "DataType {0}, was not displayed.", header.DataType );
               break;
             }
 
