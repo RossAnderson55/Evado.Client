@@ -3085,7 +3085,7 @@ namespace Evado.UniForm.AdminClient
         }
 
 
-        sbHtml.Append ( "<td style='" + header.Width + "%;text-align:center;' >" );
+        sbHtml.Append ( "<td style='width:" + header.Width + "%;text-align:center;' >" );
 
         sbHtml.Append ( "<strong>" + header.Text + "</strong> " );
 
