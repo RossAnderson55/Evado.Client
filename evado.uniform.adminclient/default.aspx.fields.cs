@@ -612,13 +612,13 @@ namespace Evado.UniForm.AdminClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string stImageUrl = PageField.Value;
-      String stSize = "400";
+      int iWidth = 400;
       this.TestFileUpload.Visible = true;
       bool fullWidth = false;
 
       if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
       {
-        stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+        iWidth = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
       }
 
       // 
@@ -650,7 +650,7 @@ namespace Evado.UniForm.AdminClient
         this.LogValue ( "Image file exists " + PageField.Value );
 
         sbHtml.AppendLine ( "<a href='" + stImageUrl + "' target='_blank' > "
-          + "<img alt='Image " + PageField.Value + "' " + "src='" + stImageUrl + "' width='" + stSize + "'/></a>" );
+          + "<img alt='Image " + PageField.Value + "' " + "src='" + stImageUrl + "' width='" + iWidth + "'/></a>" );
       }
 
       if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
