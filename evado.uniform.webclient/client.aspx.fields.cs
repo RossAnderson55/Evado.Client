@@ -3081,13 +3081,13 @@ namespace Evado.UniForm.WebClient
       foreach ( Evado.Model.EvTableHeader header in PageField.Table.Header )
       {
         // 
-        // Skip rows that have not header text
+        // Skip rows that have not header text or set to hidden.
         //
-        if ( header.Text == String.Empty )
+        if ( header.Text == String.Empty
+          || header.HideColumns == true )
         {
           continue;
         }
-
 
         sbHtml.Append ( "<td style='width:" + header.Width + "%;text-align:center;' >" );
 
@@ -3172,16 +3172,20 @@ namespace Evado.UniForm.WebClient
         Evado.Model.EvTableHeader header = PageField.Table.Header [ column ];
         try
         {
-          string colId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
-          string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
-
           // 
-          // Skip rows that have not header text
-          // 
-          if ( header.Text == String.Empty )
+          // Skip rows that have not header text or set to hidden.
+          //
+          if ( header.Text == String.Empty
+            || header.HideColumns == true )
           {
             continue;
           }
+
+          //
+          // initialise the iteration loops variables and objects.
+          //
+          string colId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
+          string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
 
           //this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, header.DataType, colValue );
           switch ( header.DataType )
@@ -3407,38 +3411,44 @@ namespace Evado.UniForm.WebClient
              // this.LogDebug ( "Boolean (checkbox), Cid: {0}, Value: {1}.", colId, colValue );
               sbHtml.Append ( "<td class='data'>" );
               bool bVal = Evado.Model.EvStatics.getBool ( colValue );
-              string value = "Yes";
+              string buttonValue = "Yes";
 
               if ( header.OptionsOrUnit != String.Empty )
               {
-                value = header.OptionsOrUnit;
+                buttonValue = header.OptionsOrUnit;
               }
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
               {
-                if ( bVal == true )
+                if ( colValue == "true" )
                 {
-                  sbHtml.Append ( value );
+                  sbHtml.Append ( buttonValue );
                 }
               }
               else
               {
-                sbHtml.AppendLine ( "<div class='checkbox'><label><input "
+                //
+                // display the boolean value if there is a value 'true' or 'false'.
+                //
+                if ( colValue != String.Empty )
+                {
+                  sbHtml.AppendLine ( "<div class='checkbox'><label><input "
                  + "type='checkbox' "
                  + "id='" + colId + "' "
                  + "name='" + colId + "' "
                  + "tabindex = '" + _TabIndex + "' "
                  + "value='true' " );
 
-                if ( bVal == true )
-                {
-                  sbHtml.Append ( " checked='checked' " );
+                  if ( bVal == true )
+                  {
+                    sbHtml.Append ( " checked='checked' " );
+                  }
+
+                  sbHtml.AppendLine ( "/>" );
+
+                  sbHtml.AppendLine ( "<span class='label' >" + buttonValue + "</span>" );
+                  sbHtml.AppendLine ( "</label></div>" );
                 }
-
-                sbHtml.AppendLine ( "/>" );
-
-                sbHtml.AppendLine ( "<span class='label' >" + value + "</span>" );
-                sbHtml.AppendLine ( "</label></div>" );
               }
 
               this._TabIndex++;
