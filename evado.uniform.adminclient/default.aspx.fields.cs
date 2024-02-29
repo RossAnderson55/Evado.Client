@@ -3070,7 +3070,7 @@ namespace Evado.UniForm.AdminClient
         // Skip rows that have not header text or set to hidden.
         //
         if ( header.Text == String.Empty
-          || header.HideColumns == true )
+          || header.HideColumn == true )
         {
           continue;
         }
@@ -3163,7 +3163,7 @@ namespace Evado.UniForm.AdminClient
           // Skip rows that have not header text
           // 
           if ( header.Text == String.Empty
-            || header.HideColumns == true )
+            || header.HideColumn == true )
           {
             continue;
           }
@@ -3417,6 +3417,7 @@ namespace Evado.UniForm.AdminClient
                 //
                 if ( colValue != String.Empty )
                 {
+                  colValue = colValue.ToLower ();
                   sbHtml.AppendLine ( "<div class='checkbox'><label><input "
                    + "type='checkbox' "
                    + "id='" + colId + "' "

@@ -2326,11 +2326,11 @@ namespace Evado.UniForm.AdminClient
       // Iterate through the rows and columns of the table filling the 
       // data object with the test values.
       // 
-      for ( int row = 0 ; row < FormField.Table.Rows.Count ; row++ )
+      for ( int rowIndex = 0 ; rowIndex < FormField.Table.Rows.Count ; rowIndex++ )
       {
-        for ( int Col = 0 ; Col < FormField.Table.Header.Length ; Col++ )
+        for ( int colIndex = 0 ; colIndex < FormField.Table.Header.Length ; colIndex++ )
         {
-          EvTableHeader header = FormField.Table.Header [ Col ];
+          EvTableHeader header = FormField.Table.Header [ colIndex ];
 
           if ( header.Text == String.Empty )
           {
@@ -2345,17 +2345,10 @@ namespace Evado.UniForm.AdminClient
             continue;
           }
 
-          //
-          // reset boolean data types as update not resetn selected values.
-          //
-          if ( header.DataType == EvDataTypes.Boolean )
-          {
-            FormField.Table.Rows [ row ].Column [ Col ] = "false";
-          }
           // 
           // construct the test table field name.
           // 
-          string tableFieldId = FormField.FieldId + "_" + ( row + 1 ) + "_" + ( Col + 1 );
+          string tableFieldId = FormField.FieldId + "_" + ( rowIndex + 1 ) + "_" + ( colIndex + 1 );
           //this.LogDebug ( "" );
           //this.LogDebug ( "tableFieldId: " + tableFieldId );
 
@@ -2371,7 +2364,8 @@ namespace Evado.UniForm.AdminClient
           {
             continue;
           }
-          this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ Col ].DataType, value );
+
+          //this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
 
           //
           // If NA is entered set to numeric null.
@@ -2384,7 +2378,19 @@ namespace Evado.UniForm.AdminClient
               {
                 value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
               }
-              FormField.Table.Rows [ row ].Column [ Col ] = value;
+              FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = value;
+              break;
+            }
+            case EvDataTypes.Boolean:
+            {
+              //this.LogDebug ( "UPDATING: Bool DataType, Row: {O}, Col: {1}, value: {2}.", rowIndex, colIndex, value );
+              //
+              // reset boolean data types as update not resetn selected values.
+              //
+              bool bValue = EvStatics.getBool ( value );
+
+              FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = bValue.ToString ( );
+
               break;
             }
             case Evado.Model.EvDataTypes.Computed_Field:
@@ -2393,7 +2399,7 @@ namespace Evado.UniForm.AdminClient
             }
             default:
             {
-              FormField.Table.Rows [ row ].Column [ Col ] = value;
+              FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = value;
               break;
             }
           }
@@ -2402,11 +2408,11 @@ namespace Evado.UniForm.AdminClient
 
         var dateStamp = FormField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
 
-        if( dateStamp == true )
+        if ( dateStamp == true )
         {
           string dateTime = DateTime.Now.ToString ( "HH:mm" );
 
-          FormField.Table.Rows [ row ].DateStamp = dateTime;
+          FormField.Table.Rows [ rowIndex ].DateStamp = dateTime;
         }
 
       }//END row interation loop
@@ -2993,7 +2999,8 @@ namespace Evado.UniForm.AdminClient
       for ( int iRow = 0 ; iRow < field.Table.Rows.Count ; iRow++ )
       {
         string stName = field.FieldId + "_" + ( iRow + 1 ) + "_0";
-        this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].No );
+        string stValue = field.Table.Rows [ iRow ].No.ToString ( );
+        this.UserSession.PageCommand.AddParameter ( stName, stValue );
 
         //
         // Iterate through the columns in the table.
@@ -3011,12 +3018,17 @@ namespace Evado.UniForm.AdminClient
           //
           // If the cel is not readonly and has a value then add it to the parameters.
           //
-          if ( field.Table.Rows [ iRow ].Column [ iCol ] != String.Empty )
+          if ( field.Table.Rows [ iRow ].Column [ iCol ] == String.Empty )
           {
-            stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
-            this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].Column [ iCol ] );
+            continue;
+          }
 
-          }//END has a value.
+          stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
+          stValue = field.Table.Rows [ iRow ].Column [ iCol ];
+
+          this.LogDebug ( "Row: {0}, Vaue: {1} ", stName, stValue );
+
+          this.UserSession.PageCommand.AddParameter ( stName, stValue );
 
         }//END column iteration loop.
 
