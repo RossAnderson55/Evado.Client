@@ -2027,10 +2027,21 @@ namespace Evado.UniForm.WebClient
             {
               if ( columnIndex < row.Column.Length )
               {
+                //this.LogDebug ( "columnIndex: {0}, row.No: {1}, Value: {2}.",
+                //  columnIndex, row.No, row.Column [ columnIndex ] );
+
+                if ( row.Column [ columnIndex ] == String.Empty )
+                {
+                  this.LogDebug ( "EMPTY: ColumnId: {0}, Index: {1} Value: '{3}', empty.",
+                  columnId, columnIndex, row.Column [ columnIndex ] );
+                  continue;
+                }
+
                 float fValue = Evado.Model.EvStatics.getFloat ( row.Column [ columnIndex ], 0 );
                 if ( fValue == 0 )
                 {
-                  this.LogDebug ( "ERROR: Empty or not a numeric value, Value: {0}, .", row.Column [ columnIndex ] );
+                  this.LogDebug ( "ERROR: ColumnId: {0}, Index: {1} Value: '{3}', not a numeric value.",
+                    columnId, columnIndex, row.Column [ columnIndex ] );
                   continue;
                 }
 
@@ -2416,7 +2427,6 @@ namespace Evado.UniForm.WebClient
 
     }//END updateFormFieldTable method
 
-
     // =============================================================================== 
     /// <summary>
     /// This method computes the table computer column calculation.
@@ -2439,6 +2449,10 @@ namespace Evado.UniForm.WebClient
       //
       for ( int index = 0 ; index < Table.Header.Length ; index++ )
       {
+        if ( Table.Header [ index ].Text == String.Empty )
+        {
+          continue;
+        }
         this.LogDebug ( "Header.DataType: {0}, Formula: {1}", Table.Header [ index ].DataType, Table.Header [ index ].OptionsOrUnit );
 
         if ( Table.Header [ index ].DataType == EvDataTypes.Computed_Field )
@@ -2448,27 +2462,27 @@ namespace Evado.UniForm.WebClient
         }
       }
 
-      this.LogDebug ( "Header.DataType: {0}, Formula: {1}", computedColumnHeader.DataType, computedColumnHeader.OptionsOrUnit );
-
       //
       // exit if a computed field is not found.
       //
       if ( computedColumnIndex == -1 )
       {
-        this.LogDebug ( "No computer field found" );
+        //this.LogDebug ( "No computer field found" );
         this.LogMethodEnd ( "UpdateTableComputedColumn" );
         return;
       }
 
       if ( computedColumnHeader.OptionsOrUnit == String.Empty )
       {
-        this.LogDebug ( "No formula found" );
+        //this.LogDebug ( "No formula found" );
         this.LogMethodEnd ( "UpdateTableComputedColumn" );
         return;
       }
 
+      this.LogDebug ( "COMPUTED COLUMN: DataType: {0}, Formula: {1}",
+        computedColumnHeader.DataType, computedColumnHeader.OptionsOrUnit );
+
       string formula = computedColumnHeader.OptionsOrUnit;
-      this.LogDebug ( "Formula: {0}.", formula );
 
       //
       // The computed column formula selection.
@@ -2487,22 +2501,18 @@ namespace Evado.UniForm.WebClient
         {
           EvTableHeader columnHeader = Table.Header [ columnIndex ];
 
-          this.LogDebug ( "Header.DataType: {0}", columnHeader.DataType, columnHeader.OptionsOrUnit );
-          //
-          // it not possibel numeric values exit.
-          //
-          if ( columnHeader.DataType != EvDataTypes.Numeric
-            && columnHeader.DataType != EvDataTypes.Integer
-            & columnHeader.DataType != EvDataTypes.Multi_Text_Values )
+          if ( columnHeader.Text == String.Empty )
           {
-            this.LogDebug ( "Continue column data type not compatible." );
             continue;
           }
+
+          this.LogDebug ( "Header.DataType: {0}", columnHeader.DataType, columnHeader.OptionsOrUnit );
 
           //
           // create teh column identifier.
           //
           string columnId = ( columnIndex + 1 ).ToString ( "00" );
+          float fltColValue = 0;
           this.LogDebug ( "colId: {0}.", columnId );
 
           //
@@ -2514,28 +2524,41 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
-          float fltColValue = 0;
-
           //
-          // Get the column value as a float value.
+          // select the processing by date type
           //
-          if ( computedColumnHeader.DataType == EvDataTypes.Multi_Text_Values )
+          switch ( columnHeader.DataType )
           {
-            fltColValue = EvStatics.SumStringValues ( row.Column [ columnIndex ] );
+            default:
+            {
+              this.LogDebug ( "CONTINUE: {0} - {1}, column data type not compatible.", columnIndex, columnHeader.DataType );
+              continue;
+            }
+            case EvDataTypes.Multi_Text_Values:
+            {
+              this.LogDebug ( "{0}, value: '{1}'", computedColumnHeader.DataType, row.Column [ columnIndex ] );
 
-            this.LogDebug ( "ColumnValue: {0}.", fltColValue );
-          }
-          else
-          {
-            fltColValue = EvStatics.getFloat ( row.Column [ columnIndex ], 0 );
-          }
+              fltColValue = this.SumStringValues ( row.Column [ columnIndex ] );
+
+              row.Column [ columnIndex ] = fltColValue.ToString ( );
+
+              this.LogDebug ( "ColumnValue: {0}.", fltColValue );
+              break;
+            }
+            case EvDataTypes.Numeric:
+            case EvDataTypes.Integer:
+            {
+              fltColValue = EvStatics.getFloat ( row.Column [ columnIndex ], 0 );
+              break;
+            }
+          }//END Data type switch
 
           //
           // skip of the value is zero, or 'empty'.
           //
           if ( fltColValue == 0 )
           {
-            this.LogDebug ( "fltColValue = 0" );
+            //this.LogDebug ( "fltColValue = 0" );
             continue;
           }
 
@@ -2544,7 +2567,7 @@ namespace Evado.UniForm.WebClient
           //
           if ( formula.Contains ( EvTableHeader.COMPUTED_FUNCTION_SUM_ROW_COLUMNS ) == true )
           {
-            this.LogDebug ( "Row Sum row function found" );
+            //this.LogDebug ( "Row Sum row function found" );
             fltValue += fltColValue;
           }
 
@@ -2553,7 +2576,7 @@ namespace Evado.UniForm.WebClient
           //
           else if ( formula.Contains ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS ) == true )
           {
-            this.LogDebug ( "Row multiply function found" );
+            //this.LogDebug ( "Row multiply function found" );
             string formula1 = formula.Replace ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS, String.Empty );
             formula1 = formula1.Replace ( "(", String.Empty );
             formula1 = formula1.Replace ( ")", String.Empty );
@@ -2561,11 +2584,11 @@ namespace Evado.UniForm.WebClient
 
             String [ ] parms = formula1.Split ( ';' );
 
-            this.LogDebug ( "parm array length: {0}.", parms.Length );
+            //this.LogDebug ( "parm array length: {0}.", parms.Length );
 
             if ( parms.Length < 2 )
             {
-              this.LogDebug ( "Parm length less than 2" );
+              //this.LogDebug ( "Parm length less than 2" );
               continue;
             }
 
@@ -2580,7 +2603,7 @@ namespace Evado.UniForm.WebClient
             if ( parms [ 0 ].Trim ( ) == columnId )
             {
               fltValue1 = fltColValue;
-              this.LogDebug ( "Value1: Row: {0}, Col: {1}, Value1: {2}", rowIndex, columnIndex, fltValue1 );
+              //this.LogDebug ( "Value1: Row: {0}, Col: {1}, Value1: {2}", rowIndex, columnIndex, fltValue1 );
             }
 
             //
@@ -2589,7 +2612,7 @@ namespace Evado.UniForm.WebClient
             if ( parms [ 1 ].Trim ( ) == columnId )
             {
               fltValue2 = fltColValue;
-              this.LogDebug ( "Value2: Row: {0}, Col: {1}, Value1: {2}", rowIndex, columnIndex, fltValue2 );
+              //this.LogDebug ( "Value2: Row: {0}, Col: {1}, Value1: {2}", rowIndex, columnIndex, fltValue2 );
             }
           }
         }//END row column iteration loop
@@ -2599,7 +2622,7 @@ namespace Evado.UniForm.WebClient
             && formula.Contains ( EvTableHeader.COMPUTED_FUNCTION_MULTIPLE_ROW_COLUMNS ) == true )
         {
           fltValue = fltValue1 * fltValue2;
-          this.LogDebug ( "fltValue1: Row: {0}, fltValue2: {1}, fltValue: {2}", fltValue1, fltValue2, fltValue );
+          //this.LogDebug ( "fltValue1: Row: {0}, fltValue2: {1}, fltValue: {2}", fltValue1, fltValue2, fltValue );
         }
 
         row.Column [ computedColumnIndex ] = fltValue.ToString ( );
@@ -2609,6 +2632,68 @@ namespace Evado.UniForm.WebClient
 
       this.LogMethodEnd ( "UpdateTableComputedColumn" );
     }//END UpdateTableComputedColumn method
+
+    // ==================================================================================
+    /// <summary>
+    /// This static method sums a string of delimited numeric values.
+    /// delimiter are ' ', ';' and ','.
+    /// </summary>
+    /// <param name="Value">String delimited string</param>
+    /// <returns>String: contatinated url.</returns>
+    // -----------------------------------------------------------------------------------
+    public float SumStringValues( String Value )
+    {
+      this.LogMethod ( "SumStringValues" );
+      this.LogDebug ( "Value: {0}.", Value );
+      float returnedValue = 0;
+
+      Value = Value.Trim ( );
+      Value = Value.Replace ( ";", "^" );
+      Value = Value.Replace ( ",", "^" );
+      Value = Value.Replace ( " ", "^" );
+
+      if ( Value.Contains ( "^" ) == false
+        && Value.Contains ( @"\" ) == false )
+      {
+        this.LogMethodEnd ( "SumStringValues" );
+        return EvStatics.getFloat ( Value, 0 );
+      }
+
+      String [ ] values = Value.Split ( '^' );
+
+      this.LogDebug ( "Value array length: {0}", values.Length );
+
+      foreach ( String svalue in values )
+      {
+        float columnValue = 0;
+        if ( svalue.Contains ( "/" ) == true )
+        {
+          string [ ] arvalues = svalue.Split ( '/' );
+          if ( arvalues [ 0 ] != "0"
+            && arvalues [ 1 ] != "0" )
+          {
+            float numerator = EvStatics.getFloat ( arvalues [ 0 ], 1 );
+            float denominator = EvStatics.getFloat ( arvalues [ 0 ], 1 );
+
+            this.LogDebug ( "numerator: {0},denominator: {1}", numerator, denominator );
+
+            columnValue = numerator / denominator;
+          }
+        }
+        else
+        {
+          columnValue = EvStatics.getFloat ( svalue, 0 );
+        }
+
+        this.LogDebug ( "String value: {0}, float value: {1}", svalue, columnValue );
+
+        returnedValue += columnValue;
+      }
+
+      this.LogDebug ( "returnedValue: {0}", returnedValue );
+      this.LogMethodEnd ( "SumStringValues" );
+      return returnedValue;
+    }
 
     // =============================================================================== 
     /// <summary>
