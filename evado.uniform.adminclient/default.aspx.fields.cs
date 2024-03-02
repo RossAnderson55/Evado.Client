@@ -1007,7 +1007,7 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "' >" );
-      sbHtml.AppendLine ( "<input type='text' "
+      sbHtml.AppendLine ( "<input type='number' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "value='" + PageField.Value + "' "
@@ -1182,7 +1182,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp1-" + PageField.Id + "' >" );
 
-      sbHtml.AppendLine ( "<input type='text' "
+      sbHtml.AppendLine ( "<input type='number' "
         + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "value='" + stLowerValue + "' "
@@ -1223,7 +1223,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<span>&nbsp;-&nbsp;</span>" );
 
       sbHtml.AppendLine ( "<span id='sp2-" + PageField.Id + "' >" );
-      sbHtml.AppendLine ( "<input type='text' "
+      sbHtml.AppendLine ( "<input type='number' "
         + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "value='" + stUpperValue + "' "
@@ -1542,7 +1542,7 @@ namespace Evado.UniForm.AdminClient
         if ( PageField.Value.Contains ( "1900" ) == false
           && PageField.Value.Contains ( "1901" ) == false )
         {
-          sbHtml.AppendLine ( "<input type='text' "
+          sbHtml.AppendLine ( "<input type='date' "
             + "id='" + PageField.FieldId + "' "
             + "name='" + PageField.FieldId + "' "
             + "value='" + PageField.Value + "' "
@@ -1616,7 +1616,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp1-" + PageField.Id + "' >" );
 
-      sbHtml.AppendLine ( "<input type='text' "
+      sbHtml.AppendLine ( "<input type='date' "
         + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "tabindex = '" + _TabIndex + "' "
@@ -1651,7 +1651,7 @@ namespace Evado.UniForm.AdminClient
 
       sbHtml.AppendLine ( "<span id='sp2-" + PageField.Id + "' >" );
 
-      sbHtml.AppendLine ( "<input type='text' "
+      sbHtml.AppendLine ( "<input type='date' "
         + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "tabindex = '" + _TabIndex + "' "
@@ -3272,7 +3272,7 @@ namespace Evado.UniForm.AdminClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='10' "
-                    + "type='text' "
+                    + "type='number' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
@@ -3314,7 +3314,7 @@ namespace Evado.UniForm.AdminClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='5' "
-                    + "type='text' "
+                    + "type='number' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
@@ -3344,7 +3344,7 @@ namespace Evado.UniForm.AdminClient
                   + "tabindex = '" + _TabIndex + "' "
                   + "maxlength='12' "
                   + "size='12' "
-                  + "type='text' "
+                  + "type='date' "
                   + "value='" + colValue + "' "
                   + "onchange=\"Evado.Form.onDateValidation( this, this.value  )\" "
                   + "  class='form-control' data-behaviour='datepicker' "
@@ -3379,7 +3379,7 @@ namespace Evado.UniForm.AdminClient
                   + "tabindex = '" + _TabIndex + "' "
                   + "maxlength='10' "
                   + "size='10' "
-                  + "type='text' "
+                  + "type='number' "
                   + "value='" + colValue + "' "
                   + " class='form-control' "
                   + " readonly='readonly' " +
@@ -3890,7 +3890,7 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.Append ( "<div " + stFieldValueStyling + " > "
         + "<span id='sp" + PageField.Id + "'>"
-        + "<input type='text' "
+        + "<input type='email' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "tabindex = '" + _TabIndex + "' "
@@ -3960,7 +3960,7 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.Append ( "<div " + stFieldValueStyling + " > "
         + "<span id='sp" + PageField.Id + "'>"
-        + "<input type='text' "
+        + "<input type='tel' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "tabindex = '" + _TabIndex + "' "
