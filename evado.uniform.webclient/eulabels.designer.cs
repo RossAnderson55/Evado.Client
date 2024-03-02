@@ -358,6 +358,15 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hours   :  Minutes  :  Seconds.
         /// </summary>
         internal static string Time_Structure {

@@ -1162,6 +1162,12 @@ namespace Evado.UniForm.AdminClient
             this.createSignatureField ( sbHtml, groupField );
             break;
           }
+          case Evado.Model.EvDataTypes.Raster_Image:
+          {
+            this.createRastorGraphicField ( sbHtml, groupField );
+            break;
+          }
+          
           case Evado.Model.EvDataTypes.Integer_Range:
           case Evado.Model.EvDataTypes.Float_Range:
           case Evado.Model.EvDataTypes.Double_Range:

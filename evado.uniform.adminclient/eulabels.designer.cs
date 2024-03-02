@@ -187,6 +187,15 @@ namespace Evado.UniForm.AdminClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string Image_Clear {
+            get {
+                return ResourceManager.GetString("Image_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message: .
         /// </summary>
         internal static string Message_Label {

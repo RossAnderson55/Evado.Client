@@ -216,6 +216,9 @@
   <data name="Signature_Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
   <data name="Time_Structure" xml:space="preserve">
     <value>Hours   :  Minutes  :  Seconds</value>
   </data>

@@ -159,6 +159,9 @@
   <data name="Html_Url_Title_Field_Title" xml:space="preserve">
     <value>Title:</value>
   </data>
+  <data name="Image_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
   <data name="Message_Label" xml:space="preserve">
     <value>Message: </value>
   </data>

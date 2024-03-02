@@ -3819,7 +3819,7 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.Append ( "<div " + stFieldValueStyling + " > "
         + "<span id='sp" + PageField.Id + "'>"
-        + "<input type='text' "
+        + "<input type='number' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "tabindex = '" + _TabIndex + "' "
@@ -4689,15 +4689,12 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String fieldId = PageField.FieldId.ToLower ( );
-      Evado.Model.EvSignatureBlock signature = new Evado.Model.EvSignatureBlock ( );
-      String RasterSignature = String.Empty;
-      int titleWidth = 30;
-      int valueWidth = 70;
+      Evado.Model.EvRasterImage rasterImage = new Evado.Model.EvRasterImage ( );
+      String image = String.Empty;
       String canvasWidth = "650";
       String canvasHeight = "225";
       bool fullWidth = false;
-      String stFieldValueStyling = "style='width:" + valueWidth + "%' class='cell value cell-input-email-value cf' ";
+      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-email-value cf' ";
 
       PageField.Layout = EuFieldLayoutCodes.Left_Justified;
 
@@ -4706,7 +4703,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Ineert the field header
       //
-      this.createFieldHeader ( sbHtml, PageField, titleWidth, fullWidth );
+      this.createFieldHeader ( sbHtml, PageField, titleColumnWidth, fullWidth );
 
       //
       // Set the canvas width and height
@@ -4727,20 +4724,17 @@ namespace Evado.UniForm.AdminClient
       {
         try
         {
-          signature = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.Model.EvSignatureBlock> ( PageField.Value );
+          rasterImage = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.Model.EvRasterImage> ( PageField.Value );
 
-          RasterSignature = Newtonsoft.Json.JsonConvert.SerializeObject ( signature.Signature );
+          image = Newtonsoft.Json.JsonConvert.SerializeObject ( rasterImage.Image );
         }
         catch
         {
-          RasterSignature = String.Empty;
+          image = String.Empty;
         }
       }
 
-      this.LogValue ( "Raster Signature: " + RasterSignature );
-      this.LogValue ( "signature.Name: " + signature.Name );
-      this.LogValue ( "signature.AcceptedBy: " + signature.AcceptedBy );
-      this.LogValue ( "signature.DateStamp: " + signature.DateStamp );
+      this.LogValue ( "Raster Image: " + image );
 
       //
       // Insert the field elements
@@ -4779,25 +4773,6 @@ namespace Evado.UniForm.AdminClient
         sbHtml.Append ( " tabindex='" + _TabIndex + "' " );
         sbHtml.AppendLine ( " class='output' /> " );
       }
-
-      this._TabIndex += 2;
-
-      sbHtml.AppendLine ( "<input " );
-      sbHtml.Append ( " type='text' " );
-      sbHtml.Append ( " id='" + PageField.FieldId + "_name' " );
-      sbHtml.Append ( " name='" + PageField.FieldId + "_name' " );
-      sbHtml.Append ( " tabindex='" + _TabIndex + "' " );
-      sbHtml.Append ( " value='" + signature.Name + "' " );
-      sbHtml.Append ( " class='sigName' " );
-      sbHtml.Append ( "style='width: " + canvasWidth + "px; '" );
-
-      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-      {
-        sbHtml.Append ( " disabled='disabled' " );
-      }
-      sbHtml.AppendLine ( "/>" );
-
-      sbHtml.AppendLine ( "</div>" );
 
       if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
       {
@@ -4850,7 +4825,7 @@ namespace Evado.UniForm.AdminClient
           sbHtml.Append ( " id='" + PageField.FieldId + "_input' " );
           sbHtml.Append ( " name='" + PageField.FieldId + "_input' " );
           sbHtml.Append ( " tabindex='" + _TabIndex + "' " );
-          sbHtml.AppendLine ( " value='" + RasterSignature + "' /> " );
+          sbHtml.AppendLine ( " value='" + image + "' /> " );
 
           this._TabIndex += 2;
         }
@@ -4861,7 +4836,209 @@ namespace Evado.UniForm.AdminClient
           sbHtml.Append ( " id='" + PageField.FieldId + "_input' " );
           sbHtml.Append ( " name='" + PageField.FieldId + "_input' " );
           sbHtml.Append ( " tabindex='" + _TabIndex + "' " );
-          sbHtml.AppendLine ( " value='" + RasterSignature + "' /> " );
+          sbHtml.AppendLine ( " value='" + image + "' /> " );
+
+          this._TabIndex += 2;
+        }
+      }
+      else
+      {
+        this.LogValue ( "Setting the raster image for draw an image." );
+
+        sbHtml.AppendLine ( "<script type=\"text/javascript\">" );
+        sbHtml.AppendLine ( "$(document).ready(function() { " );
+        sbHtml.AppendLine ( "console.log( \"Enabling the raster image pad\" ); " );
+        sbHtml.AppendLine ( "$('#sp" + PageField.Id + "').signaturePad({ drawOnly: true, validateFields: false,  lineTop: " + canvasHeight + " });" );
+        sbHtml.AppendLine ( " }); " );
+        sbHtml.AppendLine ( "</script>" );
+      }
+
+      //
+      // Insert the field footer elemements
+      //
+      this.createFieldFooter ( sbHtml, PageField );
+
+    }//END Field Method
+
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a rastor graphic field html markup
+    /// </summary>
+    /// <param name="sbHtml">StringBuilder object containing html markup.</param>
+    /// <param name="PageField">Field object.</param>
+    // ----------------------------------------------------------------------------------
+    private void createRastorGraphicField(
+      StringBuilder sbHtml,
+      Evado.UniForm.Model.EuField PageField )
+    {
+      this.LogMethod ( "createRastorGraphicField" );
+      this.LogValue ( "Field.Status: " + PageField.EditAccess );
+      //
+      // Initialise the methods variables and objects.
+      //
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
+      int titleColumnWidth = 100 - valueColumnWidth;
+      Evado.Model.EvRasterImage rasterImage = new Evado.Model.EvRasterImage ( );
+      String Image = String.Empty;
+      int canvasWidth = 660;
+      int canvasHeight = 440;
+      String backgroundImageURL = String.Empty;
+      bool fullWidth = false;
+      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-email-value cf' ";
+
+      PageField.Layout = EuFieldLayoutCodes.Left_Justified;
+
+      this.LogValue ( "Set Field.Status: " + PageField.EditAccess );
+
+      //
+      // Ineert the field header
+      //
+      this.createFieldHeader ( sbHtml, PageField, titleColumnWidth, fullWidth );
+
+      //
+      // Set the canvas width and height
+      //
+      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      {
+        canvasWidth = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
+      }
+
+      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Height ) == true )
+      {
+        canvasHeight = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Height );
+      }
+
+      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Background_Image_URL ) == true )
+      {
+        backgroundImageURL = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Background_Image_URL );
+      }
+
+      this.LogValue ( "Parameters:  Width: {0}, Height: {1}, Backgroun URL {2}.",
+        canvasWidth , canvasHeight, backgroundImageURL );
+
+      this.LogValue ( "Field Value: " + PageField.Value );
+
+      if ( PageField.Value != String.Empty )
+      {
+        try
+        {
+          rasterImage = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.Model.EvRasterImage> ( PageField.Value );
+
+          Image = Newtonsoft.Json.JsonConvert.SerializeObject ( rasterImage.Image );
+        }
+        catch
+        {
+          Image = String.Empty;
+        }
+      }
+
+      this.LogValue ( "Raster Signature: " + Image );
+
+      //
+      // Insert the field elements
+      //
+      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+      sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "' class='sigPad' >" );
+
+      sbHtml.AppendLine ( "<div id='sr" + PageField.Id + "' class='sigWrapper' > " );
+
+      sbHtml.Append ( "<canvas id='cav" + PageField.Id + "' " );
+      sbHtml.Append ( " class='pad'" );
+      sbHtml.Append ( " width='" + canvasWidth + "px'" );
+      sbHtml.Append ( " height='" + canvasHeight + "px' >" );
+      sbHtml.AppendLine ( "</canvas>" );
+      /*
+      sbHtml.AppendLine ( "<canvas id='cav" + PageField.Id + "' class='pad'"
+        + " width='100%' "
+        + " height='50%' ></canvas>" );
+      */
+      if ( Global.DebugDisplayOn == true )
+      {
+        sbHtml.AppendLine ( "<input " );
+        sbHtml.Append ( " type='text' " );
+        sbHtml.Append ( " id='" + PageField.FieldId + "_sig' " );
+        sbHtml.Append ( " name='" + PageField.FieldId + "_sig' " );
+        sbHtml.Append ( "tabindex='" + _TabIndex + "' " );
+        sbHtml.Append ( " class='output' " );
+        sbHtml.AppendLine ( " size='10' /> " );
+      }
+      else
+      {
+        sbHtml.AppendLine ( "<input " );
+        sbHtml.Append ( " type='hidden' " );
+        sbHtml.Append ( " id='" + PageField.FieldId + "_sig' " );
+        sbHtml.Append ( " name='" + PageField.FieldId + "_sig' " );
+        sbHtml.Append ( " tabindex='" + _TabIndex + "' " );
+        sbHtml.AppendLine ( " class='output' /> " );
+      }
+
+      this._TabIndex += 2;
+
+      sbHtml.AppendLine ( "</div>" );
+
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
+      {
+        sbHtml.AppendLine ( "<div class='sigNav menu links'>" );
+        sbHtml.AppendLine ( "<span class='clearButton'>" );
+        sbHtml.AppendLine ( "<a href='#clear' "
+          + " class='btn btn-danger cmd-button'>" + EuLabels.Image_Clear + "</a>" );
+        sbHtml.AppendLine ( "</span>" );
+        sbHtml.AppendLine ( "</div>" );
+      }
+      sbHtml.Append ( "</div>" );
+      sbHtml.Append ( "</div>" );
+
+      this._TabIndex += 2;
+      /*
+      sbHtml.AppendLine ( "<script type=\"text/javascript\">" );
+      sbHtml.AppendLine ( "$(document).ready(function() { " );
+
+      sbHtml.AppendLine ( "var width = document.getElementById('sr" + PageField.Id + "').scrollWidth;" );
+      sbHtml.AppendLine ( "var width = width-20;" );
+      sbHtml.AppendLine ( "var height = width/3;" );
+     // sbHtml.AppendLine ( "alert( \"width: \" + width +  \"height: \" +height);" );
+
+      sbHtml.AppendLine ( "var canv = document.getElementById('cav" + PageField.Id + "');" );
+      sbHtml.AppendLine ( " canv.width = width;" );
+      sbHtml.AppendLine ( " canv.height = height ;" );
+      sbHtml.AppendLine ( "</script>" );
+      */
+
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+      {
+        this.LogValue ( "Setting the signature for display only" );
+
+        sbHtml.AppendLine ( "<script type=\"text/javascript\">" );
+        sbHtml.AppendLine ( "$(document).ready(function() { " );
+        sbHtml.AppendLine ( "var sig = document.getElementById('" + PageField.FieldId + "_input').value;" );
+        //sbHtml.AppendLine ( "alert( \"value: \" + sig );" );
+        sbHtml.AppendLine ( "console.log( \"Enabling the signature pad\" ); " );
+        sbHtml.AppendLine ( "if (sig != \"\"){ " );
+        sbHtml.AppendLine ( "var api = $('#sp" + PageField.Id + "').signaturePad({ displayOnly: true });" );
+        sbHtml.AppendLine ( "api.regenerate(sig);" );
+        sbHtml.AppendLine ( " } " );
+        sbHtml.AppendLine ( " }); " );
+        sbHtml.AppendLine ( "</script>" );
+
+        if ( Global.DebugDisplayOn == true )
+        {
+          sbHtml.AppendLine ( "<input " );
+          sbHtml.Append ( " type='text' " );
+          sbHtml.Append ( " id='" + PageField.FieldId + "_input' " );
+          sbHtml.Append ( " name='" + PageField.FieldId + "_input' " );
+          sbHtml.Append ( " tabindex='" + _TabIndex + "' " );
+          sbHtml.AppendLine ( " value='" + Image + "' /> " );
+
+          this._TabIndex += 2;
+        }
+        else
+        {
+          sbHtml.Append ( "<input " );
+          sbHtml.Append ( " type='hidden' " );
+          sbHtml.Append ( " id='" + PageField.FieldId + "_input' " );
+          sbHtml.Append ( " name='" + PageField.FieldId + "_input' " );
+          sbHtml.Append ( " tabindex='" + _TabIndex + "' " );
+          sbHtml.AppendLine ( " value='" + Image + "' /> " );
 
           this._TabIndex += 2;
         }
@@ -4882,6 +5059,8 @@ namespace Evado.UniForm.AdminClient
       // Insert the field footer elemements
       //
       this.createFieldFooter ( sbHtml, PageField );
+
+      this.LogMethodEnd ( "createRastorGraphicField" );
 
     }//END Field Method
 
