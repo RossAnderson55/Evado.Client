@@ -637,7 +637,14 @@ namespace Evado.UniForm.WebClient
       // 
       // If the url does not include a http statement add the default image url 
       // 
-      stImageUrl = Global.concatinateHttpUrl ( Global.TempUrl, stImageUrl );
+      if ( PageField.hasParameter ( EuFieldParameters.Image_Url_Assignment ) == true )
+      {
+        stImageUrl = Global.concatinateHttpUrl ( Global.StaticImageUrl, stImageUrl );
+      }
+      else
+      {
+        stImageUrl = Global.concatinateHttpUrl ( Global.TempUrl, stImageUrl );
+      }
 
       this.LogValue ( "stImageUrl: " + stImageUrl );
 
@@ -3408,15 +3415,18 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Boolean:
             {
-             // this.LogDebug ( "Boolean (checkbox), Cid: {0}, Value: {1}.", colId, colValue );
-              sbHtml.Append ( "<td class='data'>" );
-              bool bVal = Evado.Model.EvStatics.getBool ( colValue );
               string buttonValue = "Yes";
+              colValue = colValue.ToLower ( );
 
               if ( header.OptionsOrUnit != String.Empty )
               {
                 buttonValue = header.OptionsOrUnit;
               }
+
+              //this.LogDebug ( "Access: {0}, Boolean (checkbox), Cid: {1}, buttonValue: {2}, colValue: {3}.",
+              //  PageField.EditAccess, colId, buttonValue, colValue );
+
+              sbHtml.Append ( "<td class='data'>" );
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
               {
@@ -3432,7 +3442,6 @@ namespace Evado.UniForm.WebClient
                 //
                 if ( colValue != String.Empty )
                 {
-                  colValue = colValue.ToLower ( );
                   sbHtml.AppendLine ( "<div class='checkbox'><label><input "
                  + "type='checkbox' "
                  + "id='" + colId + "' "
@@ -3440,7 +3449,7 @@ namespace Evado.UniForm.WebClient
                  + "tabindex = '" + _TabIndex + "' "
                  + "value='true' " );
 
-                  if ( bVal == true )
+                  if ( colValue == "true" )
                   {
                     sbHtml.Append ( " checked='checked' " );
                   }

@@ -624,8 +624,14 @@ namespace Evado.UniForm.AdminClient
       // 
       // If the url does not include a http statement add the default image url 
       // 
-      stImageUrl = Global.concatinateHttpUrl ( Global.TempUrl, stImageUrl );
-
+      if ( PageField.hasParameter( EuFieldParameters.Image_Url_Assignment ) == true )
+      {
+        stImageUrl = Global.concatinateHttpUrl ( Global.StaticImageUrl, stImageUrl );
+      }
+      else
+      {
+        stImageUrl = Global.concatinateHttpUrl ( Global.TempUrl, stImageUrl );
+      }
       this.LogDebug ( "stImageUrl: " + stImageUrl );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-image-value cf' "; // class='cell value cell-image-value cf' ";
@@ -1007,7 +1013,7 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "' >" );
-      sbHtml.AppendLine ( "<input type='number' "
+      sbHtml.AppendLine ( "<input type='text' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "value='" + PageField.Value + "' "
@@ -1182,7 +1188,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp1-" + PageField.Id + "' >" );
 
-      sbHtml.AppendLine ( "<input type='number' "
+      sbHtml.AppendLine ( "<input type='text' "
         + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "value='" + stLowerValue + "' "
@@ -1223,7 +1229,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<span>&nbsp;-&nbsp;</span>" );
 
       sbHtml.AppendLine ( "<span id='sp2-" + PageField.Id + "' >" );
-      sbHtml.AppendLine ( "<input type='number' "
+      sbHtml.AppendLine ( "<input type='text' "
         + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "value='" + stUpperValue + "' "
@@ -3272,7 +3278,7 @@ namespace Evado.UniForm.AdminClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='10' "
-                    + "type='number' "
+                    + "type='text' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
@@ -3314,7 +3320,7 @@ namespace Evado.UniForm.AdminClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='5' "
-                    + "type='number' "
+                    + "type='text' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
@@ -3379,7 +3385,7 @@ namespace Evado.UniForm.AdminClient
                   + "tabindex = '" + _TabIndex + "' "
                   + "maxlength='10' "
                   + "size='10' "
-                  + "type='number' "
+                  + "type='text' "
                   + "value='" + colValue + "' "
                   + " class='form-control' "
                   + " readonly='readonly' " +
@@ -3394,17 +3400,22 @@ namespace Evado.UniForm.AdminClient
 
             case Evado.Model.EvDataTypes.Boolean:
             {
-              sbHtml.Append ( "<td class='data'>" );
               string buttonValue = "Yes";
+              colValue = colValue.ToLower ( );
 
               if ( header.OptionsOrUnit != String.Empty )
               {
                 buttonValue = header.OptionsOrUnit;
-              }
-              this.LogDebug ( "Boolean (checkbox), Cid: {0}, buttonValue: {1}, colValue: {1}.", colId, buttonValue, colValue );
+              } 
+
+              //this.LogDebug ( "Access: {0}, Boolean (checkbox), Cid: {1}, buttonValue: {2}, colValue: {3}.",
+              //  PageField.EditAccess, colId, buttonValue, colValue );
+
+              sbHtml.Append ( "<td class='data'>" );
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
               {
+                this.LogDebug ( "EditAccess = Disabled." );
                 if ( colValue == "true" )
                 {
                   sbHtml.Append ( buttonValue );
@@ -3417,7 +3428,6 @@ namespace Evado.UniForm.AdminClient
                 //
                 if ( colValue != String.Empty )
                 {
-                  colValue = colValue.ToLower ();
                   sbHtml.AppendLine ( "<div class='checkbox'><label><input "
                    + "type='checkbox' "
                    + "id='" + colId + "' "
@@ -3819,7 +3829,7 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.Append ( "<div " + stFieldValueStyling + " > "
         + "<span id='sp" + PageField.Id + "'>"
-        + "<input type='number' "
+        + "<input type='text' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "tabindex = '" + _TabIndex + "' "
@@ -4914,7 +4924,7 @@ namespace Evado.UniForm.AdminClient
       }
 
       this.LogValue ( "Parameters:  Width: {0}, Height: {1}, Backgroun URL {2}.",
-        canvasWidth , canvasHeight, backgroundImageURL );
+        canvasWidth, canvasHeight, backgroundImageURL );
 
       this.LogValue ( "Field Value: " + PageField.Value );
 
