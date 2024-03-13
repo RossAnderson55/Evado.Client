@@ -3080,6 +3080,7 @@ namespace Evado.UniForm.AdminClient
     private void updateWebPageCommandTableObject(
       Evado.UniForm.Model.EuField field )
     {
+      this.LogMethod ( "updateWebPageCommandTableObject" );
       //
       // Iterate through the rows in the table.
       //
@@ -3089,6 +3090,13 @@ namespace Evado.UniForm.AdminClient
         string stValue = field.Table.Rows [ iRow ].No.ToString ( );
         this.UserSession.PageCommand.AddParameter ( stName, stValue );
 
+        this.LogDebug ( "NO: Row: {0}, Vaue: {1} ", stName, stValue );
+
+        stName = field.FieldId + "_" + ( iRow + 1 ) + "_ID";
+        stValue = field.Table.Rows [ iRow ].RowId;
+        this.UserSession.PageCommand.AddParameter ( stName, stValue );
+
+        this.LogDebug ( "ROWID: Row: {0}, Vaue: {1} ", stName, stValue );
         //
         // Iterate through the columns in the table.
         //
@@ -3112,7 +3120,6 @@ namespace Evado.UniForm.AdminClient
 
           stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
           stValue = field.Table.Rows [ iRow ].Column [ iCol ];
-
           this.LogDebug ( "Row: {0}, Vaue: {1} ", stName, stValue );
 
           this.UserSession.PageCommand.AddParameter ( stName, stValue );
@@ -3121,6 +3128,7 @@ namespace Evado.UniForm.AdminClient
 
       }//END row iteration loop.
 
+      this.LogMethodEnd ( "updateWebPageCommandTableObject" );
     }//END updateWebPageCommandTableObject method
 
     ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3564,6 +3572,7 @@ namespace Evado.UniForm.AdminClient
 
       Global.LogDebugValue ( logValue );
     }
+
     // ==================================================================================
     /// <summary>
     /// This method appendes debuglog string to the debug log for the class and adds

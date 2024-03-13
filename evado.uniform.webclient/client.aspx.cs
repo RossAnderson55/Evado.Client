@@ -3063,7 +3063,6 @@ namespace Evado.UniForm.WebClient
 
     }//END updateWebPageCommandObject method
 
-    // ==================================================================================
 
     /// <summary>
     /// This method updates the Command parameters with field values.
@@ -3078,7 +3077,16 @@ namespace Evado.UniForm.WebClient
       for ( int iRow = 0 ; iRow < field.Table.Rows.Count ; iRow++ )
       {
         string stName = field.FieldId + "_" + ( iRow + 1 ) + "_0";
-        this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].No );
+        string stValue = field.Table.Rows [ iRow ].No.ToString ( );
+        this.UserSession.PageCommand.AddParameter ( stName, stValue );
+
+        this.LogDebug ( "NO: Row: {0}, Vaue: {1} ", stName, stValue );
+
+        stName = field.FieldId + "_" + ( iRow + 1 ) + "_ID";
+        stValue = field.Table.Rows [ iRow ].RowId;
+        this.UserSession.PageCommand.AddParameter ( stName, stValue );
+
+        this.LogDebug ( "ROWID: Row: {0}, Vaue: {1} ", stName, stValue );
 
         //
         // Iterate through the columns in the table.
@@ -3096,12 +3104,17 @@ namespace Evado.UniForm.WebClient
           //
           // If the cel is not readonly and has a value then add it to the parameters.
           //
-          if ( field.Table.Rows [ iRow ].Column [ iCol ] != String.Empty )
+          if ( field.Table.Rows [ iRow ].Column [ iCol ] == String.Empty )
           {
-            stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
-            this.UserSession.PageCommand.AddParameter ( stName, field.Table.Rows [ iRow ].Column [ iCol ] );
+            continue;
+          }
 
-          }//END has a value.
+          stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
+          stValue = field.Table.Rows [ iRow ].Column [ iCol ];
+
+          this.LogDebug ( "Row: {0}, Vaue: {1} ", stName, stValue );
+
+          this.UserSession.PageCommand.AddParameter ( stName, stValue );
 
         }//END column iteration loop.
 
