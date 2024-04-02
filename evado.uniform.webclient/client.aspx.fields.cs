@@ -1973,7 +1973,7 @@ namespace Evado.UniForm.WebClient
       {
         stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
       }
-      if ( widthValue == EuFieldValueWidths.Twenty_Percent )
+      if ( widthValue == EuFieldValueWidths.Forty_Percent )
       {
         stFieldValueStyling = "style='width:285px' class='cell value cell-check-value cf' ";
       }
@@ -2745,10 +2745,6 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
-      }
-      if ( widthValue == EuFieldValueWidths.Twenty_Percent )
-      {
-        stFieldValueStyling = "style='width:20%' class='cell value cell-check-value cf' ";
       }
 
       //

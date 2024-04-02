@@ -13,6 +13,10 @@ body, h3, .Debug,.plot-container, .font-size10,.e-menu-bar a.btn, .e-menu-bar bu
   font-size: 8pt;
 }
 
+body {
+  margin: 0px;
+  padding: 0px;
+}
 
 #page {
   position: relative;
@@ -153,7 +157,6 @@ h4 {
   border-radius: 6px;
   padding: 60px;
 }
-
 
 .mandatory {
   color: red;
