@@ -1791,6 +1791,24 @@ namespace Evado.UniForm.WebClient
           this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
           break;
         }
+        case Evado.Model.EvDataTypes.Boolean:
+        {
+          this.LogDebug ( "Boolean Field." );
+          stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
+
+          this.LogDebug ( "Field stValue: " + stValue );
+          // 
+          // Does the returned field value exist
+          // 
+          FormField.Value = "false";
+          if ( stValue != null )
+          {
+            FormField.Value = stValue;
+          }
+
+          this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
+          break;
+        }
         default:
         {
           stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
