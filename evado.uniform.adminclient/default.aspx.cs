@@ -3369,8 +3369,10 @@ namespace Evado.UniForm.AdminClient
         "Default",
         Evado.UniForm.Model.EuMethods.Null );
 
-      this.UserSession.PageCommand.AddParameter ( Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_ID, this.UserSession.UserId );
-      this.UserSession.PageCommand.AddParameter ( Evado.UniForm.Model.EuStatics.PARAMETER_NETWORK_ROLES, roles );
+      this.UserSession.PageCommand.AddParameter ( 
+        Evado.UniForm.Model.EuStatics.PARAMETER_LOGIN_USER_ID, this.UserSession.UserId );
+      this.UserSession.PageCommand.AddParameter ( 
+        Evado.UniForm.Model.EuStatics.PARAMETER_NETWORK_GROUPS, roles );
 
 
       this.LogDebug ( "Login PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
