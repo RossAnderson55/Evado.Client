@@ -87,6 +87,9 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="client.aspx.Update.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="EucEnumerators.cs" />
     <Compile Include="EucKeyValuePair.cs" />
     <Compile Include="EucSession.cs" />
