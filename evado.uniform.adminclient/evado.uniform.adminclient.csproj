@@ -81,6 +81,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\webattributes.cs" />
+    <Compile Include="default.aspx.Update.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="default.aspx.generation.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
