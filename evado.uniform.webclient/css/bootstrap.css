@@ -1821,13 +1821,40 @@ input[type="date"] {
   text-align: center;
 }
 
+/* The radio and checkbox lists in a table stiling. */
 .radio-table,
-.checkbox-table{
+.checkbox-table {
   margin: 0px;
   margin: 0px;
   width: 0px;
   text-align: center;
 }
+
+  .radio-table input[type="radio"],
+  .checkbox-table input[type="checkbox"] {
+    margin: 0px;
+    margin: 0px;
+    width: 0px;
+    text-align: center;
+    visibility: hidden;
+  }
+
+  .radio-table .label,
+  .checkbox-table .label {
+    margin: 0px;
+    padding: 10px;
+    text-align: left;
+    font-weight: normal;
+    background-color: #F8F8F8;
+    color: #000000;
+  }
+
+  .radio-table input[type="radio"]:checked + .label,
+  .checkbox-table input[type="checkbox"]:checked + .label {
+    font-weight: bold;
+    background-color: #99CCFF; /* #b72521;*/
+    color: #000000;
+  }
 
   .radio-table input[type="radio"],
   .checkbox-table input[type="checkbox"] {

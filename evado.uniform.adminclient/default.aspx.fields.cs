@@ -3424,7 +3424,9 @@ namespace Evado.UniForm.AdminClient
                 //
                 if ( colValue != String.Empty )
                 {
-                  sbHtml.AppendLine ( "<div class='checkbox'><label><input "
+                  sbHtml.AppendLine ( "<div class='checkbox-table'>" );
+                  sbHtml.AppendLine ( "<label >" );
+                  sbHtml.AppendLine ( "<input "
                    + "type='checkbox' "
                    + "id='" + colId + "' "
                    + "name='" + colId + "' "

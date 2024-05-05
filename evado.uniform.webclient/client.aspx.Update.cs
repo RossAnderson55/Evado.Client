@@ -994,21 +994,6 @@ namespace Evado.UniForm.WebClient
           //this.LogDebug ( "" );
           //this.LogDebug ( "tableFieldId: " + tableFieldId );
 
-          // 
-          // Get the table field and update the test field object.
-          // 
-          string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
-
-          // 
-          // Does the returned field value exist
-          // 
-          if ( value == null )
-          {
-            value = String.Empty;
-          }
-
-          //this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
-
           //
           // If NA is entered set to numeric null.
           //
@@ -1016,6 +1001,20 @@ namespace Evado.UniForm.WebClient
           {
             case Evado.Model.EvDataTypes.Numeric:
             {
+              // 
+              // Get the table field and update the test field object.
+              // 
+              string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
+
+              // 
+              // Does the returned field value exist
+              // 
+              if ( value == null )
+              {
+                continue;
+              }
+
+              this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
               {
                 value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
@@ -1025,16 +1024,37 @@ namespace Evado.UniForm.WebClient
             }
             case EvDataTypes.Boolean:
             {
+              // 
+              // Does the returned field value exist
+              // 
+              if ( FormField.Table.Rows [ rowIndex ].Column [ colIndex ] == String.Empty )
+              {
+                continue;
+              }
+              // 
+              // Get the table field and update the test field object.
+              // 
+              string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
+
+              // 
+              // Does the returned field value exist
+              // 
+              if ( value == null )
+              {
+                value = String.Empty;
+              }
+
+              //this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               //
               // reset boolean data types as update not resetn selected values.
               //
               bool bValue = EvStatics.getBool ( value );
 
-              this.LogDebug ( "UPDATING: Bool DataType, Row: {O}, Col: {1}, value: {2}, bValue: {2}.", rowIndex, colIndex, value, bValue );
+             // this.LogDebug ( "UPDATING: Bool DataType, Row: {0}, Col: {1}, value: {2}, bValue: {3}.", rowIndex, colIndex, value, bValue );
 
               FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = bValue.ToString ( );
 
-              this.LogDebug ( "Table Cell {0}-{1} = {2}.", rowIndex, colIndex, FormField.Table.Rows [ rowIndex ].Column [ colIndex ] );
+             // this.LogDebug ( "Table Cell {0}-{1} = {2}.", rowIndex, colIndex, FormField.Table.Rows [ rowIndex ].Column [ colIndex ] );
 
               break;
             }
@@ -1044,6 +1064,20 @@ namespace Evado.UniForm.WebClient
             }
             default:
             {
+              // 
+              // Get the table field and update the test field object.
+              // 
+              string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
+
+              // 
+              // Does the returned field value exist
+              // 
+              if ( value == null )
+              {
+                continue;
+              }
+
+              this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = value;
               break;
             }
