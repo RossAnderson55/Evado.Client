@@ -141,9 +141,11 @@ namespace Evado.UniForm.WebClient
         || rightColumnPercentage > 0 )
       {
         enableBodyColumns = true;
+
+        this.bodyWidthPixels = this.iWindowWidthPixels * centerColumPercentage / 100;
       }
 
-      this.LogDebug ( "enableBodyColumns: {0}", enableBodyColumns );
+      this.LogDebug ( "enableBodyColumns: {0}, bodyWidthPixels: {1}.", enableBodyColumns, this.bodyWidthPixels );
       //
       // Generate the group menu.
       //

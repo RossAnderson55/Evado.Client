@@ -64,6 +64,10 @@ namespace Evado.UniForm.WebClient
 
     private bool LocalCommand = false;
 
+    private int iWindowWidthPixels = 0;
+
+    private float bodyWidthPixels = 0;
+
 
     ///*********************************************************************************
     #endregion
@@ -339,6 +343,15 @@ namespace Evado.UniForm.WebClient
         }
 
         this.LogDebug ( "END IsPostBack == FALSE " );
+      }
+      else
+      {
+        if ( this.windowWidth.Value != String.Empty )
+        {
+          this.iWindowWidthPixels = EvStatics.getInteger ( this.windowWidth.Value );
+
+          this.bodyWidthPixels = this.iWindowWidthPixels * 0.98F;
+        }
       }
 
       if ( Global.AuthenticationMode != System.Web.Configuration.AuthenticationMode.Windows )

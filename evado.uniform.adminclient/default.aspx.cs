@@ -67,6 +67,10 @@ namespace Evado.UniForm.AdminClient
 
     Evado.Model.EvEventCodes LastEventCode = Evado.Model.EvEventCodes.Ok;
 
+    private int iWindowWidthPixels = 0;
+
+    private float bodyWidthPixels = 0;
+
 
     ///*********************************************************************************
     #endregion
@@ -94,10 +98,16 @@ namespace Evado.UniForm.AdminClient
         this.LogValue ( "UserHostAddress: " + Request.UserHostAddress );
         this.LogDebug ( "UserHostName: " + Request.UserHostName );
 
-        this.LogDebug ( "LogonUserIdentity IsAuthenticated: " + Request.LogonUserIdentity.IsAuthenticated );
-        this.LogDebug ( "LogonUserIdentity Name: " + Request.LogonUserIdentity.Name );
-        this.LogDebug ( "User.Identity.Name: " + User.Identity.Name );
-        this.LogDebug ( "Authentication Type: " + Global.AuthenticationMode );
+        this.LogDebug ( "LogonUserIdentity IsAuthenticated: {0}.", Request.LogonUserIdentity.IsAuthenticated );
+        this.LogDebug ( "LogonUserIdentity Name: {0}.", Request.LogonUserIdentity.Name );
+        this.LogDebug ( "User.Identity.Name:{0}.", User.Identity.Name );
+        this.LogDebug ( "Authentication Type:{0}.", Global.AuthenticationMode );
+        this.LogDebug ( "Session.Timeout: {0}.", this.Session.Timeout  );
+
+        if ( this.Session.IsNewSession == true )
+        {
+          this.UserSession.SessionTimeDateStamp = DateTime.Now;
+        }
 
         // 
         // Initialise the method variables and objects.
@@ -335,6 +345,15 @@ namespace Evado.UniForm.AdminClient
 
         this.LogDebug ( "END IsPostBack == FALSE " );
       }
+      else
+      {
+        if ( this.windowWidth.Value != String.Empty )
+        {
+          this.iWindowWidthPixels = EvStatics.getInteger ( this.windowWidth.Value );
+
+          this.bodyWidthPixels = this.iWindowWidthPixels * 0.98F;
+        }
+      }
 
       if ( Global.AuthenticationMode != System.Web.Configuration.AuthenticationMode.Windows )
       {
@@ -384,6 +403,7 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
       this.LogDebug ( "Command History length: " + this.UserSession.CommandHistoryList.Count );
       this.LogDebug ( "Icon list length: " + this.UserSession.IconList.Count );
+      this.LogDebug ( "SessionTimeDateStamp: {0}.", this.UserSession.SessionTimeDateStamp.ToString ( "dd-MM-yy HH:mm:ss" ) );
 
       this.LogMethodEnd ( "loadSessionVariables" );
 

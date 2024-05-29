@@ -5372,6 +5372,7 @@ namespace Evado.UniForm.WebClient
 
     }//END createExternalImageField Method
 
+
     // ===================================================================================
     /// <summary>
     /// This method creates a chart plot field html markup
@@ -5384,6 +5385,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "createPlotChartField" );
+      this.LogDebug ( "bodyWidthPixels: {0}.", this.bodyWidthPixels );
       //
       // Initialise the methods variables and objects.
       //
@@ -5391,29 +5393,38 @@ namespace Evado.UniForm.WebClient
       int titleColumnWidth = 100 - valueColumnWidth;
       string placeHolder = PageField.FieldId.ToLower ( );
       String stWidth = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
+      {
+        valueColumnWidth = 98;
+        titleColumnWidth = 98;
+      }
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-textarea-value cf' ";
 
+
+      int iWidth = Convert.ToInt32 ( valueColumnWidth * this.bodyWidthPixels / 100 );
       //
       // Set default width
       //
-      if ( stWidth == String.Empty )
+      if ( stWidth != String.Empty )
       {
-        stWidth = "650";
+        iWidth = Evado.Model.EvStatics.getInteger ( stWidth );
       }
-      int width = Evado.Model.EvStatics.getInteger ( stWidth );
-      int height = width / 2;
+      int iHeight = iWidth / 2;
+
+      this.LogDebug ( " iWidth: {0}, iHeight: {1}.", iWidth, iHeight );
+
       switch ( PageField.Type )
       {
         case Evado.Model.EvDataTypes.Donut_Chart:
         case Evado.Model.EvDataTypes.Pie_Chart:
         {
-          height = width;
+          iHeight = iWidth;
           break;
         }
       }
 
-      this.LogDebug ( "Width: " + width + ", height: " + height );
+      this.LogDebug ( "Width: " + iWidth + ", height: " + iHeight );
       //
       // Ineert the field header
       //
@@ -5424,8 +5435,10 @@ namespace Evado.UniForm.WebClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "'>" );
-      String plotCode = this.generatePlotCode ( placeHolder, PageField );
+      String plotCode = this.generatePlotCode ( PageField, placeHolder );
 
+      this.LogDebug ( "PageField.Value: \r\n{0}", PageField.Value );
+      this.LogDebug ( "plotCode: \r\n{0}", plotCode );
       //
       // Chart sizing script
       //
@@ -5437,10 +5450,9 @@ namespace Evado.UniForm.WebClient
       sbHtml.AppendLine ( " });" );
       sbHtml.AppendLine ( "</script>" );
       */
-
       sbHtml.AppendLine ( plotCode );
 
-      sbHtml.AppendLine ( "<div class=\"plot-container\" style=\"width: " + width + "px; height: " + height + "px;\">" );
+      sbHtml.AppendLine ( "<div class=\"plot-container\" style=\"width: 98%; height: " + iHeight + "px;\">" );
       sbHtml.AppendLine ( "<div id=\"" + placeHolder + "\" class=\"plot-placeholder\"></div>" );
       sbHtml.AppendLine ( "</div>" );
       /*
@@ -5474,10 +5486,11 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
     private String generatePlotCode(
-      String PlaceHolder,
-      Evado.UniForm.Model.EuField PageField )
+      Evado.UniForm.Model.EuField PageField,
+      String PlaceHolder )
     {
       this.LogMethod ( "generatePlotCode" );
+      this.LogDebug ( "PlaceHolder: {0}.", PlaceHolder );
       StringBuilder code = new StringBuilder ( );
       string legend = String.Empty;
 
@@ -5491,26 +5504,42 @@ namespace Evado.UniForm.WebClient
       }
       this.LogDebug ( "Display Legend: " + plotObject.DisplayLegend + ", legend: " + legend );
 
-      if ( this.UserSession.PlotScriptLoaded == false )
-      {
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.canvaswrapper.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.colorhelpers.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.saturated.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.browser.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.drawSeries.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.uiConstants.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.legend.js\"></script>" );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.pie.js\"></script> " );
-        code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.stack.js\"></script> " );
-        this.UserSession.PlotScriptLoaded = true;
-      }
+      //code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.canvaswrapper.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.colorhelpers.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.saturated.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.axislabels.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.browser.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.categories.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.composeimages.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.crosshair.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.drawSeries.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.errorbars.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.fillbetween.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.flatdata.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.hover.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.image.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.legend.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.logaxis.js\"></script>" );
+      //   code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.navigate.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.pie.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.resize.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.saturated.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.selection.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.stack.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.symbol.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.threshold.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.time.js\"></script>" );
+      //  code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.touch.js\"></script>" );
+      //   code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.touchnavigate.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.uiConstants.js\"></script>" );
+      code.AppendLine ( "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/jquery.flot.legend.js\"></script>" );
 
       code.AppendLine ( "<script type=\"text/javascript\">" );
 
       code.AppendLine ( "$(function () {" );
-      code.AppendLine ( "var " + PlaceHolder + " = " + plotObject.GetData ( ) );
+      code.AppendFormat ( "var {0} = {1};\r\n", PlaceHolder, plotObject.GetData ( ) );
 
       switch ( PageField.Type )
       {
@@ -5587,8 +5616,8 @@ namespace Evado.UniForm.WebClient
         case Evado.Model.EvDataTypes.Line_Chart:
         default:
         {
-          code.Append ( "\t$.plot(\"#" + PlaceHolder + "\", " );
-          code.AppendLine ( PlaceHolder );
+          code.AppendFormat ( "$.plot(\"#{0}\",{1}", PlaceHolder, PlaceHolder );
+
           if ( legend != String.Empty )
           {
             code.AppendLine ( ", { " );
