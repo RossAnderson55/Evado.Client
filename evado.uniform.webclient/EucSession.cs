@@ -127,11 +127,6 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     public bool IsExternalCommand = false;
 
-    /// <summary>
-    /// This field indicates that the plot script has been loaded from the field data.
-    /// </summary>
-    public bool PlotScriptLoaded = false;
-
 
   }//END Class
 

@@ -133,11 +133,6 @@ namespace Evado.UniForm.AdminClient
     /// </summary>
     public bool IsExternalCommand { get; set; } = false;
 
-    /// <summary>
-    /// This field indicates that the plot script has been loaded from the field data.
-    /// </summary>
-    public bool PlotScriptLoaded { get; set; } = false;
-
   }//END Class
 
 }//END NameSpace
