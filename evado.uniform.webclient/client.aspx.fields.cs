@@ -5393,6 +5393,7 @@ namespace Evado.UniForm.WebClient
       int titleColumnWidth = 100 - valueColumnWidth;
       string placeHolder = PageField.FieldId.ToLower ( );
       String stWidth = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      String stRatio = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height_Width_ratio );
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         valueColumnWidth = 98;
@@ -5401,8 +5402,8 @@ namespace Evado.UniForm.WebClient
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-textarea-value cf' ";
 
-
       int iWidth = Convert.ToInt32 ( valueColumnWidth * this.bodyWidthPixels / 100 );
+      float fRatio = 0.5F;
       //
       // Set default width
       //
@@ -5410,9 +5411,15 @@ namespace Evado.UniForm.WebClient
       {
         iWidth = Evado.Model.EvStatics.getInteger ( stWidth );
       }
-      int iHeight = iWidth / 2;
+      if ( stRatio != String.Empty )
+      {
+        fRatio = Evado.Model.EvStatics.getFloat ( stRatio );
+      }
+      float fHeight = fRatio * iWidth;
+      int iHeight = Convert.ToInt32 ( fHeight );
 
-      this.LogDebug ( " iWidth: {0}, iHeight: {1}.", iWidth, iHeight );
+      //this.LogDebug ( " iWidth: {0},fHeight: {1}, iHeight: {2}.", iWidth, fHeight, iHeight );
+
 
       switch ( PageField.Type )
       {

@@ -5484,8 +5484,9 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      string width = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      string sWidth = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       string height = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height );
+      String stRatio = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height_Width_ratio );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell cell-display-text-value cf' ";
       String stVideoStreamParameters = String.Empty;
       String stImageUrl = PageField.Value.ToLower ( );
@@ -5501,9 +5502,9 @@ namespace Evado.UniForm.AdminClient
 
       this.LogDebug ( "stImageUrl: " + stImageUrl );
 
-      if ( width == String.Empty )
+      if ( sWidth == String.Empty )
       {
-        width = "80%";
+        sWidth = "80%";
       }
       //
       // Ineert the field header
@@ -5519,7 +5520,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.Append ( "id='" + PageField.FieldId + "' " );
       sbHtml.Append ( "name='" + PageField.FieldId + "' " );
       sbHtml.Append ( "src='" + stImageUrl + "' " );
-      sbHtml.Append ( "width='" + width + "' " );
+      sbHtml.Append ( "width='" + sWidth + "' " );
       if ( height != String.Empty )
       {
         sbHtml.Append ( "height='" + height + "' " );
@@ -5557,16 +5558,18 @@ namespace Evado.UniForm.AdminClient
       int titleColumnWidth = 100 - valueColumnWidth;
       string placeHolder = PageField.FieldId.ToLower ( );
       String stWidth = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      String stRatio = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height_Width_ratio );
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         valueColumnWidth = 98;
         titleColumnWidth = 98;
       }
+      this.LogDebug ( " stWidth: {0}, stRatio: {1}.", stWidth, stRatio );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-textarea-value cf' ";
 
-
       int iWidth = Convert.ToInt32 ( valueColumnWidth * this.bodyWidthPixels / 100 );
+      float fRatio = 0.5F;
       //
       // Set default width
       //
@@ -5574,9 +5577,14 @@ namespace Evado.UniForm.AdminClient
       {
         iWidth = Evado.Model.EvStatics.getInteger ( stWidth );
       }
-      int iHeight = iWidth / 2;
+      if ( stRatio != String.Empty )
+      {
+        fRatio = Evado.Model.EvStatics.getFloat ( stRatio );
+      }
+      float fHeight =  fRatio * iWidth;
+      int iHeight = Convert.ToInt32 ( fHeight );
 
-      this.LogDebug ( " iWidth: {0}, iHeight: {1}.", iWidth, iHeight );
+      //this.LogDebug ( " iWidth: {0},fHeight: {1}, iHeight: {2}.", iWidth, fHeight, iHeight );
 
       switch ( PageField.Type )
       {
@@ -5588,7 +5596,7 @@ namespace Evado.UniForm.AdminClient
         }
       }
 
-      this.LogDebug ( "Width: " + iWidth + ", height: " + iHeight );
+      this.LogDebug ( "iWidth: {0}, iHeight: {1}. ", iWidth, iHeight );
       //
       // Ineert the field header
       //
