@@ -1027,7 +1027,7 @@ namespace Evado.UniForm.WebClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "' >" );
-      sbHtml.AppendLine ( "<input type='text' "
+      sbHtml.AppendLine ( "<input type='number' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "value='" + PageField.Value + "' "
@@ -1202,7 +1202,7 @@ namespace Evado.UniForm.WebClient
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp1-" + PageField.Id + "' >" );
 
-      sbHtml.AppendLine ( "<input type='text' "
+      sbHtml.AppendLine ( "<input type='number' "
         + "id='" + PageField.FieldId + ClientPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "name='" + PageField.FieldId + ClientPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "value='" + stLowerValue + "' "
@@ -1243,7 +1243,7 @@ namespace Evado.UniForm.WebClient
       sbHtml.AppendLine ( "<span>&nbsp;-&nbsp;</span>" );
 
       sbHtml.AppendLine ( "<span id='sp2-" + PageField.Id + "' >" );
-      sbHtml.AppendLine ( "<input type='text' "
+      sbHtml.AppendLine ( "<input type='number' "
         + "id='" + PageField.FieldId + ClientPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "name='" + PageField.FieldId + ClientPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "value='" + stUpperValue + "' "
@@ -3289,7 +3289,7 @@ namespace Evado.UniForm.WebClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='10' "
-                    + "type='text' "
+                    + "type='number' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
@@ -3331,7 +3331,7 @@ namespace Evado.UniForm.WebClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='5' "
-                    + "type='text' "
+                    + "type='number' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
