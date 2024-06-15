@@ -1459,7 +1459,7 @@ namespace Evado.UniForm.WebClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnPageLeft_OnClick event method" );
+      this.LogMethod ( "btnPageLeft_OnClick event" );
     }
 
     // =====================================================================================
@@ -1477,7 +1477,7 @@ namespace Evado.UniForm.WebClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnPageRight_OnClick event method" );
+      this.LogMethod ( "btnPageRight_OnClick event" );
     }
 
     //*********************************************************************************
@@ -1559,7 +1559,7 @@ namespace Evado.UniForm.WebClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnLogin_OnClick event method" );
+      this.LogMethod ( "btnLogin_OnClick event" );
       this.LogDebug ( "UserId: " + this.fldUserId.Value );
       this.LogDebug ( "Password: " + this.fldPassword.Value );
       //
@@ -1645,7 +1645,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void SendWindowsLoginCommand( )
     {
-      this.LogMethod ( "sendWindowsLoginCommand event method" );
+      this.LogMethod ( "sendWindowsLoginCommand event" );
 
 
       string roles = String.Empty;
@@ -1714,7 +1714,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void SendLoginCommand( String UserId, String Password )
     {
-      this.LogMethod ( "SendLoginCommand method" );
+      this.LogMethod ( "SendLoginCommand" );
       this.LogDebug ( "PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
 
       //
@@ -1796,7 +1796,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     protected void requestLogout( )
     {
-      this.LogMethod ( "requestLoogout method" );
+      this.LogMethod ( "requestLoogout" );
       this.fldPassword.Value = String.Empty;
       //
       // Create a page object.

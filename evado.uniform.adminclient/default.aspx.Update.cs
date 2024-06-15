@@ -22,22 +22,13 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Web;
-using System.Web.Security;
 using System.IO;
-using System.Text;
-using System.Net.Http;
 
 ///Evado. namespace references.
 
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
-using System.ComponentModel.Design;
-using System.Web.UI.MobileControls;
-using System.Web.UI.WebControls;
 using Evado.Model;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
-using System.Drawing;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -65,10 +56,11 @@ namespace Evado.UniForm.AdminClient
         && this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Delete_Object
         && this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Custom_Method )
       {
+        this.LogMethodEnd ( "getPageCommandParameters" );
         return;
       }
 
-      this.LogDebug ( "Updating command parameters. " );
+      //this.LogDebug ( "Updating command parameters. " );
 
       //
       // Upload the page images.
@@ -283,10 +275,10 @@ namespace Evado.UniForm.AdminClient
       Evado.UniForm.Model.EuEditAccess GroupStatus )
     {
       this.LogMethod ( "updateFormField" );
-      this.LogDebug ( "FormField.DataId: " + FormField.FieldId );
-      this.LogDebug ( "FormField.DataType: " + FormField.Type );
-      this.LogDebug ( "FormField.Status: " + FormField.EditAccess );
-      this.LogDebug ( "GroupStatus: " + GroupStatus );
+      //this.LogDebug ( "FormField.DataId: " + FormField.FieldId );
+      //this.LogDebug ( "FormField.DataType: " + FormField.Type );
+      //this.LogDebug ( "FormField.Status: " + FormField.EditAccess );
+      //this.LogDebug ( "GroupStatus: " + GroupStatus );
 
       // 
       // Initialise methods variables and objects.
@@ -302,7 +294,7 @@ namespace Evado.UniForm.AdminClient
       if ( FormField.Type == Evado.Model.EvDataTypes.Binary_File
         || FormField.Type == Evado.Model.EvDataTypes.Image )
       {
-        this.LogDebug ( "Binary or Image field found but not processed" );
+        //this.LogDebug ( "Binary or Image field found but not processed" );
         this.LogMethodEnd ( "updateFormField" );
         return FormField;
       }
@@ -314,9 +306,8 @@ namespace Evado.UniForm.AdminClient
       if ( FormField.EditAccess != Evado.UniForm.Model.EuEditAccess.Enabled
        && FormField.Type != EvDataTypes.Computed_Field )
       {
-        this.LogDebug ( "User does not have edit access." );
+        //this.LogDebug ( "User does not have edit access." );
         this.LogMethodEnd ( "updateFormField" );
-
         return FormField;
       }//END updating field
 
@@ -964,7 +955,7 @@ namespace Evado.UniForm.AdminClient
       NameValueCollection ReturnedFormFields )
     {
       this.LogMethod ( "updateFormTableFields" );
-      this.LogValue ( " FieldId: " + FormField.FieldId );
+      //this.LogValue ( " FieldId: " + FormField.FieldId );
       // 
       // Iterate through the rows and columns of the table filling the 
       // data object with the test values.
@@ -1015,11 +1006,12 @@ namespace Evado.UniForm.AdminClient
                 continue;
               }
 
-              this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
+             // this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
               {
                 value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
               }
+
               FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = value;
               break;
             }
@@ -1028,7 +1020,7 @@ namespace Evado.UniForm.AdminClient
               // 
               // Does the returned field value exist
               // 
-              if (  FormField.Table.Rows [ rowIndex ].Column [ colIndex ] == String.Empty )
+              if ( FormField.Table.Rows [ rowIndex ].Column [ colIndex ] == String.Empty )
               {
                 continue;
               }
@@ -1045,9 +1037,10 @@ namespace Evado.UniForm.AdminClient
                 value = String.Empty;
               }
 
-              this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
+               this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
+
               //
-              // reset boolean data types as update not resetn selected values.
+              // reset boolean data types as update not resent selected values.
               //
               bool bValue = EvStatics.getBool ( value );
 
@@ -1085,15 +1078,6 @@ namespace Evado.UniForm.AdminClient
           }
 
         }//END column interation loop
-
-        var dateStamp = FormField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
-
-        if ( dateStamp == true )
-        {
-          string dateTime = DateTime.Now.ToString ( "HH:mm" );
-
-          FormField.Table.Rows [ rowIndex ].DateStamp = dateTime;
-        }
 
       }//END row interation loop
 
@@ -1446,7 +1430,7 @@ namespace Evado.UniForm.AdminClient
       NameValueCollection ReturnedFormFields,
       String FormDataId )
     {
-      this.LogMethod ( "getReturnedFormFieldValueArray method" );
+      this.LogMethod ( "getReturnedFormFieldValueArray" );
       this.LogDebug ( "FormDataId: " + FormDataId );
       // 
       // Initialise the method variables and objects.
@@ -1501,9 +1485,9 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private void UploadPageImages( )
     {
-      this.LogMethod ( "UploadPageImages method" );
-      this.LogDebug ( "Global.TempPath: {0}.", Global.TempPath );
-      this.LogDebug ( "Number of files: {0}.", Context.Request.Files.Count );
+      this.LogMethod ( "UploadPageImages" );
+     // this.LogDebug ( "Global.TempPath: {0}.", Global.TempPath );
+     // this.LogDebug ( "Number of files: {0}.", Context.Request.Files.Count );
       try
       {
         // 
@@ -1517,7 +1501,7 @@ namespace Evado.UniForm.AdminClient
         if ( Context.Request.Files.Count == 0 )
         {
           this.LogDebug ( " No images to upload. Exit" );
-
+          this.LogMethodEnd ( "UploadPageImages" );
           return;
         }
 
@@ -1526,8 +1510,7 @@ namespace Evado.UniForm.AdminClient
         //
         foreach ( String requestFieldName in Context.Request.Files.AllKeys )
         {
-          this.LogDebug ( "requestFieldName: " + requestFieldName );
-
+          //this.LogDebug ( "requestFieldName: " + requestFieldName );
           //
           // Skip the dummy test upload.
           //
@@ -1552,8 +1535,8 @@ namespace Evado.UniForm.AdminClient
 
           string fileName = this.UserSession.UserId + "_" + Path.GetFileName ( uploadedFileObject.FileName );
           fileName = fileName.Replace ( " ", "_" );
-          this.LogDebug ( "Uploaded file name: " + fileName );
-          this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
+          //this.LogDebug ( "Uploaded file name: " + fileName );
+          //this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
 
           //
           // Retrieve the UniFORM field id.
@@ -1561,7 +1544,7 @@ namespace Evado.UniForm.AdminClient
           String stFieldId = requestFieldName;
           int index = stFieldId.LastIndexOf ( Evado.UniForm.Model.EuField.CONST_IMAGE_FIELD_SUFFIX );
           stFieldId = stFieldId.Substring ( 0, index );
-          this.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
+          //this.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
 
           //
           // Update the image field value with the uploaded filename.
@@ -1572,7 +1555,7 @@ namespace Evado.UniForm.AdminClient
 
           string fullFilePath = Global.TempPath + fileName;
 
-          this.LogDebug ( "Image file path: " + fullFilePath );
+          //this.LogDebug ( "Image file path: " + fullFilePath );
 
           //
           // Save the file to disk.
@@ -1596,7 +1579,7 @@ namespace Evado.UniForm.AdminClient
       }  // End Try
       catch ( Exception Ex )
       {
-        this.LogValue ( "Exception Event:<br>" + Evado.Model.EvStatics.getException ( Ex ) );
+        this.LogValue ( "Exception Event:\r\n" + Evado.Model.EvStatics.getException ( Ex ) );
       }
       // End catch.
 
@@ -1656,8 +1639,8 @@ namespace Evado.UniForm.AdminClient
     private void UpdateWebPageCommandObject( )
     {
       this.LogMethod ( "updateWebPageCommandObject" );
-      this.LogDebug ( "Page.EditAccess: " + this.UserSession.AppData.Page.EditAccess );
-      this.LogDebug ( "FieldAnnotationList.Count: " + this.UserSession.FieldAnnotationList.Count );
+      //this.LogDebug ( "Page.EditAccess: " + this.UserSession.AppData.Page.EditAccess );
+      //this.LogDebug ( "FieldAnnotationList.Count: " + this.UserSession.FieldAnnotationList.Count );
       //
       // Initialise the methods variables and objects.
       //
@@ -1684,9 +1667,8 @@ namespace Evado.UniForm.AdminClient
           //
           fieldStatus = field.EditAccess;
 
-          this.LogDebug ( "Group: " + group.Title
-            + ", field.FieldId: " + field.FieldId
-            + ", Status: " + fieldStatus );
+          //this.LogDebug ( "Group: {0}, field.FieldId: {1}, Status: {2}.",
+          //  group.Title, field.FieldId, fieldStatus );
 
           if ( field.Type == Evado.Model.EvDataTypes.Read_Only_Text
             || field.Type == Evado.Model.EvDataTypes.External_Image
@@ -1697,15 +1679,12 @@ namespace Evado.UniForm.AdminClient
             || field.Type == Evado.Model.EvDataTypes.Sound
             || field.FieldId == String.Empty )
           {
-            this.LogDebug ( " >> FIELD SKIPPED" );
+            //this.LogDebug ( " >> FIELD SKIPPED" );
             continue;
           }
 
-          this.LogDebug ( "Group: " + group.Title
-            + ", FieldId: " + field.FieldId
-            + " - " + field.Title
-            + " - " + field.Value
-            + " >> METHOD PARAMETER UPDATED " );
+          //this.LogDebug ( "Group: {0}, FieldId: {1} = {2} = {3}  >> METHOD PARAMETER UPDATED ",
+          //  group.Title, field.FieldId,field.Title,field.Value );
 
           if ( field.Type != Evado.Model.EvDataTypes.Table )
           {
@@ -1720,7 +1699,7 @@ namespace Evado.UniForm.AdminClient
 
       }//END page group list iteration.
 
-      this.LogDebug ( "Command parameter count: " + this.UserSession.PageCommand.Parameters.Count );
+     // this.LogDebug ( "Command parameter count: " + this.UserSession.PageCommand.Parameters.Count );
 
       //
       // Add annotation fields
@@ -1729,14 +1708,15 @@ namespace Evado.UniForm.AdminClient
       {
         EucKeyValuePair arrAnnotation = this.UserSession.FieldAnnotationList [ count ];
 
-        this.LogDebug ( "Annotation Field: " + arrAnnotation.Key
-          + ", Value: " + arrAnnotation.Value );
+       // this.LogDebug ( "Annotation Field: " + arrAnnotation.Key
+      //    + ", Value: " + arrAnnotation.Value );
 
         this.UserSession.PageCommand.AddParameter ( arrAnnotation.Key, arrAnnotation.Value );
       }
 
-      this.LogDebug ( "Page command: " + this.UserSession.PageCommand.getAsString ( true, true ) );
+      //this.LogDebug ( "Page command: " + this.UserSession.PageCommand.getAsString ( true, true ) );
 
+      this.LogMethodEnd ( "updateWebPageCommandObject" );
     }//END updateWebPageCommandObject method
 
     // ==================================================================================
@@ -1758,13 +1738,14 @@ namespace Evado.UniForm.AdminClient
         string stValue = field.Table.Rows [ iRow ].No.ToString ( );
         this.UserSession.PageCommand.AddParameter ( stName, stValue );
 
-        this.LogDebug ( "NO: Row: {0}, Vaue: {1} ", stName, stValue );
+        //this.LogDebug ( "NO: Row: {0}, Vaue: {1} ", stName, stValue );
 
         stName = field.FieldId + "_" + ( iRow + 1 ) + "_ID";
         stValue = field.Table.Rows [ iRow ].RowId;
         this.UserSession.PageCommand.AddParameter ( stName, stValue );
 
-        this.LogDebug ( "ROWID: Row: {0}, Vaue: {1} ", stName, stValue );
+        //this.LogDebug ( "ROWID: Row: {0}, Vaue: {1} ", stName, stValue );
+
         //
         // Iterate through the columns in the table.
         //
@@ -1788,7 +1769,7 @@ namespace Evado.UniForm.AdminClient
 
           stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
           stValue = field.Table.Rows [ iRow ].Column [ iCol ];
-          this.LogDebug ( "Row: {0}, Vaue: {1} ", stName, stValue );
+          //this.LogDebug ( "Row: {0}, Vaue: {1} ", stName, stValue );
 
           this.UserSession.PageCommand.AddParameter ( stName, stValue );
 

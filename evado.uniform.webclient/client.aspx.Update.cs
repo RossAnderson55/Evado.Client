@@ -963,7 +963,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields )
     {
       this.LogMethod ( "updateFormTableFields" );
-      this.LogValue ( " FieldId: " + FormField.FieldId );
+      //this.LogValue ( " FieldId: " + FormField.FieldId );
       // 
       // Iterate through the rows and columns of the table filling the 
       // data object with the test values.
@@ -1014,11 +1014,12 @@ namespace Evado.UniForm.WebClient
                 continue;
               }
 
-              this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
+              //this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
               {
                 value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
               }
+
               FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = value;
               break;
             }
@@ -1050,9 +1051,7 @@ namespace Evado.UniForm.WebClient
               //
               bool bValue = EvStatics.getBool ( value );
 
-             // this.LogDebug ( "UPDATING: Bool DataType, Row: {0}, Col: {1}, value: {2}, bValue: {3}.", rowIndex, colIndex, value, bValue );
-
-              FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = bValue.ToString ( );
+              // this.LogDebug ( "UPDATING: Bool DataType, Row: {0}, Col: {1}, value: {2}, bValue: {3}.", rowIndex, colIndex, value, bValue )
 
              // this.LogDebug ( "Table Cell {0}-{1} = {2}.", rowIndex, colIndex, FormField.Table.Rows [ rowIndex ].Column [ colIndex ] );
 
@@ -1077,22 +1076,13 @@ namespace Evado.UniForm.WebClient
                 continue;
               }
 
-              this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
+              //this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = value;
               break;
             }
           }
 
         }//END column interation loop
-
-        var dateStamp = FormField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
-
-        if ( dateStamp == true )
-        {
-          string dateTime = DateTime.Now.ToString ( "HH:mm" );
-
-          FormField.Table.Rows [ rowIndex ].DateStamp = dateTime;
-        }
 
       }//END row interation loop
 
@@ -1445,7 +1435,7 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields,
       String FormDataId )
     {
-      this.LogMethod ( "getReturnedFormFieldValueArray method" );
+      this.LogMethod ( "getReturnedFormFieldValueArray" );
       this.LogDebug ( "FormDataId: " + FormDataId );
       // 
       // Initialise the method variables and objects.
@@ -1500,7 +1490,7 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void UploadPageImages( )
     {
-      this.LogMethod ( "UploadPageImages method" );
+      this.LogMethod ( "UploadPageImages" );
       this.LogDebug ( "Global.TempPath: {0}.", Global.TempPath );
       this.LogDebug ( "Number of files: {0}.", Context.Request.Files.Count );
       try
@@ -1764,6 +1754,7 @@ namespace Evado.UniForm.WebClient
         this.UserSession.PageCommand.AddParameter ( stName, stValue );
 
         this.LogDebug ( "ROWID: Row: {0}, Vaue: {1} ", stName, stValue );
+
         //
         // Iterate through the columns in the table.
         //

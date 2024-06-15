@@ -1013,7 +1013,7 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "' >" );
-      sbHtml.AppendLine ( "<input type='number' "
+      sbHtml.AppendLine ( "<input type='text' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
         + "value='" + PageField.Value + "' "
@@ -1188,7 +1188,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp1-" + PageField.Id + "' >" );
 
-      sbHtml.AppendLine ( "<input type='number' "
+      sbHtml.AppendLine ( "<input type='text' "
         + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
         + "value='" + stLowerValue + "' "
@@ -1229,7 +1229,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<span>&nbsp;-&nbsp;</span>" );
 
       sbHtml.AppendLine ( "<span id='sp2-" + PageField.Id + "' >" );
-      sbHtml.AppendLine ( "<input type='number' "
+      sbHtml.AppendLine ( "<input type='text' "
         + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
         + "value='" + stUpperValue + "' "
@@ -3055,12 +3055,12 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField )
     {
-      this.LogMethod ( "getFormFieldTableHeader method." );
+      this.LogMethod ( "getFormFieldTableHeader" );
       // 
       // Initialise local variables.
       // 
-      string stWidth = String.Empty;
       bool dateStampRows = PageField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
+      this.LogDebug ( "dateStampRows: {0}.", dateStampRows );
 
       sbHtml.Append ( "<tr>" );
       // 
@@ -3078,9 +3078,9 @@ namespace Evado.UniForm.AdminClient
         }
 
 
-        sbHtml.Append ( "<td style='width:" + header.Width + "%;text-align:center;' >" );
+        sbHtml.AppendFormat ( "<td style='width:{0}%;text-align:center;' >\r\n", header.Width );
 
-        sbHtml.Append ( "<strong>" + header.Text + "</strong> " );
+        sbHtml.AppendFormat ( "<strong>{0}</strong> \r\n", header.Text );
 
         switch ( header.DataType )
         {
@@ -3098,7 +3098,7 @@ namespace Evado.UniForm.AdminClient
             }
             else
             {
-              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23.5678 " + header.OptionsOrUnit + ")</span>" );
+              sbHtml.AppendFormat ( "<br/><span class='Smaller_Italics'>(23.5678 {0})</span>\r\n", header.OptionsOrUnit );
             }
             break;
           }
@@ -3110,7 +3110,7 @@ namespace Evado.UniForm.AdminClient
             }
             else
             {
-              sbHtml.Append ( "<br/><span class='Smaller_Italics'>(23 " + header.OptionsOrUnit + ")</span>" );
+              sbHtml.AppendFormat ( "<br/><span class='Smaller_Italics'>(23.5678 {0})</span>\r\n", header.OptionsOrUnit );
             }
             break;
           }
@@ -3119,6 +3119,17 @@ namespace Evado.UniForm.AdminClient
         sbHtml.AppendLine ( "</td>" );
 
       }//END table header iteration loop.
+
+      //
+      // Add date stamp column.
+      //
+      if (dateStampRows == true )
+      {
+        this.LogDebug ( "Adding Date Stamp Columns" );
+        sbHtml.Append ( "<td style='width:5%;text-align:center;'>" );
+        sbHtml.AppendFormat ( "<strong>{0}</strong> \r\n", EuLabels.Table_Row_DateStamp );
+        sbHtml.AppendLine ( "</td>" );
+      }
 
       sbHtml.AppendLine ( "</tr>" );
 
@@ -3274,7 +3285,7 @@ namespace Evado.UniForm.AdminClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='10' "
-                    + "type='number' "
+                    + "type='text' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
@@ -3316,7 +3327,7 @@ namespace Evado.UniForm.AdminClient
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='5' "
-                    + "type='number' "
+                    + "type='text' "
                     + "value='" + colValue + "' "
                     + "onchange=\"Evado.Form.onRangeValidation( this, this.value )\" "
                     + " class='form-control' "
@@ -3665,6 +3676,7 @@ namespace Evado.UniForm.AdminClient
             }
 
           }//END Switch statement
+
         }
         catch ( Exception Ex )
         {
@@ -3673,6 +3685,13 @@ namespace Evado.UniForm.AdminClient
         }
 
       }//END column iteration loop,
+
+      if ( dateStampRows == true )
+      {
+        sbHtml.Append ( "<td class='data'>" );
+        sbHtml.Append ( PageField.Table.Rows [ Row ].DateStamp );
+        sbHtml.AppendLine ( "</td>" );
+      }
 
       sbHtml.Append ( "</tr>" );
 

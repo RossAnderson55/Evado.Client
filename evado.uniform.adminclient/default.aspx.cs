@@ -31,13 +31,7 @@ using System.Net.Http;
 
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
-using System.ComponentModel.Design;
-using System.Web.UI.MobileControls;
-using System.Web.UI.WebControls;
 using Evado.Model;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
-using System.Drawing;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -1471,7 +1465,7 @@ namespace Evado.UniForm.AdminClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnPageLeft_OnClick event method" );
+      this.LogMethod ( "btnPageLeft_OnClick event" );
     }
 
     // =====================================================================================
@@ -1489,7 +1483,7 @@ namespace Evado.UniForm.AdminClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnPageRight_OnClick event method" );
+      this.LogMethod ( "btnPageRight_OnClick event" );
     }
 
     //*********************************************************************************
@@ -1563,7 +1557,7 @@ namespace Evado.UniForm.AdminClient
       object sender,
       System.EventArgs E )
     {
-      this.LogMethod ( "btnLogin_OnClick event method" );
+      this.LogMethod ( "btnLogin_OnClick event" );
       this.LogDebug ( "UserId: " + this.fldUserId.Value );
       this.LogDebug ( "Password: " + this.fldPassword.Value );
       //
@@ -1649,7 +1643,7 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     protected void SendWindowsLoginCommand( )
     {
-      this.LogMethod ( "sendWindowsLoginCommand event method" );
+      this.LogMethod ( "sendWindowsLoginCommand event" );
 
 
       string roles = String.Empty;
@@ -1713,7 +1707,7 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private void SendLoginCommand( String UserId, String Password )
     {
-      this.LogMethod ( "SendLoginCommand method" );
+      this.LogMethod ( "SendLoginCommand" );
       this.LogDebug ( "PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
 
       //
@@ -1795,7 +1789,7 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     protected void requestLogout( )
     {
-      this.LogMethod ( "requestLoogout method" );
+      this.LogMethod ( "requestLoogout" );
       this.fldPassword.Value = String.Empty;
       //
       // Create a page object.
