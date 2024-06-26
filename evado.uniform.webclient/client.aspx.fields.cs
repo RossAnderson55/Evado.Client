@@ -3184,6 +3184,11 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
+          if ( PageField.Table.Rows [ Row ].ReadOnly == true )
+          {
+            header.DataType = EvDataTypes.Read_Only_Text;
+          }
+
           //
           // initialise the iteration loops variables and objects.
           //

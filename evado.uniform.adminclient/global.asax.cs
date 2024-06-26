@@ -22,6 +22,7 @@ using System.Web.Security;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Data.SqlClient;
 
 //Evado..Cms. namespace references.
 
@@ -166,7 +167,7 @@ namespace Evado.UniForm.AdminClient
 
     #region Application Error step
 
-    protected void Application_Error ( Object sender, EventArgs e )
+    protected void Application_Error( Object sender, EventArgs e )
     {
       /// 
       /// If an exception is thrown in the application then log it to an event log.
@@ -185,12 +186,15 @@ namespace Evado.UniForm.AdminClient
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void Application_OnStart ( Object sender, EventArgs e )
+    protected void Application_OnStart( Object sender, EventArgs e )
     {
+      Global.WriteToEventLog ( "System", "Evado.UniForm.AdminClient.Application_OnStart event method",
+       System.Diagnostics.EventLogEntryType.Information );
+
       try
       {
         Global._GlobalLog = new System.Text.StringBuilder ( );
-        Global._ClientLog = new System.Text.StringBuilder ( ); 
+        Global._ClientLog = new System.Text.StringBuilder ( );
         Global._DebuLog = new System.Text.StringBuilder ( );
         //
         // get the application path from the runtime.
@@ -223,7 +227,7 @@ namespace Evado.UniForm.AdminClient
         // 
         // Initialise the method variables and objects.
         //      
-        System.Web.Configuration.AuthenticationSection section = (System.Web.Configuration.AuthenticationSection)
+        System.Web.Configuration.AuthenticationSection section = ( System.Web.Configuration.AuthenticationSection )
 
         System.Web.Configuration.WebConfigurationManager.GetSection ( "system.web/authentication" );
 
@@ -277,9 +281,11 @@ namespace Evado.UniForm.AdminClient
     /// This method load the web configuration values.
     /// </summary>
     // -----------------------------------------------------------------------------------
-    private void LoadConfigurationValues ( )
+    private void LoadConfigurationValues( )
     {
       Global.GlobalMethod ( "LoadConfigurationValues" );
+      Global.WriteToEventLog ( "System", "Evado.UniForm.AdminClient.LoadConfigurationValues method",
+       System.Diagnostics.EventLogEntryType.Information );
 
       //
       // Set the application log path  LogPath
@@ -314,7 +320,7 @@ namespace Evado.UniForm.AdminClient
       // 
       if ( ConfigurationManager.AppSettings [ "WebServiceUrl" ] != null )
       {
-        Global.WebServiceUrl = (String) ConfigurationManager.AppSettings [ "WebServiceUrl" ].Trim ( );
+        Global.WebServiceUrl = ( String ) ConfigurationManager.AppSettings [ "WebServiceUrl" ].Trim ( );
       }
 
       Global.FileServiceUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL;
@@ -329,7 +335,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_PAGE_DEEFAULT_LOGO ] != null )
       {
-        Global.DefaultLogoUrl = ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_PAGE_DEEFAULT_LOGO ];
+        Global.DefaultLogoUrl = ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_PAGE_DEEFAULT_LOGO ];
       }
 
       Global.DefaultLogoUrl = Global.concatinateHttpUrl ( Global.StaticImageUrl, Global.DefaultLogoUrl );
@@ -339,9 +345,9 @@ namespace Evado.UniForm.AdminClient
       // 
       // Set the You tube embedded URL
       // 
-      if ( ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_VIMEO_EMBED_URL ] != null )
+      if ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_VIMEO_EMBED_URL ] != null )
       {
-        Global.VimeoEmbeddedUrl = ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_VIMEO_EMBED_URL ].Trim ( );
+        Global.VimeoEmbeddedUrl = ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_VIMEO_EMBED_URL ].Trim ( );
       }
 
       Global.GlobalValue ( "VimeoEmbeddedUrl: " + Global.VimeoEmbeddedUrl );
@@ -349,9 +355,9 @@ namespace Evado.UniForm.AdminClient
       // 
       // Set the Vimeo embedded URL
       // 
-      if ( ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_YOU_TUBE_EMBED_URL ] != null )
+      if ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_YOU_TUBE_EMBED_URL ] != null )
       {
-        Global.YouTubeEmbeddedUrl = ConfigurationManager.AppSettings [  Evado.UniForm.Model.EuStatics.CONFIG_YOU_TUBE_EMBED_URL ].Trim ( );
+        Global.YouTubeEmbeddedUrl = ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_YOU_TUBE_EMBED_URL ].Trim ( );
       }
 
       Global.GlobalValue ( "YourtubeEmbeddedUrl: " + Global.YouTubeEmbeddedUrl );
@@ -471,8 +477,10 @@ namespace Evado.UniForm.AdminClient
     /// This method loads the external command in to a dictonary for external commands.
     /// </summary>
     // -----------------------------------------------------------------------------------
-    private void LoadExternalCommands ( )
+    private void LoadExternalCommands( )
     {
+      Global.WriteToEventLog ( "System", "Evado.UniForm.AdminClient.LoadExternalCommands method",
+       System.Diagnostics.EventLogEntryType.Information );
       Global.GlobalMethod ( "LoadExternalCommands" );
       Global.GlobalValue ( "Static Data File Path '{0}'.", Global.StaticDataFilePath );
       //
@@ -525,7 +533,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="RelativeUrl">String relative url</param>
     /// <returns>String: contatinated url.</returns>
     // -----------------------------------------------------------------------------------
-    public static String concatinateHttpUrl ( String RootUrl, String RelativeUrl )
+    public static String concatinateHttpUrl( String RootUrl, String RelativeUrl )
     {
       RelativeUrl = RelativeUrl.ToLower ( );
       if ( RelativeUrl.Contains ( "http:" ) == false
@@ -542,7 +550,7 @@ namespace Evado.UniForm.AdminClient
 
     #region Session Start step
 
-    protected void Session_Start ( Object sender, EventArgs e )
+    protected void Session_Start( Object sender, EventArgs e )
     {
       // 
       // Initialise the methods variables and objects.
@@ -573,6 +581,10 @@ namespace Evado.UniForm.AdminClient
         Session [ Evado.UniForm.Model.EuStatics.SESSION_USER_ID ] = stUserId;
 
         Global.GlobalMethodEnd ( "Session_Start" );
+
+        Global.WriteToEventLog ( stUserId,
+          "Evado.UniForm.AdminClient.Session_Start event method.",
+         System.Diagnostics.EventLogEntryType.Information );
       }
       catch ( Exception Ex )
       {
@@ -591,8 +603,11 @@ namespace Evado.UniForm.AdminClient
 
     #region Application Begin Request step
 
-    protected void Application_BeginRequest ( Object sender, EventArgs e )
+    protected void Application_BeginRequest( Object sender, EventArgs e )
     {
+      Global.WriteToEventLog ( "System",
+        "Evado.UniForm.AdminClient.Application_BeginRequest event method.",
+       System.Diagnostics.EventLogEntryType.Information );
 
     }
 
@@ -601,8 +616,11 @@ namespace Evado.UniForm.AdminClient
 
     #region Application End Request step
 
-    protected void Application_EndRequest ( Object sender, EventArgs e )
+    protected void Application_EndRequest( Object sender, EventArgs e )
     {
+      Global.WriteToEventLog ( "System",
+        "Evado.UniForm.AdminClient.Application_EndRequest event method.",
+       System.Diagnostics.EventLogEntryType.Information );
     }
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -610,7 +628,7 @@ namespace Evado.UniForm.AdminClient
 
     #region Application Authenticate Request step
 
-    protected void Application_AuthenticateRequest ( Object sender, EventArgs e )
+    protected void Application_AuthenticateRequest( Object sender, EventArgs e )
     {
 
     }
@@ -620,9 +638,9 @@ namespace Evado.UniForm.AdminClient
 
     #region Session End step
 
-    protected void Session_End ( Object sender, EventArgs e )
+    protected void Session_End( Object sender, EventArgs e )
     {
-      String UserId = (String) Session [ Evado.UniForm.Model.EuStatics.SESSION_USER_ID ];
+      String UserId = ( String ) Session [ Evado.UniForm.Model.EuStatics.SESSION_USER_ID ];
 
       EventLog.WriteEntry ( EventLogSource, "User : " + UserId + " had logged out of the application", EventLogEntryType.Information );
 
@@ -633,25 +651,11 @@ namespace Evado.UniForm.AdminClient
 
     #region Application End step
 
-    protected void Application_End ( Object sender, EventArgs e )
+    protected void Application_End( Object sender, EventArgs e )
     {
-      try
-      {
-        string EventDescription = "Evado Holdings Pty. Ltd. Evado Holdings Pty. Ltd. Application End";
-        /// 
-        /// Write an event entry when the application ends.
-        /// 
-        //ApplicationEvents.LogAction (
-        //  EventDescription, BsApplicationEvent.Application.End, String.Empty, "Evado Holdings Pty. Ltd. Executive" );
-        /// 
-        /// Write an event entry when the application ends.
-        /// 
-        EventLog.WriteEntry ( EventLogSource, EventDescription, EventLogEntryType.Information );
-      }
-      catch ( Exception Ex )
-      {
-        EventLog.WriteEntry ( EventLogSource, Ex.ToString ( ), EventLogEntryType.Error );
-      } // Close catch   
+      Global.WriteToEventLog ( "System",
+        "Evado.UniForm.AdminClient.Application_End event method.",
+       System.Diagnostics.EventLogEntryType.Information );
     }
     #endregion
 
@@ -670,13 +674,13 @@ namespace Evado.UniForm.AdminClient
     ///   This static method removes a user from the online user list.
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    private static void GlobalMethod ( String Value )
+    private static void GlobalMethod( String Value )
     {
       string logValue = Evado.Model.EvStatics.CONST_METHOD_START
         + DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
         + "Evado.UniForm.Webclient.Global." + Value + " Method";
 
-      Global._GlobalLog.AppendLine (  logValue );
+      Global._GlobalLog.AppendLine ( logValue );
 
     }
 
@@ -686,7 +690,7 @@ namespace Evado.UniForm.AdminClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    private static void GlobalValue ( String Value )
+    private static void GlobalValue( String Value )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + " Global: "
         + Value;
@@ -702,7 +706,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="Format">String: format text.</param>
     /// <param name="Arguments">Array of objects as parameters.</param>
     // ----------------------------------------------------------------------------------
-    private static void GlobalValue ( String Format, params object [ ] Arguments )
+    private static void GlobalValue( String Format, params object [ ] Arguments )
     {
       string logValue = String.Format ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + " Global: "
         + String.Format ( Format, Arguments ) );
@@ -716,7 +720,7 @@ namespace Evado.UniForm.AdminClient
     /// </summary>
     /// <param name="Value">String value</param>
     //   ---------------------------------------------------------------------------------
-    private static void GlobalMethodEnd ( String Value )
+    private static void GlobalMethodEnd( String Value )
     {
       String logValue = Evado.Model.EvStatics.CONST_METHOD_END;
 
@@ -731,9 +735,9 @@ namespace Evado.UniForm.AdminClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogAppendGlobal (  )
+    public static void LogAppendGlobal( )
     {
-      Global._ClientLog.AppendLine ( Global._GlobalLog.ToString() );
+      Global._ClientLog.AppendLine ( Global._GlobalLog.ToString ( ) );
 
       if ( Global.DebugLogOn == true )
       {
@@ -746,7 +750,7 @@ namespace Evado.UniForm.AdminClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogValue ( String Value )
+    public static void LogValue( String Value )
     {
       Global._ClientLog.AppendLine ( Value );
 
@@ -762,7 +766,7 @@ namespace Evado.UniForm.AdminClient
     /// </summary>
     /// <param name="Value">String value</param>
     //   ---------------------------------------------------------------------------------
-    private static void LogMethodEnd ( String Value )
+    private static void LogMethodEnd( String Value )
     {
       String value = Evado.Model.EvStatics.CONST_METHOD_END;
 
@@ -778,7 +782,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="Format">String: format text.</param>
     /// <param name="Arguments">Array of objects as parameters.</param>
     // ----------------------------------------------------------------------------------
-    public static void LogEvent ( String Format, params object [ ] Arguments )
+    public static void LogEvent( String Format, params object [ ] Arguments )
     {
       string logValue = String.Format ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + " EVENT: "
         + String.Format ( Format, Arguments ) );
@@ -795,7 +799,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="Format">String: format text.</param>
     /// <param name="Arguments">Array of objects as parameters.</param>
     // ----------------------------------------------------------------------------------
-    public static void LogError ( String Format, params object [ ] Arguments )
+    public static void LogError( String Format, params object [ ] Arguments )
     {
       string logValue = String.Format ( DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + " ERROR: "
         + String.Format ( Format, Arguments ) );
@@ -811,10 +815,10 @@ namespace Evado.UniForm.AdminClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void OutputClientLog ( )
+    public static void OutputClientLog( )
     {
 
-      String stContent =  Global._ClientLog.ToString ( );
+      String stContent = Global._ClientLog.ToString ( );
 
       String logFileName = CONST_SERVICE_LOG_FILE_NAME
         + DateTime.Now.ToString ( "yy-MM" ) + ".log";
@@ -844,7 +848,7 @@ namespace Evado.UniForm.AdminClient
     /// </summary>
     /// <returns>If the event source was created successfully true is returned, otherwise false.</returns>
     //  ---------------------------------------------------------------------------------
-    public static void writeEventLog ( string EventContent, EventLogEntryType LogType )
+    public static void writeEventLog( string EventContent, EventLogEntryType LogType )
     {
       try
       {
@@ -858,7 +862,7 @@ namespace Evado.UniForm.AdminClient
 
         int inLength = 30000;
 
-        for ( int inStartIndex = 0; inStartIndex < EventContent.Length; inStartIndex += 30000 )
+        for ( int inStartIndex = 0 ; inStartIndex < EventContent.Length ; inStartIndex += 30000 )
         {
           if ( EventContent.Length - inStartIndex < inLength )
           {
@@ -884,12 +888,99 @@ namespace Evado.UniForm.AdminClient
 
     public static String Debuglog = Global._DebuLog.ToString ( );
 
+
+    //  =================================================================================
+    /// <summary>
+    ///   This static method removes a user from the online user list.
+    /// 
+    /// </summary>
+    //   ---------------------------------------------------------------------------------
+    //  ===========================================================================
+    /// <summary>
+    /// This class writes log to the event log source
+    /// </summary>
+    /// <param name="UserId">string: User Id</param>
+    /// <param name="EventContent">string: The event content to be written</param>
+    /// <param name="LogEntryType">EventLogEntryType: The event log type</param>
+    /// <remarks>
+    /// This method consists of the following steps:
+    /// 
+    /// 1. Validate the EventLogSource for not being null and empty
+    /// 
+    /// 2. Write out even log but not over 30000 blocks
+    /// </remarks>
+    //  ---------------------------------------------------------------------------------
+    public static void WriteToEventLog( String UserId, String EventContent,
+      System.Diagnostics.EventLogEntryType LogEntryType )
+    {
+      //
+      // If the event log source is empty or null exit.
+      //
+      if ( Global.EventLogSource == null
+        || Global.EventLogSource == String.Empty )
+      {
+        return;
+      }
+      String eventContent = String.Format ( "UserId: {0}, \r\n{1}", UserId, EventContent );
+      //
+      // output short event logs.
+      //
+      if ( eventContent.Length < 32000 )
+      {
+        System.Diagnostics.EventLog.WriteEntry ( Global.EventLogSource, eventContent, LogEntryType );
+
+        return;
+      }
+
+      //
+      // As a long event log outout it in 32000 blocks.
+      //
+      int increment = 30000;
+      for ( int index = 0 ; index < increment * 10 ; index += increment )
+      {
+        //
+        // Create a remaining length value
+        //
+        int remainingLength = eventContent.Length - index;
+
+        //
+        // Validate whether the remaining lenth exists
+        //
+        if ( remainingLength > 0 )
+        {
+          //
+          // If the remaining length is greater than increment
+          // Pass index and increment to the stContent string
+          // Write Event log
+          //
+          if ( remainingLength > increment )
+          {
+            string stContent = eventContent.Substring ( index, increment );
+            System.Diagnostics.EventLog.WriteEntry ( Global.EventLogSource, stContent, LogEntryType );
+          }
+          else
+          {
+            //
+            // If not, pass index to the stContent string
+            // Write Event log
+            //
+            string stContent = eventContent.Substring ( index );
+            System.Diagnostics.EventLog.WriteEntry ( Global.EventLogSource, stContent, LogEntryType );
+
+          }//END output remaining.
+
+        }//END Remaining length > 0
+
+      }//END iteration loop.
+
+    }//END static WriteToEventLog method
+
     // =================================================================================
     /// <summary>
     /// This method clears the debug log file.
     /// </summary>
     // ----------------------------------------------------------------------------------
-    public static void ClearDebugLog ( )
+    public static void ClearDebugLog( )
     {
       //
       // Define the filename
@@ -919,7 +1010,7 @@ namespace Evado.UniForm.AdminClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void LogDebugValue ( String Value )
+    public static void LogDebugValue( String Value )
     {
       if ( Global.DebugLogOn == true )
       {
@@ -933,7 +1024,7 @@ namespace Evado.UniForm.AdminClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void OutputtDebugLog ( )
+    public static void OutputtDebugLog( )
     {
       //
       // Define the filename
@@ -964,16 +1055,16 @@ namespace Evado.UniForm.AdminClient
 
       if ( Global._DebuLog.Length == 0 )
       {
-        stContent = 
-          String.Format( "EVADO UniFORM Web Client ASP.NET - DEBUG LOG\r\n"
-          + "Saved at: {0} \r\n No Debug Content",  
+        stContent =
+          String.Format ( "EVADO UniFORM Web Client ASP.NET - DEBUG LOG\r\n"
+          + "Saved at: {0} \r\n No Debug Content",
           DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
       }
       else
       {
         stContent =
-          String.Format( "EVADO UniFORM Web Client ASP.NET - DEBUG LOG\r\n"
-          + "Saved at: {0} \r\n{1}",  
+          String.Format ( "EVADO UniFORM Web Client ASP.NET - DEBUG LOG\r\n"
+          + "Saved at: {0} \r\n{1}",
           DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ),
            Global._DebuLog.ToString ( ) );
       }
@@ -988,7 +1079,7 @@ namespace Evado.UniForm.AdminClient
     /// 
     /// </summary>
     //   ---------------------------------------------------------------------------------
-    public static void OutputtDebugLog_SAVE ( )
+    public static void OutputtDebugLog_SAVE( )
     {
       //
       // Define the filename
@@ -1037,7 +1128,6 @@ namespace Evado.UniForm.AdminClient
 
     }//END writeOutDebugLog method
 
-
     #endregion
 
     #region Required Designer Variable
@@ -1046,7 +1136,7 @@ namespace Evado.UniForm.AdminClient
     /// </summary>
     private System.ComponentModel.IContainer components = null;
 
-    public Global ( )
+    public Global( )
     {
       InitializeComponent ( );
     }
@@ -1059,7 +1149,7 @@ namespace Evado.UniForm.AdminClient
     /// Required method for Designer support - do not modify
     /// the contents of this method with the code editor.
     /// </summary>
-    private void InitializeComponent ( )
+    private void InitializeComponent( )
     {
       this.components = new System.ComponentModel.Container ( );
     }

@@ -84,6 +84,10 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     protected void Page_Load( object sender, System.EventArgs E )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.Page_Load event method. IsNewSession " + this.Session.IsNewSession,
+       System.Diagnostics.EventLogEntryType.Information );
+
       Global.ClearDebugLog ( );
       Global.LogAppendGlobal ( );
       this.LogMethod ( "Page_Load event" );
@@ -94,7 +98,8 @@ namespace Evado.UniForm.AdminClient
 
         this.LogDebug ( "LogonUserIdentity IsAuthenticated: {0}.", Request.LogonUserIdentity.IsAuthenticated );
         this.LogDebug ( "LogonUserIdentity Name: {0}.", Request.LogonUserIdentity.Name );
-        this.LogDebug ( "User.Identity.Name:{0}.", User.Identity.Name );
+        this.LogDebug ( "User.Identity.Name: {0}.", User.Identity.Name );
+        this.LogDebug ( "Session.IsNewSession: {0}.", this.Session.IsNewSession );
         this.LogDebug ( "Authentication Type:{0}.", Global.AuthenticationMode );
         this.LogDebug ( "Session.Timeout: {0}.", this.Session.Timeout  );
 
@@ -438,6 +443,9 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private void SendPageCommand( )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.SendPageCommand method",
+       System.Diagnostics.EventLogEntryType.Information );
       this.LogMethod ( "sendPageCommand" );
       this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
       this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
@@ -511,6 +519,7 @@ namespace Evado.UniForm.AdminClient
 
       jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( this.UserSession.PageCommand );
 
+        Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"cmd-data.json", jsonData );
       //
       // Initialise the web request.
       //
@@ -525,10 +534,7 @@ namespace Evado.UniForm.AdminClient
 
         this.LogDebug ( "JSON Serialised text length: " + jsonData.Length );
 
-        if ( Global.DebugLogOn == true )
-        {
-          Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"Cmd-json-data.txt", jsonData );
-        }
+        Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"app-data.json", jsonData );
 
         //
         // deserialise the application data 
@@ -559,6 +565,7 @@ namespace Evado.UniForm.AdminClient
           // Add the exit Command to the history.
           //
           this.addHistoryCommand ( this.UserSession.AppData.Page.Exit );
+
         }
         else
         {
@@ -851,6 +858,9 @@ namespace Evado.UniForm.AdminClient
       String WebServiceUrl,
       String PostContent )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.SendPost method",
+       System.Diagnostics.EventLogEntryType.Information );
       this.LogMethod ( "SendPost" );
       this.LogDebug ( "WebServiceUrl {0}", WebServiceUrl );
       //
@@ -1500,6 +1510,9 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private void RequestLogin( )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.RequestLogin method",
+       System.Diagnostics.EventLogEntryType.Information );
       this.LogMethod ( "RequestLogin" );
       this.LogDebug ( "DefaultLogo {0}.", Global.DefaultLogoUrl );
       //
@@ -1557,6 +1570,10 @@ namespace Evado.UniForm.AdminClient
       object sender,
       System.EventArgs E )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.btnLogin_OnClick event method",
+       System.Diagnostics.EventLogEntryType.Information );
+
       this.LogMethod ( "btnLogin_OnClick event" );
       this.LogDebug ( "UserId: " + this.fldUserId.Value );
       this.LogDebug ( "Password: " + this.fldPassword.Value );
@@ -1633,17 +1650,14 @@ namespace Evado.UniForm.AdminClient
     // =====================================================================================
     /// <summary>
     /// btnLogin_OnClick event method
-    /// 
-    /// Description:
-    /// This method executes the user login event.
-    /// 
     /// </summary>
-    /// <param name="sender">Event object</param>
-    /// <param name="E">Event arguments</param>
     // ---------------------------------------------------------------------------------
     protected void SendWindowsLoginCommand( )
     {
-      this.LogMethod ( "sendWindowsLoginCommand event" );
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPageSendWindowsLoginCommandRequestLogin method",
+       System.Diagnostics.EventLogEntryType.Information );
+      this.LogMethod ( "SendWindowsLoginCommand" );
 
 
       string roles = String.Empty;
@@ -1693,20 +1707,16 @@ namespace Evado.UniForm.AdminClient
 
     }//END btnLogin_OnClick event method
 
-
     // =====================================================================================
     /// <summary>
     /// btnLogin_OnClick event method
-    /// 
-    /// Description:
-    /// This method executes the user login event.
-    /// 
-    /// </summary>
-    /// <param name="sender">Event object</param>
-    /// <param name="E">Event arguments</param>
     // ---------------------------------------------------------------------------------
     private void SendLoginCommand( String UserId, String Password )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.SendLoginCommand method",
+       System.Diagnostics.EventLogEntryType.Information );
+
       this.LogMethod ( "SendLoginCommand" );
       this.LogDebug ( "PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
 
@@ -1775,6 +1785,11 @@ namespace Evado.UniForm.AdminClient
       object sender,
       System.EventArgs E )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.btnLogout_Click event method",
+       System.Diagnostics.EventLogEntryType.Information );
+
+      this.LogMethod ( "btnLogout_Click" );
       requestLogout ( );
     }
 
@@ -1789,7 +1804,10 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     protected void requestLogout( )
     {
-      this.LogMethod ( "requestLoogout" );
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.requestLogout method",
+       System.Diagnostics.EventLogEntryType.Information );
+      this.LogMethod ( "requestLogout" );
       this.fldPassword.Value = String.Empty;
       //
       // Create a page object.

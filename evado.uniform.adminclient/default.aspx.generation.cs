@@ -32,6 +32,10 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private void GeneratePage( )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.GeneratePage method",
+       System.Diagnostics.EventLogEntryType.Information );
+
       this.LogMethod ( "GeneratePage" );
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
       this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
