@@ -948,7 +948,6 @@ namespace Evado.UniForm.WebClient
       return stAddress1 + ";" + stAddress2 + ";" + stSuburb + ";" + stState + ";" + stPostCode + ";" + stCountry;
 
     }//END getCheckButtonListFieldValue method
-
     // =============================================================================== 
     /// <summary>
     ///   This method updates the test table field values.
@@ -963,7 +962,8 @@ namespace Evado.UniForm.WebClient
       NameValueCollection ReturnedFormFields )
     {
       this.LogMethod ( "updateFormTableFields" );
-      //this.LogValue ( " FieldId: " + FormField.FieldId );
+      this.LogDebug ( " FieldId: {0}, EditAccess: {1}.",
+        FormField.FieldId, FormField.EditAccess );
       // 
       // Iterate through the rows and columns of the table filling the 
       // data object with the test values.
@@ -972,18 +972,16 @@ namespace Evado.UniForm.WebClient
       {
         for ( int colIndex = 0 ; colIndex < FormField.Table.Header.Length ; colIndex++ )
         {
-          EvTableHeader header = FormField.Table.Header [ colIndex ];
+          this.LogDebug ( "" );
+          this.LogDebug ( "Row: {0}, Col: {1}, DataType: {2}, Readonly: {3}, Value: {4}.",
+            rowIndex, colIndex,
+            FormField.Table.Header [ colIndex ].DataType,
+            FormField.Table.Rows [ rowIndex ].ReadOnly,
+            FormField.Table.Rows [ rowIndex ].Column [ colIndex ] );
 
-          if ( header.Text == String.Empty )
+          if ( FormField.Table.Header [ colIndex ].Text == String.Empty )
           {
-            continue;
-          }
-
-          //
-          // skip all readonly table data.
-          //
-          if ( header.DataType == EvDataTypes.Read_Only_Text )
-          {
+            this.LogDebug ( "SKIP: Column {0} Header text empty.", colIndex );
             continue;
           }
 
@@ -991,30 +989,31 @@ namespace Evado.UniForm.WebClient
           // construct the test table field name.
           // 
           string tableFieldId = FormField.FieldId + "_" + ( rowIndex + 1 ) + "_" + ( colIndex + 1 );
-          //this.LogDebug ( "" );
-          //this.LogDebug ( "tableFieldId: " + tableFieldId );
+          this.LogDebug ( "tableFieldId: {0}, DataType: {1}.",
+            tableFieldId, FormField.Table.Header [ colIndex ].DataType );
+
+          // 
+          // Get the table field and update the test field object.
+          // 
+          string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
+
+          // 
+          // Does the returned field value exist
+          // 
+          if ( value == null )
+          {
+            this.LogDebug ( "SKIP: Null value " );
+            continue;
+          }
 
           //
           // If NA is entered set to numeric null.
           //
-          switch ( header.DataType )
+          switch ( FormField.Table.Header [ colIndex ].DataType )
           {
             case Evado.Model.EvDataTypes.Numeric:
             {
-              // 
-              // Get the table field and update the test field object.
-              // 
-              string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
-
-              // 
-              // Does the returned field value exist
-              // 
-              if ( value == null )
-              {
-                continue;
-              }
-
-              //this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
+              // this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
               {
                 value = Evado.Model.EvStatics.CONST_NUMERIC_NULL.ToString ( );
@@ -1030,30 +1029,19 @@ namespace Evado.UniForm.WebClient
               // 
               if ( FormField.Table.Rows [ rowIndex ].Column [ colIndex ] == String.Empty )
               {
-                continue;
-              }
-              // 
-              // Get the table field and update the test field object.
-              // 
-              string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
-
-              // 
-              // Does the returned field value exist
-              // 
-              if ( value == null )
-              {
-                value = String.Empty;
+                this.LogDebug ( "Boolean: SKIP: Row: {0}, Col: {1} Boolean Column is empty ", rowIndex, colIndex );
+                break;
               }
 
-              //this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
-              //
-              // reset boolean data types as update not resetn selected values.
-              //
-              bool bValue = EvStatics.getBool ( value );
+              this.LogDebug ( "Boolean: Title: {0}, DataType: {1}, value: {2}.",
+                FormField.Table.Header [ colIndex ].Text, FormField.Table.Header [ colIndex ].DataType, value );
 
-              // this.LogDebug ( "UPDATING: Bool DataType, Row: {0}, Col: {1}, value: {2}, bValue: {3}.", rowIndex, colIndex, value, bValue )
+              var bValue = EvStatics.getBool ( value );
 
-             // this.LogDebug ( "Table Cell {0}-{1} = {2}.", rowIndex, colIndex, FormField.Table.Rows [ rowIndex ].Column [ colIndex ] );
+              FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = bValue.ToString ( );
+
+              this.LogDebug ( "Boolean: Table Cell {0}-{1} = {2}.",
+                rowIndex, colIndex, FormField.Table.Rows [ rowIndex ].Column [ colIndex ] );
 
               break;
             }
@@ -1063,20 +1051,7 @@ namespace Evado.UniForm.WebClient
             }
             default:
             {
-              // 
-              // Get the table field and update the test field object.
-              // 
-              string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
-
-              // 
-              // Does the returned field value exist
-              // 
-              if ( value == null )
-              {
-                continue;
-              }
-
-              //this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
+              this.LogDebug ( "Default: DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = value;
               break;
             }
@@ -1727,7 +1702,6 @@ namespace Evado.UniForm.WebClient
       this.LogDebug ( "Page command: " + this.UserSession.PageCommand.getAsString ( true, true ) );
 
     }//END updateWebPageCommandObject method
-
     // ==================================================================================
 
     /// <summary>
@@ -1753,7 +1727,7 @@ namespace Evado.UniForm.WebClient
         stValue = field.Table.Rows [ iRow ].RowId;
         this.UserSession.PageCommand.AddParameter ( stName, stValue );
 
-        this.LogDebug ( "ROWID: Row: {0}, Vaue: {1} ", stName, stValue );
+        this.LogDebug ( "ROWID: Row: {0}, Value: {1} ", stName, stValue );
 
         //
         // Iterate through the columns in the table.
@@ -1765,6 +1739,7 @@ namespace Evado.UniForm.WebClient
           //
           if ( field.Table.Header [ iCol ].DataType == EvDataTypes.Read_Only_Text )
           {
+            this.LogDebug ( "Skip: Col: {0}, Readonly Text ", iCol );
             continue;
           }
 
@@ -1778,7 +1753,7 @@ namespace Evado.UniForm.WebClient
 
           stName = field.FieldId + "_" + ( iRow + 1 ) + "_" + ( iCol + 1 );
           stValue = field.Table.Rows [ iRow ].Column [ iCol ];
-          this.LogDebug ( "Row: {0}, Vaue: {1} ", stName, stValue );
+          //this.LogDebug ( "Row: {0}, Vaue: {1} ", stName, stValue );
 
           this.UserSession.PageCommand.AddParameter ( stName, stValue );
 

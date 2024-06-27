@@ -2980,9 +2980,10 @@ namespace Evado.UniForm.AdminClient
       Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "createTableField" );
-      this.LogDebug ( "PageField.Layout: " + PageField.Layout );
-      this.LogDebug ( "Table Columns: " + PageField.Table.ColumnCount );
-      this.LogDebug ( "Rows: " + PageField.Table.Rows.Count );
+      this.LogDebug ( "PageField.Layout: {0}, Edit Access: {1}.",
+        PageField.Layout, PageField.EditAccess );
+      this.LogDebug ( "Table Columns: {0}, Rows: {1}.",
+        PageField.Table.ColumnCount, PageField.Table.Rows.Count );
 
       //
       // Initialise the methods variables and objects.
@@ -3123,7 +3124,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Add date stamp column.
       //
-      if (dateStampRows == true )
+      if ( dateStampRows == true )
       {
         this.LogDebug ( "Adding Date Stamp Columns" );
         sbHtml.Append ( "<td style='width:5%;text-align:center;'>" );
@@ -3151,7 +3152,7 @@ namespace Evado.UniForm.AdminClient
       Evado.UniForm.Model.EuEditAccess Status )
     {
       this.LogMethod ( "getTableFieldDataRow" );
-      this.LogDebug ( "Row: " + Row );
+      this.LogDebug ( "Row: {0}.", Row );
 
       if ( PageField.Table.Rows [ Row ].Hide == true )
       {
@@ -3170,6 +3171,7 @@ namespace Evado.UniForm.AdminClient
       for ( int column = 0 ; column < PageField.Table.ColumnCount ; column++ )
       {
         Evado.Model.EvTableHeader header = PageField.Table.Header [ column ];
+        EvDataTypes cellDataType = header.DataType;
         try
         {
           // 
@@ -3181,9 +3183,14 @@ namespace Evado.UniForm.AdminClient
             continue;
           }
 
-          if ( PageField.Table.Rows [ Row ].ReadOnly == true)
+          if ( PageField.Table.Rows [ Row ].ReadOnly == true )
           {
-            header.DataType = EvDataTypes.Read_Only_Text;
+            this.LogDebug ( "CHANGE COLUMN: Row:{0}, RowId: {1},ReadOnly: {2}.",
+             PageField.Table.Rows [ Row ].No,
+             PageField.Table.Rows [ Row ].RowId,
+             PageField.Table.Rows [ Row ].ReadOnly );
+
+            cellDataType = EvDataTypes.Read_Only_Text;
           }
           //
           // initialise iteration loop variables and objects.
@@ -3191,13 +3198,27 @@ namespace Evado.UniForm.AdminClient
           string colId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
           string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
 
-          this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, header.DataType, colValue );
-          switch ( header.DataType )
+          this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, cellDataType, colValue );
+          switch ( cellDataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
             {
+              var value = PageField.Table.Rows [ Row ].Column [ column ];
+
+              if ( header.DataType == EvDataTypes.Boolean )
+              {
+                if ( value == "true" )
+                {
+                  value = "Yes";
+                }
+                else
+                {
+                  value = "No";
+                }
+              }
+
               sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
-              sbHtml.Append ( PageField.Table.Rows [ Row ].Column [ column ] );
+              sbHtml.Append ( value );
 
               break;
             }//END Text Data Type.
@@ -5605,7 +5626,7 @@ namespace Evado.UniForm.AdminClient
       {
         fRatio = Evado.Model.EvStatics.getFloat ( stRatio );
       }
-      float fHeight =  fRatio * iWidth;
+      float fHeight = fRatio * iWidth;
       int iHeight = Convert.ToInt32 ( fHeight );
 
       //this.LogDebug ( " iWidth: {0},fHeight: {1}, iHeight: {2}.", iWidth, fHeight, iHeight );

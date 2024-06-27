@@ -3154,7 +3154,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuEditAccess Status )
     {
       this.LogMethod ( "getTableFieldDataRow" );
-      this.LogDebug ( "Row: " + Row );
+      this.LogDebug ( "Row: {0}.", Row );
 
       if ( PageField.Table.Rows [ Row ].Hide == true )
       {
@@ -3173,11 +3173,12 @@ namespace Evado.UniForm.WebClient
       for ( int column = 0 ; column < PageField.Table.ColumnCount ; column++ )
       {
         Evado.Model.EvTableHeader header = PageField.Table.Header [ column ];
+        EvDataTypes cellDataType = header.DataType;
         try
         {
           // 
-          // Skip rows that have not header text or set to hidden.
-          //
+          // Skip rows that have not header text
+          // 
           if ( header.Text == String.Empty
             || header.HideColumn == true )
           {
@@ -3186,22 +3187,40 @@ namespace Evado.UniForm.WebClient
 
           if ( PageField.Table.Rows [ Row ].ReadOnly == true )
           {
-            header.DataType = EvDataTypes.Read_Only_Text;
-          }
+            this.LogDebug ( "CHANGE COLUMN: Row:{0}, RowId: {1},ReadOnly: {2}.",
+             PageField.Table.Rows [ Row ].No,
+             PageField.Table.Rows [ Row ].RowId,
+             PageField.Table.Rows [ Row ].ReadOnly );
 
+            cellDataType = EvDataTypes.Read_Only_Text;
+          }
           //
-          // initialise the iteration loops variables and objects.
+          // initialise iteration loop variables and objects.
           //
           string colId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
           string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
 
-          //this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, header.DataType, colValue );
-          switch ( header.DataType )
+          this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, cellDataType, colValue );
+          switch ( cellDataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
             {
+              var value = PageField.Table.Rows [ Row ].Column [ column ];
+
+              if ( header.DataType == EvDataTypes.Boolean )
+              {
+                if ( value == "true" )
+                {
+                  value = "Yes";
+                }
+                else
+                {
+                  value = "No";
+                }
+              }
+
               sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
-              sbHtml.Append ( PageField.Table.Rows [ Row ].Column [ column ] );
+              sbHtml.Append ( value );
 
               break;
             }//END Text Data Type.
@@ -3366,7 +3385,7 @@ namespace Evado.UniForm.WebClient
                   + "tabindex = '" + _TabIndex + "' "
                   + "maxlength='12' "
                   + "size='12' "
-                  + "type='text' "
+                  + "type='date' "
                   + "value='" + colValue + "' "
                   + "onchange=\"Evado.Form.onDateValidation( this, this.value  )\" "
                   + "  class='form-control' data-behaviour='datepicker' "
@@ -3431,6 +3450,7 @@ namespace Evado.UniForm.WebClient
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
               {
+                this.LogDebug ( "EditAccess = Disabled." );
                 if ( colValue == "true" )
                 {
                   sbHtml.Append ( buttonValue );
@@ -3446,11 +3466,11 @@ namespace Evado.UniForm.WebClient
                   sbHtml.AppendLine ( "<div class='checkbox-table'>" );
                   sbHtml.AppendLine ( "<label >" );
                   sbHtml.AppendLine ( "<input "
-                 + "type='checkbox' "
-                 + "id='" + colId + "' "
-                 + "name='" + colId + "' "
-                 + "tabindex = '" + _TabIndex + "' "
-                 + "value='true' " );
+                   + "type='checkbox' "
+                   + "id='" + colId + "' "
+                   + "name='" + colId + "' "
+                   + "tabindex = '" + _TabIndex + "' "
+                   + "value='true' " );
 
                   if ( colValue == "true" )
                   {
@@ -3679,11 +3699,12 @@ namespace Evado.UniForm.WebClient
 
             default:
             {
-              //this.LogDebug ( "DataType {0}, was not displayed.", header.DataType );
+              //   this.LogDebug ( "DataType {0}, was not displayed.", header.DataType );
               break;
             }
 
           }//END Switch statement
+
         }
         catch ( Exception Ex )
         {
@@ -3692,6 +3713,13 @@ namespace Evado.UniForm.WebClient
         }
 
       }//END column iteration loop,
+
+      if ( dateStampRows == true )
+      {
+        sbHtml.Append ( "<td class='data'>" );
+        sbHtml.Append ( PageField.Table.Rows [ Row ].DateStamp );
+        sbHtml.AppendLine ( "</td>" );
+      }
 
       sbHtml.Append ( "</tr>" );
 
