@@ -3209,7 +3209,8 @@ namespace Evado.UniForm.WebClient
 
               if ( header.DataType == EvDataTypes.Boolean )
               {
-                if ( value == "true" )
+                var bValue = EvStatics.getBool ( value );
+                if ( bValue == true )
                 {
                   value = "Yes";
                 }
@@ -3217,10 +3218,14 @@ namespace Evado.UniForm.WebClient
                 {
                   value = "No";
                 }
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
+                sbHtml.Append ( value );
               }
-
-              sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
-              sbHtml.Append ( value );
+              else
+              {
+                sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
+                sbHtml.Append ( value );
+              }
 
               break;
             }//END Text Data Type.
