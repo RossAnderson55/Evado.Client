@@ -220,7 +220,7 @@
     <value>Clear</value>
   </data>
   <data name="Table_Row_DateStamp" xml:space="preserve">
-    <value>Date Stamp</value>
+    <value>Time Stamp</value>
   </data>
   <data name="Time_Structure" xml:space="preserve">
     <value>Hours   :  Minutes  :  Seconds</value>

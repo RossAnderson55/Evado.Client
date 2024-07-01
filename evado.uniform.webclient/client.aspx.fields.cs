@@ -24,6 +24,7 @@ using System.Text.RegularExpressions;
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
 using Evado.Model;
+using Newtonsoft.Json.Linq;
 
 namespace Evado.UniForm.WebClient
 {
@@ -3205,26 +3206,34 @@ namespace Evado.UniForm.WebClient
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
             {
-              var value = PageField.Table.Rows [ Row ].Column [ column ];
-
-              if ( header.DataType == EvDataTypes.Boolean )
+              sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
+              if ( colValue != String.Empty )
               {
-                var bValue = EvStatics.getBool ( value );
-                if ( bValue == true )
+                var bValue = EvStatics.getBool ( colValue );
+
+                if ( header.OptionsOrUnit == String.Empty )
                 {
-                  value = "Yes";
+                  if ( bValue == true )
+                  {
+                    colValue = "Yes";
+                  }
+                  else
+                  {
+                    colValue = "No";
+                  }
                 }
                 else
                 {
-                  value = "No";
+                  if ( bValue == true )
+                  {
+                    colValue = header.OptionsOrUnit;
+                  }
+                  else
+                  {
+                    colValue = String.Empty;
+                  }
                 }
-                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
-                sbHtml.Append ( value );
-              }
-              else
-              {
-                sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
-                sbHtml.Append ( value );
+                sbHtml.Append ( colValue );
               }
 
               break;
@@ -3440,8 +3449,8 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Boolean:
             {
-              string buttonValue = "Yes";
               colValue = colValue.ToLower ( );
+              string buttonValue = EuLabels.Boolean_Yes_Label;
 
               if ( header.OptionsOrUnit != String.Empty )
               {
@@ -3453,13 +3462,37 @@ namespace Evado.UniForm.WebClient
 
               sbHtml.Append ( "<td class='data'>" );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 this.LogDebug ( "EditAccess = Disabled." );
-                if ( colValue == "true" )
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
+
+                var bValue = EvStatics.getBool ( colValue );
+
+                if ( header.OptionsOrUnit == String.Empty )
                 {
-                  sbHtml.Append ( buttonValue );
+                  if ( bValue == true )
+                  {
+                    colValue = "Yes";
+                  }
+                  else
+                  {
+                    colValue = "No";
+                  }
                 }
+                else
+                {
+                  if ( bValue == true )
+                  {
+                    colValue = header.OptionsOrUnit;
+                  }
+                  else
+                  {
+                    colValue = String.Empty;
+                  }
+                }
+                sbHtml.Append ( colValue );
               }
               else
               {

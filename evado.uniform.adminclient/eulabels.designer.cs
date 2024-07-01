@@ -367,7 +367,7 @@ namespace Evado.UniForm.AdminClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date Stamp.
+        ///   Looks up a localized string similar to Time Stamp.
         /// </summary>
         internal static string Table_Row_DateStamp {
             get {

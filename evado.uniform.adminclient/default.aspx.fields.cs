@@ -10,6 +10,7 @@ using Evado.UniForm.Model;
 using Evado.Model;
 using System.Runtime.Remoting.Messaging;
 using System.Data.Common;
+using Newtonsoft.Json.Linq;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -3153,11 +3154,13 @@ namespace Evado.UniForm.AdminClient
     {
       this.LogMethod ( "getTableFieldDataRow" );
       this.LogDebug ( "Row: {0}.", Row );
+      this.LogDebug ( "EditAccess: {0}.", PageField.EditAccess );
 
       if ( PageField.Table.Rows [ Row ].Hide == true )
       {
         return;
       }
+
       //
       // initialise the methods variables and objects.
       //
@@ -3198,43 +3201,59 @@ namespace Evado.UniForm.AdminClient
           string colId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
           string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
 
-          this.LogDebug ( "stDataId: {0}, DataType: {1}, Value: {2}.", colId, cellDataType, colValue );
+          this.LogDebug ( "colId: {0}, DataType: {1}, Value: {2}.", colId, cellDataType, colValue );
           switch ( cellDataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
             {
-              var value = PageField.Table.Rows [ Row ].Column [ column ];
-
               if ( header.DataType == EvDataTypes.Boolean )
               {
-                var bValue = EvStatics.getBool ( value );
-                if ( bValue == true )
-                {
-                  value = "Yes";
-                }
-                else
-                {
-                  value = "No";
-                }
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
-                sbHtml.Append ( value );
+                if ( colValue != String.Empty )
+                {
+                  var bValue = EvStatics.getBool ( colValue );
+
+                  if ( header.OptionsOrUnit == String.Empty )
+                  {
+                    if ( bValue == true )
+                    {
+                      colValue = "Yes";
+                    }
+                    else
+                    {
+                      colValue = "No";
+                    }
+                  }
+                  else
+                  {
+                    if ( bValue == true )
+                    {
+                      colValue = header.OptionsOrUnit;
+                    }
+                    else
+                    {
+                      colValue = String.Empty;
+                    }
+                  }
+                  sbHtml.Append ( colValue );
+                }
               }
               else
               {
                 sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
-                sbHtml.Append ( value );
+                sbHtml.Append ( colValue );
               }
-
-
               break;
             }//END Text Data Type.
 
             case Evado.Model.EvDataTypes.Text:
             case Evado.Model.EvDataTypes.Multi_Text_Values:
             {
+              this.LogDebug ( "Text Column" );
               sbHtml.Append ( "<td class='data'>" );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 sbHtml.Append ( colValue );
               }
@@ -3263,7 +3282,8 @@ namespace Evado.UniForm.AdminClient
             {
               sbHtml.Append ( "<td class='data'>" );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 sbHtml.Append ( colValue );
               }
@@ -3293,7 +3313,8 @@ namespace Evado.UniForm.AdminClient
             {
               sbHtml.Append ( "<td class='data'>" );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 sbHtml.Append ( colValue );
               }
@@ -3335,7 +3356,8 @@ namespace Evado.UniForm.AdminClient
             {
               sbHtml.Append ( "<td class='data'>" );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 sbHtml.Append ( colValue );
               }
@@ -3377,7 +3399,8 @@ namespace Evado.UniForm.AdminClient
             {
               sbHtml.Append ( "<td class='data'>" );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 sbHtml.Append ( colValue );
               }
@@ -3439,8 +3462,8 @@ namespace Evado.UniForm.AdminClient
 
             case Evado.Model.EvDataTypes.Boolean:
             {
-              string buttonValue = "Yes";
               colValue = colValue.ToLower ( );
+              string buttonValue = EuLabels.Boolean_Yes_Label;
 
               if ( header.OptionsOrUnit != String.Empty )
               {
@@ -3452,13 +3475,37 @@ namespace Evado.UniForm.AdminClient
 
               sbHtml.Append ( "<td class='data'>" );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 this.LogDebug ( "EditAccess = Disabled." );
-                if ( colValue == "true" )
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
+
+                var bValue = EvStatics.getBool ( colValue );
+
+                if ( header.OptionsOrUnit == String.Empty )
                 {
-                  sbHtml.Append ( buttonValue );
+                  if ( bValue == true )
+                  {
+                    colValue = "Yes";
+                  }
+                  else
+                  {
+                    colValue = "No";
+                  }
                 }
+                else
+                {
+                  if ( bValue == true )
+                  {
+                    colValue = header.OptionsOrUnit;
+                  }
+                  else
+                  {
+                    colValue = String.Empty;
+                  }
+                }
+                sbHtml.Append ( colValue );
               }
               else
               {
@@ -3510,7 +3557,8 @@ namespace Evado.UniForm.AdminClient
                   + "value='" + colValue + "' "
                   + " class='column-control' style= width: 60%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 sbHtml.Append ( "disabled='disabled' " );
               }
@@ -3576,7 +3624,8 @@ namespace Evado.UniForm.AdminClient
                     sbHtml.Append ( " checked='checked' " );
                   }
 
-                  if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                  if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
                   {
                     sbHtml.Append ( " disabled='disabled' " );
                   }
@@ -3651,7 +3700,8 @@ namespace Evado.UniForm.AdminClient
                   + "value='" + colValue + "' "
                   + " class='column-control' style= width: 90%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
                 sbHtml.Append ( "disabled='disabled' " );
               }

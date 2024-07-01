@@ -358,11 +358,11 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Time Stamp.
         /// </summary>
-        internal static string String1 {
+        internal static string Table_Row_DateStamp {
             get {
-                return ResourceManager.GetString("String1", resourceCulture);
+                return ResourceManager.GetString("Table_Row_DateStamp", resourceCulture);
             }
         }
         
