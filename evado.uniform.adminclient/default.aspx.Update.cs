@@ -992,15 +992,6 @@ namespace Evado.UniForm.AdminClient
           // 
           string value = this.GetReturnedFormFieldValue ( ReturnedFormFields, tableFieldId );
 
-          // 
-          // Does the returned field value exist
-          // 
-          if ( value == null )
-          {
-            this.LogDebug ( "SKIP: Null value " );
-            continue;
-          }
-
           //
           // If NA is entered set to numeric null.
           //
@@ -1008,6 +999,15 @@ namespace Evado.UniForm.AdminClient
           {
             case Evado.Model.EvDataTypes.Numeric:
             {
+              // 
+              // Does the returned field value exist
+              // 
+              if ( value == null )
+              {
+                this.LogDebug ( "SKIP: Null value " );
+                continue;
+              }
+
               // this.LogDebug ( "DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               if ( value.ToLower ( ) == Evado.Model.EvStatics.CONST_NUMERIC_NOT_AVAILABLE.ToLower ( ) )
               {
@@ -1019,6 +1019,7 @@ namespace Evado.UniForm.AdminClient
             }
             case EvDataTypes.Boolean:
             {
+
               // 
               // Does the returned field value exist
               // 
@@ -1026,6 +1027,14 @@ namespace Evado.UniForm.AdminClient
               {
                 this.LogDebug ( "Boolean: SKIP: Row: {0}, Col: {1} Boolean Column is empty ", rowIndex, colIndex );
                 break;
+              }
+
+              //
+              // a null returned value indicates a false selection for the checkbox selection.
+              //
+              if ( value == null )
+              {
+                value = "false";
               }
 
               this.LogDebug ( "Boolean: Title: {0}, DataType: {1}, value: {2}.",
@@ -1046,6 +1055,15 @@ namespace Evado.UniForm.AdminClient
             }
             default:
             {
+              // 
+              // Does the returned field value exist
+              // 
+              if ( value == null )
+              {
+                this.LogDebug ( "SKIP: Null value " );
+                continue;
+              }
+
               this.LogDebug ( "Default: DataType: {0}, value: {1}.", FormField.Table.Header [ colIndex ].DataType, value );
               FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = value;
               break;
