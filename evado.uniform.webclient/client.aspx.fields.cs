@@ -3139,7 +3139,6 @@ namespace Evado.UniForm.WebClient
 
     }//END getTableFieldHeader method
 
-
     // =================================================================================
     /// <summary>
     ///   This method generates the table form field's row data as html markup.
@@ -3254,15 +3253,16 @@ namespace Evado.UniForm.WebClient
             case Evado.Model.EvDataTypes.Multi_Text_Values:
             {
               this.LogDebug ( "Text Column" );
-              sbHtml.Append ( "<td class='data'>" );
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
+                sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
                 sbHtml.Append ( colValue );
               }
               else
               {
+                sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<input "
                   + "id='" + colId + "' "
                   + "name='" + colId + "' "
@@ -3284,15 +3284,16 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Free_Text:
             {
-              sbHtml.Append ( "<td class='data'>" );
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
+                sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
                 sbHtml.Append ( colValue );
               }
               else
               {
+                sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<textarea "
                   + "id='" + colId + "' "
                   + "name='" + colId + "' "
@@ -3315,15 +3316,16 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Numeric:
             {
-              sbHtml.Append ( "<td class='data'>" );
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
               }
               else
               {
+                sbHtml.Append ( "<td class='data'>" );
                 //
                 // Set the field value.
                 //
@@ -3358,15 +3360,16 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Integer:
             {
-              sbHtml.Append ( "<td class='data'>" );
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
               }
               else
               {
+                sbHtml.Append ( "<td class='data'>" );
                 //
                 // Set the field value.
                 //
@@ -3401,15 +3404,16 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Date:
             {
-              sbHtml.Append ( "<td class='data'>" );
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
               }
               else
               {
+                sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<input "
                   + "id='" + colId + "' "
                   + "name='" + colId + "' "
@@ -3547,51 +3551,59 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Yes_No:
             {
-              sbHtml.Append ( "<td class='data'>" );
-              List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
-
-              /*
-               * Create the selectionlist HTML
-               */
-              sbHtml.Append ( "<select "
-                  + "id='" + colId + "' "
-                  + "name='" + colId + "' "
-                  + "tabindex = '" + _TabIndex + "' "
-                  + "value='" + colValue + "' "
-                  + " class='column-control' style= width: 60%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
-                sbHtml.Append ( "disabled='disabled' " );
-              }
-
-              sbHtml.Append ( ">\r\n" );
-
-              if ( colValue.ToLower ( ) == "yes"
-                || colValue.ToLower ( ) == "true" )
-              {
-                sbHtml.Append ( "<option value='Yes' selected='selected' >Yes</option>" );
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
+                sbHtml.Append ( colValue );
               }
               else
               {
-                sbHtml.Append ( "<option value='Yes' >Yes</option>" );
-              }
+                /*
+                 * Create the selectionlist HTML
+                 */
+                sbHtml.Append ( "<td class='data'>" );
+                sbHtml.Append ( "<select "
+                    + "id='" + colId + "' "
+                    + "name='" + colId + "' "
+                    + "tabindex = '" + _TabIndex + "' "
+                    + "value='" + colValue + "' "
+                    + " class='column-control' style= width: 60%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
-              if ( colValue.ToLower ( ) == "no"
-                || colValue.ToLower ( ) == "false"
-                || colValue == "" )
-              {
-                sbHtml.Append ( "<option value='No' selected='selected' >No</option>" );
-              }
-              else
-              {
-                sbHtml.Append ( "<option value='No' >No</option>" );
-              }
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                  || PageField.Table.Rows [ Row ].ReadOnly == true )
+                {
+                  sbHtml.Append ( "disabled='disabled' " );
+                }
 
-              sbHtml.Append ( " </select>" );
+                sbHtml.Append ( ">\r\n" );
 
-              this._TabIndex++;
+                if ( colValue.ToLower ( ) == "yes"
+                  || colValue.ToLower ( ) == "true" )
+                {
+                  sbHtml.Append ( "<option value='Yes' selected='selected' >Yes</option>" );
+                }
+                else
+                {
+                  sbHtml.Append ( "<option value='Yes' >Yes</option>" );
+                }
+
+                if ( colValue.ToLower ( ) == "no"
+                  || colValue.ToLower ( ) == "false"
+                  || colValue == "" )
+                {
+                  sbHtml.Append ( "<option value='No' selected='selected' >No</option>" );
+                }
+                else
+                {
+                  sbHtml.Append ( "<option value='No' >No</option>" );
+                }
+
+                sbHtml.Append ( " </select>" );
+
+                this._TabIndex++;
+              }
 
               sbHtml.AppendLine ( "</td>" );
 
@@ -3600,88 +3612,96 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Radio_Button_List:
             {
-              sbHtml.Append ( "<td class='data'>" );
-              List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
-
-              // 
-              // Iterate through the stOptions.
-              // 
-              for ( int i = 0 ; i < optionList.Count ; i++ )
-              {
-                //
-                // Create a button if the option exist.
-                //
-                if ( optionList [ i ].Description != String.Empty )
-                {
-                  sbHtml.Append ( "<div class='radio'><label>\r\n"
-                     + "<input "
-                     + "type='radio' "
-                     + "id='" + colId + "_" + ( i + 1 ) + "' "
-                     + "name='" + colId + "' "
-                     + "tabindex = '" + _TabIndex + "' "
-                     + "value='" + optionList [ i ].Value + "' "
-                     + "onclick=\"onSelectionValidation( this, this.value  )\" " );
-
-                  if ( colValue == optionList [ i ].Value )
-                  {
-                    sbHtml.Append ( " checked='checked' " );
-                  }
-
-                  if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
-                  {
-                    sbHtml.Append ( " disabled='disabled' " );
-                  }
-
-                  sbHtml.Append ( "/>\r\n" );
-
-                  //
-                  // Bold the selected item when in display mode as the button may not
-                  // be obvious in some browsers.
-                  //
-                  if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-                    && ( colValue == optionList [ i ].Value ) )
-                  {
-                    sbHtml.Append ( "<strong>" + optionList [ i ].Description + "<strong>" );
-                  }
-                  else
-                  {
-                    sbHtml.Append ( optionList [ i ].Description );
-                  }
-                  sbHtml.AppendLine ( "</label></div>" );
-
-                  this._TabIndex++;
-
-                  sbHtml.AppendLine ( "</td>" );
-
-                }//END option exists.
-
-              }//End option iteration loop.
-
-              sbHtml.Append ( "<div class='radio'><label>\r\n"
-                 + "<input "
-                 + "type='radio' "
-                 + "id='" + colId + "_" + ( optionList.Count + 1 ) + "' "
-                 + "name='" + colId + "' "
-                 + "tabindex = '" + _TabIndex + "' "
-                 + "value='' " );
-
-              if ( PageField.Table.Rows [ Row ].Column [ column ] == String.Empty )
               {
-                sbHtml.Append ( "checked='checked' " );
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
+                sbHtml.Append ( colValue );
               }
-
-              if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+              else
               {
-                sbHtml.Append ( "disabled='disabled' " );
+                sbHtml.Append ( "<td class='data'>" );
+                List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
+
+                // 
+                // Iterate through the stOptions.
+                // 
+                for ( int i = 0 ; i < optionList.Count ; i++ )
+                {
+                  //
+                  // Create a button if the option exist.
+                  //
+                  if ( optionList [ i ].Description != String.Empty )
+                  {
+                    sbHtml.Append ( "<div class='radio'><label>\r\n"
+                       + "<input "
+                       + "type='radio' "
+                       + "id='" + colId + "_" + ( i + 1 ) + "' "
+                       + "name='" + colId + "' "
+                       + "tabindex = '" + _TabIndex + "' "
+                       + "value='" + optionList [ i ].Value + "' "
+                       + "onclick=\"onSelectionValidation( this, this.value  )\" " );
+
+                    if ( colValue == optionList [ i ].Value )
+                    {
+                      sbHtml.Append ( " checked='checked' " );
+                    }
+
+                    if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                  || PageField.Table.Rows [ Row ].ReadOnly == true )
+                    {
+                      sbHtml.Append ( " disabled='disabled' " );
+                    }
+
+                    sbHtml.Append ( "/>\r\n" );
+
+                    //
+                    // Bold the selected item when in display mode as the button may not
+                    // be obvious in some browsers.
+                    //
+                    if ( ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                      && ( colValue == optionList [ i ].Value ) )
+                    {
+                      sbHtml.Append ( "<strong>" + optionList [ i ].Description + "<strong>" );
+                    }
+                    else
+                    {
+                      sbHtml.Append ( optionList [ i ].Description );
+                    }
+                    sbHtml.AppendLine ( "</label></div>" );
+
+                    this._TabIndex++;
+
+                    sbHtml.AppendLine ( "</td>" );
+
+                  }//END option exists.
+
+                }//End option iteration loop.
+
+                sbHtml.Append ( "<div class='radio'><label>\r\n"
+                   + "<input "
+                   + "type='radio' "
+                   + "id='" + colId + "_" + ( optionList.Count + 1 ) + "' "
+                   + "name='" + colId + "' "
+                   + "tabindex = '" + _TabIndex + "' "
+                   + "value='' " );
+
+                if ( PageField.Table.Rows [ Row ].Column [ column ] == String.Empty )
+                {
+                  sbHtml.Append ( "checked='checked' " );
+                }
+
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+                {
+                  sbHtml.Append ( "disabled='disabled' " );
+                }
+
+                sbHtml.AppendLine ( "/>\r\n"
+                    + "Not Selected\r\n"
+                    + "</label></div>" );
+
+                this._TabIndex++;
               }
-
-              sbHtml.AppendLine ( "/>\r\n"
-                  + "Not Selected\r\n"
-                  + "</label></div>" );
-
-              this._TabIndex++;
-
               sbHtml.AppendLine ( "</td>" );
 
               break;
@@ -3690,65 +3710,73 @@ namespace Evado.UniForm.WebClient
 
             case Evado.Model.EvDataTypes.Selection_List:
             {
-              sbHtml.Append ( "<td class='data'>" );
-              List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
-
-              /*
-               * Create the selectionlist HTML
-               */
-              sbHtml.Append ( "<select "
-                  + "id='" + colId + "' "
-                  + "name='" + colId + "' "
-                  + "tabindex = '" + _TabIndex + "' "
-                  + "value='" + colValue + "' "
-                  + " class='column-control' style= width: 90%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
-
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
-                sbHtml.Append ( "disabled='disabled' " );
-              }
-
-              sbHtml.Append ( ">\r\n" );
-
-              if ( colValue == String.Empty )
-              {
-                sbHtml.Append ( "<option value='' selected='selected' ></option>" );
+                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
+                sbHtml.Append ( colValue );
               }
               else
               {
-                sbHtml.Append ( "<option value='' ></option>" );
-              }
+                sbHtml.Append ( "<td class='data'>" );
+                List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
 
-              // 
-              // Iterate through the stOptions.
-              // 
-              for ( int i = 0 ; i < optionList.Count ; i++ )
-              {
+                /*
+                 * Create the selectionlist HTML
+                 */
+                sbHtml.Append ( "<select "
+                    + "id='" + colId + "' "
+                    + "name='" + colId + "' "
+                    + "tabindex = '" + _TabIndex + "' "
+                    + "value='" + colValue + "' "
+                    + " class='column-control' style= width: 90%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
-                //
-                // Add the option if it exists.
-                //
-                if ( optionList [ i ].Description != String.Empty )
+                if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
+                  || PageField.Table.Rows [ Row ].ReadOnly == true )
                 {
-                  //
-                  // Generate the option html
-                  //
-                  sbHtml.Append ( " <option value=\"" + optionList [ i ].Value + "\" " );
+                  sbHtml.Append ( "disabled='disabled' " );
+                }
 
-                  if ( optionList [ i ].Value == colValue )
+                sbHtml.Append ( ">\r\n" );
+
+                if ( colValue == String.Empty )
+                {
+                  sbHtml.Append ( "<option value='' selected='selected' ></option>" );
+                }
+                else
+                {
+                  sbHtml.Append ( "<option value='' ></option>" );
+                }
+
+                // 
+                // Iterate through the stOptions.
+                // 
+                for ( int i = 0 ; i < optionList.Count ; i++ )
+                {
+
+                  //
+                  // Add the option if it exists.
+                  //
+                  if ( optionList [ i ].Description != String.Empty )
                   {
-                    sbHtml.Append ( " selected='selected' " );
-                  }
-                  sbHtml.Append ( ">" + optionList [ i ].Description + "</option>" );
+                    //
+                    // Generate the option html
+                    //
+                    sbHtml.Append ( " <option value=\"" + optionList [ i ].Value + "\" " );
 
-                }//END option exists.
+                    if ( optionList [ i ].Value == colValue )
+                    {
+                      sbHtml.Append ( " selected='selected' " );
+                    }
+                    sbHtml.Append ( ">" + optionList [ i ].Description + "</option>" );
 
-              }//End option iteration loop.
-              sbHtml.Append ( " </select>" );
+                  }//END option exists.
 
-              this._TabIndex++;
+                }//End option iteration loop.
+                sbHtml.Append ( " </select>" );
 
+                this._TabIndex++;
+              }
               sbHtml.AppendLine ( "</td>" );
 
               break;
