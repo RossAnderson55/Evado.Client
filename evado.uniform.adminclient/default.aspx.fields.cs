@@ -3221,7 +3221,7 @@ namespace Evado.UniForm.AdminClient
                     }
                     else
                     {
-                      colValue = "No";
+                      colValue = "";
                     }
                   }
                   else
@@ -3243,6 +3243,7 @@ namespace Evado.UniForm.AdminClient
                 sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
                 sbHtml.Append ( colValue );
               }
+              sbHtml.AppendLine ( "</td>" );
               break;
             }//END Text Data Type.
 
@@ -3273,7 +3274,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Text Data Type.
@@ -3304,7 +3305,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Free Text Data Type.
@@ -3347,7 +3348,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Numeric  Data Type.
@@ -3390,7 +3391,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Intenger  Data Type.
@@ -3421,7 +3422,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Date case.
@@ -3455,7 +3456,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Computed Data Type.
@@ -3473,8 +3474,6 @@ namespace Evado.UniForm.AdminClient
               //this.LogDebug ( "Access: {0}, Boolean (checkbox), Cid: {1}, buttonValue: {2}, colValue: {3}.",
               //  PageField.EditAccess, colId, buttonValue, colValue );
 
-              sbHtml.Append ( "<td class='data'>" );
-
               if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
@@ -3491,7 +3490,7 @@ namespace Evado.UniForm.AdminClient
                   }
                   else
                   {
-                    colValue = "No";
+                    colValue = "";
                   }
                 }
                 else
@@ -3509,6 +3508,7 @@ namespace Evado.UniForm.AdminClient
               }
               else
               {
+                sbHtml.Append ( "<td class='data'>" );
                 //
                 // display the boolean value if there is a value 'true' or 'false'.
                 //
@@ -3537,7 +3537,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Boolean  Case.
@@ -3590,7 +3590,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Yes No  Case.
@@ -3649,7 +3649,7 @@ namespace Evado.UniForm.AdminClient
 
                   this._TabIndex++;
 
-                  sbHtml.Append ( "</td>" );
+                  sbHtml.AppendLine ( "</td>" );
 
                 }//END option exists.
 
@@ -3679,7 +3679,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
 
@@ -3746,7 +3746,7 @@ namespace Evado.UniForm.AdminClient
 
               this._TabIndex++;
 
-              sbHtml.Append ( "</td>" );
+              sbHtml.AppendLine ( "</td>" );
 
               break;
             }//END Selection List  Case.
