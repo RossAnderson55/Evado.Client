@@ -2258,6 +2258,13 @@ input[type="date"] {
     color: #000000;
   }
 
+  .radio-table input[type="radio"]:hover + .label,
+  .checkbox-table input[type="checkbox"]:hover + .label {
+    font-weight: bold;
+    background-color: #999999;
+    color:white;
+  }
+
   .radio-table input[type="radio"],
   .checkbox-table input[type="checkbox"] {
     margin: 0px;
