@@ -2067,44 +2067,42 @@ namespace Evado.UniForm.AdminClient
 
       }//END end option iteration loop.
 
-      if ( PageField.Mandatory == true )
+      sbHtml.AppendLine ( "<div class='radio'>" );
+      sbHtml.AppendLine ( "<label>" );
+
+      sbHtml.AppendLine ( "<input "
+       + "type='radio' "
+       + "id='" + PageField.FieldId + "_" + ( PageField.OptionList.Count + 1 ) + "' "
+       + "name='" + PageField.FieldId + "' "
+       + "tabindex = '" + _TabIndex + "' "
+       + "value='' "
+       + "data-parsley-trigger=\"change\" " );
+
+      if ( PageField.SendCmdOnChange == true )
       {
-        sbHtml.AppendLine ( "<div class='radio'>" );
-        sbHtml.AppendLine ( "<label>" );
-
-        sbHtml.AppendLine ( "<input "
-         + "type='radio' "
-         + "id='" + PageField.FieldId + "_" + ( PageField.OptionList.Count + 1 ) + "' "
-         + "name='" + PageField.FieldId + "' "
-         + "tabindex = '" + _TabIndex + "' "
-         + "value='' "
-         + "data-parsley-trigger=\"change\" " );
-
-        if ( PageField.SendCmdOnChange == true )
-        {
-          sbHtml.Append ( this.createOnChangeEvent ( ) );
-        }
-        else
-        {
-          sbHtml.Append ( "\r\n " + stValidationMethod );
-        }
-
-        if ( PageField.Value == String.Empty )
-        {
-          sbHtml.Append ( " checked='checked' " );
-        }
-
-        if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.AppendLine ( "/>" );
-
-        sbHtml.AppendLine ( "<span class='label' style='font-size: 8pt;'>Not Selected</span>" );
-        sbHtml.AppendLine ( "</label>" );
-        sbHtml.AppendLine ( "</div>" );
+        sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
+      else
+      {
+        sbHtml.Append ( "\r\n " + stValidationMethod );
+      }
+
+      if ( PageField.Value == String.Empty )
+      {
+        sbHtml.Append ( " checked='checked' " );
+      }
+
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
+
+      sbHtml.AppendLine ( "/>" );
+
+      sbHtml.AppendLine ( "<span class='label' style='font-size: 8pt;'>Not Selected</span>" );
+      sbHtml.AppendLine ( "</label>" );
+      sbHtml.AppendLine ( "</div>" );
+
       sbHtml.Append ( "<input "
        + "type='hidden' "
        + "id='" + PageField.FieldId + "' "

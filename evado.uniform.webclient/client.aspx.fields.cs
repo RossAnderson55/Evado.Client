@@ -2081,44 +2081,42 @@ namespace Evado.UniForm.WebClient
 
       }//END end option iteration loop.
 
-      if ( PageField.Mandatory == true )
+      sbHtml.AppendLine ( "<div class='radio'>" );
+      sbHtml.AppendLine ( "<label>" );
+
+      sbHtml.AppendLine ( "<input "
+       + "type='radio' "
+       + "id='" + PageField.FieldId + "_" + ( PageField.OptionList.Count + 1 ) + "' "
+       + "name='" + PageField.FieldId + "' "
+       + "tabindex = '" + _TabIndex + "' "
+       + "value='' "
+       + "data-parsley-trigger=\"change\" " );
+
+      if ( PageField.SendCmdOnChange == true )
       {
-        sbHtml.AppendLine ( "<div class='radio'>" );
-        sbHtml.AppendLine ( "<label>" );
-
-        sbHtml.AppendLine ( "<input "
-         + "type='radio' "
-         + "id='" + PageField.FieldId + "_" + ( PageField.OptionList.Count + 1 ) + "' "
-         + "name='" + PageField.FieldId + "' "
-         + "tabindex = '" + _TabIndex + "' "
-         + "value='' "
-         + "data-parsley-trigger=\"change\" " );
-
-        if ( PageField.SendCmdOnChange == true )
-        {
-          sbHtml.Append ( this.createOnChangeEvent ( ) );
-        }
-        else
-        {
-          sbHtml.Append ( "\r\n " + stValidationMethod );
-        }
-
-        if ( PageField.Value == String.Empty )
-        {
-          sbHtml.Append ( " checked='checked' " );
-        }
-
-        if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.AppendLine ( "/>" );
-
-        sbHtml.AppendLine ( "<span class='label' style='font-size: 8pt;'>Not Selected</span>" );
-        sbHtml.AppendLine ( "</label>" );
-        sbHtml.AppendLine ( "</div>" );
+        sbHtml.Append ( this.createOnChangeEvent ( ) );
       }
+      else
+      {
+        sbHtml.Append ( "\r\n " + stValidationMethod );
+      }
+
+      if ( PageField.Value == String.Empty )
+      {
+        sbHtml.Append ( " checked='checked' " );
+      }
+
+      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
+
+      sbHtml.AppendLine ( "/>" );
+
+      sbHtml.AppendLine ( "<span class='label' style='font-size: 8pt;'>Not Selected</span>" );
+      sbHtml.AppendLine ( "</label>" );
+      sbHtml.AppendLine ( "</div>" );
+
       sbHtml.Append ( "<input "
        + "type='hidden' "
        + "id='" + PageField.FieldId + "' "
@@ -4343,7 +4341,7 @@ namespace Evado.UniForm.WebClient
          + "id='" + PageField.FieldId + "_Title' "
          + "name='" + PageField.FieldId + "_Title' "
          + "value='" + stTitle + "' "
-        + "tabindex = '" + _TabIndex + "' "
+         + "tabindex = '" + _TabIndex + "' "
          + "tabindex = '" + _TabIndex + "' "
          + "size='3' class='form-control' data-parsley-trigger=\"change\" " );
 
@@ -4368,7 +4366,7 @@ namespace Evado.UniForm.WebClient
        + "id='" + PageField.FieldId + "_FirstName' "
        + "name='" + PageField.FieldId + "_FirstName' "
        + "value='" + stFirstName + "' "
-      + "tabindex = '" + _TabIndex + "' "
+       + "tabindex = '" + _TabIndex + "' "
        + "tabindex = '" + _TabIndex + "' "
        + "size='" + fieldSize + "' class='form-control' data-parsley-trigger=\"change\" " );
 
@@ -4395,7 +4393,7 @@ namespace Evado.UniForm.WebClient
          + "id='" + PageField.FieldId + "_MiddleName' "
          + "name='" + PageField.FieldId + "_MiddleName' "
          + "value='" + stMiddleName + "' "
-        + "tabindex = '" + _TabIndex + "' "
+         + "tabindex = '" + _TabIndex + "' "
          + "tabindex = '" + _TabIndex + "' "
          + "size='" + fieldSize + "' class='form-control' data-parsley-trigger=\"change\" " );
 
@@ -4419,8 +4417,9 @@ namespace Evado.UniForm.WebClient
       //
       // Family Name field
       //
-      sbHtml.Append ( "<div style='display: inline-block;'><input type='text' "
-       + "id='" + PageField.FieldId + "_FamilyName' "
+      sbHtml.AppendLine ( "<div style='display: inline-block;'>" );
+      sbHtml.Append ( "<input type='text' "
+     + "id='" + PageField.FieldId + "_FamilyName' "
        + "name='" + PageField.FieldId + "_FamilyName' "
        + "value='" + stFamilyName + "' "
        + "tabindex = '" + _TabIndex + "' "
@@ -4488,15 +4487,16 @@ namespace Evado.UniForm.WebClient
       //
       // Insert the field elements
       //
-      sbHtml.Append ( "<div " + stFieldValueStyling + " > "
-        + "<span id='sp" + PageField.Id + "'>" );
+      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+      sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "'>" );
 
       if ( arrValue.Length > 5 )
       {
         //
         // Address 1 field
         //
-        sbHtml.Append ( "<div class='first' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div class='first' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span>" );
+        sbHtml.Append ( "< input type='text' "
          + "id='" + PageField.FieldId + "_Address1' "
          + "name='" + PageField.FieldId + "_Address1' "
          + "tabindex='" + _TabIndex + "' "
@@ -4515,14 +4515,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         // Address 2 field
         //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_Address2' "
          + "name='" + PageField.FieldId + "_Address2' "
          + "tabindex='" + _TabIndex + "' "
@@ -4541,14 +4543,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         // Suburb field
         //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span><input type='text' "
+        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_Suburb' "
          + "name='" + PageField.FieldId + "_Suburb' "
          + "tabindex='" + _TabIndex + "' "
@@ -4567,14 +4571,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         // State field
         //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_State' "
          + "name='" + PageField.FieldId + "_State' "
          + "tabindex='" + _TabIndex + "' "
@@ -4593,14 +4599,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         //_PostCode field
         //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_PostCode' "
          + "name='" + PageField.FieldId + "_PostCode' "
          + "tabindex='" + _TabIndex + "' "
@@ -4619,14 +4627,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         // Country field
         //
-        sbHtml.Append ( "<div class='last' style='display: inline-block;' ><span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div class='last' style='display: inline-block;' ><span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_Country' "
          + "name='" + PageField.FieldId + "_Country' "
          + "tabindex='" + _TabIndex + "' "
@@ -4638,7 +4648,8 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
       }
@@ -4647,7 +4658,8 @@ namespace Evado.UniForm.WebClient
         //
         // Address 1 field
         //
-        sbHtml.Append ( "<div class='first' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div class='first' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_Address1' "
          + "name='" + PageField.FieldId + "_Address1' "
          + "tabindex='" + _TabIndex + "' "
@@ -4667,14 +4679,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         // Address 2 field
         //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_Address2' "
          + "name='" + PageField.FieldId + "_Address2' "
          + "tabindex='" + _TabIndex + "' "
@@ -4693,14 +4707,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         // Suburb field
         //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_Suburb' "
          + "name='" + PageField.FieldId + "_Suburb' "
          + "tabindex='" + _TabIndex + "' "
@@ -4719,14 +4735,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         // State field
         //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span><input type='text' "
+        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span>" );
+        sbHtml.AppendLine ( "<input type='text' "
          + "id='" + PageField.FieldId + "_State' "
          + "name='" + PageField.FieldId + "_State' "
          + "tabindex = '" + _TabIndex + "' "
@@ -4746,14 +4764,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         //_PostCode field
         //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span><input type='text' "
+        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span>" );
+        sbHtml.AppendLine ( "<input type='text' "
          + "id='" + PageField.FieldId + "_PostCode' "
          + "name='" + PageField.FieldId + "_PostCode' "
          + "tabindex='" + _TabIndex + "' "
@@ -4773,14 +4793,16 @@ namespace Evado.UniForm.WebClient
           sbHtml.Append ( " disabled='disabled' " );
         }
 
-        sbHtml.Append ( "/></div>\r\n" );
+        sbHtml.AppendLine ( "/>" );
+        sbHtml.AppendLine ( "</div>" );
 
         this._TabIndex++;
 
         //
         // Country field
         //
-        sbHtml.Append ( "<div class='last' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span><input type='text' "
+        sbHtml.AppendLine ( "<div class='last' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span>" );
+        sbHtml.Append ( "<input type='text' "
          + "id='" + PageField.FieldId + "_Country' "
          + "name='" + PageField.FieldId + "_Country' "
          + "tabindex='" + _TabIndex + "' "
@@ -4799,7 +4821,8 @@ namespace Evado.UniForm.WebClient
 
       }
 
-      sbHtml.Append ( "</span></div>\r\n" );
+      sbHtml.AppendLine ( "</span>" );
+      sbHtml.AppendLine ( "</div>" );
 
       this._TabIndex++;
 
