@@ -2043,7 +2043,7 @@ namespace Evado.UniForm.AdminClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( PageField.Value == option.Value )
+        if ( option.hasValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -2210,7 +2210,7 @@ namespace Evado.UniForm.AdminClient
               //sbHtml.Append ( " required " );
             }
 
-            if ( PageField.Value == option.Value )
+            if ( option.hasValue ( PageField.Value ) == true )
             {
               sbHtml.Append ( " checked='checked' " );
             }
@@ -2371,7 +2371,7 @@ namespace Evado.UniForm.AdminClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( PageField.Value == option.Value )
+        if ( option.hasValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -2918,8 +2918,8 @@ namespace Evado.UniForm.AdminClient
          * Generate the option html
          */
         sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
-        if ( option.Value == PageField.Value
-          || option.Description == PageField.Value )
+
+        if ( option.hasValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " selected='selected' " );
         }
