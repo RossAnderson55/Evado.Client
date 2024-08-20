@@ -11,6 +11,7 @@ using Evado.Model;
 using System.Runtime.Remoting.Messaging;
 using System.Data.Common;
 using Newtonsoft.Json.Linq;
+using System.Web.UI.WebControls;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -2966,6 +2967,56 @@ namespace Evado.UniForm.AdminClient
 
       return String.Empty;
     }
+
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a table field html markup
+    /// </summary>
+    /// <param name="sbHtml">StringBuilder:  containing html string content</param>
+    /// <param name="PageField">Field object.</param>
+    // ----------------------------------------------------------------------------------
+    private void createRecordTableField(
+      StringBuilder sbHtml,
+      Evado.UniForm.Model.EuField PageField )
+    {
+      this.LogMethod ( "createRecordTableField" );
+      this.LogDebug ( "Table Columns: {0}, Rows: {1}.",
+        PageField.Table.ColumnCount, PageField.Table.Rows.Count );
+      //
+      // Initialise the methods variables and objects.
+      //
+      bool hasValue = false;
+      bool hasEmptyRow = false;
+
+      for ( int row = 0 ; row < PageField.Table.Rows.Count ; row++ )
+      {
+        hasValue = false;
+        hasEmptyRow = true;
+        if ( PageField.Table.Rows [ row ].hasValue == true )
+        {
+          hasValue = true;
+          hasEmptyRow = false;
+          PageField.Table.Rows [ row ].ReadOnly = true;
+        }
+      }
+
+      //
+      // Add a new row to the table.
+      //
+      if ( PageField.EditAccess == EuEditAccess.Enabled
+        && hasEmptyRow == false
+        && hasValue == true )
+      {
+        PageField.Table.addRow ( );
+      }
+
+      //
+      // Insert the field footer elemements
+      //
+      this.createTableField ( sbHtml, PageField );
+
+      this.LogMethodEnd ( "createRecordTableField" );
+    }//END createRecordTableField Method
 
     // ===================================================================================
     /// <summary>

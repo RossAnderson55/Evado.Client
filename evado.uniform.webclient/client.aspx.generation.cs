@@ -1126,6 +1126,12 @@ namespace Evado.UniForm.WebClient
             this.createTableField ( sbHtml, groupField );
             break;
           }
+          case Evado.Model.EvDataTypes.Record_Table:
+          {
+            this.createRecordTableField ( sbHtml, groupField );
+            break;
+          }
+          
           case Evado.Model.EvDataTypes.Currency:
           {
             this.createCurrencyField ( sbHtml, groupField );

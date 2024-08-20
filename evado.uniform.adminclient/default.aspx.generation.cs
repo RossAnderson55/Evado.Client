@@ -720,7 +720,7 @@ namespace Evado.UniForm.AdminClient
           break;
         }
       }
-      this.LogDebug ( "GroupFieldWidt: " + this.UserSession.GroupFieldWidth );
+      this.LogDebug ( "GroupFieldWidth: " + this.UserSession.GroupFieldWidth );
 
       //
       // Set the edit access.
@@ -1128,6 +1128,11 @@ namespace Evado.UniForm.AdminClient
           case Evado.Model.EvDataTypes.Table:
           {
             this.createTableField ( sbHtml, groupField );
+            break;
+          }
+          case Evado.Model.EvDataTypes.Record_Table:
+          {
+            this.createRecordTableField ( sbHtml, groupField );
             break;
           }
           case Evado.Model.EvDataTypes.Currency:
