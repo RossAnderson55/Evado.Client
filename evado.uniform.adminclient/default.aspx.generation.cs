@@ -38,9 +38,10 @@ namespace Evado.UniForm.AdminClient
 
       this.LogMethod ( "GeneratePage" );
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
-      this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
-      this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
-      this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
+      //this.LogDebug ( "AppData.Title: {0}.", this.UserSession.AppData.Title );
+      //this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
+      //this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
+      //this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
       //
       // initialise method variables and objects.
       //
@@ -70,7 +71,7 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbPageHistoryPills = new StringBuilder ( );
       int leftColumnPercentage = 0;
       int rightColumnPercentage = 0;
-      this.Title = Global.TitlePrefix + " - " + this.UserSession.AppData.Title;
+      this.Title = String.Format ( "{0} - {1}", Global.TitlePrefix, this.UserSession.AppData.Title );
       this.litCommandContent.Visible = true;
 
       //

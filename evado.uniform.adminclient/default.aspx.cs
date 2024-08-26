@@ -1520,7 +1520,7 @@ namespace Evado.UniForm.AdminClient
       //
       this.initialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
-      this.Title = Global.TitlePrefix + " - " + this.UserSession.AppData.Title;
+      this.Title = String.Format ( "{0} - {1}", Global.TitlePrefix, this.UserSession.AppData.Title );
       this.imgLogo.Src = Global.DefaultLogoUrl;
 
       this.fsLoginBox.Visible = true;
