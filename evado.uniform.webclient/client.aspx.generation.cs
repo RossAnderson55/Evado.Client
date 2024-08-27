@@ -857,12 +857,20 @@ namespace Evado.UniForm.WebClient
       //
       // Add the gorups description if it exists.
       //
-      string descriptionBackground = String.Empty;
-      String description = String.Empty;
+      string descriptionBackground = "light-grey"; //String.Empty;
+      String description =  String.Empty;
 
       if ( PageGroup.Title == EuLabels.Page_Message_Error_Group_Title )
       {
         descriptionBackground = " Red ";
+      }
+      if ( PageGroup.Title == EuLabels.Page_Message_Warning_Group_Title )
+      {
+        descriptionBackground = " Orange ";
+      }
+      if ( PageGroup.Title == EuLabels.Page_Message_Action_Group_Title )
+      {
+        descriptionBackground = " Yellow ";
       }
 
       if ( PageGroup.Description != null )

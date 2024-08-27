@@ -204,20 +204,23 @@
   <data name="Name_Field_First_Name_Label" xml:space="preserve">
     <value>First:</value>
   </data>
+  <data name="Page_Message_Action_Group_Title" xml:space="preserve">
+    <value>Action Needed</value>
+  </data>
   <data name="Page_Message_Error_Group_Title" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="Page_Message_Group_Title" xml:space="preserve">
     <value>Message</value>
   </data>
+  <data name="Page_Message_Warning_Group_Title" xml:space="preserve">
+    <value>Warning</value>
+  </data>
   <data name="Radio_Button_Not_Selected" xml:space="preserve">
     <value>No option is selected</value>
   </data>
   <data name="Signature_Clear" xml:space="preserve">
     <value>Clear</value>
-  </data>
-  <data name="Table_Row_DateStamp" xml:space="preserve">
-    <value>Time Stamp</value>
   </data>
   <data name="Time_Structure" xml:space="preserve">
     <value>Hours   :  Minutes  :  Seconds</value>

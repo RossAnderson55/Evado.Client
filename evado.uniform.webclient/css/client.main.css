@@ -1276,6 +1276,10 @@ a.btn.Blue:hover {
   border-color: #9aa7ea;
 }
 
+light-grey {
+  background-color: #dadada;
+}
+
 a.btn.Purple:hover {
   background-color: #afb9ee;
   border-color: #8595e5;
@@ -1286,6 +1290,3 @@ a.btn.Purple:hover {
   padding: 0;
 }
 
-
-light-grey {
-}

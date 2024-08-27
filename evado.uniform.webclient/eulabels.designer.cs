@@ -322,6 +322,15 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Action Needed.
+        /// </summary>
+        internal static string Page_Message_Action_Group_Title {
+            get {
+                return ResourceManager.GetString("Page_Message_Action_Group_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string Page_Message_Error_Group_Title {
@@ -340,6 +349,15 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Page_Message_Warning_Group_Title {
+            get {
+                return ResourceManager.GetString("Page_Message_Warning_Group_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No option is selected.
         /// </summary>
         internal static string Radio_Button_Not_Selected {
@@ -354,15 +372,6 @@ namespace Evado.UniForm.WebClient {
         internal static string Signature_Clear {
             get {
                 return ResourceManager.GetString("Signature_Clear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Time Stamp.
-        /// </summary>
-        internal static string Table_Row_DateStamp {
-            get {
-                return ResourceManager.GetString("Table_Row_DateStamp", resourceCulture);
             }
         }
         

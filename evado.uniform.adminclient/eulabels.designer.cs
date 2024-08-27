@@ -331,6 +331,15 @@ namespace Evado.UniForm.AdminClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Action Needed.
+        /// </summary>
+        internal static string Page_Message_Action_Group_Title {
+            get {
+                return ResourceManager.GetString("Page_Message_Action_Group_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string Page_Message_Error_Group_Title {
@@ -345,6 +354,15 @@ namespace Evado.UniForm.AdminClient {
         internal static string Page_Message_Group_Title {
             get {
                 return ResourceManager.GetString("Page_Message_Group_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Page_Message_Warning_Group_Title {
+            get {
+                return ResourceManager.GetString("Page_Message_Warning_Group_Title", resourceCulture);
             }
         }
         
