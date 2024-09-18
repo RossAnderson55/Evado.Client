@@ -1775,9 +1775,28 @@ namespace Evado.UniForm.WebClient
       List<Evado.Model.EvOption> minuteList = new List<Evado.Model.EvOption> ( );
       minuteList.Add ( new Evado.Model.EvOption ( ) );
 
-      for ( int min = 0 ; min < 60 ; min++ )
+      //
+      // set the time stamp to 5 minute intervals.
+      //
+      if ( PageField.Type == EvDataTypes.Time_Stamp )
       {
-        minuteList.Add ( new Evado.Model.EvOption ( min.ToString ( "00" ) ) );
+        int iMinutes = EvStatics.getInteger ( stMinutes );
+
+        int quotent = iMinutes / 5;
+        stMinutes = ( quotent * 5 ).ToString ( "00" );
+
+        for ( int increment = 0 ; increment < 12 ; increment++ )
+        {
+          int min = increment * 5;
+          minuteList.Add ( new Evado.Model.EvOption ( min.ToString ( "00" ) ) );
+        }
+      }
+      else
+      {
+        for ( int min = 0 ; min < 60 ; min++ )
+        {
+          minuteList.Add ( new Evado.Model.EvOption ( min.ToString ( "00" ) ) );
+        }
       }
 
       //
