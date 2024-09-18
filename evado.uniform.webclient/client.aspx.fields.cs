@@ -166,45 +166,11 @@ namespace Evado.UniForm.WebClient
       // initialise method variables and objects.
       //
       String stLayout = String.Empty;
+      String stFieldRowStyling = String.Empty;
+      String stFieldTitleStyling = String.Empty;
       String stField_Suffix = String.Empty;
       String stDescription = String.Empty;
       String stAnnotation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Annotation );
-
-      if ( PageField.Description != null )
-      {
-        stDescription = PageField.Description;
-      }
-
-      if ( stDescription != String.Empty )
-      {
-        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( stDescription );
-
-        if ( stDescription.Contains ( "/]" ) == true )
-        {
-          stDescription = stDescription.Replace ( "{images}", Global.StaticImageUrl );
-          stDescription = stDescription.Replace ( "[", "<" );
-          stDescription = stDescription.Replace ( "]", ">" );
-
-          this.LogDebug ( "stDescription: {0}.", stDescription );
-        }
-        stDescription = stDescription.Replace ( "<p>", "" );
-        stDescription = stDescription.Replace ( "</p>", "" );
-      }
-
-      if ( stAnnotation != String.Empty )
-      {
-        stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
-        stAnnotation = stAnnotation.Replace ( "<p>", "" );
-        stAnnotation = stAnnotation.Replace ( "</p>", "" );
-      }
-
-      String stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
-      String stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
-
-      if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
-      {
-        stFieldTitleStyling = "style='width:98%; ' class='cell title cell-display-text-title'";
-      }
 
       //
       // Set the field layout style classes.
@@ -234,6 +200,41 @@ namespace Evado.UniForm.WebClient
         }
       }
 
+      stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
+      stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
+
+      if ( PageField.Description != null )
+      {
+        stDescription = PageField.Description;
+      }
+
+      if ( stDescription != String.Empty )
+      {
+        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( stDescription );
+
+        if ( stDescription.Contains ( "/]" ) == true )
+        {
+          stDescription = stDescription.Replace ( "{images}", Global.StaticImageUrl );
+          stDescription = stDescription.Replace ( "[", "<" );
+          stDescription = stDescription.Replace ( "]", ">" );
+        }
+        stDescription = stDescription.Replace ( "<p>", "" );
+        stDescription = stDescription.Replace ( "</p>", "" );
+      }
+
+      if ( stAnnotation != String.Empty )
+      {
+        stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
+      }
+      this.LogDebug ( "stDescription: {0}.", stDescription );
+
+
+      if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
+      {
+        stFieldTitleStyling = "style='width:98%; ' class='cell title cell-display-text-title'";
+      }
+
+
       if ( TitleFullWidth == true
         || PageField.Type == Evado.Model.EvDataTypes.Table
         || PageField.Type == Evado.Model.EvDataTypes.Special_Matrix )
@@ -248,7 +249,9 @@ namespace Evado.UniForm.WebClient
 
       // always use column layout for tables
       if ( PageField.Type == Evado.Model.EvDataTypes.Table )
+      {
         stLayout = "layout-column";
+      }
 
       //
       // Set the field suffix based on the data types.
@@ -280,7 +283,10 @@ namespace Evado.UniForm.WebClient
           stField_Suffix = "_1"; break;
         }
       }
-      sbHtml.AppendLine ( "<!-- FIELD HEADER = " + PageField.FieldId + " -->" );
+
+      sbHtml.AppendLine ( "<!-- -------------------------------------------------------------------------\r\n"
+        + "        FIELD HEADER = " + PageField.FieldId + " DATA TYPE = " + PageField.Type +
+        " LAYOUT = " + PageField.Layout + "     \r\n -->" );
 
       sbHtml.AppendLine ( "<div id='" + PageField.Id + "-row' " + stFieldRowStyling + " >" );
 
@@ -305,7 +311,7 @@ namespace Evado.UniForm.WebClient
 
         if ( PageField.IsEnabled == true )
         {
-          sbHtml.AppendLine ( "<div class='error-container style='display: none' >" );
+          sbHtml.AppendLine ( "<div class='error-container ' style='display: none'>" );
           sbHtml.AppendLine ( "<div id='" + PageField.Id + "-err-row' class='cell cell-error-value'>" );
           sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "-err'></span>" );
           sbHtml.AppendLine ( "</div></div>\r\n" );
@@ -2932,7 +2938,7 @@ namespace Evado.UniForm.WebClient
          * Generate the option html
          */
         sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
-        if ( option.hasValue( PageField.Value ) == true )
+        if ( option.hasValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " selected='selected' " );
         }

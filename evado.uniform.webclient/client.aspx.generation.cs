@@ -1064,6 +1064,7 @@ namespace Evado.UniForm.WebClient
             break;
           }
           case Evado.Model.EvDataTypes.Time:
+          case Evado.Model.EvDataTypes.Time_Stamp:
           {
             this.createTimeField ( sbHtml, groupField );
             break;

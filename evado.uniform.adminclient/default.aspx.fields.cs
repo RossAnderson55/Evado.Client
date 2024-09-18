@@ -152,43 +152,12 @@ namespace Evado.UniForm.AdminClient
       //
       // initialise method variables and objects.
       //
-      String stLayout = String.Empty;
+      String stLayout = String.Empty; 
+      String stFieldRowStyling = String.Empty;
+      String stFieldTitleStyling = String.Empty;
       String stField_Suffix = String.Empty;
       String stDescription = String.Empty;
       String stAnnotation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Annotation );
-
-      if ( PageField.Description != null )
-      {
-        stDescription = PageField.Description;
-      }
-
-      if ( stDescription != String.Empty )
-      {
-        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( stDescription );
-
-        if ( stDescription.Contains ( "/]" ) == true )
-        {
-          stDescription = stDescription.Replace ( "{images}", Global.StaticImageUrl );
-          stDescription = stDescription.Replace ( "[", "<" );
-          stDescription = stDescription.Replace ( "]", ">" );
-        }
-        stDescription = stDescription.Replace ( "<p>", "" );
-        stDescription = stDescription.Replace ( "</p>", "" );
-      }
-
-      if ( stAnnotation != String.Empty )
-      {
-        stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
-      }
-      this.LogDebug ( "stDescription: {0}.", stDescription );
-
-      String stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
-      String stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
-
-      if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
-      {
-        stFieldTitleStyling = "style='width:98%; ' class='cell title cell-display-text-title'";
-      }
 
       //
       // Set the field layout style classes.
@@ -218,6 +187,41 @@ namespace Evado.UniForm.AdminClient
         }
       }
 
+      stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
+      stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
+
+      if ( PageField.Description != null )
+      {
+        stDescription = PageField.Description;
+      }
+
+      if ( stDescription != String.Empty )
+      {
+        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( stDescription );
+
+        if ( stDescription.Contains ( "/]" ) == true )
+        {
+          stDescription = stDescription.Replace ( "{images}", Global.StaticImageUrl );
+          stDescription = stDescription.Replace ( "[", "<" );
+          stDescription = stDescription.Replace ( "]", ">" );
+        }
+        stDescription = stDescription.Replace ( "<p>", "" );
+        stDescription = stDescription.Replace ( "</p>", "" );
+      }
+
+      if ( stAnnotation != String.Empty )
+      {
+        stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
+      }
+      this.LogDebug ( "stDescription: {0}.", stDescription );
+
+
+      if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
+      {
+        stFieldTitleStyling = "style='width:98%; ' class='cell title cell-display-text-title'";
+      }
+
+
       if ( TitleFullWidth == true
         || PageField.Type == Evado.Model.EvDataTypes.Table
         || PageField.Type == Evado.Model.EvDataTypes.Special_Matrix )
@@ -232,7 +236,9 @@ namespace Evado.UniForm.AdminClient
 
       // always use column layout for tables
       if ( PageField.Type == Evado.Model.EvDataTypes.Table )
+      { 
         stLayout = "layout-column";
+      }
 
       //
       // Set the field suffix based on the data types.
@@ -1756,9 +1762,18 @@ namespace Evado.UniForm.AdminClient
       List<Evado.Model.EvOption> minuteList = new List<Evado.Model.EvOption> ( );
       minuteList.Add ( new Evado.Model.EvOption ( ) );
 
+      if( PageField.Type == EvDataTypes.Time_Stamp )
+      {
+        for ( int increment = 0 ; increment < 12 ; increment++ )
+        {
+          minuteList.Add ( new Evado.Model.EvOption ( increment.ToString ( "00" ) ) );
+        }
+      }
+      else { 
       for ( int min = 0 ; min < 60 ; min++ )
       {
         minuteList.Add ( new Evado.Model.EvOption ( min.ToString ( "00" ) ) );
+      }
       }
 
       //

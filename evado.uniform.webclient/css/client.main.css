@@ -721,11 +721,12 @@ img.camera {
  */
 .field.layout-normal .cell.title {
   text-align: left;
+  text
 }
 
 .field.layout-normal .cell.value {
   text-align: right;
-  vertical-align: baseline;
+  /* vertical-align: baseline; */
 }
 
 .field.layout-normal .cell-input-text-value > span, .field.layout-normal .cell-textarea-value > span,
