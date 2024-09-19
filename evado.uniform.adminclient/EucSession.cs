@@ -77,7 +77,7 @@ namespace Evado.UniForm.AdminClient
     public CookieContainer CookieContainer { get; set; } = new CookieContainer ( );
 
 
-    public DateTime SessionTimeDateStamp { get; set; } = Evado.Model.EvStatics.CONST_DATE_NULL;
+    public DateTime SessionTimeDateStamp { get; set; } = Evado.Model.EvStatics.DATE_NULL;
     /// <summary>
     /// This field contains the page URL used for external commands.
     /// </summary>
