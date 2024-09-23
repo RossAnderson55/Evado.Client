@@ -1,13 +1,15 @@
-<%@ Page 	Language="vb" Debug="true"%>
-<html>
-<head>
-<script runat=server>
-  Sub Page_Load(ByVal Sender As Object, ByVal E As EventArgs)
-    Response.Redirect("./default.aspx")
-  End Sub
-</script>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="error.aspx.cs" Inherits="Evado.UniForm.AdminClient.Error" %>
 
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
 </head>
 <body>
+    <form id="form1" runat="server">
+        <div>
+        </div>
+    </form>
 </body>
 </html>

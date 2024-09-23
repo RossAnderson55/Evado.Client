@@ -187,6 +187,15 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string Image_Clear {
+            get {
+                return ResourceManager.GetString("Image_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message: .
         /// </summary>
         internal static string Message_Label {
@@ -372,6 +381,15 @@ namespace Evado.UniForm.WebClient {
         internal static string Signature_Clear {
             get {
                 return ResourceManager.GetString("Signature_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Stamp.
+        /// </summary>
+        internal static string Table_Row_DateStamp {
+            get {
+                return ResourceManager.GetString("Table_Row_DateStamp", resourceCulture);
             }
         }
         

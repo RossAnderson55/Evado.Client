@@ -159,6 +159,9 @@
   <data name="Html_Url_Title_Field_Title" xml:space="preserve">
     <value>Title:</value>
   </data>
+  <data name="Image_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
   <data name="Message_Label" xml:space="preserve">
     <value>Message: </value>
   </data>
@@ -221,6 +224,9 @@
   </data>
   <data name="Signature_Clear" xml:space="preserve">
     <value>Clear</value>
+  </data>
+  <data name="Table_Row_DateStamp" xml:space="preserve">
+    <value>Time Stamp</value>
   </data>
   <data name="Time_Structure" xml:space="preserve">
     <value>Hours   :  Minutes  :  Seconds</value>
