@@ -388,6 +388,8 @@ namespace Evado.UniForm.AdminClient
           break;
         }
         case Evado.Model.EvDataTypes.Table:
+        case Evado.Model.EvDataTypes.Record_Table:
+        case Evado.Model.EvDataTypes.Special_Matrix:
         {
           FormField = this.UpdateFormTableFields (
                        FormField,
@@ -1679,7 +1681,9 @@ namespace Evado.UniForm.AdminClient
           this.LogDebug ( "Group: {0}, FieldId: {1} = {2} = {3}  >> METHOD PARAMETER UPDATED ",
             group.Title, field.FieldId, field.Title, field.Value );
 
-          if ( field.Type != Evado.Model.EvDataTypes.Table )
+          if ( field.Type != Evado.Model.EvDataTypes.Table
+            && field.Type != Evado.Model.EvDataTypes.Record_Table
+            && field.Type != Evado.Model.EvDataTypes.Special_Matrix )
           {
             this.UserSession.PageCommand.AddParameter ( field.FieldId, field.Value );
           }

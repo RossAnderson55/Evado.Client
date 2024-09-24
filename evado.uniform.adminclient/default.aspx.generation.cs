@@ -1144,13 +1144,9 @@ namespace Evado.UniForm.AdminClient
             break;
           }
           case Evado.Model.EvDataTypes.Table:
-          {
-            this.createTableField ( sbHtml, groupField );
-            break;
-          }
           case Evado.Model.EvDataTypes.Record_Table:
           {
-            this.createRecordTableField ( sbHtml, groupField );
+            this.createTableField ( sbHtml, groupField );
             break;
           }
           case Evado.Model.EvDataTypes.Currency:
