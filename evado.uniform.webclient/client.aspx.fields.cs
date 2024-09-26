@@ -218,8 +218,6 @@ namespace Evado.UniForm.WebClient
           stDescription = stDescription.Replace ( "[", "<" );
           stDescription = stDescription.Replace ( "]", ">" );
         }
-        stDescription = stDescription.Replace ( "<p>", "" );
-        stDescription = stDescription.Replace ( "</p>", "" );
       }
 
       if ( stAnnotation != String.Empty )
