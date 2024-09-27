@@ -88,7 +88,7 @@ namespace Evado.UniForm.AdminClient
         "Evado.UniForm.AdminClient.DefaultPage.Page_Load event method. IsNewSession " + this.Session.IsNewSession,
        System.Diagnostics.EventLogEntryType.Information );
 
-      Global.ClearDebugLog ( );
+      //Global.ClearDebugLog ( );
       Global.LogAppendGlobal ( );
       this.LogMethod ( "Page_Load event" );
       this.LogDebug ( "EnablePageHistory: " + Global.EnablePageHistory ); try
