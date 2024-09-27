@@ -203,14 +203,14 @@ namespace Evado.UniForm.WebClient
       stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
       stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
 
-      if ( PageField.Description != null )
+      //
+      // Format the description value from mark down to html.
+      //
+      if ( String.IsNullOrEmpty ( PageField.Description ) == false )
       {
-        stDescription = PageField.Description;
-      }
+        //this.LogDebug ( "JSON: PageField.Description : {0}.", PageField.Description );
 
-      if ( stDescription != String.Empty )
-      {
-        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( stDescription );
+        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( PageField.Description );
 
         if ( stDescription.Contains ( "/]" ) == true )
         {
@@ -219,6 +219,7 @@ namespace Evado.UniForm.WebClient
           stDescription = stDescription.Replace ( "]", ">" );
         }
       }
+      //this.LogDebug ( "HTML: stDescription: {0}.", stDescription );
 
       if ( stAnnotation != String.Empty )
       {

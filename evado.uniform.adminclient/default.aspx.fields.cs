@@ -144,11 +144,11 @@ namespace Evado.UniForm.AdminClient
       bool TitleFullWidth )
     {
       this.LogMethod ( "createFieldHeader" );
-      this.LogDebug ( "PageField.FieldId: " + PageField.FieldId );
-      this.LogDebug ( "PageField.Title: " + PageField.Title );
-      this.LogDebug ( "PageField.Type: " + PageField.Type );
-      this.LogDebug ( "CurrentGroupType: " + this.UserSession.CurrentGroup.GroupType );
-      this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
+      this.LogDebug ( "PageField.FieldId:{0}.", PageField.FieldId );
+      this.LogDebug ( "PageField.Title: {0}.", PageField.Title );
+      this.LogDebug ( "PageField.Type: {0}.", PageField.Type );
+      this.LogDebug ( "CurrentGroupType:{0}.", this.UserSession.CurrentGroup.GroupType );
+      //this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
       //
       // initialise method variables and objects.
       //
@@ -162,14 +162,14 @@ namespace Evado.UniForm.AdminClient
       stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
       stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
 
-      if ( PageField.Description != null )
+      //
+      // Format the description value from mark down to html.
+      //
+      if ( String.IsNullOrEmpty ( PageField.Description ) == false )
       {
-        stDescription = PageField.Description;
-      }
+        //this.LogDebug ( "JSON: PageField.Description : {0}.", PageField.Description );
 
-      if ( stDescription != String.Empty )
-      {
-        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( stDescription );
+        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( PageField.Description );
 
         if ( stDescription.Contains ( "/]" ) == true )
         {
@@ -178,7 +178,11 @@ namespace Evado.UniForm.AdminClient
           stDescription = stDescription.Replace ( "]", ">" );
         }
       }
+      //this.LogDebug ( "HTML: stDescription: {0}.", stDescription );
 
+      //
+      // Format the description value from mark down to html.
+      //
       if ( stAnnotation != String.Empty )
       {
         stAnnotation = Evado.Model.EvStatics.EncodeMarkDown ( stAnnotation );
