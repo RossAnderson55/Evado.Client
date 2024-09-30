@@ -10,7 +10,6 @@ namespace Evado.UniForm.AdminClient
 {
   public partial class Error : System.Web.UI.Page
   {
-    private System.Timers.Timer aTimer;
 
     protected void Page_Load( object sender, EventArgs e )
     {
@@ -20,20 +19,6 @@ namespace Evado.UniForm.AdminClient
        System.Diagnostics.EventLogEntryType.Information );
 
       Global.LogValue ( "Evado.UniForm.AdminClient.Error.Load_Page Event Method." );
-
-      //
-      // Create a timer with a two second interval.
-      //
-      /*
-      aTimer = new System.Timers.Timer ( 2000 );
-      // Hook up the Elapsed event for the timer. 
-      aTimer.Elapsed += OnTimedEvent;
-      aTimer.AutoReset = true;
-      aTimer.Enabled = true;
-
-      aTimer.Start ( );
-      */
-      Global.LogValue ( "END: Evado.UniForm.AdminClient.Error.Load_Page Event Method." );
 
       Response.Redirect ( "./default.aspx" );
 

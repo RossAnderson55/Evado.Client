@@ -6,11 +6,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Evado.UniForm.AdminClient
+namespace Evado.UniForm.WebClient
 {
   public partial class Error : System.Web.UI.Page
   {
-    private System.Timers.Timer aTimer;
 
     protected void Page_Load( object sender, EventArgs e )
     {
@@ -21,21 +20,9 @@ namespace Evado.UniForm.AdminClient
 
       Global.LogValue ( "Evado.UniForm.AdminClient.Error.Load_Page Event Method." );
 
-      //
-      // Create a timer with a two second interval.
-      //
-      /*
-      aTimer = new System.Timers.Timer ( 2000 );
-      // Hook up the Elapsed event for the timer. 
-      aTimer.Elapsed += OnTimedEvent;
-      aTimer.AutoReset = true;
-      aTimer.Enabled = true;
-
-      aTimer.Start ( );
-      */
       Global.LogValue ( "END: Evado.UniForm.AdminClient.Error.Load_Page Event Method." );
 
-      Response.Redirect ( "./default.aspx" );
+      //Response.Redirect ( "./default.aspx" );
 
       Global.OutputtDebugLog ( );
     }

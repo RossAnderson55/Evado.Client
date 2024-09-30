@@ -18,18 +18,11 @@
 <body>
   <form id="form1" runat="server">
     <div>
-      <table id="header" >
-        <tr>
-          <td class="logo">
-            <img src="./images/evado.jpg" alt="Evado Logo" />
-          </td>
-          <td >
-            <h1>Error Redirect
-            </h1>
-          </td>
-          <td class="links"></td>
-        </tr>
-      </table>
+      <center>
+        <p style="margin-top: 200px">
+          <img src="./images/evado.jpg" alt="Evado Logo" />
+        </p>
+      </center>
     </div>
   </form>
 </body>

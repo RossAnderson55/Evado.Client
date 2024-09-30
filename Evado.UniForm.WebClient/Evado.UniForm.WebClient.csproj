@@ -90,6 +90,13 @@
     <Compile Include="client.aspx.Update.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="error.aspx.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="error.aspx.designer.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="EucEnumerators.cs" />
     <Compile Include="EucKeyValuePair.cs" />
     <Compile Include="EucSession.cs" />
@@ -142,6 +149,7 @@
     <Content Include="css\report.css" />
     <Content Include="client.aspx" />
     <Content Include="default.aspx" />
+    <Content Include="error.aspx" />
     <Content Include="js\bootstrap-datetimepicker.js" />
     <Content Include="js\evado.video.js" />
     <Content Include="js\flashcanvas.js" />

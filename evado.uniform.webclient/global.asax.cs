@@ -666,6 +666,86 @@ namespace Evado.UniForm.WebClient
 
     private const String CONST_SERVICE_LOG_FILE_NAME = @"web-client-log-";
 
+    //  ===========================================================================
+    /// <summary>
+    /// This class writes log to the event log source
+    /// </summary>
+    /// <param name="UserId">string: User Id</param>
+    /// <param name="EventContent">string: The event content to be written</param>
+    /// <param name="LogEntryType">EventLogEntryType: The event log type</param>
+    /// <remarks>
+    /// This method consists of the following steps:
+    /// 
+    /// 1. Validate the EventLogSource for not being null and empty
+    /// 
+    /// 2. Write out even log but not over 30000 blocks
+    /// </remarks>
+    //  ---------------------------------------------------------------------------------
+    public static void WriteToEventLog( String UserId, String EventContent,
+      System.Diagnostics.EventLogEntryType LogEntryType )
+    {
+      //
+      // If the event log source is empty or null exit.
+      //
+      if ( Global.EventLogSource == null
+        || Global.EventLogSource == String.Empty )
+      {
+        return;
+      }
+      String eventContent = String.Format ( "UserId: {0}, \r\n{1}", UserId, EventContent );
+      //
+      // output short event logs.
+      //
+      if ( eventContent.Length < 32000 )
+      {
+        System.Diagnostics.EventLog.WriteEntry ( Global.EventLogSource, eventContent, LogEntryType );
+
+        return;
+      }
+
+      //
+      // As a long event log outout it in 32000 blocks.
+      //
+      int increment = 30000;
+      for ( int index = 0 ; index < increment * 10 ; index += increment )
+      {
+        //
+        // Create a remaining length value
+        //
+        int remainingLength = eventContent.Length - index;
+
+        //
+        // Validate whether the remaining lenth exists
+        //
+        if ( remainingLength > 0 )
+        {
+          //
+          // If the remaining length is greater than increment
+          // Pass index and increment to the stContent string
+          // Write Event log
+          //
+          if ( remainingLength > increment )
+          {
+            string stContent = eventContent.Substring ( index, increment );
+            System.Diagnostics.EventLog.WriteEntry ( Global.EventLogSource, stContent, LogEntryType );
+          }
+          else
+          {
+            //
+            // If not, pass index to the stContent string
+            // Write Event log
+            //
+            string stContent = eventContent.Substring ( index );
+            System.Diagnostics.EventLog.WriteEntry ( Global.EventLogSource, stContent, LogEntryType );
+
+          }//END output remaining.
+
+        }//END Remaining length > 0
+
+      }//END iteration loop.
+
+    }//END static WriteToEventLog method
+
     //  =================================================================================
     /// <summary>
     ///   This static method removes a user from the online user list.

@@ -3281,7 +3281,7 @@ namespace Evado.UniForm.AdminClient
                 sbHtml.AppendLine ( "<input "
                   + "id='" + colId + "' "
                   + "name='" + colId + "' "
-                  + "maxlength='" + header.Width + "' "
+                  + "maxlength='" + header.Width * 2 + "' "
                   + "size='" + header.Width + "' "
                   + "tabindex = '" + _TabIndex + "' "
                   + "type='text'"
