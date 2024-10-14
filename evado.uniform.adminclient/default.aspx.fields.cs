@@ -1772,7 +1772,7 @@ namespace Evado.UniForm.AdminClient
         int iMinutes = EvStatics.getInteger ( stMinutes );
 
         int quotent = iMinutes / 5;
-        stMinutes = ( quotent * 5 ).ToString ( "00");
+        stMinutes = ( quotent * 5 ).ToString ( "00" );
 
         for ( int increment = 0 ; increment < 12 ; increment++ )
         {
@@ -3142,6 +3142,24 @@ namespace Evado.UniForm.AdminClient
             }
             break;
           }
+
+          case EvDataTypes.Check_Box_List:
+          case EvDataTypes.Radio_Button_List:
+          {
+            if ( header.OptionList.Count == 0 && header.OptionsOrUnit != String.Empty )
+            {
+              header.OptionList = EvStatics.getStringAsOptionList ( header.OptionsOrUnit, false );
+            }
+            break;
+          }
+          case EvDataTypes.Selection_List:
+          {
+            if ( header.OptionList.Count == 0 && header.OptionsOrUnit != String.Empty )
+            {
+              header.OptionList = EvStatics.getStringAsOptionList ( header.OptionsOrUnit, true );
+            }
+            break;
+          }
         }
 
         sbHtml.AppendLine ( "</td>" );
@@ -3207,7 +3225,7 @@ namespace Evado.UniForm.AdminClient
           // Skip rows that have not header text
           // 
           if ( header.Text == String.Empty
-            || header.HideColumn == true )
+              || header.HideColumn == true )
           {
             continue;
           }

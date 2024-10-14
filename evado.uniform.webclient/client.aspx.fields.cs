@@ -3152,7 +3152,25 @@ namespace Evado.UniForm.WebClient
             }
             break;
           }
-        }
+
+          case EvDataTypes.Check_Box_List:
+          case EvDataTypes.Radio_Button_List:
+          {
+            if ( header.OptionList.Count == 0 && header.OptionsOrUnit != String.Empty )
+            {
+              header.OptionList = EvStatics.getStringAsOptionList ( header.OptionsOrUnit, false );
+            }
+            break;
+          }
+          case EvDataTypes.Selection_List:
+          {
+            if ( header.OptionList.Count == 0 && header.OptionsOrUnit != String.Empty )
+            {
+              header.OptionList = EvStatics.getStringAsOptionList ( header.OptionsOrUnit, true );
+            }
+            break;
+          }
+        }//END date type switch
 
         sbHtml.AppendLine ( "</td>" );
 
