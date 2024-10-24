@@ -4,12 +4,11 @@ body {
   color: #333;
 }
 
-body, h3, .Debug,.plot-container, .font-size10,.e-menu-bar a.btn, .e-menu-bar button.btn
-{
+body, h3, .Debug, .plot-container, .font-size10, .e-menu-bar a.btn, .e-menu-bar button.btn {
   font-size: 10pt; /*font-size: 12pt;*/
 }
-#form-footer, .font-size8,#page-footer-section
-{
+
+#form-footer, .font-size8, #page-footer-section {
   font-size: 8pt;
 }
 
@@ -23,7 +22,8 @@ body {
   padding: 0px;
   margin: 0px;
 }
-#header,  {
+
+#header, {
   padding: 0px;
   margin: 0px;
   font-size: 12pt;
@@ -66,7 +66,7 @@ body {
 }
 
 #form-body-dynamic-section {
-  background-color:#fcfcfc;
+  background-color: #fcfcfc;
   box-sizing: border-box;
   color: Black;
   border-color: #ddd;
@@ -118,22 +118,22 @@ body {
   z-index: 9999;
 }
 
-#form-footer .left 
-{
-  width:30%;
-  text-align: left;
-  padding: 8px;
-}
-#form-footer .center {
-  text-align: center;
-  padding: 8px;
-}
+  #form-footer .left {
+    width: 30%;
+    text-align: left;
+    padding: 8px;
+  }
 
-#form-footer .right {
-  width:30%;
-  text-align: right;
-  padding: 8px;
-}
+  #form-footer .center {
+    text-align: center;
+    padding: 8px;
+  }
+
+  #form-footer .right {
+    width: 30%;
+    text-align: right;
+    padding: 8px;
+  }
 
 h1 {
   font-size: 12pt;
@@ -159,25 +159,19 @@ h3 {
 }
 
 h4 {
-  font-weight:normal;
-  font-style:italic;
+  font-weight: normal;
+  font-style: italic;
   padding: 0px;
   margin-top: 20px;
   margin-bottom: 10px;
 }
 
-
-.hero-unit {
-  margin: 40px auto 0 auto;
-  width: 300px;
-  font-size: 14pt;
-  font-weight: 200;
-  line-height: 30px;
-  background-color: #eee;
-  border-radius: 6px;
-  padding: 60px;
+label {
+  display: inline-block;
+  padding: 5px;
+  margin-bottom: 5px;
+  font-weight: 700
 }
-
 .mandatory {
   color: red;
 }
@@ -256,9 +250,11 @@ input, select, textarea {
   color: black;
   background-color: White;
 }
+
 .hide {
   display: none;
 }
+
 . unhide {
   display: initial;
 }
@@ -336,7 +332,7 @@ input, select, textarea {
 }
 
   .field-group .table td, .field-group .table th {
-    padding: 3px 3px;
+    padding: 2px 2px;
   }
 
 .dw-persp, .dwo, .dw {
@@ -374,7 +370,7 @@ input, select, textarea {
   }
 
     .error-container .cell.cell-error-value ul li {
-      padding: 4px;
+      padding: 2px;
     }
 
 .group-row.error {
@@ -472,7 +468,7 @@ span.required {
 }
 
 .field-group .fields .group-row.field:first-child {
-  border-top: none;  
+  border-top: none;
 }
 
 .field-group .grp-description {
@@ -484,32 +480,31 @@ span.required {
 }
 
 .field-group .description {
-  /*padding: 4px 4px 10px 4px;*/
+  padding: 5px;
   vertical-align: top;
 }
 
-.field-group .description table {
-  padding: 2px 2px 5px 2px;
-  vertical-align: top;
-}
+  .field-group .description table {
+    padding: 2px;
+    vertical-align: top;
+  }
 
-.field-group .description td, .field-group .description th 
-{
-  width: auto;
-  text-align:left;
-  padding: 2px;
-}
+  .field-group .description td, .field-group .description th {
+    width: auto;
+    text-align: left;
+    padding: 2px;
+  }
 
-.field-group .description ul,
-.field-group .description ol,
-.cell-display-text-title ul, 
-.cell-display-text-value ul, 
-.cell-display-text-title ol, 
-.cell-display-text-value ol {
-  padding: 0;
-  margin: 0;
-  padding-left: 5px;
-}
+  .field-group .description ul,
+  .field-group .description ol,
+  .cell-display-text-title ul,
+  .cell-display-text-value ul,
+  .cell-display-text-title ol,
+  .cell-display-text-value ol {
+    padding: 0;
+    margin: 0;
+    padding-left: 5px;
+  }
 
 .field-group .links {
   padding: 2px 0px;
@@ -537,8 +532,7 @@ span.required {
   clear: both;
 }
 
-.form-field-container-inline 
-{
+.form-field-container-inline {
   border: 0;
   display: inline-block;
   vertical-align: middle;
@@ -572,8 +566,8 @@ span.required {
 .form-control-inline
 .form-control-range {
   display: inline-block;
-  MIN-height: 34px; 
-  padding: 3px 6px;
+  MIN-height: 34px;
+  padding: 2px;
   line-height: 1.42857143;
   color: #555;
   background-color: #fff;
@@ -587,7 +581,7 @@ span.required {
   box-sizing: border-box;
 }
 
-  .cell input[type=text], 
+  .cell input[type=text],
   .cell textarea {
     box-sizing: border-box;
     width: 100%;
@@ -599,6 +593,7 @@ span.required {
 
 .cell.title {
   text-align: left;
+  padding: 0px;
   padding-top: 2px;
   padding-bottom: 2px;
 }
@@ -613,8 +608,6 @@ span.required {
   vertical-align: middle;
   margin: 0;
   padding: 2pt;
-  padding-top: 6px;
-  padding-bottom: 2px;
 }
 
 .cell.title label {
@@ -634,13 +627,13 @@ span.required {
   vertical-align: middle;
 }
 
-.cell-input-text-value > span,
-.cell-textarea-value > span,
-.cell-number-value > span,
-.cell-number-value > div,
-.cell-date-value > span, .cell-time-value > span {
-  float: left;
-}
+  .cell-input-text-value > span,
+  .cell-textarea-value > span,
+  .cell-number-value > span,
+  .cell-number-value > div,
+  .cell-date-value > span, .cell-time-value > span {
+    float: left;
+  }
 
 .cell-input-address-value span div,
 .cell-input-name-value span div {
@@ -669,7 +662,7 @@ span.required {
 .field-group .group-title {
   /*font-size: 12pt;*/
   padding-top: 2px;
-  padding-bottom: 3px;
+  padding-bottom: 2px;
   font-weight: bold;
   display: inline-block;
 }
@@ -727,7 +720,7 @@ img.camera {
 }
 
   .cell-select-value fieldset, .cell-multi-select-value fieldset {
-    padding: 4px;
+    padding: 2px;
   }
 
 .group-row.mandatory .cell.title span:after {
@@ -847,8 +840,8 @@ img.camera {
 }
 
 .radio-inline {
- margin: 2px;
- padding:0;
+  margin: 2px;
+  padding: 0;
 }
 
 #page-form {
@@ -953,7 +946,7 @@ background-color: #555;
 
 
 #page-footer-section {
-  padding: 10px;
+  padding: 2px;
   width: 100%;
 }
 
@@ -1020,7 +1013,7 @@ background-color: #555;
 
     .menu.links.tiled .tile-heading {
       width: 20%;
-      padding: 20px;
+      padding: 10px;
       padding-bottom: 0;
       float: left;
       text-align: center;
@@ -1037,15 +1030,15 @@ background-color: #555;
 
     .menu.links.tiled .tile {
       width: 20%;
-      padding: 20px;
+      padding: 10px;
       float: left;
     }
 
       .menu.links.tiled .tile.blank {
         visibility: hidden;
         min-height: 200px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
 
       .menu.links.tiled .tile .title {
@@ -1083,7 +1076,7 @@ background-color: #555;
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
-  padding: 5px;
+  padding: 2px;
 }
 
 /*  column command list */
@@ -1102,7 +1095,7 @@ background-color: #555;
   }
 
     .vertical_list > li > a {
-      padding: 10px 15px;
+      padding: 2px;
       width: 100%;
     }
 

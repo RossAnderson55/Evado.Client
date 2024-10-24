@@ -166,16 +166,11 @@ h4 {
   margin-bottom: 10px;
 }
 
-
-.hero-unit {
-  margin: 40px auto 0 auto;
-  width: 300px;
-  font-size: 14pt;
-  font-weight: 200;
-  line-height: 30px;
-  background-color: #eee;
-  border-radius: 6px;
-  padding: 60px;
+label {
+  display: inline-block;
+  padding: 5px;
+  margin-bottom: 5px;
+  font-weight: 700
 }
 
 .mandatory {
@@ -336,7 +331,7 @@ input, select, textarea {
 }
 
   .field-group .table td, .field-group .table th {
-    padding: 3px 3px;
+    padding: 2px 2px;
   }
 
 .dw-persp, .dwo, .dw {
@@ -374,7 +369,7 @@ input, select, textarea {
   }
 
     .error-container .cell.cell-error-value ul li {
-      padding: 4px;
+      padding: 2px;
     }
 
 .group-row.error {
@@ -484,12 +479,12 @@ span.required {
 }
 
 .field-group .description {
-  /*padding: 4px 4px 10px 4px;*/
+  padding: 5px;
   vertical-align: top;
 }
 
 .field-group .description table {
-  padding: 2px 2px 5px 2px;
+  padding: 2px;
   vertical-align: top;
 }
 
@@ -573,7 +568,7 @@ span.required {
 .form-control-range {
   display: inline-block;
   MIN-height: 34px; 
-  padding: 3px 6px;
+  padding: 2px;
   line-height: 1.42857143;
   color: #555;
   background-color: #fff;
@@ -599,6 +594,7 @@ span.required {
 
 .cell.title {
   text-align: left;
+  padding: 0px;
   padding-top: 2px;
   padding-bottom: 2px;
 }
@@ -613,8 +609,6 @@ span.required {
   vertical-align: middle;
   margin: 0;
   padding: 2pt;
-  padding-top: 6px;
-  padding-bottom: 2px;
 }
 
 .cell.title label {
@@ -669,7 +663,7 @@ span.required {
 .field-group .group-title {
   /*font-size: 12pt;*/
   padding-top: 2px;
-  padding-bottom: 3px;
+  padding-bottom: 2px;
   font-weight: bold;
   display: inline-block;
 }
@@ -727,7 +721,7 @@ img.camera {
 }
 
   .cell-select-value fieldset, .cell-multi-select-value fieldset {
-    padding: 4px;
+    padding: 2px;
   }
 
 .group-row.mandatory .cell.title span:after {
@@ -953,7 +947,7 @@ background-color: #555;
 
 
 #page-footer-section {
-  padding: 10px;
+  padding: 2px;
   width: 100%;
 }
 
@@ -1020,7 +1014,7 @@ background-color: #555;
 
     .menu.links.tiled .tile-heading {
       width: 20%;
-      padding: 20px;
+      padding: 10px;
       padding-bottom: 0;
       float: left;
       text-align: center;
@@ -1037,15 +1031,15 @@ background-color: #555;
 
     .menu.links.tiled .tile {
       width: 20%;
-      padding: 20px;
+      padding: 10px;
       float: left;
     }
 
       .menu.links.tiled .tile.blank {
         visibility: hidden;
         min-height: 200px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
 
       .menu.links.tiled .tile .title {
@@ -1083,7 +1077,7 @@ background-color: #555;
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
-  padding: 5px;
+  padding: 2px;
 }
 
 /*  column command list */
@@ -1102,7 +1096,7 @@ background-color: #555;
   }
 
     .vertical_list > li > a {
-      padding: 10px 15px;
+      padding: 2px;
       width: 100%;
     }
 

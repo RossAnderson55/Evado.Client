@@ -300,7 +300,7 @@ namespace Evado.UniForm.AdminClient
 
         if ( PageField.IsEnabled == true )
         {
-          sbHtml.AppendLine ( "<div class='error-container '>" ); // style='display: none'
+          sbHtml.AppendLine ( "<div class='error-container ' style='display: none'>" ); // style='display: none'
           sbHtml.AppendLine ( "<div id='" + PageField.Id + "-err-row' class='cell cell-error-value'>" );
           sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "-err'></span>" );
           sbHtml.AppendLine ( "</div></div>\r\n" );
