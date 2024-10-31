@@ -71,7 +71,16 @@ namespace Evado.UniForm.AdminClient
       StringBuilder sbPageHistoryPills = new StringBuilder ( );
       int leftColumnPercentage = 0;
       int rightColumnPercentage = 0;
-      this.Title = String.Format ( "{0} - {1}", Global.TitlePrefix, this.UserSession.AppData.Title );
+
+      if( Global.TitlePrefix != String.Empty )
+      {
+        this.Title = String.Format ( "{0}: {1}", Global.TitlePrefix, this.UserSession.AppData.Title );
+      }
+      else
+      {
+        this.Title = this.UserSession.AppData.Title ;
+      }
+
       this.litCommandContent.Visible = true;
 
       //
