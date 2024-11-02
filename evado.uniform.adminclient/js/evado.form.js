@@ -153,7 +153,6 @@ var Evado = Evado || {};
     console.log("onNumericValidation: FINISHED" );
   } //END  NumericValidation method
 
-
   /* *************************************************************************************
    * NumericValidation method
    *
@@ -436,7 +435,6 @@ var Evado = Evado || {};
     console.log("onTimeSelectChange: FINISHED" );
     
   } //END  onDateSelectChange method
-
 
   /* *************************************************************************************
    * DateValidation method

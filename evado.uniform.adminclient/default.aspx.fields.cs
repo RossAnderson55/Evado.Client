@@ -12,6 +12,9 @@ using System.Runtime.Remoting.Messaging;
 using System.Data.Common;
 using Newtonsoft.Json.Linq;
 using System.Web.UI.WebControls;
+using Microsoft.SqlServer.Server;
+using System.IO;
+using System.Drawing;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -1436,7 +1439,6 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "' class='form-field-container-inline' >" );
 
-
       if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
       {
         if ( stFormat.Contains ( "dd" ) == true )
@@ -1586,40 +1588,80 @@ namespace Evado.UniForm.AdminClient
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
     private void createDateRangeField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      StringBuilder sbHtml, EuField PageField )
     {
-      this.LogMethod ( "createNumericRangeField" );
+      this.LogMethod ( "createDateRangeField" );
       this.LogDebug ( "Field.Type: " + PageField.Type );
       //
       // Initialise the methods variables and objects.
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stSize = "15"; ;
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-date-value' "; //
       String [ ] arrValue = PageField.Value.Split ( ';' );
       String stLowerValue = String.Empty;
       String stUpperValue = String.Empty;
       String value = String.Empty;
 
+      String stFormat = "dd - MMM - yyyy";
+
       int minYear = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Min_Value );
       int maxYear = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Max_Value );
+
+      if ( PageField.Type == Evado.Model.EvDataTypes.Year )
+      {
+        stFormat = "yyyy";
+      }
+      else
+      {
+        if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Format ) )
+        {
+          string parmmeter = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Format );
+          parmmeter = parmmeter.ToLower ( );
+
+          if ( parmmeter.Length <= 8 )
+          {
+            String format = String.Empty;
+
+            if ( parmmeter.Contains ( "dd" ) == true )
+            {
+              format = "dd";
+            }
+            if ( parmmeter.Contains ( "mmm" ) == true )
+            {
+              if ( format != String.Empty )
+              {
+                format += " - ";
+              }
+              format += " MMM";
+            }
+            if ( parmmeter.Contains ( "yy" ) == true
+              || parmmeter.Contains ( "yyyy" ) == true )
+            {
+              if ( format != String.Empty )
+              {
+                format += " - ";
+              }
+              format += "yyyy";
+            }
+            stFormat = format;
+          }
+        }
+      }
+
 
       if ( arrValue.Length < 2 )
       {
         stLowerValue = PageField.Value;
+        stUpperValue = PageField.Value;
       }
       else
       {
         stLowerValue = arrValue [ 0 ];
         stUpperValue = arrValue [ 1 ];
       }
+      this.LogDebug ( "stLowerValue: {0}, stUpperValue: {1} ", stLowerValue, stUpperValue );
 
-      //
-      // Set the normal validation parameters.
-      ///
-      string stValidationMethod = " onchange=\"Evado.Form.onDateValidation( this, this.value )\" ";
 
       //
       // Ineert the field header
@@ -1630,70 +1672,25 @@ namespace Evado.UniForm.AdminClient
       // Insert the field elements
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
-      sbHtml.AppendLine ( "<span id='sp1-" + PageField.Id + "' >" );
+      sbHtml.AppendLine ( "<span id='sp1-" + PageField.Id + "' >" );  //DefaultPage.CONST_FIELD_LOWER_SUFFIX
 
-      sbHtml.AppendLine ( "<input type='date' "
-        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
-        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX + "' "
-        + "tabindex = '" + _TabIndex + "' "
-        + "value='" + stLowerValue + "' "
-        + "maxlength='" + stSize + "' "
-        + "tabindex = '" + this._TabIndex + "' "
-        + "size='" + stSize + "' "
-        + "class='form-control-inline' " ); // + "class='form-control-inline'  "
-
-      sbHtml.AppendLine ( "\r\n data-fieldid='" + PageField.FieldId + "' "
-      + stValidationMethod
-      + " data-parsley-trigger=\"change\" " );
-
-      if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
-      {
-        //sbHtml.Append ( " required " );
-      }
-
-      //this.addMandatoryIfAttribute ( sbHtml, PageField );
-
-      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-      {
-        sbHtml.Append ( " disabled='disabled' " );
-      }
-
-      sbHtml.AppendLine ( "/>" );
+      //
+      // get the date components
+      //
+      sbHtml.AppendLine ( this.GetDateField ( PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX,
+        stLowerValue,
+        PageField.Mandatory, stFormat, minYear, maxYear ) );
       sbHtml.AppendLine ( "</span>" );
 
       this._TabIndex++;
-
-      sbHtml.AppendLine ( "<span> - </span>" );
-
+      
+      sbHtml.AppendLine ( "<span style=\"margin: 5px;\">&nbsp;>>>&nbsp;</span>" );
+      
       sbHtml.AppendLine ( "<span id='sp2-" + PageField.Id + "' >" );
 
-      sbHtml.AppendLine ( "<input type='date' "
-        + "id='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
-        + "name='" + PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX + "' "
-        + "tabindex = '" + _TabIndex + "' "
-        + "value='" + stUpperValue + "' "
-        + "maxlength='" + stSize + "' "
-        + "tabindex = '" + this._TabIndex + "' "
-        + "size='" + stSize + "' "
-        + "class='form-control-inline' " ); // + "class='form-control-inline'  "
-
-      sbHtml.AppendLine ( "\r\n data-fieldid='" + PageField.FieldId + "' "
-      + stValidationMethod
-      + " data-parsley-trigger=\"change\" " );
-
-      if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
-      {
-        //sbHtml.Append ( " required " );
-      }
-
-      //this.addMandatoryIfAttribute ( sbHtml, PageField );
-
-      if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Disabled )
-      {
-        sbHtml.Append ( " disabled='disabled' " );
-      }
-
-      sbHtml.AppendLine ( "/>" );
+      sbHtml.AppendLine ( this.GetDateField ( PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX,
+        stUpperValue,
+        PageField.Mandatory, stFormat, minYear, maxYear ) );
       sbHtml.AppendLine ( "</span>" );
 
       sbHtml.Append ( "</div> \r\n" );
@@ -1706,8 +1703,200 @@ namespace Evado.UniForm.AdminClient
       //
       this.createFieldFooter ( sbHtml, PageField );
 
+      this.LogMethodEnd ( "createDateRangeField" );
     }//END Field Method
 
+    // ===================================================================================
+    /// <summary>
+    /// This method create the date selection list objects.
+    /// </summary>
+    /// <param name="Fieldid">String Field identifier.</param>
+    /// <param name="DateValue">String object.</param>
+    /// <param name="Mandatory"> bool: true = mandatory</param>
+    /// <param name="Format"> String  the data format to be displayed.</param>
+    /// <param name="MinYear">int min year of date range integer.</param>
+    /// <param name="MaxYear">int max date range as integer.</param>
+    // ----------------------------------------------------------------------------------
+    private String GetDateField( String FieldId, String DateValue, bool Mandatory, String Format, int MinYear, int MaxYear )
+    {
+      this.LogMethod ( "GetDateField" );
+      this.LogDebug ( "FieldId : {0}, DateValue: {1}, Mandatory: {2}, Format: {3}, MinYear: {4}, MaxYear: {5}",
+        FieldId, DateValue, Mandatory, Format, MinYear, MaxYear );
+      //
+      // Initialise the methods variables and objects.
+      //
+      StringBuilder sbHtml = new StringBuilder ( );
+      String stDate = DateValue;
+      String stDay = String.Empty;
+      String stMonth = String.Empty;
+      String stYear = String.Empty;
+
+      stDate = stDate.Replace ( " ", "-" );
+
+      String [ ] arDate = stDate.Split ( '-' );
+      if ( arDate.Length > 2 )
+      {
+        stDay = arDate [ 0 ];
+        stMonth = arDate [ 1 ].ToUpper ( );
+        stYear = arDate [ 2 ];
+      }
+      else
+        if ( arDate.Length > 1 )
+      {
+        stDay = String.Empty;
+        stMonth = arDate [ 0 ].ToUpper ( );
+        stYear = arDate [ 1 ];
+      }
+      else
+      {
+        stDay = String.Empty;
+        stMonth = String.Empty;
+        stYear = DateValue;
+      }
+
+      List<EvOption> dayList = new List<EvOption> ( );
+      dayList.Add ( new Evado.Model.EvOption ( ) );
+
+      for ( int day = 1 ; day <= 31 ; day++ )
+      {
+        dayList.Add ( new Evado.Model.EvOption ( day.ToString ( "00" ) ) );
+      }
+
+      List<EvOption> monthList = Evado.Model.EvStatics.getStringAsOptionList (
+        ":;JAN:" + EuLabels.Month_JAN + ";FEB:" + EuLabels.Month_FEB + ";MAR:" + EuLabels.Month_MAR
+        + ";APR:" + EuLabels.Month_APR + ";MAY:" + EuLabels.Month_MAY + ";JUN:" + EuLabels.Month_JUN
+        + ";JUL:" + EuLabels.Month_JUL + ";AUG:" + EuLabels.Month_AUG + ";SEP:" + EuLabels.Month_SEP
+        + ";OCT:" + EuLabels.Month_OCT + ";NOV:" + EuLabels.Month_NOV + ";DEC:" + EuLabels.Month_DEC, true );
+
+      List<EvOption> yearList = new List<EvOption> ( );
+      yearList.Add ( new Evado.Model.EvOption ( ) );
+
+      for ( int yr = MaxYear ; yr >= MinYear ; yr-- )
+      {
+        yearList.Add ( new Evado.Model.EvOption ( yr.ToString ( "0000" ) ) );
+      }
+
+      //
+      // Set the normal validation parameters.
+      //
+      string stValidationMethod = " onchange=\"Evado.Form.onDateSelectChange( this, '" + FieldId + "' )\" ";
+      //
+      // day selection list.
+      //
+      if ( Format.Contains ( "dd" ) == true )
+      {
+        sbHtml.Append ( "<select "
+          + "id='" + FieldId + "_DAY' "
+          + "name='" + FieldId + "_DAY' "
+          + "tabindex = '" + this._TabIndex + "' "
+          + "value='" + stDay + "' "
+          + "class='form-field-inline' "
+          + "data-parsley-trigger=\"change\" " + stValidationMethod );
+
+        if ( Mandatory == true )
+        {
+          //sbHtml.Append ( " required " );
+        }
+
+        sbHtml.AppendLine ( ">" );
+
+        foreach ( Evado.Model.EvOption option in dayList )
+        {
+          sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
+          if ( option.Value == stDay )
+          {
+            sbHtml.Append ( " selected='selected' " );
+          }
+          sbHtml.AppendLine ( ">" + option.Description + " </option>\r\n" );
+        }
+        sbHtml.Append ( " </select>\r\n" );
+
+        sbHtml.AppendLine ( "<span style=\"margin: 2px;\">&nbsp;:&nbsp;</span>" );
+        this._TabIndex++;
+      }
+
+      //
+      // Month selection list.
+      //
+      if ( Format.Contains ( "MMM" ) == true )
+      {
+
+        sbHtml.Append ( "<select "
+          + "id='" + FieldId + "_MTH' "
+          + "name='" + FieldId + "_MTH' "
+          + "value='" + stMonth + "' "
+          + "tabindex = '" + this._TabIndex + "' "
+          + "class='form-field-inline' "
+          + "data-parsley-trigger=\"change\" " + stValidationMethod );
+
+        if ( Mandatory == true )
+        {
+          //sbHtml.Append ( " required " );
+        }
+
+        sbHtml.AppendLine ( ">" );
+        this._TabIndex++;
+
+        foreach ( Evado.Model.EvOption option in monthList )
+        {
+          sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
+          if ( option.Value == stMonth )
+          {
+            sbHtml.Append ( " selected='selected' " );
+          }
+          sbHtml.AppendLine ( ">" + option.Description + " </option>\r\n" );
+        }
+        sbHtml.Append ( " </select>\r\n" );
+
+        sbHtml.AppendLine ( "<span style=\"margin: 2px;\">&nbsp;:&nbsp;</span>" );
+        this._TabIndex++;
+      }
+
+      //
+      // Year selection list.
+      //
+      if ( Format.Contains ( "yyyy" ) == true )
+      {
+
+        sbHtml.Append ( "<select "
+          + "id='" + FieldId + "_YR' "
+          + "name='" + FieldId + "_YR' "
+          + "tabindex = '" + this._TabIndex + "' "
+          + "value='" + stYear + "' "
+          + "class='form-field-inline' "
+          + "data-parsley-trigger=\"change\" " + stValidationMethod );
+
+        if ( Mandatory == true )
+        {
+          //sbHtml.Append ( " required " );
+        }
+
+        sbHtml.AppendLine ( ">" );
+
+        foreach ( Evado.Model.EvOption option in yearList )
+        {
+          sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
+          if ( option.Value == stYear )
+          {
+            sbHtml.Append ( " selected='selected' " );
+          }
+          sbHtml.AppendLine ( ">" + option.Description + " </option>\r\n" );
+        }
+        sbHtml.AppendLine ( " </select>\r\n" );
+
+        this._TabIndex++;
+      }
+
+      sbHtml.AppendLine ( "<br/><span style='margin: 10pt;'>" + Format + "</span>" );
+
+      sbHtml.AppendLine ( "<input type='hidden' "
+        + "id='" + FieldId + "' "
+        + "name='" + FieldId + "' "
+        + "value='" + DateValue + "' />" );
+
+      this.LogMethodEnd ( "GetDateField" );
+      return sbHtml.ToString ( );
+    }
     // ===================================================================================
     /// <summary>
     /// This method creates a time field html markup

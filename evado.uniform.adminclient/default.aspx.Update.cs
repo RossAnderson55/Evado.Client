@@ -373,6 +373,7 @@ namespace Evado.UniForm.AdminClient
         case Evado.Model.EvDataTypes.Float_Range:
         case Evado.Model.EvDataTypes.Double_Range:
         case Evado.Model.EvDataTypes.Date_Range:
+
         {
           FormField.Value = this.GetRangeFieldValue (
             ReturnedFormFields,
@@ -857,9 +858,6 @@ namespace Evado.UniForm.AdminClient
 
     // =============================================================================== 
     /// <summary>
-    /// updateNameFieldValue method.
-    /// 
-    /// Description:
     ///   This method updates the common TestReport static test fields
     /// 
     /// </summary>
