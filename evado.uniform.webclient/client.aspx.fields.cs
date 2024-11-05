@@ -1449,119 +1449,13 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
       {
-        if ( stFormat.Contains ( "dd" ) == true )
-        {
-          sbHtml.Append ( "<select "
-            + "id='" + PageField.FieldId + "_DAY' "
-            + "name='" + PageField.FieldId + "_DAY' "
-            + "tabindex = '" + this._TabIndex + "' "
-            + "value='" + stDay + "' "
-            + "class='form-field-inline' "
-            + "data-parsley-trigger=\"change\" "
-            + stValidationMethod );
-
-          if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
-          {
-            //sbHtml.Append ( " required " );
-          }
-
-          sbHtml.AppendLine ( ">" );
-
-          foreach ( Evado.Model.EvOption option in dayList )
-          {
-            sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
-            if ( option.Value == stDay )
-            {
-              sbHtml.Append ( " selected='selected' " );
-            }
-            sbHtml.AppendLine ( ">" + option.Description + " </option>\r\n" );
-          }
-          sbHtml.Append ( " </select>\r\n" );
-
-          sbHtml.AppendLine ( "- " );
-
-          this._TabIndex++;
-        }
-
-        if ( stFormat.Contains ( "MMM" ) == true )
-        {
-
-          sbHtml.Append ( "<select "
-            + "id='" + PageField.FieldId + "_MTH' "
-            + "name='" + PageField.FieldId + "_MTH' "
-            + "value='" + stMonth + "' "
-            + "tabindex = '" + this._TabIndex + "' "
-            + "class='form-field-inline' "
-            + "data-parsley-trigger=\"change\" "
-            + stValidationMethod );
-
-          if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
-          {
-            //sbHtml.Append ( " required " );
-          }
-
-          sbHtml.AppendLine ( ">" );
-          this._TabIndex++;
-
-          foreach ( Evado.Model.EvOption option in monthList )
-          {
-            sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
-            if ( option.Value == stMonth )
-            {
-              sbHtml.Append ( " selected='selected' " );
-            }
-            sbHtml.AppendLine ( ">" + option.Description + " </option>\r\n" );
-          }
-          sbHtml.Append ( " </select>\r\n" );
-
-          sbHtml.AppendLine ( "-" );
-
-          this._TabIndex++;
-        }
-
-
-        if ( stFormat.Contains ( "yyyy" ) == true )
-        {
-
-          sbHtml.Append ( "<select "
-            + "id='" + PageField.FieldId + "_YR' "
-            + "name='" + PageField.FieldId + "_YR' "
-            + "tabindex = '" + this._TabIndex + "' "
-            + "value='" + stYear + "' "
-            + "class='form-field-inline' "
-            + "data-parsley-trigger=\"change\" "
-            + stValidationMethod );
-
-          if ( PageField.Mandatory == true && PageField.EditAccess != Evado.UniForm.Model.EuEditAccess.Disabled )
-          {
-            //sbHtml.Append ( " required " );
-          }
-
-          sbHtml.AppendLine ( ">" );
-
-          foreach ( Evado.Model.EvOption option in yearList )
-          {
-            sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
-            if ( option.Value == stYear )
-            {
-              sbHtml.Append ( " selected='selected' " );
-            }
-            sbHtml.AppendLine ( ">" + option.Description + " </option>\r\n" );
-          }
-          sbHtml.AppendLine ( " </select>\r\n" );
-
-          this._TabIndex++;
-        }
-
-        sbHtml.AppendLine ( "<br/><span style='margin: 10pt;'>" + stFormat + "</span>" );
-
-        sbHtml.AppendLine ( "<input type='hidden' "
-          + "id='" + PageField.FieldId + "' "
-          + "name='" + PageField.FieldId + "' "
-          + "value='" + PageField.Value + "' />" );
-
-        sbHtml.AppendLine ( "</span>" );
-
+        //
+        // get the date components
+        //
+        sbHtml.AppendLine ( this.GetDateField (
+          PageField.FieldId,
+          PageField.Value,
+          PageField.Mandatory, stFormat, minYear, maxYear ) );
       }
       else
       {
@@ -1819,7 +1713,7 @@ namespace Evado.UniForm.WebClient
         }
         sbHtml.Append ( " </select>\r\n" );
 
-        sbHtml.AppendLine ( "<span style=\"margin: 2px;\">&nbsp;:&nbsp;</span>" );
+        sbHtml.AppendLine ( "<span style=\"margin: 2px;\"></span>" );
         this._TabIndex++;
       }
 
@@ -1856,7 +1750,7 @@ namespace Evado.UniForm.WebClient
         }
         sbHtml.Append ( " </select>\r\n" );
 
-        sbHtml.AppendLine ( "<span style=\"margin: 2px;\">&nbsp;:&nbsp;</span>" );
+        sbHtml.AppendLine ( "<span style=\"margin: 2px;\"></span>" );
         this._TabIndex++;
       }
 
@@ -1894,8 +1788,6 @@ namespace Evado.UniForm.WebClient
 
         this._TabIndex++;
       }
-
-      sbHtml.AppendLine ( "<br/><span style='margin: 10pt;'>" + Format + "</span>" );
 
       sbHtml.AppendLine ( "<input type='hidden' "
         + "id='" + FieldId + "' "
