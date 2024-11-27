@@ -618,8 +618,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
     private void createImageField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createImageField" );
       this.LogDebug ( "TempUrl: " + Global.TempUrl );
@@ -652,7 +651,13 @@ namespace Evado.UniForm.WebClient
       {
         stImageUrl = Global.concatinateHttpUrl ( Global.TempUrl, stImageUrl );
       }
-      this.LogDebug ( "stImageUrl: " + stImageUrl );
+      this.LogDebug ( "stImageUrl:{0}.", stImageUrl );
+
+      string format = PageField.GetParameter ( EuFieldParameters.Format ).ToLower ( );
+      this.LogDebug ( "format: {0}.", format );
+
+      string title = PageField.GetParameter ( EuFieldParameters.Image_Title ).ToLower ( );
+      this.LogDebug ( "title: {0}.", title );
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-image-value cf' "; // class='cell value cell-image-value cf' ";
 
@@ -675,16 +680,38 @@ namespace Evado.UniForm.WebClient
       {
         this.LogValue ( "Image file exists " + PageField.Value );
 
-        sbHtml.AppendLine ( "<a href='" + stImageUrl + "' target='_blank' > "
-          + "<img alt='Image " + PageField.Value + "' " + "src='" + stImageUrl + "' width='" + iWidth + "'/></a>" );
+        sbHtml.AppendFormat ( "<a href='{0}' target='_blank' > \r\n", stImageUrl );
+
+        sbHtml.AppendFormat ( "<img alt='Image {1}' src='{0}' width='{2}'/></a>",
+          stImageUrl, PageField.Value, iWidth );
       }
 
       if ( PageField.EditAccess == Evado.UniForm.Model.EuEditAccess.Enabled )
       {
-        sbHtml.AppendLine ( "<input name='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
-          + "type='file' id='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
-          + "size='80' />" );
+        sbHtml.AppendFormat ( "<input name='{0}{1}' id='{0}{1}' type='file' size='80' /> \r\n",
+          PageField.FieldId, EuField.CONST_IMAGE_FIELD_SUFFIX );
+
+        if ( format.Contains ( "title" ) == true )
+        {
+          sbHtml.AppendFormat ( "{4}<input type='text' id='{0}{1}' name='{0}{1}' value='{2}' "
+            + " tabindex = '{3}' maxlength='100' size='100' class='form-control' />\r\n",
+            PageField.FieldId, EuField.CONST_IMAGE_FIELD_TITLE, title,
+            this._TabIndex, EuLabels.Image_Title_Field_Title );
+        }
+
+        if ( format.Contains ( "delete" ) == true )
+        {
+          sbHtml.AppendFormat ( "{3}<input "
+           + "type='checkbox' "
+           + "id='{0}{1}' "
+           + "name='{0}{1}' "
+           + "tabindex = '{2}'"
+           + "value=\"Yes\" />\r\n",
+           PageField.FieldId, EuField.CONST_IMAGE_FIELD_DELETE,
+           this._TabIndex, EuLabels.Image_Delete_Field_Title );
+        }
       }
+
       sbHtml.AppendLine ( "<input type='hidden' "
            + "id='" + PageField.FieldId + "' "
            + "name='" + PageField.FieldId + "' "

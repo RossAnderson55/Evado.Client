@@ -428,6 +428,35 @@ namespace Evado.UniForm.WebClient
           this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
           break;
         }
+        case Evado.Model.EvDataTypes.Image:
+        {
+          this.LogDebug ( "Image Field." );
+
+          this.LogDebug ( "FieldId: {0}, Value: {1}.", FormField.FieldId, FormField.Value );
+
+          string fieldId = FormField.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
+
+          stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, fieldId );
+
+          this.LogDebug ( "Title stValue: {0}.", stValue );
+
+          if ( String.IsNullOrEmpty ( stValue ) == false )
+          {
+            FormField.AddParameter ( fieldId, stValue );
+          }
+
+          fieldId = FormField.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
+
+          stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, fieldId );
+
+          this.LogDebug ( "Delete stValue: {0}.", stValue );
+
+          if ( String.IsNullOrEmpty ( stValue ) == false )
+          {
+            FormField.AddParameter ( fieldId, stValue );
+          }
+          break;
+        }
         default:
         {
           stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
@@ -1693,15 +1722,45 @@ namespace Evado.UniForm.WebClient
             + " - " + field.Value
             + " >> METHOD PARAMETER UPDATED " );
 
-          if ( field.Type != Evado.Model.EvDataTypes.Table
-            && field.Type != Evado.Model.EvDataTypes.Record_Table
-            && field.Type != Evado.Model.EvDataTypes.Special_Matrix )
+          switch ( field.Type )
           {
-            this.UserSession.PageCommand.AddParameter ( field.FieldId, field.Value );
-          }
-          else
-          {
-            this.updateWebPageCommandTableObject ( field );
+            case EvDataTypes.Table:
+            case EvDataTypes.Record_Table:
+            case Evado.Model.EvDataTypes.Special_Matrix:
+            {
+              this.updateWebPageCommandTableObject ( field );
+              break;
+            }
+            case EvDataTypes.Image:
+            {
+              this.UserSession.PageCommand.AddParameter ( field.FieldId, field.Value );
+
+              string fieldId = field.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
+
+              string value = field.GetParameter ( fieldId );
+              if ( string.IsNullOrEmpty ( value ) == false )
+              {
+                this.UserSession.PageCommand.AddParameter ( fieldId, value );
+
+                this.LogDebug ( "Parameter Name: {0}, Value: {1}", fieldId, value );
+              }
+
+              fieldId = field.FieldId + EuField.CONST_IMAGE_FIELD_DELETE;
+
+              value = field.GetParameter ( fieldId );
+              if ( string.IsNullOrEmpty ( value ) == false )
+              {
+                this.UserSession.PageCommand.AddParameter ( fieldId, value );
+                this.LogDebug ( "Parameter Name: {0}, Value: {1}", fieldId, value );
+              }
+
+              break;
+            }
+            default:
+            {
+              this.UserSession.PageCommand.AddParameter ( field.FieldId, field.Value );
+              break;
+            }
           }
 
         }//END Group Field list iteration.

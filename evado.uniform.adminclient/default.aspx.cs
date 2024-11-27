@@ -197,7 +197,7 @@ namespace Evado.UniForm.AdminClient
               //
               // Update the Command with page data objects.
               //
-              this.GetPageCommandParameters ( );
+              this.GetCommandParameters ( );
 
               this.LogDebug ( "CURRENT PageCommand: " + this.UserSession.PageCommand.getAsString ( false, true ) );
 
@@ -448,11 +448,11 @@ namespace Evado.UniForm.AdminClient
        System.Diagnostics.EventLogEntryType.Information );
       this.LogMethod ( "sendPageCommand" );
       this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
-      this.LogDebug ( "Sessionid: " + this.UserSession.ServerSessionId );
-      this.LogDebug ( "User NetworkId: " + this.UserSession.UserId );
-      this.LogDebug ( "AppDate Url: " + this.UserSession.AppData.Url );
-      this.LogDebug ( "Global.ClientVersion: " + Global.ClientVersion );
-      this.LogDebug ( "GetRequestHeader 'Host' : '{0}'. ", this.GetRequestHeader ( "Host" ) );
+      this.LogDebug ( "Sessionid: {0}.", this.UserSession.ServerSessionId );
+      this.LogDebug ( "User NetworkId: {0}.", this.UserSession.UserId );
+      this.LogDebug ( "AppDate Url: {0}.", this.UserSession.AppData.Url );
+      this.LogDebug ( "Global.ClientVersion: {0}.", Global.ClientVersion );
+      this.LogDebug ( "GetRequestHeader 'Host: '{0}'. ", this.GetRequestHeader ( "Host" ) );
 
       //
       // Display a serialised instance of the object.

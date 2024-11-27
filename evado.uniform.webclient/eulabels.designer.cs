@@ -196,6 +196,24 @@ namespace Evado.UniForm.WebClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete:  .
+        /// </summary>
+        internal static string Image_Delete_Field_Title {
+            get {
+                return ResourceManager.GetString("Image_Delete_Field_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title:  .
+        /// </summary>
+        internal static string Image_Title_Field_Title {
+            get {
+                return ResourceManager.GetString("Image_Title_Field_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message: .
         /// </summary>
         internal static string Message_Label {

@@ -46,7 +46,7 @@ namespace Evado.UniForm.AdminClient
     /// This method updates the  application data with the form field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void GetPageCommandParameters( )
+    private void GetCommandParameters( )
     {
       this.LogMethod ( "getPageCommandParameters" );
       //
@@ -272,15 +272,12 @@ namespace Evado.UniForm.AdminClient
     /// <returns>Returns a Field object.</returns>
     // ---------------------------------------------------------------------------------
     private Evado.UniForm.Model.EuField UpdateFormField(
-      Evado.UniForm.Model.EuField FormField,
+       EuField FormField,
       NameValueCollection ReturnedFormFields,
-      Evado.UniForm.Model.EuEditAccess GroupStatus )
+       EuEditAccess GroupStatus )
     {
       this.LogMethod ( "updateFormField" );
-      this.LogDebug ( "FormField.DataId: " + FormField.FieldId );
-      this.LogDebug ( "FormField.DataType: " + FormField.Type );
-      this.LogDebug ( "FormField.Status: " + FormField.EditAccess );
-      this.LogDebug ( "GroupStatus: " + GroupStatus );
+      this.LogDebug ( "FormField.DataId: {0}, FormField.DataType: {1}, FormField.Status:  {2} ", FormField.FieldId, FormField.Type, FormField.EditAccess );
 
       // 
       // Initialise methods variables and objects.
@@ -293,10 +290,9 @@ namespace Evado.UniForm.AdminClient
       //
       // If a binary or image file return it without processing.
       //
-      if ( FormField.Type == Evado.Model.EvDataTypes.Binary_File
-        || FormField.Type == Evado.Model.EvDataTypes.Image )
+      if ( FormField.Type == Evado.Model.EvDataTypes.Binary_File )
       {
-        //this.LogDebug ( "Binary or Image field found but not processed" );
+        //this.LogDebug ( "Binary field found but not processed" );
         this.LogMethodEnd ( "updateFormField" );
         return FormField;
       }
@@ -373,7 +369,6 @@ namespace Evado.UniForm.AdminClient
         case Evado.Model.EvDataTypes.Float_Range:
         case Evado.Model.EvDataTypes.Double_Range:
         case Evado.Model.EvDataTypes.Date_Range:
-
         {
           FormField.Value = this.GetRangeFieldValue (
             ReturnedFormFields,
@@ -388,6 +383,7 @@ namespace Evado.UniForm.AdminClient
             FormField.FieldId );
           break;
         }
+
         case Evado.Model.EvDataTypes.Table:
         case Evado.Model.EvDataTypes.Record_Table:
         case Evado.Model.EvDataTypes.Special_Matrix:
@@ -397,6 +393,7 @@ namespace Evado.UniForm.AdminClient
                        ReturnedFormFields );
           break;
         }
+
         case Evado.Model.EvDataTypes.Computed_Field:
         {
           this.LogDebug ( "Computed Field." );
@@ -405,6 +402,7 @@ namespace Evado.UniForm.AdminClient
           this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
           break;
         }
+
         case Evado.Model.EvDataTypes.Boolean:
         {
           this.LogDebug ( "Boolean Field." );
@@ -421,6 +419,36 @@ namespace Evado.UniForm.AdminClient
           }
 
           this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
+          break;
+        }
+
+        case Evado.Model.EvDataTypes.Image:
+        {
+          this.LogDebug ( "Image Field." );
+
+          this.LogDebug ( "FieldId: {0}, Value: {1}.", FormField.FieldId, FormField.Value );
+
+          string fieldId = FormField.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
+
+          stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, fieldId );
+
+          this.LogDebug ( "Title stValue: {0}.", stValue );
+
+          if ( String.IsNullOrEmpty ( stValue ) == false )
+          {
+            FormField.AddParameter ( fieldId, stValue );
+          }
+
+          fieldId = FormField.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
+
+          stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, fieldId );
+
+          this.LogDebug ( "Delete stValue: {0}.", stValue );
+
+          if ( String.IsNullOrEmpty ( stValue ) == false )
+          {
+            FormField.AddParameter ( fieldId, stValue );
+          }
           break;
         }
         default:
@@ -953,7 +981,7 @@ namespace Evado.UniForm.AdminClient
     /// <returns>Returns a EvFormField object.</returns>
     // ---------------------------------------------------------------------------------
     private Evado.UniForm.Model.EuField UpdateFormTableFields(
-      Evado.UniForm.Model.EuField FormField,
+      EuField FormField,
       NameValueCollection ReturnedFormFields )
     {
       this.LogMethod ( "updateFormTableFields" );
@@ -1040,7 +1068,7 @@ namespace Evado.UniForm.AdminClient
               this.LogDebug ( "Boolean: Title: {0}, DataType: {1}, value: {2}.",
                 FormField.Table.Header [ colIndex ].Text, FormField.Table.Header [ colIndex ].DataType, value );
 
-              var bValue = EvStatics.getBool ( value ) ;
+              var bValue = EvStatics.getBool ( value );
 
               FormField.Table.Rows [ rowIndex ].Column [ colIndex ] = bValue.ToString ( );
 
@@ -1480,7 +1508,7 @@ namespace Evado.UniForm.AdminClient
     {
       this.LogMethod ( "UploadPageImages" );
       // this.LogDebug ( "Global.TempPath: {0}.", Global.TempPath );
-      // this.LogDebug ( "Number of files: {0}.", Context.Request.Files.Count );
+      this.LogDebug ( "Number of files: {0}.", Context.Request.Files.Count );
       try
       {
         // 
@@ -1497,6 +1525,7 @@ namespace Evado.UniForm.AdminClient
           this.LogMethodEnd ( "UploadPageImages" );
           return;
         }
+
 
         //
         // Iterate through the uploaded files.
@@ -1525,11 +1554,10 @@ namespace Evado.UniForm.AdminClient
             continue;
           }
 
-
           string fileName = this.UserSession.UserId + "_" + Path.GetFileName ( uploadedFileObject.FileName );
           fileName = fileName.Replace ( " ", "_" );
-          //this.LogDebug ( "Uploaded file name: " + fileName );
-          //this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
+          this.LogDebug ( "Uploaded file name: " + fileName );
+          this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
 
           //
           // Retrieve the UniFORM field id.
@@ -1537,7 +1565,7 @@ namespace Evado.UniForm.AdminClient
           String stFieldId = requestFieldName;
           int index = stFieldId.LastIndexOf ( Evado.UniForm.Model.EuField.CONST_IMAGE_FIELD_SUFFIX );
           stFieldId = stFieldId.Substring ( 0, index );
-          //this.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
+          this.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
 
           //
           // Update the image field value with the uploaded filename.
@@ -1548,7 +1576,7 @@ namespace Evado.UniForm.AdminClient
 
           string fullFilePath = Global.TempPath + fileName;
 
-          //this.LogDebug ( "Image file path: " + fullFilePath );
+          this.LogDebug ( "Image file path: " + fullFilePath );
 
           //
           // Save the file to disk.
@@ -1565,7 +1593,6 @@ namespace Evado.UniForm.AdminClient
 
           this.LogValue ( stEventContent );
           EventLog.WriteEntry ( Global.EventLogSource, stEventContent, EventLogEntryType.Information );
-
 
         }//END upload file iteration loop
 
@@ -1679,17 +1706,46 @@ namespace Evado.UniForm.AdminClient
           this.LogDebug ( "Group: {0}, FieldId: {1} = {2} = {3}  >> METHOD PARAMETER UPDATED ",
             group.Title, field.FieldId, field.Title, field.Value );
 
-          if ( field.Type != Evado.Model.EvDataTypes.Table
-            && field.Type != Evado.Model.EvDataTypes.Record_Table
-            && field.Type != Evado.Model.EvDataTypes.Special_Matrix )
+          switch ( field.Type )
           {
-            this.UserSession.PageCommand.AddParameter ( field.FieldId, field.Value );
-          }
-          else
-          {
-            this.updateWebPageCommandTableObject ( field );
-          }
+            case EvDataTypes.Table:
+            case EvDataTypes.Record_Table:
+            case Evado.Model.EvDataTypes.Special_Matrix:
+            {
+              this.updateWebPageCommandTableObject ( field );
+              break;
+            }
+            case EvDataTypes.Image:
+            {
+              this.UserSession.PageCommand.AddParameter ( field.FieldId, field.Value );
 
+              string fieldId = field.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
+
+              string value = field.GetParameter ( fieldId );
+              if ( string.IsNullOrEmpty ( value ) == false )
+              {
+                this.UserSession.PageCommand.AddParameter ( fieldId, value );
+
+                this.LogDebug ( "Parameter Name: {0}, Value: {1}", fieldId, value );
+              }
+
+              fieldId = field.FieldId + EuField.CONST_IMAGE_FIELD_DELETE;
+
+              value = field.GetParameter ( fieldId );
+              if ( string.IsNullOrEmpty ( value ) == false )
+              {
+                this.UserSession.PageCommand.AddParameter ( fieldId, value );
+                this.LogDebug ( "Parameter Name: {0}, Value: {1}", fieldId, value );
+              }
+
+              break;
+            }
+            default:
+            {
+              this.UserSession.PageCommand.AddParameter ( field.FieldId, field.Value );
+              break;
+            }
+          }
         }//END Group Field list iteration.
 
       }//END page group list iteration.
