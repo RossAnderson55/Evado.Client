@@ -159,7 +159,7 @@ namespace Evado.UniForm.AdminClient
     /// <summary>
     /// This string defines the client version.
     /// </summary>
-    public static string ClientVersion = "V3_0";
+    public static string ClientVersion = "V6_2";
 
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -57,7 +57,7 @@ namespace Evado.UniForm.AdminClient
 
     private const int CONST_FILE_SEGMENT_LENGTH = 40000;
 
-    private EucSession UserSession = new EucSession ( );
+    private EuClientSession UserSession = new EuClientSession ( );
 
     Evado.Model.EvEventCodes LastEventCode = Evado.Model.EvEventCodes.Ok;
 
@@ -328,7 +328,7 @@ namespace Evado.UniForm.AdminClient
         //
         // Initialise the Command history list.
         //
-        this.initialiseHistory ( );
+        this.UserSession.InitialiseHistory ( );
 
         this.__CommandId.Value = EuStatics.CONST_LOGIN_COMMAND_ID.ToString ( );
 
@@ -392,7 +392,7 @@ namespace Evado.UniForm.AdminClient
       //
       if ( Session [ SESSION_USER ] != null )
       {
-        this.UserSession = ( EucSession ) Session [ SESSION_USER ];
+        this.UserSession = ( EuClientSession ) Session [ SESSION_USER ];
       }
 
       this.LogDebug ( "ApplicationData.Id: " + this.UserSession.AppData.Id );
@@ -454,33 +454,22 @@ namespace Evado.UniForm.AdminClient
       this.LogDebug ( "Global.ClientVersion: {0}.", Global.ClientVersion );
       this.LogDebug ( "GetRequestHeader 'Host: '{0}'. ", this.GetRequestHeader ( "Host" ) );
 
+      this.UserSession.ClientVersion = Global.ClientVersion;
+
       //
       // Display a serialised instance of the object.
       //
-      string jsonData = String.Empty;
-      string baseUrl = Global.WebServiceUrl;
-      string serviceUri = EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL + Global.ClientVersion
-        + "?command=command&session=" + this.UserSession.ServerSessionId;
-      Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
-      {
-        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+      Evado.ServiceClients.EuServiceClients serviceClient = new ServiceClients.EuServiceClients ( )
+      { 
+        HttpClient = Global.HttpClient,
+        UserSession = this.UserSession,
+        WebServiceUrl = Global.WebServiceUrl,
+        FileServiceUrl = Global.FileServiceUrl,
+        StaticImageUrl = Global.StaticImageUrl,
+        TempUrl = Global.TempUrl,
+        TempPath = Global.TempPath,
+        DebugLogOn = true,
       };
-
-      this.LogDebug ( "baseUrl: {0}.", baseUrl );
-      this.LogDebug ( "WebServiceUrl:  {0}.", Global.WebServiceUrl );
-      this.LogDebug ( "FileServiceUrl:  {0}.", Global.FileServiceUrl );
-      this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
-      this.LogDebug ( "TempUrl: {0}.", Global.TempUrl );
-
-      String WebServiceUrl = baseUrl + serviceUri;
-      this.LogDebug ( "WebServiceUrl: {0}.", WebServiceUrl );
-      //
-      // Set the default application if non are set.
-      //
-      if ( this.UserSession.PageCommand.ApplicationId == String.Empty )
-      {
-        this.UserSession.PageCommand.ApplicationId = "Default";
-      }
 
 
       // Request.UserHostName
@@ -512,92 +501,14 @@ namespace Evado.UniForm.AdminClient
         DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
 
       this.LogValue ( "SENT: PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
-      //
-      // serialise the Command prior to sending to the web service.
-      //
-      this.LogDebug ( "Serialising the PageComment object" );
 
-      jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( this.UserSession.PageCommand );
-
-        Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"cmd-data.json", jsonData );
       //
-      // Initialise the web request.
+      // Send the command to the service.
       //
-      this.LogDebug ( "Creating the WebRequest." );
+      var result = serviceClient.SendPageCommand ( this.UserSession.PageCommand );
 
-      try
+      if( result != EvEventCodes.Ok)
       {
-        //
-        // The post command 
-        //
-        jsonData = this.SendPost ( WebServiceUrl, jsonData );
-
-        this.LogDebug ( "JSON Serialised text length: " + jsonData.Length );
-
-        Evado.Model.EvStatics.Files.saveFile ( Global.TempPath + @"app-data.json", jsonData );
-
-        //
-        // deserialise the application data 
-        //
-        this.UserSession.AppData = new Evado.UniForm.Model.EuAppData ( );
-
-        if ( String.IsNullOrEmpty ( jsonData ) == false
-          && jsonData.Contains ( "{" ) == true )
-        {
-
-          this.LogDebug ( "Deserialising JSON to Evado.UniForm.Model.EuAppData object." );
-
-          this.UserSession.AppData = Newtonsoft.Json.JsonConvert.DeserializeObject<Evado.UniForm.Model.EuAppData> ( jsonData );
-
-          this.LogDebug ( "Application object: {0}.", this.UserSession.AppData.getAtString ( ) );
-          this.LogDebug ( "Page Command count: {0}.", this.UserSession.AppData.Page.CommandList.Count );
-          this.LogDebug ( "this.UserSession.AppData.SessionId: {0}.", this.UserSession.AppData.SessionId );
-
-          //
-          // Set the anonymouse page access mode.
-          // True enables anonymous access mode hiding:
-          // - Exit Command
-          // - History commands
-          // - Page Commands
-          //
-          this.LogDebug ( "ExitCommand: " + this.UserSession.AppData.Page.Exit.getAsString ( false, false ) );
-          //
-          // Add the exit Command to the history.
-          //
-          this.addHistoryCommand ( this.UserSession.AppData.Page.Exit );
-
-        }
-        else
-        {
-          this.LogDebug ( "Response Not a JSON object = {0}.", jsonData );
-
-          if ( jsonData == null )
-          {
-            jsonData = String.Empty;
-          }
-
-          this.UserSession.AppData.Page.Title = "Service Access Error.";
-          Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.AddGroup (
-            "Service Access Error Report", Evado.UniForm.Model.EuEditAccess.Disabled );
-          group.Description =
-          String.Format ( "Web Service URL: {0}, did not return a JSON object", jsonData );
-        }
-
-        //
-        // Update the user session id
-        //
-        this.UserSession.ServerSessionId = this.UserSession.AppData.SessionId;
-
-        this.LogDebug ( "ServerUserSessionId:  {0}.", this.UserSession.ServerSessionId );
-      }
-      catch ( Exception Ex )
-      {
-        this.litErrorMessage.Text = "Web Service Error. " + Evado.Model.EvStatics.getExceptionAsHtml ( Ex );
-
-        this.LogDebug ( "Web Service Error. " + Evado.Model.EvStatics.getException ( Ex ) ); ;
-
-        EvEventLog.LogPageError ( this, Evado.Model.EvStatics.getException ( Ex ) );
-
         this.UserSession.AppData = new Evado.UniForm.Model.EuAppData ( );
         this.UserSession.AppData.Id = Guid.NewGuid ( );
         this.UserSession.AppData.Page.Id = this.UserSession.AppData.Id;
@@ -607,14 +518,16 @@ namespace Evado.UniForm.AdminClient
 
         if ( Global.DebugLogOn == true )
         {
-          group.Description = "Web Service URL: " + baseUrl
-          + "\r\nWeb Service Error. " + Evado.Model.EvStatics.getException ( Ex );
+          group.Description = "Web Service URL: " + serviceClient.ServiceUrl;
         }
         else
         {
           group.Description = "Error Occured Accessing the Web Service - contact your administrator.";
         }
       }
+
+      Global.LogValue ( serviceClient.Log );
+    
 
       this.LogMethodEnd ( "sendPageCommand" );
 
@@ -1146,7 +1059,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Iterate through the page groups and fields to find the matching field.
       //
-      foreach ( EucKeyValuePair valuePair in this.UserSession.IconList )
+      foreach ( EuKeyValuePair valuePair in this.UserSession.IconList )
       {
         String key = valuePair.Key;
         key = key.ToLower ( );
@@ -1382,7 +1295,7 @@ namespace Evado.UniForm.AdminClient
         //
         // Look for a history Command.
         //
-        Evado.UniForm.Model.EuCommand historyCommand = this.getHistoryCommand ( CommandId );
+        Evado.UniForm.Model.EuCommand historyCommand = this.UserSession.GetHistoryCommand ( CommandId );
 
         if ( historyCommand.Id != Guid.Empty
           && historyCommand.Id != EuStatics.CONST_LOGIN_COMMAND_ID )
@@ -1518,7 +1431,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Initialise the methods variables and object.s
       //
-      this.initialiseHistory ( );
+      this.UserSession.InitialiseHistory ( );
       this.UserSession.AppData.Title = EuLabels.User_Login_Title;
       if ( Global.TitlePrefix != String.Empty )
       {

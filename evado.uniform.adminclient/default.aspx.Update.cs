@@ -165,7 +165,7 @@ namespace Evado.UniForm.AdminClient
       // 
       for ( int loop1 = 0 ; loop1 < aKeys.Length ; loop1++ )
       {
-        EucKeyValuePair keyPair = new EucKeyValuePair ( );
+        EuKeyValuePair keyPair = new EuKeyValuePair ( );
         //
         // Skip all non annotation and returned field values.
         //
@@ -210,7 +210,7 @@ namespace Evado.UniForm.AdminClient
 
       for ( int count = 0 ; count < this.UserSession.FieldAnnotationList.Count ; count++ )
       {
-        EucKeyValuePair keyPair = this.UserSession.FieldAnnotationList [ count ];
+        EuKeyValuePair keyPair = this.UserSession.FieldAnnotationList [ count ];
 
         this.LogDebug ( "Key: " + keyPair.Key + " >> " + keyPair.Value );
       }
@@ -238,7 +238,7 @@ namespace Evado.UniForm.AdminClient
         //
         // Get annotation.
         //
-        EucKeyValuePair annotation = this.UserSession.FieldAnnotationList [ i ];
+        EuKeyValuePair annotation = this.UserSession.FieldAnnotationList [ i ];
         // this.writeDebug = "[0]" + annotation [ 0 ];
 
         //
@@ -1757,7 +1757,7 @@ namespace Evado.UniForm.AdminClient
       //
       for ( int count = 0 ; count < this.UserSession.FieldAnnotationList.Count ; count++ )
       {
-        EucKeyValuePair arrAnnotation = this.UserSession.FieldAnnotationList [ count ];
+        EuKeyValuePair arrAnnotation = this.UserSession.FieldAnnotationList [ count ];
 
         // this.LogDebug ( "Annotation Field: " + arrAnnotation.Key
         //    + ", Value: " + arrAnnotation.Value );

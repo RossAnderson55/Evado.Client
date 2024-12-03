@@ -95,7 +95,7 @@ namespace Evado.UniForm.AdminClient
         || this.UserSession.AppData.Page.PageId == Evado.Model.EvStatics.CONST_HOME_PAGE_ID )
       {
         this.LogDebug ( "Home Page encountered." );
-        this.initialiseHistory ( );
+        this.UserSession.InitialiseHistory ( );
       }
 
 

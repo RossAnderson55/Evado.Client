@@ -230,6 +230,10 @@
       <Project>{eb6a905c-2e28-4a70-b791-dc807165bcd7}</Project>
       <Name>evado.uniform.model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Evado.ServiceClients\Evado.ServiceClients.csproj">
+      <Project>{6aad5255-fe61-4c54-b750-90e0d5f24930}</Project>
+      <Name>Evado.ServiceClients</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
