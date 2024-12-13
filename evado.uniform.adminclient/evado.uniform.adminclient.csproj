@@ -87,9 +87,6 @@
     <Compile Include="default.aspx.generation.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="default.aspx.history.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="EucEnumerators.cs" />
     <Compile Include="EucKeyValuePair.cs" />
     <Compile Include="EucSession.cs" />
@@ -142,40 +139,13 @@
     <Content Include="js\bootstrap-datetimepicker.js" />
     <Content Include="js\evado.video.js" />
     <Content Include="js\flashcanvas.js" />
-    <Content Include="js\jquery.canvaswrapper.js" />
     <Content Include="js\jquery.colorhelpers.js" />
-    <Content Include="js\jquery.flot.axislabels.js" />
-    <Content Include="js\jquery.flot.browser.js" />
-    <Content Include="js\jquery.flot.categories.js" />
-    <Content Include="js\jquery.flot.composeimages.js" />
-    <Content Include="js\jquery.flot.crosshair.js" />
-    <Content Include="js\jquery.flot.drawseries.js" />
-    <Content Include="js\jquery.flot.errorbars.js" />
-    <Content Include="js\jquery.flot.fillbetween.js" />
-    <Content Include="js\jquery.flot.flatdata.js" />
-    <Content Include="js\jquery.flot.hover.js" />
-    <Content Include="js\jquery.flot.image.js" />
-    <Content Include="js\jquery.flot.js" />
-    <Content Include="js\jquery.flot.legend.js" />
-    <Content Include="js\jquery.flot.logaxis.js" />
-    <Content Include="js\jquery.flot.navigate.js" />
-    <Content Include="js\jquery.flot.pie.js" />
-    <Content Include="js\jquery.flot.resize.js" />
-    <Content Include="js\jquery.flot.saturated.js" />
-    <Content Include="js\jquery.flot.selection.js" />
-    <Content Include="js\jquery.flot.stack.js" />
-    <Content Include="js\jquery.flot.symbol.js" />
-    <Content Include="js\jquery.flot.threshold.js" />
-    <Content Include="js\jquery.flot.time.js" />
-    <Content Include="js\jquery.flot.touch.js" />
-    <Content Include="js\jquery.flot.touchnavigate.js" />
-    <Content Include="js\jquery.flot.uiconstants.js" />
     <Content Include="js\jquery.js" />
     <Content Include="js\jquery.signaturepad.js" />
     <Content Include="js\jquery.signaturepad.min.js" />
     <Content Include="js\json2.min.js" />
     <Content Include="js\signaturePad.js" />
-    <Content Include="js\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\client.main.js" />
     <Content Include="js\Evado.Form.js" />
@@ -194,13 +164,12 @@
   <ItemGroup>
     <None Include="css\bootstrap-theme.css.map" />
     <None Include="css\bootstrap.css.map" />
-    <None Include="js\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="js\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="js\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="images\thumbs.db" />
     <Content Include="js\parsley.js" />
     <Content Include="js\underscore.js" />
-    <Content Include="temp\HtmlPage1.html" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -220,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="logs\" />
+    <Folder Include="temp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Evado.Clinical_Release\evado.model\evado.model.csproj">

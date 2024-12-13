@@ -888,6 +888,15 @@ namespace Evado.UniForm.AdminClient
 
     public static String Debuglog = Global._DebuLog.ToString ( );
 
+    /// <summary>
+    /// This method clears the logs.
+    /// 
+    /// </summary>
+    public static void ClearLogs( )
+    {
+      _DebuLog = new System.Text.StringBuilder( );
+      _ClientLog = new System.Text.StringBuilder ( );
+    }
 
     //  =================================================================================
     /// <summary>
@@ -1071,8 +1080,6 @@ namespace Evado.UniForm.AdminClient
 
       Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + logFileName, stContent );
 
-      Global._DebuLog = new System.Text.StringBuilder ( );
-
     }//END writeOutDebugLog method
 
     //  =================================================================================
@@ -1128,7 +1135,6 @@ namespace Evado.UniForm.AdminClient
 
       Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + logFileName, stContent );
 
-      Global._DebuLog = new System.Text.StringBuilder ( );
     }//END writeOutDebugLog method
 
     #endregion

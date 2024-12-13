@@ -48,7 +48,7 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private void GetCommandParameters( )
     {
-      this.LogMethod ( "getPageCommandParameters" );
+      this.LogMethod ( "GetPageCommandParameters" );
       //
       // If the Command method is to upate the page then update the data object with 
       // Page field values.
@@ -1532,7 +1532,7 @@ namespace Evado.UniForm.AdminClient
         //
         foreach ( String requestFieldName in Context.Request.Files.AllKeys )
         {
-          //this.LogDebug ( "requestFieldName: " + requestFieldName );
+          this.LogDebug ( "requestFieldName: " + requestFieldName );
           //
           // Skip the dummy test upload.
           //
@@ -1603,9 +1603,11 @@ namespace Evado.UniForm.AdminClient
       }
       // End catch.
 
-      ///
-      /// write out the debug log.
-      ///
+      this.LogMethodEnd ( "UploadPageImages" ); 
+
+      //
+      // write out the debug log.
+      //
       Global.OutputtDebugLog ( );
 
     }//END UploadPageImages method

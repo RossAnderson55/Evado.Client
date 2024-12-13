@@ -55,8 +55,6 @@ namespace Evado.UniForm.AdminClient
     public const string CONST_FIELD_UPPER_SUFFIX = "_Upper";
     private const float WidthPixelFactor = 8F;
 
-    private const int CONST_FILE_SEGMENT_LENGTH = 40000;
-
     private EuClientSession UserSession = new EuClientSession ( );
 
     Evado.Model.EvEventCodes LastEventCode = Evado.Model.EvEventCodes.Ok;
@@ -282,6 +280,8 @@ namespace Evado.UniForm.AdminClient
       //
       Global.OutputClientLog ( );
 
+      Global.ClearLogs ( );
+
     }//END Page_Load event method
 
     ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -457,7 +457,7 @@ namespace Evado.UniForm.AdminClient
       this.UserSession.ClientVersion = Global.ClientVersion;
 
       //
-      // Display a serialised instance of the object.
+      // Initialise the service client class for the transaction.
       //
       Evado.ServiceClients.EuServiceClients serviceClient = new ServiceClients.EuServiceClients ( )
       { 
@@ -468,7 +468,7 @@ namespace Evado.UniForm.AdminClient
         StaticImageUrl = Global.StaticImageUrl,
         TempUrl = Global.TempUrl,
         TempPath = Global.TempPath,
-        DebugLogOn = true,
+        DebugLogOn = Global.DebugLogOn,
       };
 
 
@@ -522,7 +522,7 @@ namespace Evado.UniForm.AdminClient
         }
         else
         {
-          group.Description = "Error Occured Accessing the Web Service - contact your administrator.";
+          group.Description = "Error Occured Accessing the Cllient Service - contact your administrator.";
         }
       }
 
@@ -545,6 +545,49 @@ namespace Evado.UniForm.AdminClient
       this.LogMethod ( "SendFileRequest" );
       this.LogValue ( "filename {0}, MimeType {1}.", filename, MimeType );
 
+      //
+      // Initialise the service client class for the transaction.
+      //
+      Evado.ServiceClients.EuServiceClients serviceClient = new ServiceClients.EuServiceClients ( )
+      {
+        HttpClient = Global.HttpClient,
+        UserSession = this.UserSession,
+        WebServiceUrl = Global.WebServiceUrl,
+        FileServiceUrl = Global.FileServiceUrl,
+        StaticImageUrl = Global.StaticImageUrl,
+        TempUrl = Global.TempUrl,
+        TempPath = Global.TempPath,
+        DebugLogOn = Global.DebugLogOn,
+      };
+
+
+      var result = serviceClient.SendFileRequest ( filename, MimeType );
+
+      Global.LogValue ( serviceClient.Log );
+
+      if( result != EvEventCodes.Ok )
+      {
+        this.UserSession.AppData = new Evado.UniForm.Model.EuAppData ( );
+        this.UserSession.AppData.Id = Guid.NewGuid ( );
+        this.UserSession.AppData.Page.Id = this.UserSession.AppData.Id;
+        this.UserSession.AppData.Page.Title = "Service Access Error.";
+        Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.AddGroup (
+          "Service Access Error Report", Evado.UniForm.Model.EuEditAccess.Disabled );
+
+        if ( Global.DebugLogOn == true )
+        {
+          group.Description = "Web Service URL: " + serviceClient.ServiceUrl;
+        }
+        else
+        {
+          group.Description = "Error Occured Accessing the File Service - contact your administrator.";
+        }
+
+        return result;
+      }
+
+      return EvEventCodes.Ok;
+      /*
       //
       // Display a serialised instance of the object.
       //
@@ -608,8 +651,7 @@ namespace Evado.UniForm.AdminClient
         else
         {
           this.LogDebug ( "START: multi-segment file transfer." );
-          /*
-          */
+          
           string end = jsonData.Substring ( jsonData.Length - 100 );
           this.LogDebug ( "file end: {0},", end );
 
@@ -698,7 +740,8 @@ namespace Evado.UniForm.AdminClient
       this.LogMethodEnd ( "SendFileRequest" );
 
       return Evado.Model.EvEventCodes.Uniform_File_Service_Error;
-
+      
+  */
     }//END UploadFile method
 
     // ==================================================================================

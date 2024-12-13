@@ -69,11 +69,22 @@ namespace Evado.ServiceClients
     /// </summary>
     private Evado.Model.EvEventCodes LastEventCode = Evado.Model.EvEventCodes.Ok;
 
+    /// <summary>
+    /// This constant defines the file segment length
+    /// </summary>
+    private const int CONST_FILE_SEGMENT_LENGTH = 40000;
+
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #endregion
 
-
-    #region class data client 
+    #region class public data client methods
+    // ==================================================================================
+    /// <summary>
+    /// This method sends a page command to the client service.
+    /// </summary>
+    /// <param name="PageCommand">EuCommand</param>
+    /// <returns>EvEventCodes enumerated value indicating the success of the transaction.</returns>
+    // ---------------------------------------------------------------------------------
     public Evado.Model.EvEventCodes SendPageCommand( EuCommand PageCommand )
     {
       this.LogMethod ( "SendPageCommand" );
@@ -98,7 +109,7 @@ namespace Evado.ServiceClients
       this.LogDebug ( "ImagesUrl: {0}.", this.StaticImageUrl );
       this.LogDebug ( "TempUrl: {0}.", this.TempUrl );
 
-       ServiceUrl = String.Format ( EuStatics.WEB_SERVICE_URI_FORMAT, 
+       ServiceUrl = String.Format ( EuLabels.Client_Service_Url_Template, 
         this.WebServiceUrl,
         EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL,
         this.UserSession.ClientVersion , 
@@ -206,6 +217,238 @@ namespace Evado.ServiceClients
 
     }
 
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    #endregion
+
+    #region class public file methods
+    // ==================================================================================
+    /// <summary>
+    /// This method sends a request to the file service.
+    /// </summary>
+    /// <param name="filename">String: file name of the file to be up loaded.</param>
+    /// <param name="MimeType">String: the mime type for the file.</param>
+    // ---------------------------------------------------------------------------------
+    public EvEventCodes SendFileRequest( String filename, String MimeType )
+    {
+      this.LogMethod ( "SendFileRequest" );
+      this.LogValue ( "filename {0}, MimeType {1}.", filename, MimeType );
+
+      //
+      // Display a serialised instance of the object.
+      //
+      EuFile fileObject = new EuFile ( );
+      string jsonData = String.Empty;
+      string filePath = String.Empty;
+      Evado.Model.EvEventCodes serviceStatus = Evado.Model.EvEventCodes.Ok;
+      List<String> FileSegmentList = new List<string> ( );
+      Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
+      {
+        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+      };
+
+      try
+      {
+        fileObject.UserId = this.UserSession.UserId;
+        fileObject.ClientSession = this.UserSession.AppData.SessionId;
+        fileObject.FileName = filename;
+        fileObject.MimeType = MimeType;
+        fileObject.Action = EuFile.WebAction.Upload;
+
+        filePath = this.TempPath + fileObject.FileName;
+
+        this.LogDebug ( "filePath: '{0}'. ", filePath );
+
+        fileObject.FileData = System.IO.File.ReadAllBytes ( filePath );
+
+        this.LogDebug ( "User: {0}, Filename; {1}, Mime: {2}, Data length {3}",
+          fileObject.UserId,
+          fileObject.FileName,
+          fileObject.MimeType,
+          fileObject.FileData.Length );
+
+        //
+        // serialise the Command prior to sending to the web service.
+        //
+        this.LogDebug ( "Serialising the PageComment object" );
+
+        jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( fileObject );
+
+        this.LogDebug ( "jsonData.Length  {0}.", jsonData.Length );
+
+        if ( jsonData.Length < CONST_FILE_SEGMENT_LENGTH )
+        {
+          this.LogDebug ( "START: single-segment file transfer." );
+          //
+          // process the segment 
+          //
+          serviceStatus = this.SendFileSegment ( jsonData, 999 );
+
+          this.LogDebug ( "serviceStatus: {0},", serviceStatus );
+
+          if ( serviceStatus != Evado.Model.EvEventCodes.Ok )
+          {
+            this.LogMethodEnd ( "SendFileRequest" );
+            return serviceStatus;
+          }
+
+          this.LogDebug ( "END: single-segment file transfer." );
+        }
+        else
+        {
+          this.LogDebug ( "START: multi-segment file transfer." );
+          /*
+          */
+          string end = jsonData.Substring ( jsonData.Length - 100 );
+          this.LogDebug ( "file end: {0},", end );
+
+          //
+          // convert the file object json into segements of less than 40000 characters.
+          //
+          for ( int startIndex = 0 ; startIndex < jsonData.Length ; startIndex += CONST_FILE_SEGMENT_LENGTH )
+          {
+            int segmentLength = CONST_FILE_SEGMENT_LENGTH;
+
+            if ( startIndex + segmentLength > jsonData.Length )
+            {
+              this.LogDebug ( "last segment found." );
+
+              segmentLength = jsonData.Length - startIndex;
+            }
+            this.LogDebug ( "startIndex: {0}, segementLength {1}.", startIndex, segmentLength );
+
+            string segmentData = jsonData.Substring ( startIndex, segmentLength );
+
+            this.LogDebug ( "segment: length {0}, data {1}.", segmentData.Length, segmentData );
+
+            int diff = startIndex + segmentLength - jsonData.Length;
+            this.LogDebug ( "difference {0}.", diff );
+
+            FileSegmentList.Add ( segmentData );
+          }
+
+          this.LogDebug ( "FileSegmentList.Count: {0}.", FileSegmentList.Count );
+
+          StringBuilder testdata = new StringBuilder ( );
+          for ( int segmentCount = 0 ; segmentCount < FileSegmentList.Count ; segmentCount++ )
+          {
+            testdata.Append ( FileSegmentList [ segmentCount ] );
+            this.LogDebug ( "testdata.Length: {0}.", testdata.Length );
+
+            //
+            // calcuate the segment number.
+            //
+            int segment = segmentCount + 1;
+            if ( segment == FileSegmentList.Count )
+            {
+              segment = 999;
+            }
+            this.LogDebug ( "segment: {0}.", segment );
+
+            //
+            // process the segment 
+            //
+            serviceStatus = this.SendFileSegment ( FileSegmentList [ segmentCount ], segment );
+
+            this.LogDebug ( "serviceStatus: {0},", serviceStatus );
+
+            if ( serviceStatus != Evado.Model.EvEventCodes.Ok
+              && serviceStatus != Evado.Model.EvEventCodes.Uniform_File_Segement_Processed )
+            {
+              this.LogMethodEnd ( "SendFileRequest" );
+              return serviceStatus;
+            }
+
+          }//End set segment iteration loop.
+
+          this.LogDebug ( "END: multi-segment file transfer." );
+        }//END multi-segment file transfer.
+
+        //
+        // if the response is OK and data is empty delete the file.
+        //
+        if ( serviceStatus == Evado.Model.EvEventCodes.Ok )
+        {
+          this.LogDebug ( "Deleting  {0}.", fileObject.FileName );
+
+          // Evado.Model.EvStatics.Files.DeleteFile ( Global.TempPath, fileObject.FileName );
+        }
+
+        this.LogMethodEnd ( "SendFileRequest" );
+        return serviceStatus;
+
+      }
+      catch ( Exception Ex )
+      {
+        this.LogDebug ( "Web Service Error. " + Evado.Model.EvStatics.getException ( Ex ) ); ;
+      }
+      this.LogMethodEnd ( "SendFileRequest" );
+
+      return Evado.Model.EvEventCodes.Uniform_File_Service_Error;
+
+    }//END UploadFile method
+
+    // ==================================================================================
+    /// <summary>
+    /// This method sends a request to the file service.
+    /// </summary>
+    /// <param name="SegementData">String: the file segement data.</param>
+    /// <param name="Segment">String: thenfile segmenet.</param>
+    // ---------------------------------------------------------------------------------
+    private Evado.Model.EvEventCodes SendFileSegment( String SegementData, int Segment )
+    {
+      this.LogMethod ( "SendFileSegment" );
+      this.LogDebug ( "Segement {0}, Data: {1}", Segment, SegementData );
+
+      //
+      // Display a serialised instance of the object.
+      //
+      string responseText = String.Empty;
+      string WebServiceUrl = String.Format ( EuLabels.File_Service_Url_Template,
+        this.WebServiceUrl,
+        EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL,
+        this.UserSession.UserId,
+        Segment );
+      string filePath = String.Empty;
+
+      this.LogDebug ( "WebServiceUrl: '{0}'. ", WebServiceUrl );
+      try
+      {
+        //
+        // The post command 
+        //
+        responseText = this.SendPost ( WebServiceUrl, SegementData );
+
+        if ( responseText == null
+          || responseText == String.Empty )
+        {
+          this.LogDebug ( "responseText null." );
+          this.LogMethodEnd ( "SendFileSegment" );
+
+          return Evado.Model.EvEventCodes.Uniform_File_Service_Returned_Null;
+        }
+
+        Evado.Model.EvEventCodes serviceStatus = Evado.Model.EvStatics.parseEnumValue<Evado.Model.EvEventCodes> ( responseText );
+
+        this.LogDebug ( "serviceStatus: {0},", serviceStatus );
+
+        this.LogMethodEnd ( "SendFileSegment" );
+        return serviceStatus;
+
+      }
+      catch ( Exception Ex )
+      {
+        this.LogDebug ( "Web Service Error. " + Evado.Model.EvStatics.getException ( Ex ) ); ;
+      }
+      this.LogMethodEnd ( "SendFileSegment" );
+
+      return Evado.Model.EvEventCodes.Uniform_File_Service_Error;
+
+    }//END SendFileSegment method
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    #endregion
+
+    #region class private methods
 
     // =================================================================================
     /// <summary>

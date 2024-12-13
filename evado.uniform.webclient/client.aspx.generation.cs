@@ -78,6 +78,15 @@ namespace Evado.UniForm.WebClient
       this.litCommandContent.Visible = true;
 
       //
+      // load the charting java script if the page contains charts.
+      //
+      if ( this.UserSession.AppData.Page.GetParameter ( Model.EuPageParameters.Has_Charting_Fields ) == "true" )
+      {
+        this.LogDebug ( "loading charting jave script" );
+        sbMainBody.AppendLine ( "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\" ></script> " );
+      }
+
+      //
       // Reinitialise the history each time the home page is displayed.
       //
 
@@ -1207,7 +1216,7 @@ namespace Evado.UniForm.WebClient
           case Evado.Model.EvDataTypes.Pie_Chart:
           case Evado.Model.EvDataTypes.Stacked_Bar_Chart:
           {
-            this.createPlotChartField ( sbHtml, groupField );
+            this.createChartField ( sbHtml, groupField );
             break;
           }
           default:

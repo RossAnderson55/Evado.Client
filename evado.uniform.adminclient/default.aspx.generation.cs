@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web.UI.MobileControls;
+using System.Web.UI.MobileControls.Adapters;
 
 ///Evado. namespace references.
 
@@ -57,10 +58,10 @@ namespace Evado.UniForm.AdminClient
         this.litHistory.Visible = true;
       }
 
-      //
-      // initialise the methods variables and objects.
-      //
-      this.litExitCommand.Visible = true;
+       //
+       // initialise the methods variables and objects.
+       //
+       this.litExitCommand.Visible = true;
       this.litCommandContent.Visible = true;
       this.litHeaderTitle.Visible = true;
       StringBuilder sbMainBody = new StringBuilder ( );
@@ -79,6 +80,15 @@ namespace Evado.UniForm.AdminClient
       else
       {
         this.Title = this.UserSession.AppData.Title ;
+      }
+
+      //
+      // load the charting java script if the page contains charts.
+      //
+      if ( this.UserSession.AppData.Page.GetParameter ( Model.EuPageParameters.Has_Charting_Fields ) == "true" )
+      {
+        this.LogDebug ( "loading charting jave script" );
+        sbMainBody.AppendLine ( "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\" ></script> " );
       }
 
       this.litCommandContent.Visible = true;
@@ -1226,7 +1236,7 @@ namespace Evado.UniForm.AdminClient
           case Evado.Model.EvDataTypes.Pie_Chart:
           case Evado.Model.EvDataTypes.Stacked_Bar_Chart:
           {
-            this.createPlotChartField ( sbHtml, groupField );
+            this.createChartField ( sbHtml, groupField );
             break;
           }
           default:
