@@ -5872,8 +5872,8 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "'>" );
 
-      sbHtml.AppendFormat ( "<div class=\"{0}-container\" style=\"width: 98%;\">", placeHolder, iHeight ); // height: {1}px;
-      sbHtml.AppendFormat ( "<canvas id=\"{0}\"  width=\"800\" height=\"450\" ></ canvas >", placeHolder );
+      sbHtml.AppendFormat ( "<div class=\"{0}-container\" style=\"width: 98%;\">", placeHolder ); // height: {1}px;
+      sbHtml.AppendFormat ( "<canvas id=\"{0}\" style=\"margin: auto;\" width=\"800\" height=\"450\" ></ canvas >", placeHolder, iWidth, iHeight );
       sbHtml.AppendLine ( "</div>" ); ;
 
       sbHtml.AppendFormat ( "<script> new Chart ( \"{0}\",{1} )</script > ", placeHolder, chartJs );
