@@ -88,7 +88,7 @@ namespace Evado.UniForm.AdminClient
       if ( this.UserSession.AppData.Page.GetParameter ( Model.EuPageParameters.Has_Charting_Fields ) == "true" )
       {
         this.LogDebug ( "loading charting jave script" );
-        sbMainBody.AppendLine ( "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\" ></script> " );
+        sbMainBody.AppendFormat ( "<script src=\"{0}\" ></script> ", Global.ChartJsUrl );
       }
 
       this.litCommandContent.Visible = true;

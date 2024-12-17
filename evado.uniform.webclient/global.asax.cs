@@ -58,6 +58,11 @@ namespace Evado.UniForm.WebClient
     public static string BinaryFilePath = @"temp\";
 
     /// <summary>
+    /// This string contains the URL for the ChartJsUrl
+    /// </summary>
+    public static string ChartJsUrl = @"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js";
+
+    /// <summary>
     /// This string contains the application directory path
     /// </summary>
     public static string ApplicationPath = String.Empty;
@@ -279,6 +284,13 @@ namespace Evado.UniForm.WebClient
     private void LoadConfigurationValues ( )
     {
       Global.GlobalMethod ( "LoadConfigurationValues" );
+
+      if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_CHAT_JS_URL ] != null )
+      {
+        Global.ChartJsUrl = ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_CHAT_JS_URL ];
+      }
+
+      Global.GlobalValue ( "ChartJsUrl: " + Global.ChartJsUrl );
 
       //
       // Set the application log path  LogPath
@@ -755,7 +767,7 @@ namespace Evado.UniForm.WebClient
     {
       string logValue = Evado.Model.EvStatics.CONST_METHOD_START
         + DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-        + "Evado.UniForm.Webclient.Global." + Value + " Method";
+        + "Evado.UniForm.AdminClient.Global." + Value + " Method";
 
       Global._GlobalLog.AppendLine ( logValue );
 

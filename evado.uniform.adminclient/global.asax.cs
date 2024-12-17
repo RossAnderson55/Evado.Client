@@ -60,6 +60,11 @@ namespace Evado.UniForm.AdminClient
     public static string BinaryFilePath = @"temp\";
 
     /// <summary>
+    /// This string contains the URL for the ChartJsUrl
+    /// </summary>
+    public static string ChartJsUrl = @"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js";
+
+    /// <summary>
     /// This string contains the application directory path
     /// </summary>
     public static string ApplicationPath = String.Empty;
@@ -159,7 +164,7 @@ namespace Evado.UniForm.AdminClient
     /// <summary>
     /// This string defines the client version.
     /// </summary>
-    public static string ClientVersion = "V6_2";
+    public static string ClientVersion = "V6_3";
 
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -286,6 +291,13 @@ namespace Evado.UniForm.AdminClient
       Global.GlobalMethod ( "LoadConfigurationValues" );
       Global.WriteToEventLog ( "System", "Evado.UniForm.AdminClient.LoadConfigurationValues method",
        System.Diagnostics.EventLogEntryType.Information );
+
+      if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_CHAT_JS_URL ] != null )
+      {
+        Global.ChartJsUrl = ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_CHAT_JS_URL ];
+      }
+
+      Global.GlobalValue ( "ChartJsUrl: " + Global.ChartJsUrl );
 
       //
       // Set the application log path  LogPath
