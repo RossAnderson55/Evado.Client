@@ -84,6 +84,8 @@ namespace Evado.UniForm.WebClient
       {
         this.LogDebug ( "loading charting jave script" );
         sbMainBody.AppendFormat ( "<script src=\"{0}\" ></script> ", Global.ChartJsUrl );
+        sbMainBody.AppendFormat ( "<script src=\"{0}\" ></script> ", Global.ChartJsHelperUrl );
+        sbMainBody.AppendFormat ( "<script src=\"{0}\" ></script> ", Global.ChartJsUmdUrl );
       }
 
       //

@@ -62,7 +62,15 @@ namespace Evado.UniForm.AdminClient
     /// <summary>
     /// This string contains the URL for the ChartJsUrl
     /// </summary>
-    public static string ChartJsUrl = @"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js";
+    public static string ChartJsUrl = @"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.js";
+
+    /// This string contains the URL for the ChartJs helper
+    /// </summary>
+    public static string ChartJsHelperUrl = @"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/helpers.js";
+
+    /// This string contains the URL for the ChartJs UMD
+    /// </summary>
+    public static string ChartJsUmdUrl = @"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js";
 
     /// <summary>
     /// This string contains the application directory path
