@@ -208,11 +208,11 @@
     <Folder Include="temp\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Evado.Clinical_Release\evado.model\evado.model.csproj">
+    <ProjectReference Include="..\..\Evado.Health\evado.model\evado.model.csproj">
       <Project>{93ea9387-1172-48ec-b26e-c4d48d827976}</Project>
       <Name>evado.model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Evado.Clinical_Release\evado.uniform.model\evado.uniform.model.csproj">
+    <ProjectReference Include="..\..\Evado.Health\evado.uniform.model\evado.uniform.model.csproj">
       <Project>{eb6a905c-2e28-4a70-b791-dc807165bcd7}</Project>
       <Name>evado.uniform.model</Name>
     </ProjectReference>
