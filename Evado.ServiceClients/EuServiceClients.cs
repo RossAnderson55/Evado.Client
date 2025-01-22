@@ -192,7 +192,7 @@ namespace Evado.ServiceClients
 
           this.UserSession.AppData.Page.Title = "Service Access Error.";
           Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.AddGroup (
-            "Service Access Error Report", Evado.UniForm.Model.EuEditAccess.Disabled );
+            "Service Access Error Report", false );
           group.Description =
           String.Format ( "Web Service URL: {0}, did not return a JSON object", jsonData );
         }

@@ -274,7 +274,7 @@ namespace Evado.UniForm.AdminClient
     private Evado.UniForm.Model.EuField UpdateFormField(
        EuField FormField,
       NameValueCollection ReturnedFormFields,
-       EuEditAccess GroupStatus )
+       bool GroupStatus )
     {
       this.LogMethod ( "updateFormField" );
       this.LogDebug ( "FormField.DataId: {0}, FormField.DataType: {1}, FormField.Status:  {2} ", FormField.FieldId, FormField.Type, FormField.EditAccess );
@@ -301,7 +301,7 @@ namespace Evado.UniForm.AdminClient
       // 
       // If the test is in EDIT mode update the fields values.
       // 
-      if ( FormField.EditAccess != Evado.UniForm.Model.EuEditAccess.Enabled
+      if ( FormField.EditAccess != true
        && FormField.Type != EvDataTypes.Computed_Field )
       {
         //this.LogDebug ( "User does not have edit access." );
@@ -1666,8 +1666,8 @@ namespace Evado.UniForm.AdminClient
       //
       // Initialise the methods variables and objects.
       //
-      Evado.UniForm.Model.EuEditAccess fieldStatus = Evado.UniForm.Model.EuEditAccess.Disabled;
-      Evado.UniForm.Model.EuEditAccess groupStatus = Evado.UniForm.Model.EuEditAccess.Disabled;
+      bool fieldStatus = false;
+      bool groupStatus = false;
 
       //
       // Iterate through the page groups and fields to find the matching field.

@@ -635,7 +635,7 @@ namespace Evado.UniForm.WebClient
         this.UserSession.AppData.Page.Id = this.UserSession.AppData.Id;
         this.UserSession.AppData.Page.Title = "Service Access Error.";
         Evado.UniForm.Model.EuGroup group = this.UserSession.AppData.Page.AddGroup (
-          "Service Access Error Report", Evado.UniForm.Model.EuEditAccess.Disabled );
+          "Service Access Error Report", false );
 
         if ( Global.DebugLogOn == true )
         {
@@ -985,7 +985,7 @@ namespace Evado.UniForm.WebClient
       ///
       /// Define the error group.
       ///
-      Evado.UniForm.Model.EuGroup serialisationGroup = new Evado.UniForm.Model.EuGroup ( "Serialisation", String.Empty, Evado.UniForm.Model.EuEditAccess.Disabled );
+      Evado.UniForm.Model.EuGroup serialisationGroup = new Evado.UniForm.Model.EuGroup ( "Serialisation", String.Empty, false );
       serialisationGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
       serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.EuAppData> ( this.UserSession.AppData );

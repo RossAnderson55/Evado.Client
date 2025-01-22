@@ -419,7 +419,7 @@ namespace Evado.UniForm.WebClient
       Evado.UniForm.Model.EuGroup errorGroup = new Evado.UniForm.Model.EuGroup (
        EuLabels.Page_Message_Group_Title,
         Evado.Model.EvStatics.getStringAsHtml ( this.UserSession.AppData.Message ),
-        Evado.UniForm.Model.EuEditAccess.Disabled );
+        false );
       errorGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
       if ( message.Contains ( "error" ) == true )
@@ -740,7 +740,7 @@ namespace Evado.UniForm.WebClient
       //
       // Set the edit access.
       //
-      Evado.UniForm.Model.EuEditAccess groupStatus = this.UserSession.CurrentGroup.EditAccess;
+      bool groupStatus = this.UserSession.CurrentGroup.EditAccess;
 
       //
       // set the field set attributes.
