@@ -48,7 +48,7 @@ namespace Evado.ServiceClients
     //
     // this property contains the serice url
     //
-    public String ServiceUrl { get; private set; } = String.Empty; 
+    public String ServiceUrl { get; private set; } = String.Empty;
     /// <summary>
     /// This property contains the temporary file URL
     /// </summary>
@@ -99,44 +99,44 @@ namespace Evado.ServiceClients
       string jsonData = String.Empty;
       string baseUrl = this.WebServiceUrl;
 
-      Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
-      {
-        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
-      };
-
-      this.LogDebug ( "WebServiceUrl:  {0}.", this.WebServiceUrl );
-      this.LogDebug ( "FileServiceUrl:  {0}.", this.FileServiceUrl );
-      this.LogDebug ( "ImagesUrl: {0}.", this.StaticImageUrl );
-      this.LogDebug ( "TempUrl: {0}.", this.TempUrl );
-
-       ServiceUrl = String.Format ( EuLabels.Client_Service_Url_Template, 
-        this.WebServiceUrl,
-        EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL,
-        this.UserSession.ClientVersion , 
-        this.UserSession.ServerSessionId ); 
-
-      this.LogDebug ( "webServiceUrl: {0}.", ServiceUrl );
-      //
-      // Set the default application if non are set.
-      //
-      if (PageCommand.ApplicationId == String.Empty )
-      {
-        PageCommand.ApplicationId = "Default";
-      }
-
-      this.LogValue ( "SENT: PageCommand: " + PageCommand.getAsString ( false, false ) );
-      //
-      // serialise the Command prior to sending to the web service.
-      //
-      this.LogDebug ( "Serialising the PageComment object" );
-
-      jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( PageCommand );
-
-      Evado.Model.EvStatics.Files.saveFile ( this.TempPath + @"cmd-data.json", jsonData );
-
-
       try
       {
+        Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
+        {
+          NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+        };
+
+        this.LogDebug ( "WebServiceUrl:  {0}.", this.WebServiceUrl );
+        this.LogDebug ( "FileServiceUrl:  {0}.", this.FileServiceUrl );
+        this.LogDebug ( "ImagesUrl: {0}.", this.StaticImageUrl );
+        this.LogDebug ( "TempUrl: {0}.", this.TempUrl );
+
+        ServiceUrl = String.Format ( EuLabels.Client_Service_Url_Template,
+         this.WebServiceUrl,
+         EuStatics.APPLICATION_SERVICE_CLIENT_RELATIVE_URL,
+         this.UserSession.ClientVersion,
+         this.UserSession.ServerSessionId );
+
+        this.LogDebug ( "webServiceUrl: {0}.", ServiceUrl );
+        //
+        // Set the default application if non are set.
+        //
+        if ( PageCommand.ApplicationId == String.Empty )
+        {
+          PageCommand.ApplicationId = "Default";
+        }
+
+        this.LogValue ( "SENT: PageCommand: " + PageCommand.getAsString ( false, false ) );
+        //
+        // serialise the Command prior to sending to the web service.
+        //
+        this.LogDebug ( "Serialising the PageComment object" );
+
+        jsonData = Newtonsoft.Json.JsonConvert.SerializeObject ( PageCommand );
+
+        Evado.Model.EvStatics.Files.saveFile ( this.TempPath + @"cmd-data.json", jsonData );
+
+
         //
         // The post command 
         //
@@ -511,27 +511,27 @@ namespace Evado.ServiceClients
                 }
                 case System.Net.HttpStatusCode.RequestEntityTooLarge:
                 {
-                   this.LastEventCode = Evado.Model.EvEventCodes.WebServices_Request_Entity_Too_Large_Error;
+                  this.LastEventCode = Evado.Model.EvEventCodes.WebServices_Request_Entity_Too_Large_Error;
                   break;
                 }
                 case System.Net.HttpStatusCode.MethodNotAllowed:
                 {
-                   this.LastEventCode = Evado.Model.EvEventCodes.WebServices_Method_Not_Allowed_Error;
+                  this.LastEventCode = Evado.Model.EvEventCodes.WebServices_Method_Not_Allowed_Error;
                   break;
                 }
                 case System.Net.HttpStatusCode.NoContent:
                 {
-                   this.LastEventCode = Evado.Model.EvEventCodes.WebServices_No_Content_Error;
+                  this.LastEventCode = Evado.Model.EvEventCodes.WebServices_No_Content_Error;
                   break;
                 }
                 default:
                 {
-                   this.LastEventCode = Evado.Model.EvEventCodes.WebServices_General_Failure_Error;
+                  this.LastEventCode = Evado.Model.EvEventCodes.WebServices_General_Failure_Error;
                   break;
                 }
               }//ENd switch statement
 
-              this.LogValue ( "WebService URL {0}, raised error event {1}", WebServiceUrl,  this.LastEventCode );
+              this.LogValue ( "WebService URL {0}, raised error event {1}", WebServiceUrl, this.LastEventCode );
               this.LogMethodEnd ( "sendPost" );
               return null;
             }
@@ -606,7 +606,7 @@ namespace Evado.ServiceClients
     public void LogValue( String Value )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       +  Value;
+       + Value;
 
       classLog.AppendLine ( logValue );
     }
@@ -622,7 +622,7 @@ namespace Evado.ServiceClients
     public void LogValue( String Format, params object [ ] args )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       +  String.Format ( Format, args );
+       + String.Format ( Format, args );
 
       classLog.AppendLine ( logValue );
     }
@@ -635,12 +635,12 @@ namespace Evado.ServiceClients
     //   ---------------------------------------------------------------------------------
     public void LogDebug( String Value )
     {
-      if( DebugLogOn == false )
+      if ( DebugLogOn == false )
       {
         return;
       }
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       +  Value;
+       + Value;
 
       classLog.AppendLine ( logValue );
     }
@@ -660,7 +660,7 @@ namespace Evado.ServiceClients
         return;
       }
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
-       +  String.Format ( Format, args );
+       + String.Format ( Format, args );
 
       classLog.AppendLine ( logValue );
     }
