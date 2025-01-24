@@ -55,7 +55,7 @@
   <ItemGroup>
     <Reference Include="newtonsoft.json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\newtonsoft.json.dll</HintPath>
+      <HintPath>..\referenced libraries\newtonsoft.json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
