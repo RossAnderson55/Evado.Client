@@ -3147,8 +3147,7 @@ namespace Evado.UniForm.AdminClient
         this.getTableFieldDataRow (
         sbHtml,
         PageField,
-        row,
-         PageField.EditAccess );
+        row );
       }
 
       sbHtml.Append ( "</table>\r\n</div>\r\n" );
@@ -3276,13 +3275,11 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     /// <param name="Row">Integer: table row.</param>
-    /// <param name="Status">ClientFieldEditCodes enumerated status.</param>
     // --------------------------------------------------------------------------------
     private void getTableFieldDataRow(
       StringBuilder sbHtml,
       Evado.UniForm.Model.EuField PageField,
-      int Row,
-      bool Status )
+      int Row )
     {
       this.LogMethod ( "getTableFieldDataRow" );
       this.LogDebug ( "Row: {0}.", Row );
@@ -3309,6 +3306,7 @@ namespace Evado.UniForm.AdminClient
         EvDataTypes cellDataType = header.DataType;
         try
         {
+          this.LogDebug ( "column: {0}, Text: {1}, DataType: {2}.", column, header.Text, cellDataType );
           // 
           // Skip rows that have not header text
           // 
@@ -3321,10 +3319,10 @@ namespace Evado.UniForm.AdminClient
           //
           // initialise iteration loop variables and objects.
           //
-          string colId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
+          string cellId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
           string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
 
-          this.LogDebug ( "colId: {0}, DataType: {1}, Value: {2}.", colId, cellDataType, colValue );
+          this.LogDebug ( "colId: {0}, DataType: {1}, Value: {2}.", cellId, cellDataType, colValue ); 
           switch ( cellDataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
@@ -3373,8 +3371,6 @@ namespace Evado.UniForm.AdminClient
             case Evado.Model.EvDataTypes.Text:
             case Evado.Model.EvDataTypes.Multi_Text_Values:
             {
-              this.LogDebug ( "Text Column" );
-
               if ( PageField.EditAccess == false
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
@@ -3385,8 +3381,8 @@ namespace Evado.UniForm.AdminClient
               {
                 sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<input "
-                  + "id='" + colId + "' "
-                  + "name='" + colId + "' "
+                  + "id='" + cellId + "' "
+                  + "name='" + cellId + "' "
                   + "maxlength='" + header.Width * 2 + "' "
                   + "size='" + header.Width + "' "
                   + "tabindex = '" + _TabIndex + "' "
@@ -3416,8 +3412,8 @@ namespace Evado.UniForm.AdminClient
               {
                 sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<textarea "
-                  + "id='" + colId + "' "
-                  + "name='" + colId + "' "
+                  + "id='" + cellId + "' "
+                  + "name='" + cellId + "' "
                 + "tabindex = '" + _TabIndex + "' "
                 + "rows='2' "
                 + "cols='" + header.Width + "' "
@@ -3460,8 +3456,8 @@ namespace Evado.UniForm.AdminClient
                 catch { }
 
                 sbHtml.AppendLine ( "<input "
-                    + "id='" + colId + "' "
-                    + "name='" + colId + "' "
+                    + "id='" + cellId + "' "
+                    + "name='" + cellId + "' "
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='10' "
@@ -3504,8 +3500,8 @@ namespace Evado.UniForm.AdminClient
                 catch { }
 
                 sbHtml.AppendLine ( "<input "
-                    + "id='" + colId + "' "
-                    + "name='" + colId + "' "
+                    + "id='" + cellId + "' "
+                    + "name='" + cellId + "' "
                     + "tabindex = '" + _TabIndex + "' "
                     + "maxlength='10' "
                     + "size='5' "
@@ -3536,8 +3532,8 @@ namespace Evado.UniForm.AdminClient
               {
                 sbHtml.Append ( "<td class='data'>" );
                 sbHtml.AppendLine ( "<input "
-                  + "id='" + colId + "' "
-                  + "name='" + colId + "' "
+                  + "id='" + cellId + "' "
+                  + "name='" + cellId + "' "
                   + "tabindex = '" + _TabIndex + "' "
                   + "maxlength='12' "
                   + "size='12' "
@@ -3571,8 +3567,8 @@ namespace Evado.UniForm.AdminClient
               catch { }
 
               sbHtml.AppendLine ( "<input "
-                  + "id='" + colId + "' "
-                  + "name='" + colId + "' "
+                  + "id='" + cellId + "' "
+                  + "name='" + cellId + "' "
                   + "tabindex = '" + _TabIndex + "' "
                   + "maxlength='10' "
                   + "size='10' "
@@ -3646,8 +3642,8 @@ namespace Evado.UniForm.AdminClient
                   sbHtml.AppendLine ( "<label >" );
                   sbHtml.AppendLine ( "<input "
                    + "type='checkbox' "
-                   + "id='" + colId + "' "
-                   + "name='" + colId + "' "
+                   + "id='" + cellId + "' "
+                   + "name='" + cellId + "' "
                    + "tabindex = '" + _TabIndex + "' "
                    + "value='true' " );
 
@@ -3672,7 +3668,6 @@ namespace Evado.UniForm.AdminClient
 
             case Evado.Model.EvDataTypes.Yes_No:
             {
-
               if ( PageField.EditAccess == false
                 || PageField.Table.Rows [ Row ].ReadOnly == true )
               {
@@ -3686,8 +3681,8 @@ namespace Evado.UniForm.AdminClient
                  */
                 sbHtml.Append ( "<td class='data'>" );
                 sbHtml.Append ( "<select "
-                    + "id='" + colId + "' "
-                    + "name='" + colId + "' "
+                    + "id='" + cellId + "' "
+                    + "name='" + cellId + "' "
                     + "tabindex = '" + _TabIndex + "' "
                     + "value='" + colValue + "' "
                     + " class='column-control' style= width: 60%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
@@ -3757,8 +3752,8 @@ namespace Evado.UniForm.AdminClient
                     sbHtml.Append ( "<div class='radio'><label>\r\n"
                        + "<input "
                        + "type='radio' "
-                       + "id='" + colId + "_" + ( i + 1 ) + "' "
-                       + "name='" + colId + "' "
+                       + "id='" + cellId + "_" + ( i + 1 ) + "' "
+                       + "name='" + cellId + "' "
                        + "tabindex = '" + _TabIndex + "' "
                        + "value='" + optionList [ i ].Value + "' "
                        + "onclick=\"onSelectionValidation( this, this.value  )\" " );
@@ -3802,8 +3797,8 @@ namespace Evado.UniForm.AdminClient
                 sbHtml.Append ( "<div class='radio'><label>\r\n"
                    + "<input "
                    + "type='radio' "
-                   + "id='" + colId + "_" + ( optionList.Count + 1 ) + "' "
-                   + "name='" + colId + "' "
+                   + "id='" + cellId + "_" + ( optionList.Count + 1 ) + "' "
+                   + "name='" + cellId + "' "
                    + "tabindex = '" + _TabIndex + "' "
                    + "value='' " );
 
@@ -3846,8 +3841,8 @@ namespace Evado.UniForm.AdminClient
                  * Create the selectionlist HTML
                  */
                 sbHtml.Append ( "<select "
-                    + "id='" + colId + "' "
-                    + "name='" + colId + "' "
+                    + "id='" + cellId + "' "
+                    + "name='" + cellId + "' "
                     + "tabindex = '" + _TabIndex + "' "
                     + "value='" + colValue + "' "
                     + " class='column-control' style= width: 90%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
