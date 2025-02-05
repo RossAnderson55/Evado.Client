@@ -3968,9 +3968,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createBinaryField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createBinaryField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createBinaryField" );
       this.LogDebug ( "TempUrl: " + Global.TempUrl );
@@ -3982,7 +3980,6 @@ namespace Evado.UniForm.WebClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string stBinaryUrl = Global.TempUrl + PageField.Value;
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       this.TestFileUpload.Visible = true;
 
       // 
@@ -3990,6 +3987,23 @@ namespace Evado.UniForm.WebClient
       // 
       stBinaryUrl = stBinaryUrl.ToLower ( );
       stBinaryUrl = Global.concatinateHttpUrl ( Global.TempUrl, PageField.Value );
+
+      string stValue = PageField.Value;
+      string stLinkUrl = stBinaryUrl;
+      string stLinkTitle = PageField.Value;
+
+      int index = stLinkUrl.LastIndexOf ( '/' );
+      if ( index > 0 )
+      {
+        stLinkTitle = stLinkUrl.Substring ( index + 1 );
+      }
+
+      if ( stValue.Contains ( "^" ) == true )
+      {
+        string [ ] arrValue = stValue.Split ( '^' );
+        stLinkUrl = arrValue [ 0 ];
+        stLinkTitle = arrValue [ 1 ];
+      }
 
       this.LogDebug ( "stImageUrl: " + stBinaryUrl );
 
@@ -4003,9 +4017,15 @@ namespace Evado.UniForm.WebClient
       //
       // Insert the field elements
       //
+      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
+
+      sbHtml.AppendLine ( "<span>" );
+      sbHtml.AppendLine ( "<strong>" );
+      sbHtml.AppendLine ( "<a href='" + stLinkUrl + "' target='_blank' tabindex = '" + this._TabIndex + "' >" + stLinkTitle + "</a>" );
+      sbHtml.AppendLine ( "</strong>" );
+      sbHtml.AppendLine ( "</span>" );
       if ( PageField.EditAccess == true )
       {
-        sbHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
 
         sbHtml.AppendLine ( "<input "
           + "name='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
@@ -4013,12 +4033,6 @@ namespace Evado.UniForm.WebClient
           + "type='file' "
           + "class='form-control' "
           + "size='100' />" );
-      }
-      else
-      {
-        this.createHttpLinkField (
-          sbHtml,
-          PageField );
       }
 
       sbHtml.AppendLine ( "<input type='hidden' "

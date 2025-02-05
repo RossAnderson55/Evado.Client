@@ -416,9 +416,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createReadOnlyField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createReadOnlyField(  StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createReadOnlyField" );
       //
@@ -557,9 +555,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createHtmlField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createHtmlField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createHtmlField" );
       //
@@ -610,8 +606,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createImageField(
-      StringBuilder sbHtml, EuField PageField )
+    private void createImageField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createImageField" );
       this.LogDebug ( "TempUrl: " + Global.TempUrl );
@@ -727,9 +722,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createTextField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createTextField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createTextField" );
       //
@@ -830,9 +823,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createComputedField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createComputedField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createComputedField" );
       //
@@ -3317,7 +3308,7 @@ namespace Evado.UniForm.AdminClient
           }
 
           //
-          // initialise iteration loop variables and objects.
+          // initialise iteration loop variables and objects. 
           //
           string cellId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
           string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
@@ -3934,9 +3925,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createBinaryField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createBinaryField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createBinaryField" );
       this.LogDebug ( "TempUrl: " + Global.TempUrl );
@@ -3948,7 +3937,6 @@ namespace Evado.UniForm.AdminClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string stBinaryUrl = Global.TempUrl + PageField.Value;
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       this.TestFileUpload.Visible = true;
 
       // 
@@ -3956,6 +3944,23 @@ namespace Evado.UniForm.AdminClient
       // 
       stBinaryUrl = stBinaryUrl.ToLower ( );
       stBinaryUrl = Global.concatinateHttpUrl ( Global.TempUrl, PageField.Value );
+
+      string stValue = PageField.Value;
+      string stLinkUrl = stBinaryUrl;
+      string stLinkTitle = PageField.Value;
+
+      int index = stLinkUrl.LastIndexOf ( '/' );
+      if ( index > 0 )
+      {
+        stLinkTitle = stLinkUrl.Substring ( index + 1 );
+      }
+
+      if ( stValue.Contains ( "^" ) == true )
+      {
+        string [ ] arrValue = stValue.Split ( '^' );
+        stLinkUrl = arrValue [ 0 ];
+        stLinkTitle = arrValue [ 1 ];
+      }
 
       this.LogDebug ( "stImageUrl: " + stBinaryUrl );
 
@@ -3969,9 +3974,15 @@ namespace Evado.UniForm.AdminClient
       //
       // Insert the field elements
       //
+      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
+
+      sbHtml.AppendLine ( "<span>" );
+      sbHtml.AppendLine ( "<strong>" );
+      sbHtml.AppendLine ( "<a href='" + stLinkUrl + "' target='_blank' tabindex = '" + this._TabIndex + "' >" + stLinkTitle + "</a>" );
+      sbHtml.AppendLine ( "</strong>" );
+      sbHtml.AppendLine ( "</span>" );
       if ( PageField.EditAccess == true )
       {
-        sbHtml.AppendLine ( "<div " + stFieldValueStyling + " >" );
 
         sbHtml.AppendLine ( "<input "
           + "name='" + PageField.FieldId + EuField.CONST_IMAGE_FIELD_SUFFIX + "' "
@@ -3979,12 +3990,6 @@ namespace Evado.UniForm.AdminClient
           + "type='file' "
           + "class='form-control' "
           + "size='100' />" );
-      }
-      else
-      {
-        this.createHttpLinkField (
-          sbHtml,
-          PageField );
       }
 
       sbHtml.AppendLine ( "<input type='hidden' "
