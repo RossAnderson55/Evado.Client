@@ -1077,6 +1077,17 @@ namespace Evado.UniForm.WebClient
             break;
           }
           case Evado.Model.EvDataTypes.Date:
+          {
+            if ( Global.DefaultDateSetting == true )
+            {
+              this.createDefaultDateField ( sbHtml, groupField );
+            }
+            else
+            {
+              this.createDateField ( sbHtml, groupField );
+            }
+            break;
+          }
           case Evado.Model.EvDataTypes.Year:
           {
             this.createDateField ( sbHtml, groupField );

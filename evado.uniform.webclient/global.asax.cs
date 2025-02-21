@@ -120,6 +120,10 @@ namespace Evado.UniForm.WebClient
     /// </summary>
     public static string VimeoEmbeddedUrl = "https://player.vimeo.com/video/";
 
+    /// <summary>
+    /// This value identifies if the browser default date display is to be used.
+    /// </summary>
+    public static bool DefaultDateSetting = true;
 
     /// <summary>
     /// This string contains the relative binary upload url. 
@@ -374,6 +378,16 @@ namespace Evado.UniForm.WebClient
       }
 
       Global.GlobalValue ( "YourtubeEmbeddedUrl: " + Global.YouTubeEmbeddedUrl );
+
+      // 
+      // Set the default date selection 
+      // 
+      if ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_DEFAULT_DATE_FORMAT ] != null )
+      {
+        Global.DefaultDateSetting = Evado.Model.EvStatics.getBool ( ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_DEFAULT_DATE_FORMAT ] );
+      }
+
+      Global.GlobalValue ( "DefaultDateSetting: " + Global.DefaultDateSetting );
 
       // 
       // Set the debug mode.

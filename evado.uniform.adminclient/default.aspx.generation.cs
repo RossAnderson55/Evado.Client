@@ -58,10 +58,10 @@ namespace Evado.UniForm.AdminClient
         this.litHistory.Visible = true;
       }
 
-       //
-       // initialise the methods variables and objects.
-       //
-       this.litExitCommand.Visible = true;
+      //
+      // initialise the methods variables and objects.
+      //
+      this.litExitCommand.Visible = true;
       this.litCommandContent.Visible = true;
       this.litHeaderTitle.Visible = true;
       StringBuilder sbMainBody = new StringBuilder ( );
@@ -73,13 +73,13 @@ namespace Evado.UniForm.AdminClient
       int leftColumnPercentage = 0;
       int rightColumnPercentage = 0;
 
-      if( Global.TitlePrefix != String.Empty )
+      if ( Global.TitlePrefix != String.Empty )
       {
         this.Title = String.Format ( "{0}: {1}", Global.TitlePrefix, this.UserSession.AppData.Title );
       }
       else
       {
-        this.Title = this.UserSession.AppData.Title ;
+        this.Title = this.UserSession.AppData.Title;
       }
 
       //
@@ -168,7 +168,7 @@ namespace Evado.UniForm.AdminClient
       {
         enableBodyColumns = true;
 
-        this.bodyWidthPixels = this.iWindowWidthPixels * centerColumPercentage/100;
+        this.bodyWidthPixels = this.iWindowWidthPixels * centerColumPercentage / 100;
       }
 
       this.LogDebug ( "enableBodyColumns: {0}, bodyWidthPixels: {1}.", enableBodyColumns, this.bodyWidthPixels );
@@ -305,7 +305,7 @@ namespace Evado.UniForm.AdminClient
 
             sbMainBody.AppendLine ( "<!-- OPENING LEFT BODY COLUMN -->" );
             sbMainBody.AppendFormat ( "<div style='margin-left:{0}%; width:{1}%;float:left;'>\r\n",
-              Left_Col_Left_Margin, leftColumnPercentage ); 
+              Left_Col_Left_Margin, leftColumnPercentage );
 
             sbMainBody.AppendLine ( sbLeftBody.ToString ( ) );
 
@@ -314,14 +314,14 @@ namespace Evado.UniForm.AdminClient
 
             this.LogDebug ( "Add center column to body" );
 
-            float centerWidth = centerColumPercentage - Center_Col_Left_Margin- Center_Col_Right_Margin;
+            float centerWidth = centerColumPercentage - Center_Col_Left_Margin - Center_Col_Right_Margin;
             this.LogDebug ( "leftColumnPercentage: {0}, width: {1}",
               ( Center_Col_Left_Margin ), centerWidth );
 
             sbMainBody.AppendLine ( "<!-- CENTER CENTER BODY COLUMN -->" );
 
             sbMainBody.AppendFormat ( "<div style='margin-left:{0}%;width: {1}%;float:right'  >\r\n",
-              (Center_Col_Left_Margin ), centerWidth );
+              ( Center_Col_Left_Margin ), centerWidth );
 
             sbMainBody.AppendLine ( sbCentreBody.ToString ( ) );
 
@@ -742,7 +742,7 @@ namespace Evado.UniForm.AdminClient
         case Model.EuFieldValueWidths.Forty_Percent:
         case Model.EuFieldValueWidths.Fifty_Percent:
         {
-          this.UserSession.GroupFieldWidth = (int) this.UserSession.CurrentGroup.FieldValueColumnWidth;
+          this.UserSession.GroupFieldWidth = ( int ) this.UserSession.CurrentGroup.FieldValueColumnWidth;
           break;
         }
         default:
@@ -904,7 +904,7 @@ namespace Evado.UniForm.AdminClient
       }
       if ( PageGroup.Title == EuLabels.Page_Message_Action_Group_Title )
       {
-        descriptionBackground = " Yellow "; 
+        descriptionBackground = " Yellow ";
       }
 
       if ( PageGroup.Description != null )
@@ -1092,6 +1092,17 @@ namespace Evado.UniForm.AdminClient
             break;
           }
           case Evado.Model.EvDataTypes.Date:
+          {
+            if ( Global.DefaultDateSetting == true )
+            {
+              this.createDefaultDateField ( sbHtml, groupField );
+            }
+            else
+            {
+              this.createDateField ( sbHtml, groupField );
+            }
+            break;
+          }
           case Evado.Model.EvDataTypes.Year:
           {
             this.createDateField ( sbHtml, groupField );
@@ -1210,7 +1221,7 @@ namespace Evado.UniForm.AdminClient
             this.createRastorGraphicField ( sbHtml, groupField );
             break;
           }
-          
+
           case Evado.Model.EvDataTypes.Integer_Range:
           case Evado.Model.EvDataTypes.Float_Range:
           case Evado.Model.EvDataTypes.Double_Range:

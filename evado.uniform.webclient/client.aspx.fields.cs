@@ -1332,8 +1332,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
     private void createDateField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createDateField" );
       //
@@ -1508,6 +1507,107 @@ namespace Evado.UniForm.WebClient
 
       this.LogMethodEnd ( "createDateField" );
     }//END Field Method
+
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a text field html markup
+    /// </summary>
+    /// <param name="sbHtml">StringBuilder object.</param>
+    /// <param name="PageField">Field object.</param>
+    // ----------------------------------------------------------------------------------
+    private void createDefaultDateField( StringBuilder sbHtml, EuField PageField )
+    {
+      this.LogMethod ( "createDefaultDateField" );
+      //
+      // Initialise the methods variables and objects.
+      //
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
+      int titleColumnWidth = 100 - valueColumnWidth;
+      int maxLength = 20;
+
+      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      {
+        maxLength = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
+      }
+
+      //
+      // set the min and max lenght if not set.
+      //
+      if ( maxLength == 0 )
+      {
+        maxLength = 20;
+      }
+
+      int size = maxLength;
+      if ( size > 80 )
+      {
+        size = 80;
+      }
+
+      //
+      // Set the normal validation parameters.
+      //
+      string stValidationMethod = " onchange=\"Evado.Form.onTextChange( this, this.value )\" ";
+
+      if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
+      {
+        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
+        valueColumnWidth = ( int ) widthValue;
+        titleColumnWidth = 100 - valueColumnWidth;
+      }
+      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-text-value cf' ";
+
+      if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
+      {
+        stFieldValueStyling = "style='width:98%' class='cell value cell-input-text-value cf' ";
+      }
+
+      //
+      // Incert the field header
+      //
+      this.createFieldHeader ( sbHtml, PageField, titleColumnWidth, false );
+
+      //
+      // Insert the field data control
+      //
+      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+      sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "'  >" );
+      sbHtml.AppendLine ( "<input type='date' "
+        + "id='" + PageField.FieldId + "' "
+        + "name='" + PageField.FieldId + "' "
+        + "value='" + PageField.Value + "' "
+        + "tabindex = '" + _TabIndex + "' "
+        + "maxlength='" + maxLength + "' "
+        + "size='" + size + "' "
+        + "data-fieldid='" + PageField.FieldId + "' "
+        + "class='form-control'  "
+        + stValidationMethod + " data-parsley-trigger=\"change\" " );
+
+      if ( PageField.Mandatory == true
+        && PageField.EditAccess != false )
+      {
+        //sbHtml.Append ( " required " );
+      }
+
+      //this.addMandatoryIfAttribute ( sbHtml, PageField );
+
+      if ( PageField.EditAccess == false )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
+
+      sbHtml.AppendLine ( "/>" );
+      sbHtml.AppendLine ( "</div>" );
+      sbHtml.AppendLine ( "</div>" );
+
+      this._TabIndex += 2;
+
+      //
+      // Insert the field footer elemements
+      //
+      this.createFieldFooter ( sbHtml, PageField );
+
+    }//END createDefaultDateField Field Method
 
     // ===================================================================================
     /// <summary>
