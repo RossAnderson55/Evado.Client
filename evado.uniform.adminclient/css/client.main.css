@@ -567,6 +567,7 @@ span.required {
 .form-control-range {
   display: inline-block;
   MIN-height: 34px;
+  margin: 2px;
   padding: 2px;
   line-height: 1.42857143;
   color: #555;

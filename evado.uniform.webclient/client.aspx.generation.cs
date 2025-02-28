@@ -1421,10 +1421,9 @@ namespace Evado.UniForm.WebClient
           String alternative = command.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Alternative );
           String highlighted = command.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Highlighted );
 
-          if ( alternative == "" ) alternative = background;
-          if ( background == "" ) background = background_Default;
-          if ( alternative == "" ) alternative = background_Alternative;
-          if ( highlighted == "" ) highlighted = background_Highlighted;
+          if ( background == "" || background == "Null" ) background = background_Default;
+          if ( alternative == "" || alternative == "Null" ) alternative = background_Alternative;
+          if ( highlighted == "" || highlighted == "Null" ) highlighted = background_Highlighted;
 
           this.LogDebug ( "3 background: " + background );
           this.LogDebug ( "3 alternative: " + alternative );

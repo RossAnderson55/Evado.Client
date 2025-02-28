@@ -230,7 +230,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
-        stFieldTitleStyling = "style='width:98%; ' class='cell title cell-display-text-title'";
+        stFieldTitleStyling = "style='width:100%; ' class='cell title cell-display-text-title'";
       }
 
 
@@ -458,7 +458,7 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         fullWidth = true;
-        stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell cell-display-text-value cf' ";
       }
 
       //
@@ -664,7 +664,7 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         fullWidth = true;
-        stFieldValueStyling = "style='width:98%' class='cell cell-image-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell cell-image-value cf' ";
       }
       //cell-input-text-value
       // Ineert the field header
@@ -780,7 +780,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
-        stFieldValueStyling = "style='width:98%' class='cell value cell-input-text-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell value cell-input-text-value cf' ";
       }
 
       //
@@ -919,7 +919,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
-        stFieldValueStyling = "style='width:98%' class='cell value cell-input-text-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell value cell-input-text-value cf' ";
         fieldMarginStyle = "style='margin-left:auto; margin-right:auto;'";
       }
 
@@ -1559,7 +1559,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
-        stFieldValueStyling = "style='width:98%' class='cell value cell-input-text-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell value cell-input-text-value cf' ";
       }
 
       //
@@ -2203,7 +2203,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
-        stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell value cell-check-value cf' ";
       }
       if ( widthValue == EuFieldValueWidths.Forty_Percent )
       {
@@ -2974,7 +2974,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
-        stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell value cell-check-value cf' ";
       }
 
       //
@@ -3106,7 +3106,7 @@ namespace Evado.UniForm.WebClient
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
-        stFieldValueStyling = "style='width:98%' class='cell value cell-check-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell value cell-check-value cf' ";
       }
 
       //
@@ -5706,7 +5706,7 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         fullWidth = true;
-        stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell cell-display-text-value cf' ";
       }
 
       //
@@ -5891,7 +5891,7 @@ namespace Evado.UniForm.WebClient
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         fullWidth = true;
-        stFieldValueStyling = "style='width:98%' class='cell cell-display-text-value cf' ";
+        stFieldValueStyling = "style='width:100%' class='cell cell-display-text-value cf' ";
       }
 
       stImageUrl = Global.concatinateHttpUrl ( Global.StaticImageUrl, PageField.Value );
