@@ -416,7 +416,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createReadOnlyField(  StringBuilder sbHtml, EuField PageField )
+    private void createReadOnlyField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createReadOnlyField" );
       //
@@ -641,7 +641,7 @@ namespace Evado.UniForm.AdminClient
       }
       this.LogDebug ( "stImageUrl:{0}.", stImageUrl );
 
-        string format = PageField.GetParameter ( EuFieldParameters.Format ).ToLower();
+      string format = PageField.GetParameter ( EuFieldParameters.Format ).ToLower ( );
       this.LogDebug ( "format: {0}.", format );
 
       string title = PageField.GetParameter ( EuFieldParameters.Image_Title ).ToLower ( );
@@ -683,7 +683,7 @@ namespace Evado.UniForm.AdminClient
         {
           sbHtml.AppendFormat ( "{4}<input type='text' id='{0}{1}' name='{0}{1}' value='{2}' "
             + " tabindex = '{3}' maxlength='100' size='100' class='form-control' />\r\n",
-            PageField.FieldId, EuField.CONST_IMAGE_FIELD_TITLE, title, 
+            PageField.FieldId, EuField.CONST_IMAGE_FIELD_TITLE, title,
             this._TabIndex, EuLabels.Image_Title_Field_Title );
         }
 
@@ -694,8 +694,8 @@ namespace Evado.UniForm.AdminClient
            + "id='{0}{1}' "
            + "name='{0}{1}' "
            + "tabindex = '{2}'"
-           + "value=\"Yes\" />\r\n", 
-           PageField.FieldId, EuField.CONST_IMAGE_FIELD_DELETE, 
+           + "value=\"Yes\" />\r\n",
+           PageField.FieldId, EuField.CONST_IMAGE_FIELD_DELETE,
            this._TabIndex, EuLabels.Image_Delete_Field_Title );
         }
       }
@@ -1664,16 +1664,16 @@ namespace Evado.UniForm.AdminClient
       //
       // get the date components
       //
-      sbHtml.AppendLine ( this.GetDateField ( 
+      sbHtml.AppendLine ( this.GetDateField (
         PageField.FieldId + DefaultPage.CONST_FIELD_LOWER_SUFFIX,
         stLowerValue,
         PageField.Mandatory, stFormat, minYear, maxYear ) );
       sbHtml.AppendLine ( "</span>" );
 
       this._TabIndex++;
-      
+
       sbHtml.AppendLine ( "<span style=\"margin: 5px;\">&nbsp;>>>&nbsp;</span>" );
-      
+
       sbHtml.AppendLine ( "<span id='sp2-" + PageField.Id + "' >" );
 
       sbHtml.AppendLine ( this.GetDateField ( PageField.FieldId + DefaultPage.CONST_FIELD_UPPER_SUFFIX,
@@ -3227,6 +3227,7 @@ namespace Evado.UniForm.AdminClient
         sbHtml,
         PageField );
 
+      this.LogDebug ( "Table Colum Length: {0}, ColumnCount: {1}.", PageField.Table.Header.Length, PageField.Table.ColumnCount );
       // 
       // Iterate through the rows in the table.
       // 
@@ -3271,6 +3272,7 @@ namespace Evado.UniForm.AdminClient
       // 
       foreach ( Evado.Model.EvTableHeader header in PageField.Table.Header )
       {
+        this.LogDebug ( "No: {0} - {1}, Type: {2}.", header.No, header.Text, header.DataType );
         // 
         // Skip rows that have not header text or set to hidden.
         //
@@ -3370,10 +3372,12 @@ namespace Evado.UniForm.AdminClient
       int Row )
     {
       this.LogMethod ( "getTableFieldDataRow" );
-      this.LogDebug ( "Row: {0}.", Row );
+      this.LogDebug ( "Row: {0}. ColumnCount: {1}.", Row, PageField.Table.ColumnCount );
       this.LogDebug ( "EditAccess: {0}.", PageField.EditAccess );
 
-      if ( PageField.Table.Rows [ Row ].Hide == true )
+      EvTableRow row = PageField.Table.Rows [ Row ];
+
+      if ( row.Hide == true )
       {
         return;
       }
@@ -3392,14 +3396,22 @@ namespace Evado.UniForm.AdminClient
       {
         Evado.Model.EvTableHeader header = PageField.Table.Header [ column ];
         EvDataTypes cellDataType = header.DataType;
+
+        bool rowReadOnly = false;
+        if ( PageField.EditAccess == false
+          || row.ReadOnly == true )
+        {
+          rowReadOnly = true;
+        }
+
+        this.LogDebug ( "column: {0}, Text: {1}, DataType: {2}.", column, header.Text, cellDataType );
         try
         {
-          this.LogDebug ( "column: {0}, Text: {1}, DataType: {2}.", column, header.Text, cellDataType );
           // 
           // Skip rows that have not header text
           // 
           if ( header.Text == String.Empty
-              || header.HideColumn == true )
+            || header.HideColumn == true )
           {
             continue;
           }
@@ -3408,50 +3420,14 @@ namespace Evado.UniForm.AdminClient
           // initialise iteration loop variables and objects. 
           //
           string cellId = PageField.FieldId + "_" + ( Row + 1 ) + "_" + ( column + 1 );
-          string colValue = PageField.Table.Rows [ Row ].Column [ column ].Trim ( );
+          string colValue = row.Column [ column ].Trim ( );
 
-          this.LogDebug ( "colId: {0}, DataType: {1}, Value: {2}.", cellId, cellDataType, colValue ); 
           switch ( cellDataType )
           {
             case Evado.Model.EvDataTypes.Read_Only_Text:
             {
-              if ( header.DataType == EvDataTypes.Boolean )
-              {
-                sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
-                if ( colValue != String.Empty )
-                {
-                  var bValue = EvStatics.getBool ( colValue );
-
-                  if ( header.OptionsOrUnit == String.Empty )
-                  {
-                    if ( bValue == true )
-                    {
-                      colValue = "Yes";
-                    }
-                    else
-                    {
-                      colValue = "";
-                    }
-                  }
-                  else
-                  {
-                    if ( bValue == true )
-                    {
-                      colValue = header.OptionsOrUnit;
-                    }
-                    else
-                    {
-                      colValue = String.Empty;
-                    }
-                  }
-                  sbHtml.Append ( colValue );
-                }
-              }
-              else
-              {
-                sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
-                sbHtml.Append ( colValue );
-              }
+              sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
+              sbHtml.Append ( colValue );
               sbHtml.AppendLine ( "</td>" );
               break;
             }//END Text Data Type.
@@ -3459,8 +3435,7 @@ namespace Evado.UniForm.AdminClient
             case Evado.Model.EvDataTypes.Text:
             case Evado.Model.EvDataTypes.Multi_Text_Values:
             {
-              if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+              if ( rowReadOnly == true )
               {
                 sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
                 sbHtml.Append ( colValue );
@@ -3490,8 +3465,7 @@ namespace Evado.UniForm.AdminClient
             case Evado.Model.EvDataTypes.Free_Text:
             {
 
-              if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+              if ( rowReadOnly == true )
               {
                 sbHtml.Append ( "<td class='data' style='text-align:left;'>" );
                 sbHtml.Append ( colValue );
@@ -3522,8 +3496,7 @@ namespace Evado.UniForm.AdminClient
             case Evado.Model.EvDataTypes.Numeric:
             {
 
-              if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+              if ( rowReadOnly == true )
               {
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
@@ -3566,8 +3539,7 @@ namespace Evado.UniForm.AdminClient
             case Evado.Model.EvDataTypes.Integer:
             {
 
-              if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+              if ( rowReadOnly == true )
               {
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
@@ -3610,8 +3582,7 @@ namespace Evado.UniForm.AdminClient
             case Evado.Model.EvDataTypes.Date:
             {
 
-              if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+              if ( rowReadOnly == true )
               {
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
@@ -3683,13 +3654,12 @@ namespace Evado.UniForm.AdminClient
                 buttonValue = header.OptionsOrUnit;
               }
 
-              //this.LogDebug ( "Access: {0}, Boolean (checkbox), Cid: {1}, buttonValue: {2}, colValue: {3}.",
-              //  PageField.EditAccess, colId, buttonValue, colValue );
+              //this.LogDebug ( "Row ReadOnly: {0}, Boolean (checkbox), cellId: {1}, buttonValue: {2}, colValue: {3}.",
+              //rowReadOnly, cellId, buttonValue, colValue );
 
-              if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+              if ( rowReadOnly == true )
               {
-                this.LogDebug ( "EditAccess = Disabled." );
+                //this.LogDebug ( "EditAccess = Disabled." );
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
 
                 var bValue = EvStatics.getBool ( colValue );
@@ -3717,35 +3687,36 @@ namespace Evado.UniForm.AdminClient
                   }
                 }
                 sbHtml.Append ( colValue );
+
+                sbHtml.AppendLine ( "</td>" );
+
+                break;
               }
-              else
+
+              //this.LogDebug ( "EditAccess = Enabled." );
+              sbHtml.AppendLine ( "<td class='data'>" );
+              //
+              // display the boolean value if there is a value 'true' or 'false'.
+              //
+              sbHtml.AppendLine ( "<div class='checkbox-table'>" );
+              sbHtml.AppendLine ( "<label >" );
+              sbHtml.Append ( "<input "
+               + "type='checkbox' "
+               + "id='" + cellId + "' "
+               + "name='" + cellId + "' "
+               + "tabindex = '" + _TabIndex + "' "
+               + "value='true' " );
+
+              if ( colValue == "true" )
               {
-                sbHtml.Append ( "<td class='data'>" );
-                //
-                // display the boolean value if there is a value 'true' or 'false'.
-                //
-                if ( colValue != String.Empty )
-                {
-                  sbHtml.AppendLine ( "<div class='checkbox-table'>" );
-                  sbHtml.AppendLine ( "<label >" );
-                  sbHtml.AppendLine ( "<input "
-                   + "type='checkbox' "
-                   + "id='" + cellId + "' "
-                   + "name='" + cellId + "' "
-                   + "tabindex = '" + _TabIndex + "' "
-                   + "value='true' " );
-
-                  if ( colValue == "true" )
-                  {
-                    sbHtml.Append ( " checked='checked' " );
-                  }
-
-                  sbHtml.AppendLine ( "/>" );
-
-                  sbHtml.AppendLine ( "<span class='label' >" + buttonValue + "</span>" );
-                  sbHtml.AppendLine ( "</label></div>" );
-                }
+                sbHtml.Append ( " checked='checked' " );
               }
+
+              sbHtml.AppendLine ( "/>" );
+
+              sbHtml.AppendLine ( "<span class='label' >" + buttonValue + "</span>" );
+              sbHtml.AppendLine ( "</label>" );
+              sbHtml.AppendLine ( "</div>" );
 
               this._TabIndex++;
 
@@ -3756,8 +3727,7 @@ namespace Evado.UniForm.AdminClient
 
             case Evado.Model.EvDataTypes.Yes_No:
             {
-              if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+              if ( rowReadOnly == true )
               {
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
@@ -3776,7 +3746,7 @@ namespace Evado.UniForm.AdminClient
                     + " class='column-control' style= width: 60%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
                 if ( PageField.EditAccess == false
-                  || PageField.Table.Rows [ Row ].ReadOnly == true )
+                  || row.ReadOnly == true )
                 {
                   sbHtml.Append ( "disabled='disabled' " );
                 }
@@ -3816,8 +3786,7 @@ namespace Evado.UniForm.AdminClient
 
             case Evado.Model.EvDataTypes.Radio_Button_List:
             {
-              if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+              if ( rowReadOnly == true )
               {
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
@@ -3852,7 +3821,7 @@ namespace Evado.UniForm.AdminClient
                     }
 
                     if ( PageField.EditAccess == false
-                  || PageField.Table.Rows [ Row ].ReadOnly == true )
+                  || row.ReadOnly == true )
                     {
                       sbHtml.Append ( " disabled='disabled' " );
                     }
@@ -3890,7 +3859,7 @@ namespace Evado.UniForm.AdminClient
                    + "tabindex = '" + _TabIndex + "' "
                    + "value='' " );
 
-                if ( PageField.Table.Rows [ Row ].Column [ column ] == String.Empty )
+                if ( row.Column [ column ] == String.Empty )
                 {
                   sbHtml.Append ( "checked='checked' " );
                 }
@@ -3915,7 +3884,7 @@ namespace Evado.UniForm.AdminClient
             case Evado.Model.EvDataTypes.Selection_List:
             {
               if ( PageField.EditAccess == false
-                || PageField.Table.Rows [ Row ].ReadOnly == true )
+                || row.ReadOnly == true )
               {
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
                 sbHtml.Append ( colValue );
@@ -3936,7 +3905,7 @@ namespace Evado.UniForm.AdminClient
                     + " class='column-control' style= width: 90%;' onchange=\"Evado.Form.onSelectionValidation( this, this.value  )\" " );
 
                 if ( PageField.EditAccess == false
-                  || PageField.Table.Rows [ Row ].ReadOnly == true )
+                  || row.ReadOnly == true )
                 {
                   sbHtml.Append ( "disabled='disabled' " );
                 }
@@ -3997,8 +3966,7 @@ namespace Evado.UniForm.AdminClient
         }
         catch ( Exception Ex )
         {
-          this.LogValue ( "Row: " + Row + ", Column: " + column + ", " + Evado.Model.EvStatics.getExceptionAsHtml ( Ex ) );
-          break;
+          this.LogValue ( "Row: {0}, {1} Exception: \r\n{2}", Row, column, Evado.Model.EvStatics.getException ( Ex ) );
         }
 
       }//END column iteration loop,
@@ -4006,7 +3974,7 @@ namespace Evado.UniForm.AdminClient
       if ( dateStampRows == true )
       {
         sbHtml.Append ( "<td class='data'>" );
-        sbHtml.Append ( PageField.Table.Rows [ Row ].DateStamp );
+        sbHtml.Append ( row.DateStamp );
         sbHtml.AppendLine ( "</td>" );
       }
 
@@ -5908,10 +5876,10 @@ namespace Evado.UniForm.AdminClient
         this.LogMethodEnd ( "createPlotChartField" );
         return;
       }
-        //
-        // Initialise the methods variables and objects.
-        //
-        int valueColumnWidth = this.UserSession.GroupFieldWidth;
+      //
+      // Initialise the methods variables and objects.
+      //
+      int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string placeHolder = PageField.FieldId.ToLower ( );
       string chartJs = PageField.Chart.GetJsData ( );
@@ -5974,8 +5942,8 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "</div>" ); ;
 
       sbHtml.AppendFormat ( "<script> new Chart ( \"{0}\",{1} )</script > ", placeHolder, chartJs );
-      
-      
+
+
       sbHtml.AppendLine ( "</div>" );
       //sbHtml.AppendFormat ( "<textarea id='{0}-T' rows='20' cols='100' disabled='disabled' >{1}</textarea>", placeHolder, chartJs );
       sbHtml.AppendLine ( "</div>" );
