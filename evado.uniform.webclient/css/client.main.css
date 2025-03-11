@@ -15,6 +15,8 @@ body, h3, .Debug, .plot-container, .font-size10, .e-menu-bar a.btn, .e-menu-bar 
 body {
   margin: 0px;
   padding: 0px;
+  color: #333;
+  background-color: #F0F1F1; /*#fff */;
 }
 
 #page {
@@ -59,14 +61,14 @@ body {
 
 #page-body {
   text-shadow: none;
-  background-color: #FFFFFF;
+  background-color: #F0F1F1 /*#FFFFFF*/;
   padding: 0px;
   margin: 0px;
   padding-bottom: 10px;
 }
 
 #form-body-dynamic-section {
-  background-color: #fcfcfc;
+  background-color: #F0F1F1; /*#fcfcfc;*/
   box-sizing: border-box;
   color: Black;
   border-color: #ddd;
