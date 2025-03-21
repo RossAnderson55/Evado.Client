@@ -410,6 +410,25 @@ namespace Evado.UniForm.WebClient
           this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
           break;
         }
+
+        case Evado.Model.EvDataTypes.Date:
+        {
+          this.LogDebug ( "Date Field." );
+          stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, FormField.FieldId );
+
+          this.LogDebug ( "Field stValue: {0}.", stValue );
+
+          //
+          // correcting the date format into the platform standard format.
+          //
+          DateTime date = EvStatics.getDateTime ( stValue );
+
+          this.LogDebug ( "Field Date: {0}.", date.ToString ( "dd-MMM-yyyy" ) );
+
+          FormField.Value = stValue;
+
+          break;
+        }
         case Evado.Model.EvDataTypes.Boolean:
         {
           this.LogDebug ( "Boolean Field." );

@@ -1503,6 +1503,14 @@ namespace Evado.UniForm.AdminClient
       }
 
       //
+      // correct the date formatting for the default browser format.
+      //
+      DateTime date = EvStatics.getDateTime ( PageField.Value );
+
+      string dateValue = date.ToString ( "yyy-MM-dd" );
+      this.LogDebug ( "Field Date: {0}.", dateValue );
+
+      //
       // Set the normal validation parameters.
       //
       string stValidationMethod = " onchange=\"Evado.Form.onTextChange( this, this.value )\" ";
@@ -1533,7 +1541,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<input type='date' "
         + "id='" + PageField.FieldId + "' "
         + "name='" + PageField.FieldId + "' "
-        + "value='" + PageField.Value + "' "
+        + "value='" + dateValue + "' "
         + "tabindex = '" + _TabIndex + "' "
         + "maxlength='" + maxLength + "' "
         + "size='" + size + "' "
