@@ -4469,55 +4469,7 @@ namespace Evado.UniForm.AdminClient
       int fieldSize = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
       String stFormat = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Format );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-name-value cf' ";
-
-      string stTitle = String.Empty;
-      string stFirstName = String.Empty;
-      string stMiddleName = String.Empty;
-      string stFamilyName = String.Empty;
-
-
-      String [ ] arrValue = PageField.Value.Split ( ';' );
-
-      //
-      // Fill the field structure
-      switch ( arrValue.Length )
-      {
-        case 1:
-        {
-          stFamilyName = arrValue [ 0 ];
-          break;
-        }
-        case 2:
-        {
-          stFirstName = arrValue [ 0 ];
-          stFamilyName = arrValue [ 1 ];
-          break;
-        }
-        case 3:
-        {
-          stTitle = arrValue [ 0 ];
-          stFirstName = arrValue [ 1 ];
-          stFamilyName = arrValue [ 2 ];
-          break;
-        }
-        case 4:
-        default:
-        {
-          stTitle = arrValue [ 0 ];
-          stFirstName = arrValue [ 1 ];
-          stMiddleName = arrValue [ 2 ];
-          stFamilyName = arrValue [ 3 ];
-          break;
-        }
-      }//END field value switch
-
-      //
-      // Set default width
-      //
-      if ( fieldSize > 30 || fieldSize < 5 )
-      {
-        fieldSize = 20;
-      }
+      EvName name = new EvName ( PageField.Value );
 
       //
       // Ineert the field header
@@ -4531,13 +4483,13 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "' >" );
 
 
-      if ( stFormat.Contains ( Evado.UniForm.Model.EuField.CONST_NAME_FORMAT_PREFIX ) == true )
+      if ( stFormat.Contains ( EvName.CONST_NAME_FORMAT_PREFIX ) == true )
       {
         sbHtml.AppendLine ( "<div style='display: inline-block;'>" );
         sbHtml.AppendLine ( "<input type='text' "
-         + "id='" + PageField.FieldId + "_Title' "
-         + "name='" + PageField.FieldId + "_Title' "
-         + "value='" + stTitle + "' "
+         + "id='" + PageField.FieldId + EvName.NAME_PREFIX_FIELD_SUFFIX + "' "
+         + "name='" + PageField.FieldId + EvName.NAME_PREFIX_FIELD_SUFFIX + "' "
+         + "value='" + name.Prefix + "' "
         + "tabindex = '" + _TabIndex + "' "
          + "tabindex = '" + _TabIndex + "' "
          + "size='3' class='form-control' data-parsley-trigger=\"change\" " );
@@ -4560,9 +4512,9 @@ namespace Evado.UniForm.AdminClient
       }
       sbHtml.AppendLine ( "<div style='display: inline-block;'>" );
       sbHtml.AppendLine ( "<input type='text' "
-       + "id='" + PageField.FieldId + "_FirstName' "
-       + "name='" + PageField.FieldId + "_FirstName' "
-       + "value='" + stFirstName + "' "
+       + "id='" + PageField.FieldId + EvName.NAME_GIVEN_FIELD_SUFFIX + "' "
+       + "name='" + PageField.FieldId + EvName.NAME_GIVEN_FIELD_SUFFIX + "' "
+       + "value='" + name.GivenName + "' "
       + "tabindex = '" + _TabIndex + "' "
        + "tabindex = '" + _TabIndex + "' "
        + "size='" + fieldSize + "' class='form-control' data-parsley-trigger=\"change\" " );
@@ -4583,13 +4535,13 @@ namespace Evado.UniForm.AdminClient
 
       this._TabIndex++;
 
-      if ( stFormat.Contains ( Evado.UniForm.Model.EuField.CONST_NAME_FORMAT_MIDDLE_NAME ) == true )
+      if ( stFormat.Contains ( EvName.CONST_NAME_FORMAT_MIDDLE_NAME ) == true )
       {
         sbHtml.AppendLine ( "<div style='display: inline-block;'>" );
         sbHtml.AppendLine ( "<input type='text' "
-         + "id='" + PageField.FieldId + "_MiddleName' "
-         + "name='" + PageField.FieldId + "_MiddleName' "
-         + "value='" + stMiddleName + "' "
+       + "id='" + PageField.FieldId + EvName.NAME_MIDDLE_FIELD_SUFFIX + "' "
+       + "name='" + PageField.FieldId + EvName.NAME_MIDDLE_FIELD_SUFFIX + "' "
+         + "value='" +name.MiddleName + "' "
         + "tabindex = '" + _TabIndex + "' "
          + "tabindex = '" + _TabIndex + "' "
          + "size='" + fieldSize + "' class='form-control' data-parsley-trigger=\"change\" " );
@@ -4615,9 +4567,9 @@ namespace Evado.UniForm.AdminClient
       // Family Name field
       //
       sbHtml.Append ( "<div style='display: inline-block;'><input type='text' "
-       + "id='" + PageField.FieldId + "_FamilyName' "
-       + "name='" + PageField.FieldId + "_FamilyName' "
-       + "value='" + stFamilyName + "' "
+       + "id='" + PageField.FieldId + EvName.NAME_FAMILY_FIELD_SUFFIX + "' "
+       + "name='" + PageField.FieldId + EvName.NAME_FAMILY_FIELD_SUFFIX + "' "
+       + "value='" + name.FamilyName + "' "
        + "tabindex = '" + _TabIndex + "' "
        + "size='" + fieldSize + "' class='form-control' data-parsley-trigger=\"change\" " );
 

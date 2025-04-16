@@ -869,11 +869,7 @@ namespace Evado.UniForm.WebClient
 
     // =============================================================================== 
     /// <summary>
-    /// updateNameFieldValue method.
-    /// 
-    /// Description:
     ///   This method updates the common TestReport static test fields
-    /// 
     /// </summary>
     /// <param name="ReturnedFormFields">List of returned html form fields.</param>
     /// <param name="htmlDataId">The html form field to be udpated.</param>
@@ -898,16 +894,17 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the option list to compare values.
       // 
-      stTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_Title" );
-      stFirstName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_FirstName" );
-      stMiddleName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_MiddleName" );
-      stFamilyName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + "_FamilyName" );
+      stTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + EvName.NAME_PREFIX_FIELD_SUFFIX );
+      stFirstName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + EvName.NAME_GIVEN_FIELD_SUFFIX );
+      stMiddleName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + EvName.NAME_MIDDLE_FIELD_SUFFIX );
+      stFamilyName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + EvName.NAME_FAMILY_FIELD_SUFFIX );
 
       this.LogDebug ( "stFirstName:" + stFirstName + " stMiddleName:" + stMiddleName + " stFamilyName:" + stFamilyName + "\r\n" );
 
       return stTitle + ";" + stFirstName + ";" + stMiddleName + ";" + stFamilyName;
 
     }//END getCheckButtonListFieldValue method
+
 
     // =============================================================================== 
     /// <summary>
