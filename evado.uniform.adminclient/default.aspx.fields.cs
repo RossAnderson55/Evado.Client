@@ -4466,7 +4466,6 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      int fieldSize = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
       String stFormat = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Format );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-name-value cf' ";
       EvName name = new EvName ( PageField.Value );
@@ -4483,7 +4482,7 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "' >" );
 
 
-      if ( stFormat.Contains ( EvName.CONST_NAME_FORMAT_PREFIX ) == true )
+      if ( stFormat.Contains ( EvName.NAME_FORMAT_PREFIX ) == true )
       {
         sbHtml.AppendLine ( "<div style='display: inline-block;'>" );
         sbHtml.AppendLine ( "<input type='text' "
@@ -4492,7 +4491,8 @@ namespace Evado.UniForm.AdminClient
          + "value='" + name.Prefix + "' "
         + "tabindex = '" + _TabIndex + "' "
          + "tabindex = '" + _TabIndex + "' "
-         + "size='3' class='form-control' data-parsley-trigger=\"change\" " );
+         + "size='" + EvName.Prefix_Value_Width + "' "
+         + "class='form-control' data-parsley-trigger=\"change\" " );
 
         if ( PageField.Mandatory == true && PageField.EditAccess != false )
         {
@@ -4517,7 +4517,7 @@ namespace Evado.UniForm.AdminClient
        + "value='" + name.GivenName + "' "
       + "tabindex = '" + _TabIndex + "' "
        + "tabindex = '" + _TabIndex + "' "
-       + "size='" + fieldSize + "' class='form-control' data-parsley-trigger=\"change\" " );
+       + "size='" + EvName.GivenName_Value_Width + "' class='form-control' data-parsley-trigger=\"change\" " );
 
       if ( PageField.Mandatory == true && PageField.EditAccess != false )
       {
@@ -4535,16 +4535,16 @@ namespace Evado.UniForm.AdminClient
 
       this._TabIndex++;
 
-      if ( stFormat.Contains ( EvName.CONST_NAME_FORMAT_MIDDLE_NAME ) == true )
+      if ( stFormat.Contains ( EvName.NAME_FORMAT_MIDDLE_NAME ) == true )
       {
         sbHtml.AppendLine ( "<div style='display: inline-block;'>" );
         sbHtml.AppendLine ( "<input type='text' "
        + "id='" + PageField.FieldId + EvName.NAME_MIDDLE_FIELD_SUFFIX + "' "
        + "name='" + PageField.FieldId + EvName.NAME_MIDDLE_FIELD_SUFFIX + "' "
-         + "value='" +name.MiddleName + "' "
+         + "value='" + name.MiddleName + "' "
         + "tabindex = '" + _TabIndex + "' "
          + "tabindex = '" + _TabIndex + "' "
-         + "size='" + fieldSize + "' class='form-control' data-parsley-trigger=\"change\" " );
+         + "size='" + EvName.MiddleName_Value_Width + "' class='form-control' data-parsley-trigger=\"change\" " );
 
         if ( PageField.Mandatory == true && PageField.EditAccess != false )
         {
@@ -4571,7 +4571,7 @@ namespace Evado.UniForm.AdminClient
        + "name='" + PageField.FieldId + EvName.NAME_FAMILY_FIELD_SUFFIX + "' "
        + "value='" + name.FamilyName + "' "
        + "tabindex = '" + _TabIndex + "' "
-       + "size='" + fieldSize + "' class='form-control' data-parsley-trigger=\"change\" " );
+       + "size='" + EvName.FamilyName_Value_Width + "' class='form-control' data-parsley-trigger=\"change\" " );
 
       if ( PageField.Mandatory == true && PageField.EditAccess != false )
       {
