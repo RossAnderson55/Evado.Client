@@ -4598,7 +4598,6 @@ namespace Evado.UniForm.WebClient
 
     }//END Field Method
 
-
     // ===================================================================================
     /// <summary>
     /// This method creates a Name field html markup
@@ -4616,17 +4615,8 @@ namespace Evado.UniForm.WebClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      EvAddress address = new EvAddress ( PageField.Value );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-address-value cf' ";
-      String [ ] arrValue = PageField.Value.Split ( ';' );
-
-      //
-      // Set default width
-      //
-      if ( stSize == String.Empty )
-      {
-        stSize = "20";
-      }
 
       //
       // Ineert the field header
@@ -4639,313 +4629,173 @@ namespace Evado.UniForm.WebClient
       sbHtml.Append ( "<div " + stFieldValueStyling + " > "
         + "<span id='sp" + PageField.Id + "'>" );
 
-      if ( arrValue.Length > 5 )
+      //
+      // Address 1 field
+      //
+      sbHtml.AppendLine ( "<div class='first' style='display: inline-block;'>" );
+      sbHtml.AppendLine ( "<span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span>" );
+      sbHtml.AppendLine ( "<input type='text' "
+       + "id='" + PageField.FieldId + "_Address1' "
+       + "name='" + PageField.FieldId + "_Address1' "
+       + "tabindex='" + _TabIndex + "' "
+       + "value='" + address.Street + "' "
+       + "size='40' "
+       + "maxlength='50' "
+       + "class='form-control' "
+       + "sstyle='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
+
+      if ( PageField.Mandatory == true && PageField.EditAccess != false )
       {
-        //
-        // Address 1 field
-        //
-        sbHtml.Append ( "<div class='first' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_Address1' "
-         + "name='" + PageField.FieldId + "_Address1' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='" + arrValue [ 0 ] + "' "
-         + "size='" + stSize + "' class='form-control' style='display: inline-block;' data-parsley-trigger=\"change\" " );
+        //sbHtml.Append ( " required " );
+      }
 
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
+      //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
+      if ( PageField.EditAccess == false )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
 
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
+      sbHtml.Append ( "/></div>\r\n" );
 
-        sbHtml.Append ( "/></div>\r\n" );
+      this._TabIndex++;
 
-        this._TabIndex++;
+      //
+      // Address 2 field
+      //
+      sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span><input type='text' "
+       + "id='" + PageField.FieldId + "_Address2' "
+       + "name='" + PageField.FieldId + "_Address2' "
+       + "tabindex='" + _TabIndex + "' "
+       + "value='" + address.Unit + "' "
+       + "size='40' "
+       + "maxlength='50' "
+       + "class='form-control' "
+       + "style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        //
-        // Address 2 field
-        //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_Address2' "
-         + "name='" + PageField.FieldId + "_Address2' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='" + arrValue [ 1 ] + "' "
-         + "size='" + stSize + "' class='form-control' style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
+      if ( PageField.Mandatory == true && PageField.EditAccess != false )
+      {
+        //sbHtml.Append ( " required " );
+      }
 
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
+      //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
+      if ( PageField.EditAccess == false )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
 
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
+      sbHtml.Append ( "/></div>\r\n" );
 
-        sbHtml.Append ( "/></div>\r\n" );
+      this._TabIndex++;
 
-        this._TabIndex++;
+      sbHtml.AppendLine ( "</br>" );
+      //
+      // Suburb field
+      //
+      sbHtml.AppendLine ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span><input type='text' "
+       + "id='" + PageField.FieldId + "_Suburb' "
+       + "name='" + PageField.FieldId + "_Suburb' "
+       + "tabindex='" + _TabIndex + "' "
+       + "value='" + address.City + "' "
+       + "size='20' "
+       + "maxlength='40' "
+       + "class='form-control' "
+       + "style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        //
-        // Suburb field
-        //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_Suburb' "
-         + "name='" + PageField.FieldId + "_Suburb' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='" + arrValue [ 2 ] + "' "
-         + "size='" + stSize + "' class='form-control' style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
+      if ( PageField.Mandatory == true && PageField.EditAccess != false )
+      {
+        //sbHtml.Append ( " required " );
+      }
 
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
+      //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
+      if ( PageField.EditAccess == false )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
 
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
+      sbHtml.Append ( "/></div>\r\n" );
 
-        sbHtml.Append ( "/></div>\r\n" );
+      this._TabIndex++;
 
-        this._TabIndex++;
+      //
+      // State field
+      //
+      sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span><input type='text' "
+       + "id='" + PageField.FieldId + "_State' "
+       + "name='" + PageField.FieldId + "_State' "
+       + "tabindex='" + _TabIndex + "' "
+       + "value='" + address.State + "' "
+       + "size='8' "
+       + "maxlength='8' "
+       + "class='form-control' "
+       + "style='width:100px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        //
-        // State field
-        //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_State' "
-         + "name='" + PageField.FieldId + "_State' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='" + arrValue [ 3 ] + "' "
-         + "size='" + 5 + "' class='form-control' style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
+      if ( PageField.Mandatory == true && PageField.EditAccess != false )
+      {
+        //sbHtml.Append ( " required " );
+      }
 
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
+      //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
+      if ( PageField.EditAccess == false )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
 
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
+      sbHtml.Append ( "/></div>\r\n" );
 
-        sbHtml.Append ( "/></div>\r\n" );
+      this._TabIndex++;
 
-        this._TabIndex++;
+      //
+      //_PostCode field
+      //
+      sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span><input type='text' "
+       + "id='" + PageField.FieldId + "_PostCode' "
+       + "name='" + PageField.FieldId + "_PostCode' "
+       + "tabindex='" + _TabIndex + "' "
+       + "value='" + address.PostCode + "' "
+       + "size='8' maxlength='8' class='form-control' style='width:100px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        //
-        //_PostCode field
-        //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_PostCode' "
-         + "name='" + PageField.FieldId + "_PostCode' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='" + arrValue [ 4 ] + "' "
-         + "size='6' maxlength='6' class='form-control' style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
+      if ( PageField.Mandatory == true && PageField.EditAccess != false )
+      {
+        //sbHtml.Append ( " required " );
+      }
 
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
+      //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
+      if ( PageField.EditAccess == false )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
 
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
+      sbHtml.Append ( "/></div>\r\n" );
 
-        sbHtml.Append ( "/></div>\r\n" );
+      this._TabIndex++;
 
-        this._TabIndex++;
-
-        //
-        // Country field
-        //
-        sbHtml.Append ( "<div class='last' style='display: inline-block;' ><span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span><input type='text' "
+      sbHtml.AppendLine ( "</br>" );
+      //
+      // Country field
+      //
+      sbHtml.AppendLine ( "<div class='last' style='display: inline-block;' ><span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span><input type='text' "
          + "id='" + PageField.FieldId + "_Country' "
          + "name='" + PageField.FieldId + "_Country' "
          + "tabindex='" + _TabIndex + "' "
-         + "value='" + arrValue [ 5 ] + "' "
-         + "size='" + stSize + "' class='form-control' style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
+         + "value='" + address.Country + "' "
+         + "size='20' "
+         + "maxlength='20' "
+         + "class='form-control' "
+         + "style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
 
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.Append ( "/></div>\r\n" );
-
-        this._TabIndex++;
-      }
-      else
+      if ( PageField.EditAccess == false )
       {
-        //
-        // Address 1 field
-        //
-        sbHtml.Append ( "<div class='first' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_Address1' "
-         + "name='" + PageField.FieldId + "_Address1' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='' "
-         + "tabindex = '" + _TabIndex + "' "
-         + "size='" + stSize + "' class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
-
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
-
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
-
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.Append ( "/></div>\r\n" );
-
-        this._TabIndex++;
-
-        //
-        // Address 2 field
-        //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_Address2' "
-         + "name='" + PageField.FieldId + "_Address2' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='' "
-         + "size='" + stSize + "' class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
-
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
-
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
-
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.Append ( "/></div>\r\n" );
-
-        this._TabIndex++;
-
-        //
-        // Suburb field
-        //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_Suburb' "
-         + "name='" + PageField.FieldId + "_Suburb' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='' "
-         + "size='" + stSize + "' class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
-
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
-
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
-
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.Append ( "/></div>\r\n" );
-
-        this._TabIndex++;
-
-        //
-        // State field
-        //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_State' "
-         + "name='" + PageField.FieldId + "_State' "
-         + "tabindex = '" + _TabIndex + "' "
-         + "value='' "
-         + "maxlength='" + stSize + "' "
-         + "size='" + stSize + "' class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
-
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
-
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
-
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.Append ( "/></div>\r\n" );
-
-        this._TabIndex++;
-
-        //
-        //_PostCode field
-        //
-        sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_PostCode' "
-         + "name='" + PageField.FieldId + "_PostCode' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='' "
-         + "class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" "
-         + "size='6' maxlength='6' " );
-
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
-        {
-          //sbHtml.Append ( " required " );
-        }
-
-        //this.addMandatoryIfAttribute ( sbHtml, PageField );
-
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.Append ( "/></div>\r\n" );
-
-        this._TabIndex++;
-
-        //
-        // Country field
-        //
-        sbHtml.Append ( "<div class='last' style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span><input type='text' "
-         + "id='" + PageField.FieldId + "_Country' "
-         + "name='" + PageField.FieldId + "_Country' "
-         + "tabindex='" + _TabIndex + "' "
-         + "value='' "
-         + "size='" + stSize + "' "
-         + "class='form-control'  style='width:200px;inline-block;' data-parsley-trigger=\"change\" " );
-
-        if ( PageField.EditAccess == false )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.Append ( "/></div>\r\n" );
-
-        this._TabIndex++;
-
+        sbHtml.Append ( " disabled='disabled' " );
       }
+
+      sbHtml.Append ( "/></div>\r\n" );
+
+      this._TabIndex++;
 
       sbHtml.Append ( "</span></div>\r\n" );
 
