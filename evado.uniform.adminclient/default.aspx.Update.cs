@@ -69,6 +69,11 @@ namespace Evado.UniForm.AdminClient
       this.UploadPageImages ( );
 
       //
+      // set the image deletion parameters.
+      //
+      this.UpdateImageDeletion ( );
+
+      //
       // Get the data from the returned page fields.
       //
       this.GetPageDataValues ( );
@@ -133,6 +138,7 @@ namespace Evado.UniForm.AdminClient
         }//END test field iteration.
 
       }//END the iteration loop.
+
 
       EvStatics.Files.saveJsonFile<EuPage> ( Global.TempPath, "UpdatedAppDatPage.json", this.UserSession.AppData.Page );
       this.LogMethodEnd ( "getPageDataValues" );
@@ -447,7 +453,7 @@ namespace Evado.UniForm.AdminClient
 
           this.LogDebug ( "FieldId: {0}, Value: {1}.", FormField.FieldId, FormField.Value );
 
-          string fieldId = FormField.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
+          string fieldId = FormField.FieldId + EuField.CONST_IMAGE_FIELD_TITLE_SUFFIX;
 
           stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, fieldId );
 
@@ -458,7 +464,7 @@ namespace Evado.UniForm.AdminClient
             FormField.AddParameter ( fieldId, stValue );
           }
 
-          fieldId = FormField.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
+          fieldId = FormField.FieldId + EuField.CONST_IMAGE_FIELD_TITLE_SUFFIX;
 
           stValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, fieldId );
 
@@ -889,9 +895,9 @@ namespace Evado.UniForm.AdminClient
       // Iterate through the option list to compare values.
       // 
       stTitle = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + EvName.NAME_PREFIX_FIELD_SUFFIX );
-      stFirstName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId+ EvName.NAME_GIVEN_FIELD_SUFFIX );
-      stMiddleName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId+ EvName.NAME_MIDDLE_FIELD_SUFFIX );
-      stFamilyName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId+ EvName.NAME_FAMILY_FIELD_SUFFIX );
+      stFirstName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + EvName.NAME_GIVEN_FIELD_SUFFIX );
+      stMiddleName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + EvName.NAME_MIDDLE_FIELD_SUFFIX );
+      stFamilyName = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + EvName.NAME_FAMILY_FIELD_SUFFIX );
 
       this.LogDebug ( "stFirstName:" + stFirstName + " stMiddleName:" + stMiddleName + " stFamilyName:" + stFamilyName + "\r\n" );
 
@@ -1514,7 +1520,6 @@ namespace Evado.UniForm.AdminClient
     }//END getReturnedFormFieldValue method
 
     // ==================================================================================
-
     /// <summary>
     /// This method searches through the page group fields to find a matching field..
     /// </summary>
@@ -1523,9 +1528,10 @@ namespace Evado.UniForm.AdminClient
     {
       this.LogMethod ( "UploadPageImages" );
       // this.LogDebug ( "Global.TempPath: {0}.", Global.TempPath );
-      this.LogDebug ( "Number of files: {0}.", Context.Request.Files.Count );
+      //this.LogDebug ( "Number of files: {0}.", Context.Request.Files.Count );
       try
       {
+
         // 
         // Initialise the methods variables.
         // 
@@ -1536,7 +1542,7 @@ namespace Evado.UniForm.AdminClient
         // 
         if ( Context.Request.Files.Count == 0 )
         {
-          this.LogDebug ( " No images to upload. Exit" );
+          //this.LogDebug ( " No images to upload. Exit" );
           this.LogMethodEnd ( "UploadPageImages" );
           return;
         }
@@ -1547,7 +1553,8 @@ namespace Evado.UniForm.AdminClient
         //
         foreach ( String requestFieldName in Context.Request.Files.AllKeys )
         {
-          this.LogDebug ( "requestFieldName: " + requestFieldName );
+          //this.LogDebug ( "requestFieldName: " + requestFieldName );
+
           //
           // Skip the dummy test upload.
           //
@@ -1571,8 +1578,8 @@ namespace Evado.UniForm.AdminClient
 
           string fileName = this.UserSession.UserId + "_" + Path.GetFileName ( uploadedFileObject.FileName );
           fileName = fileName.Replace ( " ", "_" );
-          this.LogDebug ( "Uploaded file name: " + fileName );
-          this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
+          //this.LogDebug ( "Uploaded file name: " + fileName );
+          //this.LogDebug ( "length: " + uploadedFileObject.ContentLength );
 
           //
           // Retrieve the UniFORM field id.
@@ -1580,18 +1587,18 @@ namespace Evado.UniForm.AdminClient
           String stFieldId = requestFieldName;
           int index = stFieldId.LastIndexOf ( Evado.UniForm.Model.EuField.CONST_IMAGE_FIELD_SUFFIX );
           stFieldId = stFieldId.Substring ( 0, index );
-          this.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
+          //this.LogDebug ( "UniFORM FieldId: {0} Value: {1}", stFieldId, fileName );
 
           //
           // Update the image field value with the uploaded filename.
           //
           this.UserSession.AppData.SetFieldValue ( stFieldId, fileName );
 
-          this.LogDebug ( "UniFORM FieldId: " + stFieldId );
+          //this.LogDebug ( "UniFORM FieldId: " + stFieldId );
 
           string fullFilePath = Global.TempPath + fileName;
 
-          this.LogDebug ( "Image file path: " + fullFilePath );
+          //this.LogDebug ( "Image file path: " + fullFilePath );
 
           //
           // Save the file to disk.
@@ -1618,7 +1625,7 @@ namespace Evado.UniForm.AdminClient
       }
       // End catch.
 
-      this.LogMethodEnd ( "UploadPageImages" ); 
+      this.LogMethodEnd ( "UploadPageImages" );
 
       //
       // write out the debug log.
@@ -1630,13 +1637,61 @@ namespace Evado.UniForm.AdminClient
     // ==================================================================================
 
     /// <summary>
+    /// This method searches for image delete fields and set them appropriately.
+    /// </summary>
+    /// <param name="ReturnedFormFields">Name Value Collection</param>
+    // ---------------------------------------------------------------------------------
+    private void UpdateImageDeletion( )
+    {
+      this.LogMethod ( "UpdateImageDeletion" );
+      //
+      // initialise the methods variables and objects.
+      //
+      NameValueCollection ReturnedFormFields = Request.Form;
+      //this.LogDebug ( "ReturnedFormFields.Count: {0}.", ReturnedFormFields.Count );
+
+      //
+      // iterate through all groups and fields looking for image or binary field that have
+      // a delete field and pass the value back.
+      //
+      foreach ( EuGroup group in this.UserSession.AppData.Page.GroupList )
+      {
+        foreach ( EuField field in group.FieldList )
+        {
+          if ( field.Type != EvDataTypes.Image
+          && field.Type != EvDataTypes.Binary_File )
+          {
+            continue;
+          }
+
+          string deleteFieldid = String.Format ( "{0}{1}", field.FieldId, EuField.CONST_IMAGE_FIELD_DELETE_SUFFIX );
+
+          string deleteValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, deleteFieldid );
+
+          if ( deleteValue != null )
+          {
+            field.AddParameter ( EuField.DELETE_IMAGE_PARAMETER, deleteValue );
+          }
+        }
+      }
+      // 
+      // Initialise the methods variables.
+      // 
+      string stExtension = String.Empty;
+
+      this.LogMethodEnd ( "UpdateImageDeletion" );
+
+    }//END UpdateImageDeletion method
+
+    // ==================================================================================
+
+    /// <summary>
     /// This method searches through the page group fields to find a matching field..
     /// </summary>
     /// <param name="DataId">String: The html field Id.</param>
     /// <returns>Field object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuField GetField(
-      String DataId )
+    private EuField GetField( String DataId )
     {
       //
       // Iterate through the page groups and fields to find the matching field.
@@ -1736,24 +1791,34 @@ namespace Evado.UniForm.AdminClient
             {
               this.UserSession.PageCommand.AddParameter ( field.FieldId, field.Value );
 
-              string fieldId = field.FieldId + EuField.CONST_IMAGE_FIELD_TITLE;
-
-              string value = field.GetParameter ( fieldId );
-              if ( string.IsNullOrEmpty ( value ) == false )
+              //
+              // extract the image title if present.
+              //
+              if ( field.hasParameter ( EuField.CONST_IMAGE_FIELD_TITLE_SUFFIX ) == true )
               {
+                string fieldId = field.FieldId + EuField.CONST_IMAGE_FIELD_TITLE_SUFFIX;
+
+                string value = field.GetParameter ( fieldId );
+
                 this.UserSession.PageCommand.AddParameter ( fieldId, value );
 
                 this.LogDebug ( "Parameter Name: {0}, Value: {1}", fieldId, value );
               }
 
-              fieldId = field.FieldId + EuField.CONST_IMAGE_FIELD_DELETE;
-
-              value = field.GetParameter ( fieldId );
-              if ( string.IsNullOrEmpty ( value ) == false )
+              //
+              // extract the image delete field if present.
+              //
+              if ( field.hasParameter ( EuField.DELETE_IMAGE_PARAMETER ) == true )
               {
+                string fieldId = field.FieldId + EuField.CONST_IMAGE_FIELD_DELETE_SUFFIX;
+
+                string value = field.GetParameter ( EuField.DELETE_IMAGE_PARAMETER );
+
                 this.UserSession.PageCommand.AddParameter ( fieldId, value );
-                this.LogDebug ( "Parameter Name: {0}, Value: {1}", fieldId, value );
+
+                this.LogDebug ( "Delete Parameter Name: {0}, Value: {1}", fieldId, value );
               }
+
 
               break;
             }

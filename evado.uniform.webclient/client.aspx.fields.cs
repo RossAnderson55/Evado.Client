@@ -683,7 +683,7 @@ namespace Evado.UniForm.WebClient
         {
           sbHtml.AppendFormat ( "{4}<input type='text' id='{0}{1}' name='{0}{1}' value='{2}' "
             + " tabindex = '{3}' maxlength='100' size='100' class='form-control' />\r\n",
-            PageField.FieldId, EuField.CONST_IMAGE_FIELD_TITLE, title,
+            PageField.FieldId, EuField.CONST_IMAGE_FIELD_TITLE_SUFFIX, title,
             this._TabIndex, EuLabels.Image_Title_Field_Title );
         }
 
@@ -695,7 +695,7 @@ namespace Evado.UniForm.WebClient
            + "name='{0}{1}' "
            + "tabindex = '{2}'"
            + "value=\"Yes\" />\r\n",
-           PageField.FieldId, EuField.CONST_IMAGE_FIELD_DELETE,
+           PageField.FieldId, EuField.CONST_IMAGE_FIELD_DELETE_SUFFIX,
            this._TabIndex, EuLabels.Image_Delete_Field_Title );
         }
       }
