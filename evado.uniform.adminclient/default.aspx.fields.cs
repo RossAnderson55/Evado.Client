@@ -4615,9 +4615,14 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
+      bool displayPrompts = true;
       EvAddress address = new EvAddress ( PageField.Value );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-address-value cf' ";
 
+      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Format ) == true )
+      {
+        displayPrompts = PageField.GetParameterBoolean ( Evado.UniForm.Model.EuFieldParameters.Format );
+      }
       //
       // Ineert the field header
       //
@@ -4633,7 +4638,11 @@ namespace Evado.UniForm.AdminClient
       // Address 1 field
       //
       sbHtml.AppendLine ( "<div class='first' style='display: inline-block;'>" );
-      sbHtml.AppendLine ( "<span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span>" );
+      if ( displayPrompts == true )
+      {
+        sbHtml.AppendLine ( "<span style='width:100px'>" + EuLabels.Address_Field_Address_1_Label + "</span>" );
+      }
+
       sbHtml.AppendLine ( "<input type='text' "
        + "id='" + PageField.FieldId + "_Address1' "
        + "name='" + PageField.FieldId + "_Address1' "
@@ -4663,8 +4672,12 @@ namespace Evado.UniForm.AdminClient
       //
       // Address 2 field
       //
-      sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span><input type='text' "
-       + "id='" + PageField.FieldId + "_Address2' "
+      sbHtml.Append ( "<div style='display: inline-block;'>" );
+      if ( displayPrompts == true )
+      {
+        sbHtml.AppendLine ( "<span style='width:100px'>" + EuLabels.Address_Field_Address_2_Label + "</span> " );
+      }
+      sbHtml.Append ( "<input type='text' id='" + PageField.FieldId + "_Address2' "
        + "name='" + PageField.FieldId + "_Address2' "
        + "tabindex='" + _TabIndex + "' "
        + "value='" + address.Unit + "' "
@@ -4693,7 +4706,12 @@ namespace Evado.UniForm.AdminClient
       //
       // Suburb field
       //
-      sbHtml.AppendLine ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span><input type='text' "
+      sbHtml.AppendLine ( "<div style='display: inline-block;'> " );
+      if ( displayPrompts == true )
+      {
+        sbHtml.AppendLine ( "<span style='width:100px'>" + EuLabels.Address_Field_City_Label + "</span>" );
+      }
+      sbHtml.AppendLine ( "<input type='text' "
        + "id='" + PageField.FieldId + "_Suburb' "
        + "name='" + PageField.FieldId + "_Suburb' "
        + "tabindex='" + _TabIndex + "' "
@@ -4722,7 +4740,12 @@ namespace Evado.UniForm.AdminClient
       //
       // State field
       //
-      sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span><input type='text' "
+      sbHtml.AppendLine ( "<div style='display: inline-block;'>" );
+      if ( displayPrompts == true )
+      {
+        sbHtml.AppendLine ( "<span style='width:100px'>" + EuLabels.Address_Field_State_Label + "</span>" );
+      }
+      sbHtml.AppendLine ( "<input type='text' "
        + "id='" + PageField.FieldId + "_State' "
        + "name='" + PageField.FieldId + "_State' "
        + "tabindex='" + _TabIndex + "' "
@@ -4751,7 +4774,12 @@ namespace Evado.UniForm.AdminClient
       //
       //_PostCode field
       //
-      sbHtml.Append ( "<div style='display: inline-block;'><span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span><input type='text' "
+      sbHtml.AppendLine ( "<div style='display: inline-block;'>" );
+      if ( displayPrompts == true )
+      {
+        sbHtml.AppendLine ( "<span style='width:100px'>" + EuLabels.Address_Field_Post_Code_Label + "</span>" );
+      }
+      sbHtml.AppendLine ( "<input type='text' "
        + "id='" + PageField.FieldId + "_PostCode' "
        + "name='" + PageField.FieldId + "_PostCode' "
        + "tabindex='" + _TabIndex + "' "
@@ -4778,7 +4806,12 @@ namespace Evado.UniForm.AdminClient
       //
       // Country field
       //
-      sbHtml.AppendLine ( "<div class='last' style='display: inline-block;' ><span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span><input type='text' "
+      sbHtml.AppendLine ( "<div class='last' style='display: inline-block;' >" );
+      if ( displayPrompts == true )
+      {
+        sbHtml.AppendLine ( "<span style='width:100px'>" + EuLabels.Address_Field_Country_Label + "</span>" );
+      }
+      sbHtml.AppendLine ( "<input type='text' "
          + "id='" + PageField.FieldId + "_Country' "
          + "name='" + PageField.FieldId + "_Country' "
          + "tabindex='" + _TabIndex + "' "
