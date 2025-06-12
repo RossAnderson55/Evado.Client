@@ -1750,26 +1750,26 @@ namespace Evado.UniForm.AdminClient
         stYear = DateValue;
       }
 
-      List<EvOption> dayList = new List<EvOption> ( );
-      dayList.Add ( new Evado.Model.EvOption ( ) );
+      List<Evado.Model.EvItem> dayList = new List<Evado.Model.EvItem> ( );
+      dayList.Add ( new Evado.Model.EvItem ( ) );
 
       for ( int day = 1 ; day <= 31 ; day++ )
       {
-        dayList.Add ( new Evado.Model.EvOption ( day.ToString ( "00" ) ) );
+        dayList.Add ( new Evado.Model.EvItem ( day.ToString ( "00" ) ) );
       }
 
-      List<EvOption> monthList = Evado.Model.EvStatics.getStringAsOptionList (
+      List<Evado.Model.EvItem> monthList = Evado.Model.EvStatics.getStringAsOptionList (
         ":;JAN:" + EuLabels.Month_JAN + ";FEB:" + EuLabels.Month_FEB + ";MAR:" + EuLabels.Month_MAR
         + ";APR:" + EuLabels.Month_APR + ";MAY:" + EuLabels.Month_MAY + ";JUN:" + EuLabels.Month_JUN
         + ";JUL:" + EuLabels.Month_JUL + ";AUG:" + EuLabels.Month_AUG + ";SEP:" + EuLabels.Month_SEP
         + ";OCT:" + EuLabels.Month_OCT + ";NOV:" + EuLabels.Month_NOV + ";DEC:" + EuLabels.Month_DEC, true );
 
-      List<EvOption> yearList = new List<EvOption> ( );
-      yearList.Add ( new Evado.Model.EvOption ( ) );
+      List<Evado.Model.EvItem> yearList = new List<Evado.Model.EvItem> ( );
+      yearList.Add ( new Evado.Model.EvItem ( ) );
 
       for ( int yr = MaxYear ; yr >= MinYear ; yr-- )
       {
-        yearList.Add ( new Evado.Model.EvOption ( yr.ToString ( "0000" ) ) );
+        yearList.Add ( new Evado.Model.EvItem ( yr.ToString ( "0000" ) ) );
       }
 
       //
@@ -1796,7 +1796,7 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.AppendLine ( ">" );
 
-        foreach ( Evado.Model.EvOption option in dayList )
+        foreach ( Evado.Model.EvItem option in dayList )
         {
           sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
           if ( option.Value == stDay )
@@ -1833,7 +1833,7 @@ namespace Evado.UniForm.AdminClient
         sbHtml.AppendLine ( ">" );
         this._TabIndex++;
 
-        foreach ( Evado.Model.EvOption option in monthList )
+        foreach ( Evado.Model.EvItem option in monthList )
         {
           sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
           if ( option.Value == stMonth )
@@ -1869,7 +1869,7 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.AppendLine ( ">" );
 
-        foreach ( Evado.Model.EvOption option in yearList )
+        foreach ( Evado.Model.EvItem option in yearList )
         {
           sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
           if ( option.Value == stYear )
@@ -1882,7 +1882,9 @@ namespace Evado.UniForm.AdminClient
 
         this._TabIndex++;
       }
-
+      /*
+        sbHtml.AppendLine ( "<br/><span style='margin:10pt;'>" + Format + "</span>" );
+      */
       sbHtml.AppendLine ( "<input type='hidden' "
         + "id='" + FieldId + "' "
         + "name='" + FieldId + "' "
@@ -1936,17 +1938,17 @@ namespace Evado.UniForm.AdminClient
         stFormat = "HH : MM";
       }
 
-      List<Evado.Model.EvOption> hourList = new List<Evado.Model.EvOption> ( );
-      hourList.Add ( new Evado.Model.EvOption ( ) );
+      List<Evado.Model.EvItem> hourList = new List<Evado.Model.EvItem> ( );
+      hourList.Add ( new Evado.Model.EvItem ( ) );
 
       for ( int hr = 0 ; hr < 24 ; hr++ )
       {
-        hourList.Add ( new Evado.Model.EvOption ( hr.ToString ( "00" ) ) );
+        hourList.Add ( new Evado.Model.EvItem ( hr.ToString ( "00" ) ) );
       }
 
 
-      List<Evado.Model.EvOption> minuteList = new List<Evado.Model.EvOption> ( );
-      minuteList.Add ( new Evado.Model.EvOption ( ) );
+      List<Evado.Model.EvItem> minuteList = new List<Evado.Model.EvItem> ( );
+      minuteList.Add ( new Evado.Model.EvItem ( ) );
 
       //
       // set the time stamp to 5 minute intervals.
@@ -1961,14 +1963,14 @@ namespace Evado.UniForm.AdminClient
         for ( int increment = 0 ; increment < 12 ; increment++ )
         {
           int min = increment * 5;
-          minuteList.Add ( new Evado.Model.EvOption ( min.ToString ( "00" ) ) );
+          minuteList.Add ( new Evado.Model.EvItem ( min.ToString ( "00" ) ) );
         }
       }
       else
       {
         for ( int min = 0 ; min < 60 ; min++ )
         {
-          minuteList.Add ( new Evado.Model.EvOption ( min.ToString ( "00" ) ) );
+          minuteList.Add ( new Evado.Model.EvItem ( min.ToString ( "00" ) ) );
         }
       }
 
@@ -2020,7 +2022,7 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.AppendLine ( ">" );
 
-        foreach ( Evado.Model.EvOption option in hourList )
+        foreach ( Evado.Model.EvItem option in hourList )
         {
           sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
           if ( option.Value == stHour )
@@ -2056,7 +2058,7 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.AppendLine ( ">\r\n" );
 
-        foreach ( Evado.Model.EvOption option in minuteList )
+        foreach ( Evado.Model.EvItem option in minuteList )
         {
           sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
           if ( option.Value == stMinutes )
@@ -2094,7 +2096,7 @@ namespace Evado.UniForm.AdminClient
 
           sbHtml.AppendLine ( ">\r\n" );
 
-          foreach ( Evado.Model.EvOption option in minuteList )
+          foreach ( Evado.Model.EvItem option in minuteList )
           {
             sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
             if ( option.Value == stSeconds )
@@ -2108,11 +2110,12 @@ namespace Evado.UniForm.AdminClient
           this._TabIndex++;
 
         }
-
+        /*
         if ( PageField.EditAccess == true )
         {
           sbHtml.AppendLine ( "<br/><span style='margin:10pt;'>" + stFormat + "</span>" );
         }
+        */
 
         sbHtml.AppendLine ( "<input type='hidden' "
           + "id='" + PageField.FieldId + "' "
@@ -2211,7 +2214,7 @@ namespace Evado.UniForm.AdminClient
       // 
       for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
       {
-        Evado.Model.EvOption option = PageField.OptionList [ i ];
+        Evado.Model.EvItem option = PageField.OptionList [ i ];
         if ( option.Value == String.Empty )
         {
           continue;
@@ -2385,7 +2388,7 @@ namespace Evado.UniForm.AdminClient
         {
           for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
           {
-            Evado.Model.EvOption option = PageField.OptionList [ i ];
+            Evado.Model.EvItem option = PageField.OptionList [ i ];
             if ( option.Value == String.Empty )
             {
               continue;
@@ -2550,7 +2553,7 @@ namespace Evado.UniForm.AdminClient
       // 
       for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
       {
-        Evado.Model.EvOption option = PageField.OptionList [ i ];
+        Evado.Model.EvItem option = PageField.OptionList [ i ];
         if ( option.Value == String.Empty
           || option.Description == String.Empty )
         {
@@ -2976,7 +2979,7 @@ namespace Evado.UniForm.AdminClient
       //
       for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
       {
-        Evado.Model.EvOption option = PageField.OptionList [ i ];
+        Evado.Model.EvItem option = PageField.OptionList [ i ];
 
         this.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.hasValue ( PageField.Value ) );
 
@@ -3125,7 +3128,7 @@ namespace Evado.UniForm.AdminClient
       //
       for ( int i = 0 ; i < PageField.OptionList.Count ; i++ )
       {
-        Evado.Model.EvOption option = PageField.OptionList [ i ];
+        Evado.Model.EvItem option = PageField.OptionList [ i ];
         /*
          * Generate the option html
          */
@@ -3802,7 +3805,7 @@ namespace Evado.UniForm.AdminClient
               else
               {
                 sbHtml.Append ( "<td class='data'>" );
-                List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
+                List<Evado.Model.EvItem> optionList = PageField.Table.Header [ column ].OptionList;
 
                 // 
                 // Iterate through the stOptions.
@@ -3900,7 +3903,7 @@ namespace Evado.UniForm.AdminClient
               else
               {
                 sbHtml.Append ( "<td class='data'>" );
-                List<Evado.Model.EvOption> optionList = PageField.Table.Header [ column ].OptionList;
+                List<Evado.Model.EvItem> optionList = PageField.Table.Header [ column ].OptionList;
 
                 /*
                  * Create the selectionlist HTML
@@ -3943,7 +3946,7 @@ namespace Evado.UniForm.AdminClient
                     //
                     // Generate the option html
                     //
-                    sbHtml.Append ( " <option value=\"" + optionList [ i ].Value + "\" " );
+                    sbHtml.AppendFormat ( " <option value=\"{0}\" ", optionList [ i ].Value );
 
                     if ( optionList [ i ].Value == colValue )
                     {
