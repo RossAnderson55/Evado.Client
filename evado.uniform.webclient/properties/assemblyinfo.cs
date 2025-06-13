@@ -1,7 +1,7 @@
 /***************************************************************************************
  * <copyright file="webclinical\AssemblyInfo.cs" company="Evado UnIFORM">
  *     
- *      Copyright (c) 2011 - 2024 Evado  All rights reserved.
+ *      Copyright (c) 2011 - 2025 Evado  All rights reserved.
  *     
  *      The use and distribution terms for this software are contained in the file
  *      named license.txt, which can be found in the root of this distribution.
@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration ( "" )]
 [assembly: AssemblyCompany ( "Evado Holdings Pty. Ltd." )]
 [assembly: AssemblyProduct ( "Evado UnIFORM Web Client" )]
-[assembly: AssemblyCopyright ( "(c) Evado Holdings Pty. Ltd. 2011 - 2024 All rights reserved" )]
+[assembly: AssemblyCopyright ( "(c) Evado Holdings Pty. Ltd. 2011 - 2025 All rights reserved" )]
 [assembly: AssemblyTrademark( "UniFORM" )]
 [assembly: AssemblyCulture ( "en-AU" )]
 
