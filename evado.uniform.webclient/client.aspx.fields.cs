@@ -2255,7 +2255,7 @@ namespace Evado.UniForm.WebClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( option.hasValue ( PageField.Value ) == true )
+        if ( option.containsValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -2422,7 +2422,7 @@ namespace Evado.UniForm.WebClient
               //sbHtml.Append ( " required " );
             }
 
-            if ( option.hasValue ( PageField.Value ) == true )
+            if ( option.containsValue ( PageField.Value ) == true )
             {
               sbHtml.Append ( " checked='checked' " );
             }
@@ -2583,7 +2583,7 @@ namespace Evado.UniForm.WebClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( option.hasValue ( PageField.Value ) == true )
+        if ( option.containsValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -2978,7 +2978,7 @@ namespace Evado.UniForm.WebClient
       {
         Evado.Model.EvItem option = PageField.OptionList [ i ];
 
-        this.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.hasValue ( PageField.Value ) );
+        this.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.containsValue ( PageField.Value ) );
 
         int count = i + 1;
 
@@ -2993,7 +2993,7 @@ namespace Evado.UniForm.WebClient
          + "value='" + option.Value + "' " ); // + "style='visibility: hidden;' " );
 
 
-        if ( option.hasValue ( PageField.Value ) == true )
+        if ( option.containsValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -3131,7 +3131,7 @@ namespace Evado.UniForm.WebClient
          */
         sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
 
-        if ( option.hasValue ( PageField.Value ) == true )
+        if ( option.containsValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " selected='selected' " );
         }

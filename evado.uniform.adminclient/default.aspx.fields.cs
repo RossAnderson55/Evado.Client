@@ -1110,8 +1110,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createNumericRangeField(
-      StringBuilder sbHtml, EuField PageField )
+    private void createNumericRangeField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createNumericRangeField" );
       this.LogDebug ( "Field.Type: " + PageField.Type );
@@ -1312,8 +1311,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createDateField(
-      StringBuilder sbHtml, EuField PageField )
+    private void createDateField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createDateField" );
       //
@@ -1582,8 +1580,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createDateRangeField(
-      StringBuilder sbHtml, EuField PageField )
+    private void createDateRangeField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createDateRangeField" );
       this.LogDebug ( "Field.Type: " + PageField.Type );
@@ -1901,9 +1898,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createTimeField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createTimeField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createTimeField" );
       //
@@ -2147,9 +2142,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createRadioButtonField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createRadioButtonField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createRadioButtonField" );
       this.LogDebug ( "PageField.Value: " + PageField.Value );
@@ -2258,7 +2251,7 @@ namespace Evado.UniForm.AdminClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( option.hasValue ( PageField.Value ) == true )
+        if ( option.containsValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -2344,9 +2337,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createQuizRadioButtonField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createQuizRadioButtonField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createQuizRadioButtonField" );
       this.LogDebug ( "PageField.Value: " + PageField.Value );
@@ -2425,7 +2416,7 @@ namespace Evado.UniForm.AdminClient
               //sbHtml.Append ( " required " );
             }
 
-            if ( option.hasValue ( PageField.Value ) == true )
+            if ( option.containsValue ( PageField.Value ) == true )
             {
               sbHtml.Append ( " checked='checked' " );
             }
@@ -2508,9 +2499,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="PageField">Field object.</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void createHorizontalRadioButtonField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createHorizontalRadioButtonField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createHorizontalRadioButtonField" );
       //
@@ -2586,7 +2575,7 @@ namespace Evado.UniForm.AdminClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( option.hasValue ( PageField.Value ) == true )
+        if ( option.containsValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -2666,9 +2655,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createYesNoField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createYesNoField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createYesNoField" );
       //
@@ -2824,9 +2811,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createBooleanField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createBooleanField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createBooleanField" );
       //
@@ -2917,11 +2902,10 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createCheckboxField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createCheckboxField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createCheckboxField" );
+      this.LogDebug ( "PageField.Value: {0}.", PageField.Value );
       //
       // Initialise the methods variables and objects.
       //
@@ -2973,7 +2957,6 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "<div>" );
 
 
-      this.LogDebug ( "PageField.Value: {0}.", PageField.Value );
       //
       // Generate the html code 
       //
@@ -2981,7 +2964,7 @@ namespace Evado.UniForm.AdminClient
       {
         Evado.Model.EvItem option = PageField.OptionList [ i ];
 
-        this.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.hasValue ( PageField.Value ) );
+        this.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.containsValue ( PageField.Value ) );
 
         int count = i + 1;
 
@@ -2996,7 +2979,7 @@ namespace Evado.UniForm.AdminClient
          + "value='" + option.Value + "' " ); // + "style='visibility: hidden;' " );
 
 
-        if ( option.hasValue ( PageField.Value ) == true )
+        if ( option.containsValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -3134,7 +3117,7 @@ namespace Evado.UniForm.AdminClient
          */
         sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
 
-        if ( option.hasValue ( PageField.Value ) == true )
+        if ( option.containsValue ( PageField.Value ) == true )
         {
           sbHtml.Append ( " selected='selected' " );
         }
