@@ -879,7 +879,6 @@ namespace Evado.UniForm.WebClient
       this.createFieldFooter ( sbHtml, PageField );
 
     }//END Field Method
-
     // ===================================================================================
     /// <summary>
     /// This method creates a free test field html markup
@@ -887,8 +886,7 @@ namespace Evado.UniForm.WebClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createFreeTextField(
-      StringBuilder sbHtml, EuField PageField )
+    private void createFreeTextField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createFreeTextField" );
       //
@@ -935,24 +933,37 @@ namespace Evado.UniForm.WebClient
       //
       sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
       sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "'>" );
-      sbHtml.AppendLine ( "<textarea "
-        + "id='" + PageField.FieldId + "' "
-        + "name='" + PageField.FieldId + "' "
-        + "tabindex = '" + _TabIndex + "' "
-        + "rows='" + height + "' "
-        + "cols='" + width + "' "
-        + "maxlength='" + maxLength + "' "
-        + "class='form-control' " + fieldMarginStyle + "  "
-        + stValidationMethod + " data-parsley-trigger=\"change\" " );
 
-      if ( PageField.EditAccess == false )
+      if ( PageField.EditAccess == true )
       {
-        sbHtml.Append ( " disabled='disabled' " );
-      }
+        sbHtml.AppendLine ( "<textarea "
+          + "id='" + PageField.FieldId + "' "
+          + "name='" + PageField.FieldId + "' "
+          + "tabindex = '" + _TabIndex + "' "
+          + "rows='" + height + "' "
+          + "cols='" + width + "' "
+          + "maxlength='" + maxLength + "' "
+          + "class='form-control' " + fieldMarginStyle + "  "
+          + stValidationMethod + " data-parsley-trigger=\"change\" " );
 
-      sbHtml.AppendLine ( ">"
-      + PageField.Value
-      + "</textarea>" );
+        if ( PageField.EditAccess == false
+          && PageField.hasParameter ( EuFieldParameters.FreeText_MarkDown ) == true )
+        {
+          sbHtml.Append ( " disabled='disabled' " );
+        }
+
+        sbHtml.AppendLine ( ">"
+        + PageField.Value
+        + "</textarea>" );
+      }
+      else
+      {
+        this.LogDebug ( "Processing markup" );
+        String html = Evado.Model.EvStatics.EncodeMarkDown ( PageField.Value );
+        this.LogDebug ( "HTML: decoded value" + html );
+
+        sbHtml.AppendLine ( html );
+      }
       sbHtml.AppendLine ( "</div>" );
       sbHtml.AppendLine ( "</div>" );
 
