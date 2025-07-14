@@ -443,7 +443,7 @@ namespace Evado.UniForm.AdminClient
         stHeight = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Height );
       }
 
-      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%; padding-top:10px; ' class='cell value cell-display-text-title' ";
+      String stFieldValueStyling = String.Format( "style='width:{0}%; padding-top:10px; ' class='cell value cell-display-text-title' ", valueColumnWidth );
       bool fullWidth = false;
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
@@ -897,11 +897,14 @@ namespace Evado.UniForm.AdminClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-textarea-value cf' ";
+      String stFieldReadonlyStyling = String.Format ( "style='width:{0}%; padding-top:10px; ' class='cell value cell-display-text-title' ", valueColumnWidth );
       string stValidationMethod = " onchange=\"Evado.Form.onTextChange( this, this.value )\" ";
+
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         stFieldValueStyling = "style='width:100%' class='cell value cell-input-text-value cf' ";
+        stFieldReadonlyStyling = "style='width:100%' class='cell cell-display-text-value cf' ";
         fieldMarginStyle = "style='margin-left:auto; margin-right:auto;'";
       }
 
@@ -932,11 +935,11 @@ namespace Evado.UniForm.AdminClient
       //
       // Insert the field elements
       //
-      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
-      sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "'>" );
 
       if ( PageField.EditAccess == true )
       {
+        sbHtml.AppendFormat ( "<div {0} > ", stFieldValueStyling );
+        sbHtml.AppendFormat ( "<div id='sp{0}'>", PageField.Id );
         sbHtml.AppendLine ( "<textarea "
           + "id='" + PageField.FieldId + "' "
           + "name='" + PageField.FieldId + "' "
@@ -956,17 +959,19 @@ namespace Evado.UniForm.AdminClient
         sbHtml.AppendLine ( ">"
         + PageField.Value
         + "</textarea>" );
+        sbHtml.AppendLine ( "</div>" );
+        sbHtml.AppendLine ( "</div>" );
       }
       else
       {
+        sbHtml.AppendFormat ( "<div {0} > ", stFieldReadonlyStyling );
         this.LogDebug ( "Processing markup" );
         String html = Evado.Model.EvStatics.EncodeMarkDown ( PageField.Value );
         this.LogDebug ( "HTML: decoded value" + html );
 
         sbHtml.AppendLine ( html );
+        sbHtml.AppendLine ( "</div>" );
       }
-      sbHtml.AppendLine ( "</div>" );
-      sbHtml.AppendLine ( "</div>" );
 
       this._TabIndex += 2;
 
