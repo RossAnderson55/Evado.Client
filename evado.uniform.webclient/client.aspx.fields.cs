@@ -895,12 +895,14 @@ namespace Evado.UniForm.WebClient
       String fieldMarginStyle = String.Empty;
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-textarea-value cf' ";
+      String stFieldValueStyling = String.Format ( "style='width:{0}%;' class='cell value cell-textarea-value cf' ", valueColumnWidth );
+      String stFieldReadonlyStyling = String.Format ( "style='width:{0}%; padding-top:10px; ' class='cell value cell-display-text-title' ", valueColumnWidth );
       string stValidationMethod = " onchange=\"Evado.Form.onTextChange( this, this.value )\" ";
 
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         stFieldValueStyling = "style='width:100%' class='cell value cell-input-text-value cf' ";
+        stFieldReadonlyStyling = "style='width:100%' class='cell cell-display-text-value cf' ";
         fieldMarginStyle = "style='margin-left:auto; margin-right:auto;'";
       }
 
@@ -929,41 +931,50 @@ namespace Evado.UniForm.WebClient
       this.createFieldHeader ( sbHtml, PageField, titleColumnWidth, false );
 
       //
-      // Insert the field elements
+      // Insert the field elements to display markdown text when readonly.
       //
-      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
-      sbHtml.AppendLine ( "<div id='sp" + PageField.Id + "'>" );
-
-      if ( PageField.EditAccess == true )
+      if ( PageField.EditAccess == false
+        && PageField.FreeTextMarkDown == true )
       {
-        sbHtml.AppendLine ( "<textarea "
-          + "id='" + PageField.FieldId + "' "
-          + "name='" + PageField.FieldId + "' "
-          + "tabindex = '" + _TabIndex + "' "
-          + "rows='" + height + "' "
-          + "cols='" + width + "' "
-          + "maxlength='" + maxLength + "' "
-          + "class='form-control' " + fieldMarginStyle + "  "
-          + stValidationMethod + " data-parsley-trigger=\"change\" " );
-
-        if ( PageField.EditAccess == false
-          && PageField.hasParameter ( EuFieldParameters.FreeText_MarkDown ) == true )
-        {
-          sbHtml.Append ( " disabled='disabled' " );
-        }
-
-        sbHtml.AppendLine ( ">"
-        + PageField.Value
-        + "</textarea>" );
-      }
-      else
-      {
+        sbHtml.AppendFormat ( "<div {0} > ", stFieldReadonlyStyling );
         this.LogDebug ( "Processing markup" );
         String html = Evado.Model.EvStatics.EncodeMarkDown ( PageField.Value );
         this.LogDebug ( "HTML: decoded value" + html );
 
         sbHtml.AppendLine ( html );
+        sbHtml.AppendLine ( "</div>" );
+
+        //
+        // Insert the field footer elemements
+        //
+        this.createFieldFooter ( sbHtml, PageField );
+
+        return;
       }
+
+      //
+      // display the text area control to for the free text content.
+      //
+      sbHtml.AppendFormat ( "<div {0} > ", stFieldValueStyling );
+      sbHtml.AppendFormat ( "<div id='sp{0}'>", PageField.Id );
+      sbHtml.AppendLine ( "<textarea "
+        + "id='" + PageField.FieldId + "' "
+        + "name='" + PageField.FieldId + "' "
+        + "tabindex = '" + _TabIndex + "' "
+        + "rows='" + height + "' "
+        + "cols='" + width + "' "
+        + "maxlength='" + maxLength + "' "
+        + "class='form-control' " + fieldMarginStyle + "  "
+        + stValidationMethod + " data-parsley-trigger=\"change\" " );
+
+      if ( PageField.EditAccess == false )
+      {
+        sbHtml.Append ( " disabled='disabled' " );
+      }
+
+      sbHtml.AppendLine ( ">"
+      + PageField.Value
+      + "</textarea>" );
       sbHtml.AppendLine ( "</div>" );
       sbHtml.AppendLine ( "</div>" );
 
