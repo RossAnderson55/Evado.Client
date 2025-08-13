@@ -1933,7 +1933,33 @@ namespace Evado.UniForm.AdminClient
       String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-date-value ' "; //cf
       String stFormat = "HH : MM : SS";
-      String time = PageField.Value;
+
+      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Format ) )
+      {
+        string value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Format );
+        value = value.ToLower ( );
+
+        if ( value.Length <= 5 )
+        {
+          String format = String.Empty;
+
+          if ( value.Contains ( "hh" ) == true )
+          {
+            format = "HH";
+          }
+          if ( value.Contains ( "mm" ) == true )
+          {
+            if ( format != String.Empty )
+            {
+              format += " : ";
+            }
+            format += " MM";
+          }
+          stFormat = format;
+        }
+      }
+
+        String time = PageField.Value;
       int timeElements = 2;
       String stHour = "12";
       String stMinutes = "00";

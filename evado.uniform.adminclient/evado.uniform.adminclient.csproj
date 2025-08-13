@@ -114,13 +114,6 @@
       <DependentUpon>global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\assemblyinfo.cs" />
-    <Compile Include="error.aspx.cs">
-      <DependentUpon>error.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="error.aspx.designer.cs">
-      <DependentUpon>error.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\bootstrap-datetimepicker.min.css" />
@@ -151,7 +144,6 @@
     <Content Include="js\Evado.Form.js" />
     <Content Include="js\jquery-1.11.0.min.js" />
     <Content Include="js\moment.min.js" />
-    <Content Include="error.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\25grad.png" />

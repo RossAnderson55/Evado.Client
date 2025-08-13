@@ -741,7 +741,8 @@ namespace Evado.UniForm.AdminClient
       {
         case Model.EuFieldValueWidths.Forty_Percent:
         case Model.EuFieldValueWidths.Fifty_Percent:
-        {
+        case Model.EuFieldValueWidths.Eighty_Percent:
+          {
           this.UserSession.GroupFieldWidth = ( int ) this.UserSession.CurrentGroup.FieldValueColumnWidth;
           break;
         }
@@ -750,7 +751,7 @@ namespace Evado.UniForm.AdminClient
           break;
         }
       }
-      this.LogDebug ( "GroupFieldWidth: " + this.UserSession.GroupFieldWidth );
+      this.LogDebug ( "GroupFieldWidth: {0}.", this.UserSession.GroupFieldWidth );
 
       //
       // Set the edit access.

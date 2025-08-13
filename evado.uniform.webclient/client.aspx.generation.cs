@@ -726,7 +726,8 @@ namespace Evado.UniForm.WebClient
       {
         case Model.EuFieldValueWidths.Forty_Percent:
         case Model.EuFieldValueWidths.Fifty_Percent:
-        {
+        case Model.EuFieldValueWidths.Eighty_Percent:
+          {
           this.UserSession.GroupFieldWidth = ( int ) this.UserSession.CurrentGroup.FieldValueColumnWidth;
           break;
         }
