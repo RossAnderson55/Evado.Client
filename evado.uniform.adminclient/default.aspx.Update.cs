@@ -1078,14 +1078,6 @@ namespace Evado.UniForm.AdminClient
                 break;
               }
 
-              //
-              // a null returned value indicates a false selection for the checkbox selection.
-              //
-              if ( value == null )
-              {
-                value = "false";
-              }
-
               this.LogDebug ( "Boolean: Title: {0}, DataType: {1}, value: {2}.",
                 FormField.Table.Header [ colIndex ].Text, FormField.Table.Header [ colIndex ].DataType, value );
 

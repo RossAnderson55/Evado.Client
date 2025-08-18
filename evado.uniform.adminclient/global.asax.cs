@@ -1170,6 +1170,7 @@ namespace Evado.UniForm.AdminClient
 
       Evado.Model.EvStatics.Files.saveFile ( Global.LogFilePath + logFileName, stContent );
 
+
     }//END writeOutDebugLog method
 
     #endregion
