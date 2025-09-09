@@ -16,7 +16,7 @@ using Microsoft.SqlServer.Server;
 using System.IO;
 using System.Drawing;
 
-namespace Evado.UniForm.AdminClient
+namespace Evado.UniForm.WebClient
 {
   /// <summary>
   /// This is the code behind class for the home page.

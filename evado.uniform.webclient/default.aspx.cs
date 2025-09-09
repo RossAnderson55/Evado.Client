@@ -33,7 +33,7 @@ using Evado.UniForm.Web;
 using Evado.UniForm.Model;
 using Evado.Model;
 
-namespace Evado.UniForm.AdminClient
+namespace Evado.UniForm.WebClient
 {
   /// <summary>
   /// This is the code behind class for the home page.

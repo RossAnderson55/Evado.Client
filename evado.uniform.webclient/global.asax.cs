@@ -27,7 +27,7 @@ using Evado.Model;
 
 //Evado..Cms. namespace references.
 
-namespace Evado.UniForm.AdminClient
+namespace Evado.UniForm.WebClient
 {
   public partial class Global : System.Web.HttpApplication
   {
@@ -51,7 +51,7 @@ namespace Evado.UniForm.AdminClient
     /// <summary>
     /// THis object contains the assembly attributes.
     /// </summary>
-    public static Evado.UniForm.AdminClient.WebAttributes AssemblyAttributes = new Evado.UniForm.AdminClient.WebAttributes ( );
+    public static Evado.UniForm.WebClient.WebAttributes AssemblyAttributes = new Evado.UniForm.WebClient.WebAttributes ( );
 
     /// <summary>
     /// This object contains the current Authenication Mode 
@@ -219,7 +219,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="e"></param>
     protected void Application_OnStart( Object sender, EventArgs e )
     {
-      Global.WriteToEventLog ( "System", "Evado.UniForm.AdminClient.Application_OnStart event method",
+      Global.WriteToEventLog ( "System", "Evado.UniForm.WebClient.Application_OnStart event method",
        System.Diagnostics.EventLogEntryType.Information );
 
       try
@@ -244,7 +244,7 @@ namespace Evado.UniForm.AdminClient
         //
         // Load the Application Environmental parameters for the application.
         //
-        AssemblyAttributes = new Evado.UniForm.AdminClient.WebAttributes ( );
+        AssemblyAttributes = new Evado.UniForm.WebClient.WebAttributes ( );
 
         Global.TempPath = Global.ApplicationPath + @"temp\";
 
@@ -253,7 +253,7 @@ namespace Evado.UniForm.AdminClient
         //
         // Load the Application Environmental parameters for the application.
         //
-        AssemblyAttributes = new Evado.UniForm.AdminClient.WebAttributes ( );
+        AssemblyAttributes = new Evado.UniForm.WebClient.WebAttributes ( );
 
         // 
         // Initialise the method variables and objects.
@@ -315,7 +315,7 @@ namespace Evado.UniForm.AdminClient
     private void LoadConfigurationValues( )
     {
       Global.GlobalMethod ( "LoadConfigurationValues" );
-      Global.WriteToEventLog ( "System", "Evado.UniForm.AdminClient.LoadConfigurationValues method",
+      Global.WriteToEventLog ( "System", "Evado.UniForm.WebClient.LoadConfigurationValues method",
        System.Diagnostics.EventLogEntryType.Information );
 
       if ( ConfigurationManager.AppSettings [ Evado.Model.EvStatics.CONFIG_CHAT_JS_URL ] != null )
@@ -538,7 +538,7 @@ namespace Evado.UniForm.AdminClient
     // -----------------------------------------------------------------------------------
     private void LoadExternalCommands( )
     {
-      Global.WriteToEventLog ( "System", "Evado.UniForm.AdminClient.LoadExternalCommands method",
+      Global.WriteToEventLog ( "System", "Evado.UniForm.WebClient.LoadExternalCommands method",
        System.Diagnostics.EventLogEntryType.Information );
       Global.GlobalMethod ( "LoadExternalCommands" );
       Global.GlobalValue ( "Static Data File Path '{0}'.", Global.StaticDataFilePath );
@@ -642,7 +642,7 @@ namespace Evado.UniForm.AdminClient
         Global.GlobalMethodEnd ( "Session_Start" );
 
         Global.WriteToEventLog ( stUserId,
-          "Evado.UniForm.AdminClient.Session_Start event method.",
+          "Evado.UniForm.WebClient.Session_Start event method.",
          System.Diagnostics.EventLogEntryType.Information );
       }
       catch ( Exception Ex )
@@ -665,7 +665,7 @@ namespace Evado.UniForm.AdminClient
     protected void Application_BeginRequest( Object sender, EventArgs e )
     {
       Global.WriteToEventLog ( "System",
-        "Evado.UniForm.AdminClient.Application_BeginRequest event method.",
+        "Evado.UniForm.WebClient.Application_BeginRequest event method.",
        System.Diagnostics.EventLogEntryType.Information );
 
     }
@@ -678,7 +678,7 @@ namespace Evado.UniForm.AdminClient
     protected void Application_EndRequest( Object sender, EventArgs e )
     {
       Global.WriteToEventLog ( "System",
-        "Evado.UniForm.AdminClient.Application_EndRequest event method.",
+        "Evado.UniForm.WebClient.Application_EndRequest event method.",
        System.Diagnostics.EventLogEntryType.Information );
     }
 
@@ -713,7 +713,7 @@ namespace Evado.UniForm.AdminClient
     protected void Application_End( Object sender, EventArgs e )
     {
       Global.WriteToEventLog ( "System",
-        "Evado.UniForm.AdminClient.Application_End event method.",
+        "Evado.UniForm.WebClient.Application_End event method.",
        System.Diagnostics.EventLogEntryType.Information );
     }
     #endregion

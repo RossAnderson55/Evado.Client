@@ -8,7 +8,7 @@ using System.Web.UI.MobileControls.Adapters;
 
 using Evado.UniForm.Web;
 
-namespace Evado.UniForm.AdminClient
+namespace Evado.UniForm.WebClient
 {
   /// <summary>
   /// This is the code behind class for the home page.
@@ -34,7 +34,7 @@ namespace Evado.UniForm.AdminClient
     private void GeneratePage( )
     {
       Global.WriteToEventLog ( this.User.Identity.Name,
-        "Evado.UniForm.AdminClient.DefaultPage.GeneratePage method",
+        "Evado.UniForm.WebClient.DefaultPage.GeneratePage method",
        System.Diagnostics.EventLogEntryType.Information );
 
       this.LogMethod ( "GeneratePage" );

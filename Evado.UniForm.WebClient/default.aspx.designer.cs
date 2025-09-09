@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Evado.UniForm.AdminClient
+namespace Evado.UniForm.WebClient
 {
 
 

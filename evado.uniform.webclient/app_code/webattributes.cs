@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace Evado.UniForm.AdminClient
+namespace Evado.UniForm.WebClient
 {
   /// <summary>
   /// Summary description for WebAttributes.

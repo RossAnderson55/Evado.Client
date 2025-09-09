@@ -31,7 +31,7 @@ using Evado.UniForm.Model;
 using Evado.Model;
 using Newtonsoft.Json.Linq;
 
-namespace Evado.UniForm.AdminClient
+namespace Evado.UniForm.WebClient
 {
   /// <summary>
   /// This is the code behind class for the home page.
@@ -234,7 +234,7 @@ namespace Evado.UniForm.AdminClient
     // ---------------------------------------------------------------------------------
     private int GetAnnotationIndex( String Key )
     {
-      //this.writeDebug = "<hr/>Evado.UniForm.AdminClient.DefaultPage.getAnnotationIndex method.  Key: " + Key
+      //this.writeDebug = "<hr/>Evado.UniForm.WebClient.DefaultPage.getAnnotationIndex method.  Key: " + Key
       //  + " AnnotationList count: " + this.UserSession.FieldAnnotationList.Count ;
       //
       // Iterate through the annotation list to find a matching element

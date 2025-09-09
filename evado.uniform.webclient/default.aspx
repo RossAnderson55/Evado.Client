@@ -1,5 +1,5 @@
 <%@ Page Language="c#" Debug="true" ValidateRequest="false" EnableEventValidation="false"
-  Inherits="Evado.UniForm.AdminClient.DefaultPage" CodeBehind="default.aspx.cs" %>
+  Inherits="Evado.UniForm.WebClient.DefaultPage" CodeBehind="default.aspx.cs" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
