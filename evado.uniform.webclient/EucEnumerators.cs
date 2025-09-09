@@ -25,7 +25,7 @@ using System.Net;
 
 //Evado. namespace references.
 
-namespace Evado.UniForm.WebClient
+namespace Evado.UniForm.AdminClient
 {
 
   public enum EucAuthenticationStates

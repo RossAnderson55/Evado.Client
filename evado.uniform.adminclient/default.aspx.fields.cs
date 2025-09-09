@@ -619,7 +619,7 @@ namespace Evado.UniForm.AdminClient
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
       string stImageUrl = PageField.Value;
-      int iWidth = 400;
+      int iWidth = 0;
       this.TestFileUpload.Visible = true;
       bool fullWidth = false;
 
@@ -670,8 +670,15 @@ namespace Evado.UniForm.AdminClient
 
         sbHtml.AppendFormat ( "<a href='{0}' target='_blank' > \r\n", stImageUrl );
 
-        sbHtml.AppendFormat ( "<img alt='Image {1}' src='{0}' width='{2}'/></a>",
-          stImageUrl, PageField.Value, iWidth );
+        if ( iWidth > 0 )
+        {
+          sbHtml.AppendFormat ( "<img alt='Image {1}' src='{0}' width='{2}'/></a>",
+            stImageUrl, PageField.Value, iWidth );
+        }
+        else {
+          sbHtml.AppendFormat ( "<img alt='Image {1}' src='{0}'/></a>",
+            stImageUrl, PageField.Value );
+        }
       }
 
       if ( PageField.EditAccess == true )

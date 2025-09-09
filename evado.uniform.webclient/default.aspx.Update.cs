@@ -22,30 +22,23 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Web;
-using System.Web.Security;
 using System.IO;
-using System.Text;
-using System.Net.Http;
 
 ///Evado. namespace references.
 
 using Evado.UniForm.Web;
 using Evado.UniForm.Model;
-using System.ComponentModel.Design;
-using System.Web.UI.MobileControls;
-using System.Web.UI.WebControls;
 using Evado.Model;
-using System.Reflection;
 using Newtonsoft.Json.Linq;
-using System.Drawing;
 
-namespace Evado.UniForm.WebClient
+namespace Evado.UniForm.AdminClient
 {
   /// <summary>
   /// This is the code behind class for the home page.
   /// </summary>
-  public partial class ClientPage : EvPersistentPageState
+  public partial class DefaultPage : EvPersistentPageState
   {
+
     #region  update page methods
 
     // ==================================================================================
@@ -53,9 +46,9 @@ namespace Evado.UniForm.WebClient
     /// This method updates the  application data with the form field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void GetPageCommandParameters( )
+    private void GetCommandParameters( )
     {
-      this.LogMethod ( "getPageCommandParameters" );
+      this.LogMethod ( "GetPageCommandParameters" );
       //
       // If the Command method is to upate the page then update the data object with 
       // Page field values.
@@ -64,10 +57,11 @@ namespace Evado.UniForm.WebClient
         && this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Delete_Object
         && this.UserSession.PageCommand.Method != Evado.UniForm.Model.EuMethods.Custom_Method )
       {
+        this.LogMethodEnd ( "getPageCommandParameters" );
         return;
       }
 
-      this.LogDebug ( "Updating command parameters. " );
+      //this.LogDebug ( "Updating command parameters. " );
 
       //
       // Upload the page images.
@@ -145,6 +139,8 @@ namespace Evado.UniForm.WebClient
 
       }//END the iteration loop.
 
+
+      EvStatics.Files.saveJsonFile<EuPage> ( Global.TempPath, "UpdatedAppDatPage.json", this.UserSession.AppData.Page );
       this.LogMethodEnd ( "getPageDataValues" );
 
     }//END getPageDataValues method
@@ -175,7 +171,7 @@ namespace Evado.UniForm.WebClient
       // 
       for ( int loop1 = 0 ; loop1 < aKeys.Length ; loop1++ )
       {
-        EucKeyValuePair keyPair = new EucKeyValuePair ( );
+        EuKeyValuePair keyPair = new EuKeyValuePair ( );
         //
         // Skip all non annotation and returned field values.
         //
@@ -220,7 +216,7 @@ namespace Evado.UniForm.WebClient
 
       for ( int count = 0 ; count < this.UserSession.FieldAnnotationList.Count ; count++ )
       {
-        EucKeyValuePair keyPair = this.UserSession.FieldAnnotationList [ count ];
+        EuKeyValuePair keyPair = this.UserSession.FieldAnnotationList [ count ];
 
         this.LogDebug ( "Key: " + keyPair.Key + " >> " + keyPair.Value );
       }
@@ -248,7 +244,7 @@ namespace Evado.UniForm.WebClient
         //
         // Get annotation.
         //
-        EucKeyValuePair annotation = this.UserSession.FieldAnnotationList [ i ];
+        EuKeyValuePair annotation = this.UserSession.FieldAnnotationList [ i ];
         // this.writeDebug = "[0]" + annotation [ 0 ];
 
         //
@@ -282,15 +278,12 @@ namespace Evado.UniForm.WebClient
     /// <returns>Returns a Field object.</returns>
     // ---------------------------------------------------------------------------------
     private Evado.UniForm.Model.EuField UpdateFormField(
-      Evado.UniForm.Model.EuField FormField,
+       EuField FormField,
       NameValueCollection ReturnedFormFields,
-      bool GroupStatus )
+       bool GroupStatus )
     {
       this.LogMethod ( "updateFormField" );
-      this.LogDebug ( "FormField.DataId: " + FormField.FieldId );
-      this.LogDebug ( "FormField.DataType: " + FormField.Type );
-      this.LogDebug ( "FormField.Status: " + FormField.EditAccess );
-      this.LogDebug ( "GroupStatus: " + GroupStatus );
+      this.LogDebug ( "FormField.DataId: {0}, FormField.DataType: {1}, FormField.Status:  {2} ", FormField.FieldId, FormField.Type, FormField.EditAccess );
 
       // 
       // Initialise methods variables and objects.
@@ -303,10 +296,9 @@ namespace Evado.UniForm.WebClient
       //
       // If a binary or image file return it without processing.
       //
-      if ( FormField.Type == Evado.Model.EvDataTypes.Binary_File
-        || FormField.Type == Evado.Model.EvDataTypes.Image )
+      if ( FormField.Type == Evado.Model.EvDataTypes.Binary_File )
       {
-        this.LogDebug ( "Binary or Image field found but not processed" );
+        //this.LogDebug ( "Binary field found but not processed" );
         this.LogMethodEnd ( "updateFormField" );
         return FormField;
       }
@@ -318,9 +310,8 @@ namespace Evado.UniForm.WebClient
       if ( FormField.EditAccess != true
        && FormField.Type != EvDataTypes.Computed_Field )
       {
-        this.LogDebug ( "User does not have edit access." );
+        //this.LogDebug ( "User does not have edit access." );
         this.LogMethodEnd ( "updateFormField" );
-
         return FormField;
       }//END updating field
 
@@ -398,6 +389,7 @@ namespace Evado.UniForm.WebClient
             FormField.FieldId );
           break;
         }
+
         case Evado.Model.EvDataTypes.Table:
         case Evado.Model.EvDataTypes.Record_Table:
         case Evado.Model.EvDataTypes.Special_Matrix:
@@ -407,6 +399,7 @@ namespace Evado.UniForm.WebClient
                        ReturnedFormFields );
           break;
         }
+
         case Evado.Model.EvDataTypes.Computed_Field:
         {
           this.LogDebug ( "Computed Field." );
@@ -434,6 +427,7 @@ namespace Evado.UniForm.WebClient
 
           break;
         }
+
         case Evado.Model.EvDataTypes.Boolean:
         {
           this.LogDebug ( "Boolean Field." );
@@ -452,6 +446,7 @@ namespace Evado.UniForm.WebClient
           this.LogDebug ( "Computed_Field: FormField.Value: {0}.", FormField.Value );
           break;
         }
+
         case Evado.Model.EvDataTypes.Image:
         {
           this.LogDebug ( "Image Field." );
@@ -910,12 +905,8 @@ namespace Evado.UniForm.WebClient
 
     }//END getCheckButtonListFieldValue method
 
-
     // =============================================================================== 
     /// <summary>
-    /// updateNameFieldValue method.
-    /// 
-    /// Description:
     ///   This method updates the common TestReport static test fields
     /// 
     /// </summary>
@@ -940,8 +931,8 @@ namespace Evado.UniForm.WebClient
       // 
       // Iterate through the option list to compare values.
       // 
-      stLowerValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_LOWER_SUFFIX );
-      stUpperValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + ClientPage.CONST_FIELD_UPPER_SUFFIX );
+      stLowerValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + DefaultPage.CONST_FIELD_LOWER_SUFFIX );
+      stUpperValue = this.GetReturnedFormFieldValue ( ReturnedFormFields, htmlDataId + DefaultPage.CONST_FIELD_UPPER_SUFFIX );
 
       this.LogDebug ( "stLowerValue: {0},  stUpperValue: {1} " );
 
@@ -1001,7 +992,6 @@ namespace Evado.UniForm.WebClient
 
     }//END getCheckButtonListFieldValue method
 
-
     // =============================================================================== 
     /// <summary>
     ///   This method updates the test table field values.
@@ -1012,7 +1002,7 @@ namespace Evado.UniForm.WebClient
     /// <returns>Returns a EvFormField object.</returns>
     // ---------------------------------------------------------------------------------
     private Evado.UniForm.Model.EuField UpdateFormTableFields(
-      Evado.UniForm.Model.EuField FormField,
+      EuField FormField,
       NameValueCollection ReturnedFormFields )
     {
       this.LogMethod ( "updateFormTableFields" );
@@ -1086,14 +1076,6 @@ namespace Evado.UniForm.WebClient
               {
                 this.LogDebug ( "Boolean: SKIP: Row: {0}, Col: {1} Boolean Column is empty ", rowIndex, colIndex );
                 break;
-              }
-
-              //
-              // a null returned value indicates a false selection for the checkbox selection.
-              //
-              if ( value == null )
-              {
-                value = "false";
               }
 
               this.LogDebug ( "Boolean: Title: {0}, DataType: {1}, value: {2}.",
@@ -1645,9 +1627,11 @@ namespace Evado.UniForm.WebClient
     }//END UploadPageImages method
 
     // ==================================================================================
+
     /// <summary>
     /// This method searches for image delete fields and set them appropriately.
     /// </summary>
+    /// <param name="ReturnedFormFields">Name Value Collection</param>
     // ---------------------------------------------------------------------------------
     private void UpdateImageDeletion( )
     {
@@ -1692,14 +1676,14 @@ namespace Evado.UniForm.WebClient
     }//END UpdateImageDeletion method
 
     // ==================================================================================
+
     /// <summary>
     /// This method searches through the page group fields to find a matching field..
     /// </summary>
     /// <param name="DataId">String: The html field Id.</param>
     /// <returns>Field object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuField GetField(
-      String DataId )
+    private EuField GetField( String DataId )
     {
       //
       // Iterate through the page groups and fields to find the matching field.
@@ -1739,8 +1723,8 @@ namespace Evado.UniForm.WebClient
     private void UpdateWebPageCommandObject( )
     {
       this.LogMethod ( "updateWebPageCommandObject" );
-      this.LogDebug ( "Page.EditAccess: " + this.UserSession.AppData.Page.EditAccess );
-      this.LogDebug ( "FieldAnnotationList.Count: " + this.UserSession.FieldAnnotationList.Count );
+      //this.LogDebug ( "Page.EditAccess: " + this.UserSession.AppData.Page.EditAccess );
+      //this.LogDebug ( "FieldAnnotationList.Count: " + this.UserSession.FieldAnnotationList.Count );
       //
       // Initialise the methods variables and objects.
       //
@@ -1767,9 +1751,8 @@ namespace Evado.UniForm.WebClient
           //
           fieldStatus = field.EditAccess;
 
-          this.LogDebug ( "Group: " + group.Title
-            + ", field.FieldId: " + field.FieldId
-            + ", Status: " + fieldStatus );
+          this.LogDebug ( "Group: {0}, field.FieldId: {1}, Status: {2}.",
+            group.Title, field.FieldId, fieldStatus );
 
           if ( field.Type == Evado.Model.EvDataTypes.Read_Only_Text
             || field.Type == Evado.Model.EvDataTypes.External_Image
@@ -1784,11 +1767,8 @@ namespace Evado.UniForm.WebClient
             continue;
           }
 
-          this.LogDebug ( "Group: " + group.Title
-            + ", FieldId: " + field.FieldId
-            + " - " + field.Title
-            + " - " + field.Value
-            + " >> METHOD PARAMETER UPDATED " );
+          this.LogDebug ( "Group: {0}, FieldId: {1} = {2} = {3}  >> METHOD PARAMETER UPDATED ",
+            group.Title, field.FieldId, field.Title, field.Value );
 
           switch ( field.Type )
           {
@@ -1831,6 +1811,7 @@ namespace Evado.UniForm.WebClient
                 this.LogDebug ( "Delete Parameter Name: {0}, Value: {1}", fieldId, value );
               }
 
+
               break;
             }
             default:
@@ -1839,29 +1820,30 @@ namespace Evado.UniForm.WebClient
               break;
             }
           }
-
         }//END Group Field list iteration.
 
       }//END page group list iteration.
 
-      this.LogDebug ( "Command parameter count: " + this.UserSession.PageCommand.Parameters.Count );
+      // this.LogDebug ( "Command parameter count: " + this.UserSession.PageCommand.Parameters.Count );
 
       //
       // Add annotation fields
       //
       for ( int count = 0 ; count < this.UserSession.FieldAnnotationList.Count ; count++ )
       {
-        EucKeyValuePair arrAnnotation = this.UserSession.FieldAnnotationList [ count ];
+        EuKeyValuePair arrAnnotation = this.UserSession.FieldAnnotationList [ count ];
 
-        this.LogDebug ( "Annotation Field: " + arrAnnotation.Key
-          + ", Value: " + arrAnnotation.Value );
+        // this.LogDebug ( "Annotation Field: " + arrAnnotation.Key
+        //    + ", Value: " + arrAnnotation.Value );
 
         this.UserSession.PageCommand.AddParameter ( arrAnnotation.Key, arrAnnotation.Value );
       }
 
-      this.LogDebug ( "Page command: " + this.UserSession.PageCommand.getAsString ( true, true ) );
+      //this.LogDebug ( "Page command: " + this.UserSession.PageCommand.getAsString ( true, true ) );
 
+      this.LogMethodEnd ( "updateWebPageCommandObject" );
     }//END updateWebPageCommandObject method
+
     // ==================================================================================
 
     /// <summary>

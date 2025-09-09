@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Evado.UniForm.WebClient {
+namespace Evado.UniForm.AdminClient {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Evado.UniForm.WebClient {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Evado.UniForm.WebClient.EuLabels", typeof(EuLabels).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Evado.UniForm.AdminClient.EuLabels", typeof(EuLabels).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

@@ -2,17 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web.UI.MobileControls;
+using System.Web.UI.MobileControls.Adapters;
 
 ///Evado. namespace references.
 
 using Evado.UniForm.Web;
 
-namespace Evado.UniForm.WebClient
+namespace Evado.UniForm.AdminClient
 {
   /// <summary>
   /// This is the code behind class for the home page.
   /// </summary>
-  public partial class ClientPage : EvPersistentPageState
+  public partial class DefaultPage : EvPersistentPageState
   {
     private int _TabIndex = 0;
     //
@@ -32,8 +33,13 @@ namespace Evado.UniForm.WebClient
     // ---------------------------------------------------------------------------------
     private void GeneratePage( )
     {
+      Global.WriteToEventLog ( this.User.Identity.Name,
+        "Evado.UniForm.AdminClient.DefaultPage.GeneratePage method",
+       System.Diagnostics.EventLogEntryType.Information );
+
       this.LogMethod ( "GeneratePage" );
       this.LogDebug ( "PageStatus: " + this.UserSession.AppData.Page.EditAccess );
+      //this.LogDebug ( "AppData.Title: {0}.", this.UserSession.AppData.Title );
       //this.LogDebug ( "AppData.Page.PageId: {0}.", this.UserSession.AppData.Page.PageId );
       //this.LogDebug ( "Page command list count: " + this.UserSession.AppData.Page.CommandList.Count );
       //this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
@@ -75,7 +81,6 @@ namespace Evado.UniForm.WebClient
       {
         this.Title = this.UserSession.AppData.Title;
       }
-      this.litCommandContent.Visible = true;
 
       //
       // load the charting java script if the page contains charts.
@@ -87,6 +92,8 @@ namespace Evado.UniForm.WebClient
         sbMainBody.AppendFormat ( "<script src=\"{0}\" ></script> ", Global.ChartJsHelperUrl );
         sbMainBody.AppendFormat ( "<script src=\"{0}\" ></script> ", Global.ChartJsUmdUrl );
       }
+
+      this.litCommandContent.Visible = true;
 
       //
       // Reinitialise the history each time the home page is displayed.
@@ -100,7 +107,7 @@ namespace Evado.UniForm.WebClient
         || this.UserSession.AppData.Page.PageId == Evado.Model.EvStatics.CONST_HOME_PAGE_ID )
       {
         this.LogDebug ( "Home Page encountered." );
-        this.initialiseHistory ( );
+        this.UserSession.InitialiseHistory ( );
       }
 
 
@@ -426,6 +433,14 @@ namespace Evado.UniForm.WebClient
       {
         errorGroup.Title = EuLabels.Page_Message_Error_Group_Title;
       }
+      if ( message.Contains ( "warning" ) == true )
+      {
+        errorGroup.Title = EuLabels.Page_Message_Warning_Group_Title;
+      }
+      if ( message.Contains ( "action" ) == true )
+      {
+        errorGroup.Title = EuLabels.Page_Message_Action_Group_Title;
+      }
 
       //
       // set the field set attributes.
@@ -736,7 +751,7 @@ namespace Evado.UniForm.WebClient
           break;
         }
       }
-      this.LogDebug ( "GroupFieldWidth: " + this.UserSession.GroupFieldWidth );
+      this.LogDebug ( "GroupFieldWidth: {0}.", this.UserSession.GroupFieldWidth );
 
       //
       // Set the edit access.
@@ -877,12 +892,12 @@ namespace Evado.UniForm.WebClient
       //
       // Add the gorups description if it exists.
       //
-      string descriptionBackground = "light-grey"; //String.Empty;
-      String description =  String.Empty;
+      string descriptionBackground = " light-grey "; // String.Empty;
+      String description = String.Empty;
 
       if ( PageGroup.Title == EuLabels.Page_Message_Error_Group_Title )
       {
-        descriptionBackground = " Red ";
+        descriptionBackground = " Red";
       }
       if ( PageGroup.Title == EuLabels.Page_Message_Warning_Group_Title )
       {
@@ -1167,7 +1182,6 @@ namespace Evado.UniForm.WebClient
             this.createTableField ( sbHtml, groupField );
             break;
           }
-          
           case Evado.Model.EvDataTypes.Currency:
           {
             this.createCurrencyField ( sbHtml, groupField );
@@ -1203,6 +1217,12 @@ namespace Evado.UniForm.WebClient
             this.createSignatureField ( sbHtml, groupField );
             break;
           }
+          case Evado.Model.EvDataTypes.Raster_Image:
+          {
+            this.createRastorGraphicField ( sbHtml, groupField );
+            break;
+          }
+
           case Evado.Model.EvDataTypes.Integer_Range:
           case Evado.Model.EvDataTypes.Float_Range:
           case Evado.Model.EvDataTypes.Double_Range:

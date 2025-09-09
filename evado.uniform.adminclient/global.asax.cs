@@ -23,6 +23,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Data.SqlClient;
+using Evado.Model;
 
 //Evado..Cms. namespace references.
 
@@ -30,6 +31,19 @@ namespace Evado.UniForm.AdminClient
 {
   public partial class Global : System.Web.HttpApplication
   {
+    #region globals constants
+    /// <summary>
+    /// This constant defines the web config SSL protocol key value
+    /// </summary>
+    public const string CONFIG_WEB_SERVICE_URL_KEY = "WebServiceUrl";
+
+    /// <summary>
+    /// This constant defines the web config SSL protocol key value
+    /// </summary>
+    public const string CONFIG_IMAGES_URL_KEY = "STATIC_IMAGES_URL";
+
+    #endregion
+
     #region Global Variables and Objects
     // Variable containing the application path.  Used to generate the base URL.
     public static string EventLogSource = ConfigurationManager.AppSettings [ Evado.UniForm.Model.EuStatics.CONFIG_EVENT_LOG_SOURCE_KEY ];
@@ -342,14 +356,24 @@ namespace Evado.UniForm.AdminClient
       // 
       // Set the web service URl
       // 
-      if ( ConfigurationManager.AppSettings [ "WebServiceUrl" ] != null )
+      if ( ConfigurationManager.AppSettings [ Global.CONFIG_WEB_SERVICE_URL_KEY ] != null )
       {
-        Global.WebServiceUrl = ( String ) ConfigurationManager.AppSettings [ "WebServiceUrl" ].Trim ( );
+        Global.WebServiceUrl = ( String ) ConfigurationManager.AppSettings [ Global.CONFIG_WEB_SERVICE_URL_KEY ].Trim ( );
       }
 
-      Global.FileServiceUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL;
-      Global.StaticImageUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_IMAGES_RELATIVE_URL;
-      Global.TempUrl = Global.WebServiceUrl + Evado.UniForm.Model.EuStatics.APPLICATION_TEMP_RELATIVE_URL;
+      Global.FileServiceUrl = EvStatics.concatinateHttpUrl ( Global.WebServiceUrl, Evado.UniForm.Model.EuStatics.APPLICATION_SERVICE_FILE_RELATIVE_URL );
+      Global.StaticImageUrl = EvStatics.concatinateHttpUrl ( Global.WebServiceUrl, Evado.UniForm.Model.EuStatics.APPLICATION_IMAGES_RELATIVE_URL );
+      Global.TempUrl = EvStatics.concatinateHttpUrl ( Global.WebServiceUrl, Evado.UniForm.Model.EuStatics.APPLICATION_TEMP_RELATIVE_URL );
+
+      // 
+      // Set the static images URl
+      // 
+      if ( ConfigurationManager.AppSettings [ Global.CONFIG_IMAGES_URL_KEY ] != null )
+      {
+        Global.StaticImageUrl = ( String ) ConfigurationManager.AppSettings [ Global.CONFIG_IMAGES_URL_KEY ].Trim ( );
+
+        Global.StaticImageUrl = EvStatics.concatinateHttpUrl ( Global.WebServiceUrl, Global.StaticImageUrl );
+      }
 
       Global.GlobalValue ( "WebServiceUrl: " + Global.WebServiceUrl );
       Global.GlobalValue ( "FileServiceUrl: " + Global.FileServiceUrl );

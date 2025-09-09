@@ -25,7 +25,7 @@ using System.Net;
 
 //Evado. namespace references.
 
-namespace Evado.UniForm.WebClient
+namespace Evado.UniForm.AdminClient
 {
   /// <summary>
   /// This class contains the user session data for the web client.
