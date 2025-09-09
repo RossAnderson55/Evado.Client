@@ -10,8 +10,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Evado.UniForm.WebClient</RootNamespace>
-    <AssemblyName>Evado.UniForm.WebClient</AssemblyName>
+    <RootNamespace>Evado.UniForm.AdminClient</RootNamespace>
+    <AssemblyName>Evado.UniForm.AdminClient</AssemblyName>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -53,6 +53,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="markdownsharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\referenced libraries\markdownsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.1.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Ross1\Projects\Evado.Client\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -77,9 +81,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\webattributes.cs" />
-    <Compile Include="client.aspx.history.cs">
+    <Compile Include="default.aspx.Update.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="default.aspx.generation.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EucEnumerators.cs" />
+    <Compile Include="EucKeyValuePair.cs" />
+    <Compile Include="EucSession.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -87,30 +97,7 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="client.aspx.Update.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="error.aspx.cs">
-      <DependentUpon>error.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="error.aspx.designer.cs">
-      <DependentUpon>error.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="EucEnumerators.cs" />
-    <Compile Include="EucKeyValuePair.cs" />
-    <Compile Include="EucSession.cs" />
-    <Compile Include="client.aspx.cs">
-      <DependentUpon>client.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="client.aspx.designer.cs">
-      <DependentUpon>client.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="client.aspx.fields.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="client.aspx.generation.cs">
+    <Compile Include="default.aspx.fields.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EuLabels.Designer.cs">
@@ -125,12 +112,6 @@
     </Compile>
     <Compile Include="global.asax.cs">
       <DependentUpon>global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="meeting.aspx.designer.cs">
-      <DependentUpon>meeting.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="meeting.aspx.cs">
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Properties\assemblyinfo.cs" />
   </ItemGroup>
@@ -147,21 +128,17 @@
     <Content Include="css\menu.css" />
     <Content Include="css\menu.js" />
     <Content Include="css\report.css" />
-    <Content Include="client.aspx" />
     <Content Include="default.aspx" />
-    <Content Include="error.aspx" />
     <Content Include="js\bootstrap-datetimepicker.js" />
     <Content Include="js\evado.video.js" />
     <Content Include="js\flashcanvas.js" />
-    <Content Include="js\jquery.canvaswrapper.js" />
     <Content Include="js\jquery.colorhelpers.js" />
     <Content Include="js\jquery.js" />
     <Content Include="js\jquery.signaturepad.js" />
     <Content Include="js\jquery.signaturepad.min.js" />
     <Content Include="js\json2.min.js" />
-    <Content Include="js\menu.js" />
     <Content Include="js\signaturePad.js" />
-    <Content Include="js\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\client.main.js" />
     <Content Include="js\Evado.Form.js" />
@@ -179,13 +156,12 @@
   <ItemGroup>
     <None Include="css\bootstrap-theme.css.map" />
     <None Include="css\bootstrap.css.map" />
-    <None Include="js\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="js\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="js\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="images\thumbs.db" />
     <Content Include="js\parsley.js" />
     <Content Include="js\underscore.js" />
-    <Content Include="meeting.aspx" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -215,6 +191,10 @@
     <ProjectReference Include="..\..\Evado.Health\evado.uniform.model\evado.uniform.model.csproj">
       <Project>{eb6a905c-2e28-4a70-b791-dc807165bcd7}</Project>
       <Name>evado.uniform.model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Evado.ServiceClients\Evado.ServiceClients.csproj">
+      <Project>{6aad5255-fe61-4c54-b750-90e0d5f24930}</Project>
+      <Name>Evado.ServiceClients</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
