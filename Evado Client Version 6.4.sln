@@ -1,9 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31019.35
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evado.UniForm.WebClient", "Evado.UniForm.WebClient\Evado.UniForm.WebClient.csproj", "{3C8822B1-D194-449E-A155-CF9E8BD20161}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.model", "..\Evado.Health\evado.model\evado.model.csproj", "{93EA9387-1172-48EC-B26E-C4D48D827976}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "evado.uniform.model", "..\Evado.Health\evado.uniform.model\evado.uniform.model.csproj", "{EB6A905C-2E28-4A70-B791-DC807165BCD7}"
@@ -24,18 +22,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Release|.NET.ActiveCfg = Release|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{3C8822B1-D194-449E-A155-CF9E8BD20161}.Release|x86.ActiveCfg = Release|Any CPU
 		{93EA9387-1172-48EC-B26E-C4D48D827976}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{93EA9387-1172-48EC-B26E-C4D48D827976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93EA9387-1172-48EC-B26E-C4D48D827976}.Debug|Any CPU.Build.0 = Debug|Any CPU
