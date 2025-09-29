@@ -59,8 +59,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="PageField">Evado.UniForm.Model.EuField: object</param>
     /// <returns>String: css colour class name</returns>
     //-----------------------------------------------------------------------------------
-    private string fieldBackgroundColorClass(
-      Evado.UniForm.Model.EuField PageField )
+    private string fieldBackgroundColorClass( Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "fieldBackgroundColorClass" );
       //

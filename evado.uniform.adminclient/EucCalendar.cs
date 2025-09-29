@@ -22,36 +22,21 @@ using System.Web;
 using System.Web.SessionState;
 using System.Web.Security;
 using System.Net;
+using System.IO;
+using Evado.UniForm.Model;
 
 //Evado. namespace references.
 
-namespace Evado.UniForm.WebClient
+namespace Evado.UniForm.AdminClient
 {
-
-  public enum EucAuthenticationStates
+  /// <summary>
+  /// This class generates the calendar field layout
+  /// </summary>
+  public class EucCalendar
   {
-    /// <summary>
-    /// This enumeratied value indicates that the user had not been authenticated.
-    /// Forcing the page to display the login panel.
-    /// </summary>
-    Un_Authenticated,
-
-    /// <summary>
-    /// This enumerated value indicates that the user has been authenticated by the servers.
-    /// </summary>
-    Authenticated,
-
-    /// <summary>
-    /// This enumerated value indicates that the user has been authenticated by the client.
-    /// </summary>
-    Network_Authenticated,
-
-    /// <summary>
-    /// This enumerated value indicates that the user has a anonymous authentication.
-    /// </summary>
-    AnonymousAuthentication,
-  }
 
 
+
+  }//END Class
 
 }//END NameSpace

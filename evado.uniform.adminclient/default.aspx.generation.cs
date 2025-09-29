@@ -423,10 +423,11 @@ namespace Evado.UniForm.AdminClient
       //
       // Define the error group.
       //
-      Evado.UniForm.Model.EuGroup errorGroup = new Evado.UniForm.Model.EuGroup (
-       EuLabels.Page_Message_Group_Title,
-        Evado.Model.EvStatics.getStringAsHtml ( this.UserSession.AppData.Message ),
-        false );
+      Evado.UniForm.Model.EuGroup errorGroup = new Evado.UniForm.Model.EuGroup ()
+      { Title = EuLabels.Page_Message_Group_Title,
+        Description = Evado.Model.EvStatics.getStringAsHtml ( this.UserSession.AppData.Message ),
+        EditAccess = false
+      };
       errorGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
       if ( message.Contains ( "error" ) == true )

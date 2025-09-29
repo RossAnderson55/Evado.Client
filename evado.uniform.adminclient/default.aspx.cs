@@ -957,7 +957,11 @@ namespace Evado.UniForm.AdminClient
       ///
       /// Define the error group.
       ///
-      Evado.UniForm.Model.EuGroup serialisationGroup = new Evado.UniForm.Model.EuGroup ( "Serialisation", String.Empty, false );
+      Evado.UniForm.Model.EuGroup serialisationGroup = new Evado.UniForm.Model.EuGroup ()
+      {
+        Title = "Serialisation",
+        EditAccess= false
+      };
       serialisationGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
       serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.EuAppData> ( this.UserSession.AppData );
