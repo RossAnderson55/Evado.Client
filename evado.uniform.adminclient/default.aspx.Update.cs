@@ -745,7 +745,7 @@ namespace Evado.UniForm.AdminClient
       }
       catch ( Exception Ex )
       {
-        this.LogValue ( Evado.Model.EvStatics.getException ( Ex ) );
+        this.LogStandard ( Evado.Model.EvStatics.getException ( Ex ) );
       }
 
       this.LogMethodEnd ( "updateComputedField" );
@@ -773,7 +773,7 @@ namespace Evado.UniForm.AdminClient
       string htmlDataId )
     {
       this.LogMethod ( "getSignatureFieldValue" );
-      this.LogValue ( "htmlDataId: " + htmlDataId );
+      this.LogStandard ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
       // 
@@ -783,8 +783,8 @@ namespace Evado.UniForm.AdminClient
       String stSignature = this.GetReturnedFormFieldValue ( ReturnedFormFields, signatureValueFieldId );
       string stName = this.GetReturnedFormFieldValue ( ReturnedFormFields, signatureNameFieldId );
 
-      this.LogValue ( "stSignature: " + stSignature );
-      this.LogValue ( "stName: " + stName );
+      this.LogStandard ( "stSignature: " + stSignature );
+      this.LogStandard ( "stName: " + stName );
 
       if ( stSignature == null )
       {
@@ -800,7 +800,7 @@ namespace Evado.UniForm.AdminClient
         stName = String.Empty;
       }
 
-      this.LogValue ( "Converting signature to signatureBlock object." );
+      this.LogStandard ( "Converting signature to signatureBlock object." );
       Evado.Model.EvSignatureBlock signatureBlock = new Evado.Model.EvSignatureBlock ( );
       signatureBlock.Signature = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Evado.Model.EvSegement>> ( stSignature );
       signatureBlock.Name = stName;
@@ -834,8 +834,8 @@ namespace Evado.UniForm.AdminClient
       int OptionListCount )
     {
       this.LogMethod ( "getCheckButtonListFieldValue" );
-      this.LogValue ( "htmlDataId: " + htmlDataId );
-      this.LogValue ( "OptionList: " + OptionListCount );
+      this.LogStandard ( "htmlDataId: " + htmlDataId );
+      this.LogStandard ( "OptionList: " + OptionListCount );
       // 
       // Initialise methods variables and objects.
       // 
@@ -882,7 +882,7 @@ namespace Evado.UniForm.AdminClient
       string htmlDataId )
     {
       this.LogMethod ( "getNameFieldValue" );
-      this.LogValue ( "htmlDataId: " + htmlDataId );
+      this.LogStandard ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
       // 
@@ -921,7 +921,7 @@ namespace Evado.UniForm.AdminClient
       string htmlDataId )
     {
       this.LogMethod ( "getRangeFieldValue" );
-      this.LogValue ( "htmlDataId: " + htmlDataId );
+      this.LogStandard ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
       // 
@@ -959,7 +959,7 @@ namespace Evado.UniForm.AdminClient
       string htmlDataId )
     {
       this.LogMethod ( "getNameFieldValue" );
-      this.LogValue ( "htmlDataId: " + htmlDataId );
+      this.LogStandard ( "htmlDataId: " + htmlDataId );
       // 
       // Initialise methods variables and objects.
       // 
@@ -1605,7 +1605,7 @@ namespace Evado.UniForm.AdminClient
           string stEventContent = "Uploaded Image " + uploadedFileObject.FileName + " saved to "
             + fullFilePath + " at " + DateTime.Now.ToString ( "dd-MMM-yyyy HH:mm:ss" );
 
-          this.LogValue ( stEventContent );
+          this.LogStandard ( stEventContent );
           EventLog.WriteEntry ( Global.EventLogSource, stEventContent, EventLogEntryType.Information );
 
         }//END upload file iteration loop
@@ -1613,7 +1613,7 @@ namespace Evado.UniForm.AdminClient
       }  // End Try
       catch ( Exception Ex )
       {
-        this.LogValue ( "Exception Event:\r\n" + Evado.Model.EvStatics.getException ( Ex ) );
+        this.LogStandard ( "Exception Event:\r\n" + Evado.Model.EvStatics.getException ( Ex ) );
       }
       // End catch.
 

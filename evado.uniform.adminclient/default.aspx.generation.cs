@@ -1066,7 +1066,12 @@ namespace Evado.UniForm.AdminClient
           {
             this.createPasswordField ( sbHtml, groupField );
             break;
-          }
+            }
+          case Evado.Model.EvDataTypes.Calendar:
+            {
+              EucCalendar calendar = new EucCalendar ( this.UserSession, sbHtml, groupField );
+              break;
+            }
           case Evado.Model.EvDataTypes.Http_Link:
           {
             this.createHttpLinkField ( sbHtml, groupField );

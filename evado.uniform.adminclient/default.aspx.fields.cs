@@ -52,85 +52,6 @@ namespace Evado.UniForm.AdminClient
       }
     }
 
-    //=================================================================================
-    /// <summary>
-    /// This method sets the fields background colour.
-    /// </summary>
-    /// <param name="PageField">Evado.UniForm.Model.EuField: object</param>
-    /// <returns>String: css colour class name</returns>
-    //-----------------------------------------------------------------------------------
-    private string fieldBackgroundColorClass( Evado.UniForm.Model.EuField PageField )
-    {
-      this.LogMethod ( "fieldBackgroundColorClass" );
-      //
-      // initialise method variables and objects.
-      //
-      string cssBackgroundColorClass = "";
-
-      Evado.UniForm.Model.EuBackgroundColours background = Evado.UniForm.Model.EuBackgroundColours.Default;
-
-      //
-      // Set the default background colour if it is set.
-      //
-      background = PageField.getDefaultBackgroundColor ( );
-
-      //
-      // Set the mandatory background colour if the value is empty.
-      //
-      if ( PageField.Mandatory == true
-        && PageField.isEmpty == true )
-      {
-        this.LogDebug ( "Field is mandatory." );
-
-        background = PageField.getMandatoryBackGroundColor ( background );
-      }
-
-      this.LogDebug ( "background: " + background );
-
-      switch ( background )
-      {
-        case Evado.UniForm.Model.EuBackgroundColours.Red:
-        {
-          cssBackgroundColorClass = "Red";
-          break;
-        }
-        case Evado.UniForm.Model.EuBackgroundColours.Dark_Red:
-        {
-          cssBackgroundColorClass = "Dark_Red";
-          break;
-        }
-        case Evado.UniForm.Model.EuBackgroundColours.Orange:
-        {
-          cssBackgroundColorClass = "Orange";
-          break;
-        }
-        case Evado.UniForm.Model.EuBackgroundColours.Yellow:
-        {
-          cssBackgroundColorClass = "Yellow";
-          break;
-        }
-        case Evado.UniForm.Model.EuBackgroundColours.Green:
-        {
-          cssBackgroundColorClass = "Green";
-          break;
-        }
-        case Evado.UniForm.Model.EuBackgroundColours.Blue:
-        {
-          cssBackgroundColorClass = "Blue";
-          break;
-        }
-        case Evado.UniForm.Model.EuBackgroundColours.Purple:
-        {
-          cssBackgroundColorClass = "Purple";
-          break;
-        }
-      }
-      this.LogDebug ( "cssBackgroundColorClass: " + cssBackgroundColorClass );
-      this.LogMethodEnd ( "fieldBackgroundColorClass" );
-
-      return cssBackgroundColorClass;
-    }
-
     // ===================================================================================
     /// <summary>
     /// This method creates a read only field markup
@@ -161,7 +82,7 @@ namespace Evado.UniForm.AdminClient
       String stDescription = String.Empty;
       String stAnnotation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Annotation );
 
-      stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.fieldBackgroundColorClass ( PageField ) + "' ";
+      stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.UserSession.FieldBackgroundColorClass ( PageField ) + "' ";
       stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
 
       //
@@ -573,7 +494,7 @@ namespace Evado.UniForm.AdminClient
       {
         if ( PageField.Value.Contains ( "[/" ) == true )
         {
-          this.LogValue ( "No Markup processing" );
+          this.LogStandard ( "No Markup processing" );
 
           this.LogDebug ( "HTML: encoded value: " + PageField.Value );
 
@@ -665,7 +586,7 @@ namespace Evado.UniForm.AdminClient
       //
       if ( PageField.Value != String.Empty )
       {
-        this.LogValue ( "Image file exists " + PageField.Value );
+        this.LogStandard ( "Image file exists " + PageField.Value );
 
         sbHtml.AppendFormat ( "<a href='{0}' target='_blank' > \r\n", stImageUrl );
 
@@ -718,7 +639,7 @@ namespace Evado.UniForm.AdminClient
       //
       this.createFieldFooter ( sbHtml, PageField );
 
-      this.LogValue ( "END createImageField\r\n" );
+      this.LogStandard ( "END createImageField\r\n" );
     }//END Field Method
 
     // ===================================================================================
@@ -1370,7 +1291,7 @@ namespace Evado.UniForm.AdminClient
         minYear = DateTime.Now.Year - 100;
       }
 
-      this.LogValue ( "minYear: " + minYear + " maxYear: " + maxYear );
+      this.LogStandard ( "minYear: " + minYear + " maxYear: " + maxYear );
 
       String stFormat = "dd - MMM - yyyy";
 
@@ -2543,7 +2464,7 @@ namespace Evado.UniForm.AdminClient
       }
       catch ( Exception Ex )
       {
-        this.LogValue ( Evado.Model.EvStatics.getException ( Ex ) );
+        this.LogStandard ( Evado.Model.EvStatics.getException ( Ex ) );
       }
     }//END Field Method
 
@@ -4016,7 +3937,7 @@ namespace Evado.UniForm.AdminClient
         }
         catch ( Exception Ex )
         {
-          this.LogValue ( "Row: {0}, {1} Exception: \r\n{2}", Row, column, Evado.Model.EvStatics.getException ( Ex ) );
+          this.LogStandard ( "Row: {0}, {1} Exception: \r\n{2}", Row, column, Evado.Model.EvStatics.getException ( Ex ) );
         }
 
       }//END column iteration loop,
@@ -4895,7 +4816,7 @@ namespace Evado.UniForm.AdminClient
       Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "createSignatureField" );
-      this.LogValue ( "Field.Status: " + PageField.EditAccess );
+      this.LogStandard ( "Field.Status: " + PageField.EditAccess );
       //
       // Initialise the methods variables and objects.
       //
@@ -4910,7 +4831,7 @@ namespace Evado.UniForm.AdminClient
 
       PageField.Layout = EuFieldLayoutCodes.Left_Justified;
 
-      this.LogValue ( "Set Field.Status: " + PageField.EditAccess );
+      this.LogStandard ( "Set Field.Status: " + PageField.EditAccess );
 
       //
       // Ineert the field header
@@ -4930,7 +4851,7 @@ namespace Evado.UniForm.AdminClient
         canvasHeight = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height );
       }
 
-      this.LogValue ( "Field Value: " + PageField.Value );
+      this.LogStandard ( "Field Value: " + PageField.Value );
 
       if ( PageField.Value != String.Empty )
       {
@@ -4946,7 +4867,7 @@ namespace Evado.UniForm.AdminClient
         }
       }
 
-      this.LogValue ( "Raster Image: " + image );
+      this.LogStandard ( "Raster Image: " + image );
 
       //
       // Insert the field elements
@@ -5016,7 +4937,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.EditAccess == false )
       {
-        this.LogValue ( "Setting the signature for display only" );
+        this.LogStandard ( "Setting the signature for display only" );
 
         sbHtml.AppendLine ( "<script type=\"text/javascript\">" );
         sbHtml.AppendLine ( "$(document).ready(function() { " );
@@ -5055,7 +4976,7 @@ namespace Evado.UniForm.AdminClient
       }
       else
       {
-        this.LogValue ( "Setting the raster image for draw an image." );
+        this.LogStandard ( "Setting the raster image for draw an image." );
 
         sbHtml.AppendLine ( "<script type=\"text/javascript\">" );
         sbHtml.AppendLine ( "$(document).ready(function() { " );
@@ -5084,7 +5005,7 @@ namespace Evado.UniForm.AdminClient
       Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "createRastorGraphicField" );
-      this.LogValue ( "Field.Status: " + PageField.EditAccess );
+      this.LogStandard ( "Field.Status: " + PageField.EditAccess );
       //
       // Initialise the methods variables and objects.
       //
@@ -5100,7 +5021,7 @@ namespace Evado.UniForm.AdminClient
 
       PageField.Layout = EuFieldLayoutCodes.Left_Justified;
 
-      this.LogValue ( "Set Field.Status: " + PageField.EditAccess );
+      this.LogStandard ( "Set Field.Status: " + PageField.EditAccess );
 
       //
       // Ineert the field header
@@ -5125,10 +5046,10 @@ namespace Evado.UniForm.AdminClient
         backgroundImageURL = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Background_Image_URL );
       }
 
-      this.LogValue ( "Parameters:  Width: {0}, Height: {1}, Backgroun URL {2}.",
+      this.LogStandard ( "Parameters:  Width: {0}, Height: {1}, Backgroun URL {2}.",
         canvasWidth, canvasHeight, backgroundImageURL );
 
-      this.LogValue ( "Field Value: " + PageField.Value );
+      this.LogStandard ( "Field Value: " + PageField.Value );
 
       if ( PageField.Value != String.Empty )
       {
@@ -5144,7 +5065,7 @@ namespace Evado.UniForm.AdminClient
         }
       }
 
-      this.LogValue ( "Raster Signature: " + Image );
+      this.LogStandard ( "Raster Signature: " + Image );
 
       //
       // Insert the field elements
@@ -5218,7 +5139,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.EditAccess == false )
       {
-        this.LogValue ( "Setting the signature for display only" );
+        this.LogStandard ( "Setting the signature for display only" );
 
         sbHtml.AppendLine ( "<script type=\"text/javascript\">" );
         sbHtml.AppendLine ( "$(document).ready(function() { " );
@@ -5257,7 +5178,7 @@ namespace Evado.UniForm.AdminClient
       }
       else
       {
-        this.LogValue ( "Setting the signature for draw a signature" );
+        this.LogStandard ( "Setting the signature for draw a signature" );
 
         sbHtml.AppendLine ( "<script type=\"text/javascript\">" );
         sbHtml.AppendLine ( "$(document).ready(function() { " );
@@ -5283,9 +5204,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder containing the page html</param>
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
-    private void createPasswordField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createPasswordField( StringBuilder sbHtml, Evado.UniForm.Model.EuField PageField )
     {
       this.LogMethod ( "createPasswordField" );
       //
@@ -5412,7 +5331,7 @@ namespace Evado.UniForm.AdminClient
         //
         stLinkUrl = Global.concatinateHttpUrl ( Global.TempUrl, stLinkUrl );
 
-        this.LogValue ( "Final URL: " + stLinkUrl );
+        this.LogStandard ( "Final URL: " + stLinkUrl );
 
         sbHtml.AppendLine ( "<div style=\"width:" + stWidth + "%;\" > " );
 
@@ -5647,8 +5566,8 @@ namespace Evado.UniForm.AdminClient
         stVideoStreamParameters = "frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen";
       }
 
-      this.LogValue ( "Video ID: " + value );
-      this.LogValue ( "VideoSource: " + stVideoSource );
+      this.LogStandard ( "Video ID: " + value );
+      this.LogStandard ( "VideoSource: " + stVideoSource );
 
       sbHtml.AppendLine ( "<iframe "
         + "id='" + PageField.FieldId + DefaultPage.CONST_VIDEO_SUFFIX + "' "

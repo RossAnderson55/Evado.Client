@@ -91,7 +91,7 @@ namespace Evado.UniForm.AdminClient
       this.LogMethod ( "Page_Load event" );
       this.LogDebug ( "EnablePageHistory: " + Global.EnablePageHistory ); try
       {
-        this.LogValue ( "UserHostAddress: " + Request.UserHostAddress );
+        this.LogStandard ( "UserHostAddress: " + Request.UserHostAddress );
         this.LogDebug ( "UserHostName: " + Request.UserHostName );
 
         this.LogDebug ( "LogonUserIdentity IsAuthenticated: {0}.", Request.LogonUserIdentity.IsAuthenticated );
@@ -165,7 +165,7 @@ namespace Evado.UniForm.AdminClient
             //
             this.SendPageCommand ( );
 
-            this.LogValue ( "Commence page generation" );
+            this.LogStandard ( "Commence page generation" );
             //
             // Generate the page layout.
             //
@@ -217,18 +217,18 @@ namespace Evado.UniForm.AdminClient
               {
                 if ( Global.AuthenticationMode == System.Web.Configuration.AuthenticationMode.Windows )
                 {
-                  this.LogValue ( "WINDOW AUTHENTICATION REQUEST LOGIN" );
+                  this.LogStandard ( "WINDOW AUTHENTICATION REQUEST LOGIN" );
                   this.SendWindowsLoginCommand ( );
                 }
                 else
                 {
-                  this.LogValue ( "REQUEST LOGIN" );
+                  this.LogStandard ( "REQUEST LOGIN" );
                   this.RequestLogin ( );
                 }
               }
               else
               {
-                this.LogValue ( "Commence page generation" );
+                this.LogStandard ( "Commence page generation" );
 
                 //
                 // Generate the page layout.
@@ -261,11 +261,11 @@ namespace Evado.UniForm.AdminClient
 
         EvEventLog.LogPageError ( this, Evado.Model.EvStatics.getException ( Ex ) );
 
-        this.LogValue ( "PAGE GENERATION ERROR: " + Evado.Model.EvStatics.getException ( Ex ) );
+        this.LogStandard ( "PAGE GENERATION ERROR: " + Evado.Model.EvStatics.getException ( Ex ) );
 
       } // End catch.
 
-      this.LogValue ( "Page generation completed." );
+      this.LogStandard ( "Page generation completed." );
 
       this.SaveSessionVariables ( );
 
@@ -447,7 +447,7 @@ namespace Evado.UniForm.AdminClient
         "Evado.UniForm.AdminClient.DefaultPage.SendPageCommand method",
        System.Diagnostics.EventLogEntryType.Information );
       this.LogMethod ( "sendPageCommand" );
-      this.LogValue ( "DebugLogOn {0}.", Global.DebugLogOn );
+      this.LogStandard ( "DebugLogOn {0}.", Global.DebugLogOn );
       this.LogDebug ( "Sessionid: {0}.", this.UserSession.ServerSessionId );
       this.LogDebug ( "User NetworkId: {0}.", this.UserSession.UserId );
       this.LogDebug ( "AppDate Url: {0}.", this.UserSession.AppData.Url );
@@ -500,7 +500,7 @@ namespace Evado.UniForm.AdminClient
         Evado.UniForm.Model.EuCommandHeaderParameters.DateTime,
         DateTime.Now.ToString ( "dd MMM yyyy HH:mm:ss" ) );
 
-      this.LogValue ( "SENT: PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
+      this.LogStandard ( "SENT: PageCommand: " + this.UserSession.PageCommand.getAsString ( false, false ) );
 
       //
       // Send the command to the service.
@@ -543,7 +543,7 @@ namespace Evado.UniForm.AdminClient
     private Evado.Model.EvEventCodes SendFileRequest( String filename, String MimeType )
     {
       this.LogMethod ( "SendFileRequest" );
-      this.LogValue ( "filename {0}, MimeType {1}.", filename, MimeType );
+      this.LogStandard ( "filename {0}, MimeType {1}.", filename, MimeType );
 
       //
       // Initialise the service client class for the transaction.
@@ -1057,7 +1057,7 @@ namespace Evado.UniForm.AdminClient
           if ( pageField.Type == Evado.Model.EvDataTypes.Http_Link )
           {
             String stUrl = pageField.Value;
-            String stFieldRowStyling = "class='group-row field layout-normal cf " + this.fieldBackgroundColorClass ( pageField ) + "' ";
+            String stFieldRowStyling = "class='group-row field layout-normal cf " + this.UserSession.FieldBackgroundColorClass ( pageField ) + "' ";
             String stFieldTitleStyling = "style='' class='cell title cell-link-value cf'";
 
             this.LogDebug ( "Field URL: " + stUrl );
@@ -1836,7 +1836,7 @@ namespace Evado.UniForm.AdminClient
     /// </summary>
     /// <param name="Value">String: value.</param>
     //   ---------------------------------------------------------------------------------
-    public void LogValue( String Value )
+    public void LogStandard( String Value )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
        + "DefaultPage:" + Value;
@@ -1852,7 +1852,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="Format">String: format text.</param>
     /// <param name="args">Array of objects as parameters.</param>
     // ----------------------------------------------------------------------------------
-    public void LogValue( String Format, params object [ ] args )
+    public void LogStandard( String Format, params object [ ] args )
     {
       string logValue = DateTime.Now.ToString ( "dd-MM-yy hh:mm:ss" ) + ": "
        + "DefaultPage:" + String.Format ( Format, args );
