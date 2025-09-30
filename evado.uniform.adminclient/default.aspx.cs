@@ -1143,7 +1143,7 @@ namespace Evado.UniForm.AdminClient
       //
       // read in the posted back Command id
       //
-      this.ReadinCommandId ( );
+      this.GetCommandId ( );
 
       //
       // If the object is empty or reset is sent then refresh the object from the server.
@@ -1282,9 +1282,9 @@ namespace Evado.UniForm.AdminClient
     /// This method updates the web application with the form field values.
     /// </summary>
     // ---------------------------------------------------------------------------------
-    private void ReadinCommandId( )
+    private void GetCommandId( )
     {
-      this.LogMethod ( "readinCommandId" );
+      this.LogMethod ( "GetCommandId" );
 
       if ( this.__CommandId.Value.ToLower ( ) == "login" )
       {
@@ -1292,7 +1292,7 @@ namespace Evado.UniForm.AdminClient
         this.UserSession.RequestLogin = true;
         this.requestLogout ( );
 
-        this.LogMethodEnd ( "readinCommandId" );
+        this.LogMethodEnd ( "GetCommandId" );
         return;
       }
 
@@ -1311,7 +1311,8 @@ namespace Evado.UniForm.AdminClient
       }
 
       this.LogDebug ( "Post back CommandId: " + this.UserSession.CommandGuid );
-      this.LogMethodEnd ( "readinCommandId" );
+
+      this.LogMethodEnd ( "GetCommandId" );
 
     }//END readinCommandId method
 
@@ -1324,7 +1325,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="CommandId">GUID: Id for the Command to be retrieved</param>
     /// <returns>CliemtPageCommand object.</returns>
     // ---------------------------------------------------------------------------------
-    private Evado.UniForm.Model.EuCommand GetCommandObject( Guid CommandId )
+    private EuCommand GetCommandObject( Guid CommandId )
     {
       this.LogMethod ( "getCommandObject" );
       this.LogDebug ( "CommandId: " + CommandId );
@@ -1342,7 +1343,7 @@ namespace Evado.UniForm.AdminClient
         //
         // Look for a history Command.
         //
-        Evado.UniForm.Model.EuCommand historyCommand = this.UserSession.GetHistoryCommand ( CommandId );
+        EuCommand historyCommand = this.UserSession.GetHistoryCommand ( CommandId );
 
         if ( historyCommand.Id != Guid.Empty
           && historyCommand.Id != EuStatics.CONST_LOGIN_COMMAND_ID )
@@ -1369,7 +1370,7 @@ namespace Evado.UniForm.AdminClient
         //
         // Iterate through the list to find the correct Command.
         //
-        foreach ( Evado.UniForm.Model.EuCommand command in this.UserSession.AppData.Page.CommandList )
+        foreach ( EuCommand command in this.UserSession.AppData.Page.CommandList )
         {
 
           if ( command.Id == CommandId )
@@ -1388,7 +1389,7 @@ namespace Evado.UniForm.AdminClient
           //
           // Iterate through the list to find the correct Command.
           //
-          foreach ( Evado.UniForm.Model.EuCommand command in group.CommandList )
+          foreach ( EuCommand command in group.CommandList )
           {
             this.LogDebug ( "Group {0}, command: id {1} - {2}", group.Title, command.Id, command.Title );
 
@@ -1406,12 +1407,12 @@ namespace Evado.UniForm.AdminClient
       }
       catch ( Exception Ex )
       {
-        this.LogDebug ( Evado.Model.EvStatics.getException ( Ex ) );
+        this.LogDebug ( EvStatics.getException ( Ex ) );
       }
       this.LogDebug ( "No command found." );
       this.LogMethodEnd ( "getCommandObject" );
 
-      return new Evado.UniForm.Model.EuCommand ( );
+      return new EuCommand ( );
 
     }//END getCommand method
 

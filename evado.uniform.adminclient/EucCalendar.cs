@@ -14,6 +14,7 @@
  * 
  ****************************************************************************************/
 
+using Evado.Model;
 using Evado.UniForm.Model;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
+using System.Web.UI.MobileControls;
 
 //Evado. namespace references.
 
@@ -35,55 +37,38 @@ namespace Evado.UniForm.AdminClient
   /// </summary>
   public class EucCalendar
   {
-    #region initialiseation methods.
-    // ===================================================================================
-    /// <summary>
-    /// This initialisation method generates the calendar html structures.
-    /// </summary>
-    // ----------------------------------------------------------------------------------
-    public EucCalendar ( )
-    { }
-
-    // ===================================================================================
-    /// <summary>
-    /// This initialisation method generates the calendar html structures.
-    /// </summary>
-    /// <param name="sbHtml"></param>
-    /// <param name="PageField"></param>
-    // ----------------------------------------------------------------------------------
-    public EucCalendar ( EuClientSession UserSession, StringBuilder sbHtml, Evado.UniForm.Model.EuField PageField )
-    {
-      this.LogMethod ( "EucCalendar" );
-
-      this.UserSession = UserSession;
-      this.Html = sbHtml; 
-      this.PageField = PageField;
-
-      this.GeneratePageField ( );
-
-
-      this.LogMethodEnd ( "EucCalendar" );
-    }
-
-    // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    #endregion
 
     #region Properties
 
     /// <summary>
     /// this property is a string builder containing the HTML markup text.
     /// </summary>
-    public StringBuilder Html { get; set; } = new StringBuilder ();
+    public StringBuilder Html { get; set; } = new StringBuilder ( );
 
     /// <summary>
     /// This property contains the page field defining the calendar content.
     /// </summary>
-    public  Evado.UniForm.Model.EuField PageField { get; set; }
+    public EuField GroupField { get; set; }
+
+    /// <summary>
+    /// This property contains the page group containing the calendar field.
+    /// </summary>
+    public EuGroup PageGroup { get; set; } = new EuGroup ( );
 
     /// <summary>
     /// This field contains the current group object.
     /// </summary>
     public EuClientSession UserSession = new EuClientSession ( );
+
+
+    //
+    // Setting the default command bacground colours.
+    //
+    string background_Default = String.Empty ;
+    string background_Alternative = String.Empty ;
+    string background_Highlighted = String.Empty ;
+    bool bEventRow = false;
+
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #endregion
@@ -95,14 +80,75 @@ namespace Evado.UniForm.AdminClient
     /// This method generates the calendar components.
     /// </summary>
     // ----------------------------------------------------------------------------------
-    public void GeneratePageField()
+    public void GeneratePageField ( )
     {
       this.LogMethodEnd ( "GeneratePageField" );
+      //
+      // Initialise the methods variables and objects.
+      //
+      int valueColumnWidth = 100;
+      int titleColumnWidth = 100;
+      String stFieldValueStyling = String.Format ("style='width:{0}}%' class='cell value cell-table-value cf' ",valueColumnWidth );
+      //
+      // Setting the default command bacground colours.
+      //
+      this.background_Default = this.PageGroup.CommandBackground.ToString ( );
+      this.background_Alternative = this.PageGroup.AlternativeCommandBackground.ToString ( );
+      this.background_Highlighted = this.PageGroup.HighlightedCommandBackground.ToString ( );
 
+      this.LogDebug ( "background_Default: " + background_Default );
+      this.LogDebug ( "background_Alternative: " + background_Alternative );
+      this.LogDebug ( "background_Highlighted: " + background_Highlighted );
 
+      if ( this.GroupField.Calendar == null )
+      {
+        this.LogMethodEnd ( "GeneratePageField" );
+        return;
+      }
+
+      //
+      // sort the entries into date order.
+      // Earliest to latest
+      //
+      this.GroupField.Calendar.sortEntries ( );
+
+      //
+      // Ineert the field header
+      //
+      this.createFieldHeader ( titleColumnWidth );
+
+      //
+      // Insert the field elements
+      //
+      this.Html.AppendFormat ( "<div {0} > \r\n", stFieldValueStyling );
+
+      switch ( this.GroupField.Calendar.DateRange )
+      {
+        case Evado.Model.EvmCalendar.DateRanges.Week:
+          {
+            break;
+          }
+        case Evado.Model.EvmCalendar.DateRanges.Month:
+          {
+            break;
+          }
+        default:
+          {
+            this.getDayCalendar ( this.GroupField.Calendar );
+            break;
+          }
+      }
+
+      this.Html.AppendLine ( "</div>" );
+
+      //
+      // Insert the field footer elemements
+      //
+      this.createFieldFooter ( );
 
       this.LogMethodEnd ( "GeneratePageField" );
-    }
+
+    }//END GeneratePageField METHOD 
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     #endregion
@@ -117,16 +163,12 @@ namespace Evado.UniForm.AdminClient
     /// <param name="TabIndex">int: the current tab index.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createFieldHeader (
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField,
-      int TitleWidth,
-      bool TitleFullWidth )
+    private void createFieldHeader ( int TitleWidth )
     {
       this.LogMethod ( "createFieldHeader" );
-      this.LogDebug ( "PageField.FieldId:{0}.", PageField.FieldId );
-      this.LogDebug ( "PageField.Title: {0}.", PageField.Title );
-      this.LogDebug ( "PageField.Type: {0}.", PageField.Type );
+      this.LogDebug ( "PageField.FieldId:{0}.", GroupField.FieldId );
+      this.LogDebug ( "PageField.Title: {0}.", GroupField.Title );
+      this.LogDebug ( "PageField.Type: {0}.", GroupField.Type );
       this.LogDebug ( "CurrentGroupType:{0}.", this.UserSession.CurrentGroup.GroupType );
       //this.LogDebug ( "ImagesUrl: {0}.", Global.StaticImageUrl );
       //
@@ -137,19 +179,19 @@ namespace Evado.UniForm.AdminClient
       String stFieldTitleStyling = String.Empty;
       String stField_Suffix = String.Empty;
       String stDescription = String.Empty;
-      String stAnnotation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Annotation );
+      String stAnnotation = GroupField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Annotation );
 
-      stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.UserSession.FieldBackgroundColorClass ( PageField ) + "' ";
+      stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.UserSession.FieldBackgroundColorClass ( GroupField ) + "' ";
       stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
 
       //
       // Format the description value from mark down to html.
       //
-      if ( String.IsNullOrEmpty ( PageField.Description ) == false )
+      if ( String.IsNullOrEmpty ( GroupField.Description ) == false )
       {
         //this.LogDebug ( "JSON: PageField.Description : {0}.", PageField.Description );
 
-        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( PageField.Description );
+        stDescription = Evado.Model.EvStatics.EncodeMarkDown ( GroupField.Description );
 
         if ( stDescription.Contains ( "/]" ) == true )
         {
@@ -169,62 +211,60 @@ namespace Evado.UniForm.AdminClient
       }
       this.LogDebug ( "stDescription: {0}.", stDescription );
 
-            stLayout = "layout-column";
-            stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
+      stLayout = "layout-column";
+      stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
 
 
 
       // always use column layout for tables
-      if ( PageField.Type == Evado.Model.EvDataTypes.Table )
+      if ( GroupField.Type == Evado.Model.EvDataTypes.Table )
       {
         stLayout = "layout-column";
       }
 
+      this.Html.AppendFormat ( "<!-- -------------------------------------------------------------------------\r\n"
+        + "        FIELD HEADER = {0} DATA TYPE = {0} LAYOUT = {2}  -->\r\n", GroupField.FieldId, GroupField.Type, GroupField.Layout );
 
-      sbHtml.AppendLine ( "<!-- -------------------------------------------------------------------------\r\n"
-        + "        FIELD HEADER = " + PageField.FieldId + " DATA TYPE = " + PageField.Type +
-        " LAYOUT = " + PageField.Layout + "     \r\n -->" );
+      this.Html.AppendLine ( "<div id='" + GroupField.Id + "-row' " + stFieldRowStyling + " >" );
 
-      sbHtml.AppendLine ( "<div id='" + PageField.Id + "-row' " + stFieldRowStyling + " >" );
-
-      this.LogDebug ( "Title: " + PageField.Title );
+      this.LogDebug ( "Title: " + GroupField.Title );
       //
       // Error message
       //
-      this.LogDebug ( "Formattted title: " + PageField.Title );
+      this.LogDebug ( "Formattted title: " + GroupField.Title );
 
-      sbHtml.AppendLine ( "<div " + stFieldTitleStyling + "> " );
+      this.Html.AppendLine ( "<div " + stFieldTitleStyling + "> " );
 
-      if ( PageField.Title != String.Empty )
+      if ( GroupField.Title != String.Empty )
       {
-        sbHtml.AppendLine ( "<label>" + PageField.Title );
+        this.Html.AppendLine ( "<label>" + GroupField.Title );
 
-        if ( PageField.Mandatory == true && PageField.EditAccess != false )
+        if ( GroupField.Mandatory == true && GroupField.EditAccess != false )
         {
-          sbHtml.Append ( "<span class='required'> * </span>" );
+          this.Html.Append ( "<span class='required'> * </span>" );
         }
 
-        sbHtml.Append ( "</label>\r\n " );
+        this.Html.Append ( "</label>\r\n " );
 
-        if ( PageField.IsEnabled == true )
+        if ( GroupField.IsEnabled == true )
         {
-          sbHtml.AppendLine ( "<div class='error-container ' style='display: none'>" ); // style='display: none'
-          sbHtml.AppendLine ( "<div id='" + PageField.Id + "-err-row' class='cell cell-error-value'>" );
-          sbHtml.AppendLine ( "<span id='sp" + PageField.Id + "-err'></span>" );
-          sbHtml.AppendLine ( "</div></div>\r\n" );
+          this.Html.AppendLine ( "<div class='error-container ' style='display: none'>" ); // style='display: none'
+          this.Html.AppendLine ( "<div id='" + GroupField.Id + "-err-row' class='cell cell-error-value'>" );
+          this.Html.AppendLine ( "<span id='sp" + GroupField.Id + "-err'></span>" );
+          this.Html.AppendLine ( "</div></div>\r\n" );
         }
       }
 
       if ( stDescription != String.Empty )
       {
-        sbHtml.AppendLine ( "<div class='description'>" + stDescription + "</div>" );
+        this.Html.AppendLine ( "<div class='description'>" + stDescription + "</div>" );
       }
 
 
       //
       // Close field header tag
       //
-      sbHtml.Append ( "</div>" );
+      this.Html.Append ( "</div>" );
 
       this.LogMethodEnd ( "createFieldHeader" );
 
@@ -234,17 +274,149 @@ namespace Evado.UniForm.AdminClient
     /// <summary>
     /// This method creates a read only field markup
     /// </summary>
-    /// <param name="PageField">Field object.</param>
-    /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void createFieldFooter (
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createFieldFooter ( )
     {
-      sbHtml.Append ( "</div>" );
+      this.Html.Append ( "</div>" );
 
-      sbHtml.AppendLine ( "<!--      FIELD FOOTER = " + PageField.FieldId + " DATA TYPE = " + PageField.Type +
+      this.Html.AppendLine ( "<!--      FIELD FOOTER = " + GroupField.FieldId + " DATA TYPE = " + GroupField.Type +
         "     \r\n------------------------------------------------------------------------- -->" );
+    }
+
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a read only field markup
+    /// </summary>
+    /// <param name="Calendar">EumCalendar object.</param>
+    // ----------------------------------------------------------------------------------
+    private void getDayCalendar ( EumCalendar Calendar )
+    {
+      this.LogMethod ( "getDayCalendar" );
+      this.LogDebug ( "StartDate: {01], DateRane: {1}", Calendar.StartDate.ToString ( "dd-MM-yy" ), Calendar.DateRange );
+      this.LogDebug ( "No Calendar Entries = {0}.", Calendar.Entries.Count );
+
+      this.Html.AppendLine ( "<table class='table table-striped'>" );
+
+      int lowerTime = 0;
+      int upperTime = 0;
+
+      //
+      // iterate through the time scale of the calendar.
+      //
+      for ( int hour = 0; hour < 24; hour++ )
+      {
+        lowerTime = hour + 100;
+        upperTime = ( hour + 1 ) + 100;
+
+        this.LogDebug ( "lowerTime: {0}, upperTime: [1}.", lowerTime, upperTime );
+
+        this.Html.AppendLine ( "<tr>" );
+        this.Html.AppendFormat ( "<td>{0}</td>", lowerTime );
+        this.Html.AppendLine ( "<td>" );
+
+        this.GetCalendaEntry ( Calendar, Calendar.StartDate, lowerTime, upperTime );
+
+        this.Html.AppendLine ( "</td>" );
+        this.Html.AppendLine ( "</tr>" );
+
+      }//END hour iteration loop
+
+      this.Html.AppendLine ( "</table>" );
+
+      this.LogMethodEnd ( "getDayCalendar" );
+
+    }//END getDayCalendar Method
+
+    // ===================================================================================
+    /// <summary>
+    /// This method renders the calendar entry command for a specific column date and time period.
+    /// </summary>
+    /// <param name="Entry">EumCalendarEntry data object</param>
+    /// <param name="ColumnDate">DateTime: column day's date</param
+    /// <param name="LowerTime">int: 24 hour time</param
+    /// <param name="UpperTime">int: 24 hour time</param>
+    // ----------------------------------------------------------------------------------
+    private void GetCalendaEntry ( EumCalendar Calendar, DateTime ColumnDate, int LowerTime, int UpperTime )
+    {
+      //
+      // Iterate through the entries adding entries that match the time value.
+      //
+      foreach ( EumCalendarEntry entry in Calendar.Entries )
+      {
+        if ( entry.Date.Date != ColumnDate )
+        {
+          continue;
+        }
+
+        if ( entry.iTime > LowerTime
+          && entry.iTime <= UpperTime )
+        {
+          this.renderCalendarCommand ( entry );
+        }
+
+      }//END calendar entry interation loop.
+
+    }//EN GetCalendaEntry Method
+
+    // ===================================================================================
+    /// <summary>
+    /// This method renders the calendar entry command 
+    /// </summary>
+    /// <param name="Entry">EumCalendarEntry data object</param>
+    /// <param name="bEventRow">Bool true = even row</param>
+    // ----------------------------------------------------------------------------------
+    void renderCalendarCommand ( EumCalendarEntry Entry )
+    {
+
+      if ( Entry.Command.Type != Evado.UniForm.Model.EuCommandTypes.Null )
+      {
+        String background = Entry.Command.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Default );
+        String alternative = Entry.Command.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Alternative );
+        String highlighted = Entry.Command.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Highlighted );
+        String title = String.Empty;
+
+        if ( background == "" || background == "Null" ) background = background_Default;
+        if ( alternative == "" || alternative == "Null" ) alternative = background_Alternative;
+        if ( highlighted == "" || highlighted == "Null" ) highlighted = background_Highlighted;
+
+        this.LogDebug ( "background: " + background );
+        this.LogDebug ( "alternative: " + alternative );
+        this.LogDebug ( "highlighted: " + highlighted );
+
+        title = String.Format ( "{0}\r\n{1}\r\n{2}",
+          Entry.Time,
+          Entry.Subject,
+          Entry.Address.Address );
+
+        title = title.Replace ( "\r\n", "<br/>" );
+
+        if ( bEventRow == false )
+        {
+          this.Html.AppendFormat ( "<p class=\"{0}\" "
+             + "onmouseover=\"this.className='{1}'\" "
+             + "onmouseout=\"this.className='{0}'\" "
+             + "onclick=\"javascript:onPostBack('{2}')\">{3}</p>",
+             background, highlighted, Entry.Command.Id, title );
+          this.Html.AppendLine ( "</tr>" );
+
+          bEventRow = true;
+        }
+        else
+        {
+          this.Html.AppendFormat ( "<p class=\"{0}\" "
+            + "onmouseover=\"this.className='{1}'\" "
+            + "onmouseout=\"this.className='{0}'\" "
+            + "onclick=\"javascript:onPostBack('{2}')\">{3}</p>",
+            alternative, highlighted, Entry.Command.Id, title );
+
+          bEventRow = false;
+        }
+      }
+      else
+      {
+        this.Html.Append ( "<tr> "
+        + "<td class=\"Header\" >" + Entry.Command.Title + "</td></tr>" );
+      }
     }
 
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
