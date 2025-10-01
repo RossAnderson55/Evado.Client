@@ -126,10 +126,12 @@ namespace Evado.UniForm.AdminClient
       {
         case Evado.Model.EvmCalendar.DateRanges.Week:
           {
+            this.getWeekCalendar ( this.GroupField.Calendar );
             break;
           }
         case Evado.Model.EvmCalendar.DateRanges.Month:
           {
+            this.getWeekCalendar ( this.GroupField.Calendar );
             break;
           }
         default:
@@ -312,12 +314,91 @@ namespace Evado.UniForm.AdminClient
         this.LogDebug ( "lowerTime: {0}, upperTime: {1}.", lowerTime, upperTime );
 
         this.Html.AppendLine ( "<tr>" );
-        this.Html.AppendFormat ( "<td>{0}</td>", hour );
+        this.Html.AppendFormat ( "<td>{0}</td>", hour.ToString ( "00" ) );
         this.Html.AppendLine ( "<td>" );
 
         this.GetCalendaEntry ( Calendar, Calendar.StartDate, lowerTime, upperTime );
 
         this.Html.AppendLine ( "</td>" );
+        this.Html.AppendLine ( "</tr>" );
+
+      }//END hour iteration loop
+
+      this.Html.AppendLine ( "</table>" );
+
+      this.LogMethodEnd ( "getDayCalendar" );
+
+    }//END getDayCalendar Method
+
+    // ===================================================================================
+    /// <summary>
+    /// This method creates a read only field markup
+    /// </summary>
+    /// <param name="Calendar">EumCalendar object.</param>
+    // ----------------------------------------------------------------------------------
+    private void getWeekCalendar ( EumCalendar Calendar )
+    {
+      this.LogMethod ( "getDayCalendar" );
+      this.LogDebug ( "StartDate: {0}, DateRane: {1}", Calendar.StartDate.ToString ( "dd-MM-yy" ), Calendar.DateRange );
+      this.LogDebug ( "TimeStart: {0}, TimeFinish: {1}", Calendar.TimeStartHr, Calendar.TimeFinishHr );
+      this.LogDebug ( "No Calendar Entries = {0}.", Calendar.Entries.Count );
+
+      this.Html.AppendLine ( "<table class='table table-striped'>" );
+
+      int lowerTime = 0;
+      int upperTime = 0;
+
+
+      //
+      // insert the header for the week range.
+      //
+      this.Html.AppendLine ( "<tr>" );
+      this.Html.AppendFormat ( "<td style='width:10%' >&nbsp;</td>" );
+      for ( int index = 0; index < 7; index++ )
+      {
+        var date = Calendar.StartDate.AddDays ( index );
+        string headerText =  date.DayOfWeek.ToString();
+        headerText = headerText.Replace ( "Monday", "Mon" );
+        headerText = headerText.Replace ( "Tuesday", "Tues" );
+        headerText = headerText.Replace ( "Wednesday", "Wed" );
+        headerText = headerText.Replace ( "Thursday", "Thur" );
+        headerText = headerText.Replace ( "Friday", "Fri" );
+        headerText = headerText.Replace ( "Saturday", "Sat" );
+        headerText = headerText.Replace ( "Sunday", "Sun" );
+        headerText += " " + date.ToString ( "dd" );
+
+        this.Html.AppendFormat ( "<td style='width:12.5%'>{0}</td>", headerText );
+      }
+      this.Html.AppendLine ( "</tr>" );
+
+
+      //
+      // iterate through the time scale of the calendar.
+      //
+      for ( int hour = Calendar.TimeStartHr; hour < Calendar.TimeFinishHr; hour++ )
+      {
+        lowerTime = hour * 100;
+        upperTime = ( hour + 1 ) * 100;
+
+        this.LogDebug ( "lowerTime: {0}, upperTime: {1}.", lowerTime, upperTime );
+
+        this.Html.AppendLine ( "<tr>" );
+        this.Html.AppendFormat ( "<td>{0}</td>", hour.ToString ( "00" ) );
+
+        //
+        // add the date row values.
+        //
+        for ( int index = 0; index < 7; index++ )
+        {
+          var date = Calendar.StartDate.AddDays ( index );
+
+          this.LogDebug ( "date: {0}.", date.ToString ( "dd-MMM-yy" ) );
+
+          this.Html.AppendLine ( "<td>" );
+          this.GetCalendaEntry ( Calendar, date, lowerTime, upperTime );
+          this.Html.AppendLine ( "</td>" );
+        }
+
         this.Html.AppendLine ( "</tr>" );
 
       }//END hour iteration loop
@@ -339,24 +420,38 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void GetCalendaEntry ( EumCalendar Calendar, DateTime ColumnDate, int LowerTime, int UpperTime )
     {
+      //this.LogMethod ( "GetCalendaEntry" );
+      this.LogDebug ( "ColumnDate: {0}.", ColumnDate.ToString ( "dd-MMM-yy" ) );
       //
       // Iterate through the entries adding entries that match the time value.
       //
       foreach ( EumCalendarEntry entry in Calendar.Entries )
       {
+        this.LogDebug ( "entry.Date: {0}.", entry.Date.ToString ( "dd-MMM-yy HH:mm" ) );
+
         if ( entry.Date.Date != ColumnDate )
         {
+          this.LogDebug ( "SKIP: dates doesn't match" );
           continue;
         }
 
-        if ( entry.iTime >= LowerTime
-          && entry.iTime < UpperTime )
+        if ( entry.iTime < LowerTime )
         {
-          this.renderCalendarCommand ( entry );
+          this.LogDebug ( "SKIP: time out of lower range" );
+          continue;
         }
+
+        if ( entry.iTime >= UpperTime )
+        {
+          this.LogDebug ( "SKIP: time out of upper range" );
+          continue;
+        }
+
+        this.renderCalendarCommand ( entry );
 
       }//END calendar entry interation loop.
 
+      //this.LogMethodEnd ( "GetCalendaEntry" );
     }//EN GetCalendaEntry Method
 
     // ===================================================================================
@@ -374,20 +469,12 @@ namespace Evado.UniForm.AdminClient
         String background = Entry.Command.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Default );
         String alternative = Entry.Command.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Alternative );
         String highlighted = Entry.Command.GetParameter ( Evado.UniForm.Model.EuCommandParameters.BG_Highlighted );
-        String title = String.Empty;
 
         if ( background == "" || background == "Null" ) background = background_Default;
         if ( alternative == "" || alternative == "Null" ) alternative = background_Alternative;
         if ( highlighted == "" || highlighted == "Null" ) highlighted = background_Highlighted;
 
-        this.LogDebug ( "background: " + background );
-        this.LogDebug ( "alternative: " + alternative );
-        this.LogDebug ( "highlighted: " + highlighted );
-
-        title = String.Format ( "Time: {0} - {1}\r\n{2}",
-          Entry.Time,
-          Entry.Subject,
-          Entry.Address.Address );
+        string title = Entry.Name.FullName;
 
         title = title.Replace ( "\r\n", "<br/>" );
 
