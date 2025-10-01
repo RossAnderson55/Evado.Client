@@ -88,7 +88,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = 100;
       int titleColumnWidth = 100;
-      String stFieldValueStyling = String.Format ("style='width:{0}}%' class='cell value cell-table-value cf' ",valueColumnWidth );
+      String stFieldValueStyling = String.Format ("style='width:{0}%' class='cell value cell-table-value cf' ",valueColumnWidth );
       //
       // Setting the default command bacground colours.
       //
@@ -292,7 +292,8 @@ namespace Evado.UniForm.AdminClient
     private void getDayCalendar ( EumCalendar Calendar )
     {
       this.LogMethod ( "getDayCalendar" );
-      this.LogDebug ( "StartDate: {01], DateRane: {1}", Calendar.StartDate.ToString ( "dd-MM-yy" ), Calendar.DateRange );
+      this.LogDebug ( "StartDate: {0}, DateRane: {1}", Calendar.StartDate.ToString ( "dd-MM-yy" ), Calendar.DateRange );
+      this.LogDebug ( "TimeStart: {0}, TimeFinish: {1}", Calendar.TimeStartHr, Calendar.TimeFinishHr );
       this.LogDebug ( "No Calendar Entries = {0}.", Calendar.Entries.Count );
 
       this.Html.AppendLine ( "<table class='table table-striped'>" );
@@ -303,15 +304,15 @@ namespace Evado.UniForm.AdminClient
       //
       // iterate through the time scale of the calendar.
       //
-      for ( int hour = 0; hour < 24; hour++ )
+      for ( int hour = Calendar.TimeStartHr; hour < Calendar.TimeFinishHr; hour++ )
       {
-        lowerTime = hour + 100;
-        upperTime = ( hour + 1 ) + 100;
+        lowerTime = hour * 100;
+        upperTime = ( hour + 1 ) * 100;
 
-        this.LogDebug ( "lowerTime: {0}, upperTime: [1}.", lowerTime, upperTime );
+        this.LogDebug ( "lowerTime: {0}, upperTime: {1}.", lowerTime, upperTime );
 
         this.Html.AppendLine ( "<tr>" );
-        this.Html.AppendFormat ( "<td>{0}</td>", lowerTime );
+        this.Html.AppendFormat ( "<td>{0}</td>", hour );
         this.Html.AppendLine ( "<td>" );
 
         this.GetCalendaEntry ( Calendar, Calendar.StartDate, lowerTime, upperTime );
@@ -348,8 +349,8 @@ namespace Evado.UniForm.AdminClient
           continue;
         }
 
-        if ( entry.iTime > LowerTime
-          && entry.iTime <= UpperTime )
+        if ( entry.iTime >= LowerTime
+          && entry.iTime < UpperTime )
         {
           this.renderCalendarCommand ( entry );
         }
@@ -383,7 +384,7 @@ namespace Evado.UniForm.AdminClient
         this.LogDebug ( "alternative: " + alternative );
         this.LogDebug ( "highlighted: " + highlighted );
 
-        title = String.Format ( "{0}\r\n{1}\r\n{2}",
+        title = String.Format ( "Time: {0} - {1}\r\n{2}",
           Entry.Time,
           Entry.Subject,
           Entry.Address.Address );

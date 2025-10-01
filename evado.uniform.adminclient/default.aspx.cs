@@ -17,21 +17,21 @@
  *
  ****************************************************************************************/
 
+using Evado.Model;
+using Evado.UniForm.Model;
+///Evado. namespace references.
+
+using Evado.UniForm.Web;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Security;
-using System.IO;
-using System.Text;
-using System.Net.Http;
-
-///Evado. namespace references.
-
-using Evado.UniForm.Web;
-using Evado.UniForm.Model;
-using Evado.Model;
+using System.Web.UI.MobileControls;
 
 namespace Evado.UniForm.AdminClient
 {
@@ -948,6 +948,7 @@ namespace Evado.UniForm.AdminClient
       ///
       /// Display a serialised instance of the object.
       ///
+      string jsonFileTemplate = "serialised_{0}.json";
       string serialisedText = String.Empty;
       Newtonsoft.Json.JsonSerializerSettings jsonSettings = new Newtonsoft.Json.JsonSerializerSettings
       {
@@ -964,36 +965,6 @@ namespace Evado.UniForm.AdminClient
       };
       serialisationGroup.Layout = Evado.UniForm.Model.EuGroupLayouts.Full_Width;
 
-      serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.EuAppData> ( this.UserSession.AppData );
-
-      /// 
-      /// Open the stream to the file.
-      /// 
-      using ( StreamWriter sw = new StreamWriter ( Global.ApplicationPath + @"temp\serialised_application_data.xml" ) )
-      {
-        sw.Write ( serialisedText );
-
-      }/// End StreamWrite
-
-
-      Evado.UniForm.Model.EuField groupField = serialisationGroup.createHtmlLinkField (
-        "lnkxmllad",
-        "XML Serialised Application Data Object",
-        "temp/serialised_application_data.xml" );
-
-      serialisedText = Evado.Model.EvStatics.SerialiseXmlObject<Evado.UniForm.Model.EuCommand> ( this.UserSession.PageCommand );
-
-      // 
-      // Open the stream to the file.
-      //
-      using ( StreamWriter sw = new StreamWriter ( Global.ApplicationPath + @"temp\serialised_command.xml" ) )
-      {
-        sw.Write ( serialisedText );
-
-      }/// End StreamWrite
-
-      groupField = serialisationGroup.createHtmlLinkField ( "lnkXmlcmd", "XML Serialised Command Object", @"temp/serialised_command.xml" );
-
       ///
       /// Display a serialised instance of the objec.
       ///
@@ -1002,43 +973,27 @@ namespace Evado.UniForm.AdminClient
         Newtonsoft.Json.Formatting.Indented,
         jsonSettings );
 
-
+      string filename = String.Format( jsonFileTemplate, "application_data" );
       /// 
       /// Open the stream to the file.
       /// 
-      using ( StreamWriter sw = new StreamWriter ( Global.ApplicationPath + @"temp\serialised_application_data.json.txt" ) )
-      {
-        sw.Write ( serialisedText );
+      EvStatics.Files.saveFile ( Global.TempPath, filename, serialisedText );
 
-      }/// End StreamWrite
-
-      groupField = serialisationGroup.createHtmlLinkField ( "lnkjsonad", "JSON Serialised Application Data Object", "temp/serialised_application_data.json.txt" );
+      Evado.UniForm.Model.EuField  groupField = serialisationGroup.createHtmlLinkField ( 
+        "lnkjsonad", "JSON Serialised Application Data Object", "temp/"+ filename );
 
       ///
       ///  JSON Command 
       ///
-      serialisedText = Newtonsoft.Json.JsonConvert.SerializeObject ( this.UserSession.PageCommand );
+      filename = String.Format ( jsonFileTemplate, "command" );
 
-      serialisedText = serialisedText.Replace ( "\r\n", "" );
-      serialisedText = serialisedText.Replace ( "\\n", "" );
-      serialisedText = serialisedText.Replace ( "\\r", "" );
-      serialisedText = serialisedText.Replace ( "\r\n{,", "\r\n{,\r\n" );
-      serialisedText = serialisedText.Replace ( "],", "],\r\n" );
-      serialisedText = serialisedText.Replace ( "\"},", "\"},\r\n" );
-      serialisedText = serialisedText.Replace ( ":[", ":[\r\n" );
-      serialisedText = serialisedText.Replace ( "],", "],\r\n" );
-      serialisedText = serialisedText.Replace ( "]}", "]\r\n}" );
-      serialisedText = serialisedText.Replace ( ",\"", ",\r\n\"" );
+      serialisedText = Newtonsoft.Json.JsonConvert.SerializeObject ( this.UserSession.PageCommand );
       /// 
       /// Open the stream to the file.
       /// 
-      using ( StreamWriter sw = new StreamWriter ( Global.ApplicationPath + @"\temp\json_serialised_command.txt" ) )
-      {
-        sw.Write ( serialisedText );
+      EvStatics.Files.saveFile ( Global.TempPath, filename, serialisedText );
 
-      }/// End StreamWrite
-
-      groupField = serialisationGroup.createHtmlLinkField ( "lnkjsonCmd", "JSON Serialised Command Object", "temp/json_serialised_command.txt" );
+      groupField = serialisationGroup.createHtmlLinkField ( "lnkjsonCmd", "JSON Serialised Command Object", "temp" + filename );
 
 
       this.LogDebug ( "Serialiation field count:" + serialisationGroup.FieldList.Count );
@@ -1401,9 +1356,46 @@ namespace Evado.UniForm.AdminClient
               this.LogMethodEnd ( "getCommandObject" );
               return command;
             }
-          }//END iteration loop
 
-        }//END iteration loop
+          }//END command iteration loop
+
+          //
+          // Field iteration loop
+          //
+          foreach ( EuField field in group.FieldList )
+          {
+            this.LogDebug ( "field.FieldId {0} - {1}, Type: {2}", field.FieldId, field.Title, field.Type );
+
+            switch ( field.Type )
+            {
+              case EvDataTypes.Calendar:
+                {
+                  this.LogDebug ( "Calendar Field found." );
+                  if ( field.Calendar != null )
+                  {
+                    foreach ( EumCalendarEntry entry in field.Calendar.Entries )
+                    {
+                      this.LogDebug ( "Calendar entry: {0}.", entry.Subject );
+
+                      if ( entry.Command != null )
+                      {
+                        if ( entry.Command.Id == CommandId )
+                        {
+                          this.LogDebug ( "Calendar: returning page group " + group.Title
+                            + " command: " + entry.Command.Title );
+
+                          this.LogMethodEnd ( "getCommandObject" );
+                          return entry.Command;
+                        }
+                      }
+                    }
+                  }
+                  break;
+                }
+            }
+
+          }//END iteration loop
+        }
       }
       catch ( Exception Ex )
       {
