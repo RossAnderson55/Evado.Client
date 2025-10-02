@@ -356,7 +356,7 @@ namespace Evado.UniForm.AdminClient
       this.Html.AppendFormat ( "<td style='width:10%' >&nbsp;</td>" );
       for ( int index = 0; index < 7; index++ )
       {
-        var date = Calendar.StartDate.AddDays ( index );
+        var date = Calendar.MondayDate.AddDays ( index );
         string headerText =  date.DayOfWeek.ToString();
         headerText = headerText.Replace ( "Monday", "Mon" );
         headerText = headerText.Replace ( "Tuesday", "Tues" );
@@ -390,7 +390,7 @@ namespace Evado.UniForm.AdminClient
         //
         for ( int index = 0; index < 7; index++ )
         {
-          var date = Calendar.StartDate.AddDays ( index );
+          var date = Calendar.MondayDate.AddDays ( index );
 
           this.LogDebug ( "date: {0}.", date.ToString ( "dd-MMM-yy" ) );
 
@@ -480,21 +480,20 @@ namespace Evado.UniForm.AdminClient
 
         if ( bEventRow == false )
         {
-          this.Html.AppendFormat ( "<p class=\"{0}\" "
+          this.Html.AppendFormat ( "<span class=\"{0}\" "
              + "onmouseover=\"this.className='{1}'\" "
              + "onmouseout=\"this.className='{0}'\" "
-             + "onclick=\"javascript:onPostBack('{2}')\">{3}</p>",
+             + "onclick=\"javascript:onPostBack('{2}')\">{3}</span>",
              background, highlighted, Entry.Command.Id, title );
-          this.Html.AppendLine ( "</tr>" );
 
           bEventRow = true;
         }
         else
         {
-          this.Html.AppendFormat ( "<p class=\"{0}\" "
+          this.Html.AppendFormat ( "<span class=\"{0}\" "
             + "onmouseover=\"this.className='{1}'\" "
             + "onmouseout=\"this.className='{0}'\" "
-            + "onclick=\"javascript:onPostBack('{2}')\">{3}</p>",
+            + "onclick=\"javascript:onPostBack('{2}')\">{3}</span>",
             alternative, highlighted, Entry.Command.Id, title );
 
           bEventRow = false;
@@ -503,7 +502,7 @@ namespace Evado.UniForm.AdminClient
       else
       {
         this.Html.Append ( "<tr> "
-        + "<td class=\"Header\" >" + Entry.Command.Title + "</td></tr>" );
+        + "<td class=\"Header\" >" + Entry.Command.Title + "</span>" );
       }
     }
 
