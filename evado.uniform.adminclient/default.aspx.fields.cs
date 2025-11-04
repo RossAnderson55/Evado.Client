@@ -2228,8 +2228,9 @@ namespace Evado.UniForm.AdminClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( option.containsValue ( PageField.Value ) == true )
+        if ( option.Value == PageField.Value )
         {
+          this.LogDebug ( "option.Value: {0} IS SELECTED ", option.Value );
           sbHtml.Append ( " checked='checked' " );
         }
 
@@ -2393,8 +2394,9 @@ namespace Evado.UniForm.AdminClient
               //sbHtml.Append ( " required " );
             }
 
-            if ( option.containsValue ( PageField.Value ) == true )
+            if ( option.Value == PageField.Value )
             {
+              this.LogDebug ( "option.Value: {0} IS SELECTED ", option.Value );
               sbHtml.Append ( " checked='checked' " );
             }
 
@@ -2526,6 +2528,8 @@ namespace Evado.UniForm.AdminClient
           continue;
         }
 
+        this.LogDebug ( "option.Value: {0}, PageField.Value: {1}", option.Value, PageField.Value );
+
         sbHtml.AppendLine ( "<div class='radio-inline' style='text-align:center'>" );
         sbHtml.AppendLine ( "<label  >" );
         sbHtml.AppendLine ( "<input "
@@ -2552,8 +2556,9 @@ namespace Evado.UniForm.AdminClient
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
 
-        if ( option.containsValue ( PageField.Value ) == true )
+        if ( option.Value == PageField.Value )
         {
+          this.LogDebug ( "option.Value: {0} IS SELECTED ", option.Value );
           sbHtml.Append ( " checked='checked' " );
         }
 
@@ -2956,7 +2961,7 @@ namespace Evado.UniForm.AdminClient
          + "value='" + option.Value + "' " ); // + "style='visibility: hidden;' " );
 
 
-        if ( option.containsValue ( PageField.Value ) == true )
+        if ( PageField.Value.Contains( option.Value) == true )
         {
           sbHtml.Append ( " checked='checked' " );
         }
@@ -3052,13 +3057,10 @@ namespace Evado.UniForm.AdminClient
       //
       // Insert the field elements
       //
-      sbHtml.Append ( "<div " + stFieldValueStyling + " > "
-        + "<select "
-        + "id='" + PageField.FieldId + "' "
-        + "name='" + PageField.FieldId + "' "
-        + "tabindex = '" + _TabIndex + "' "
-        + "value='" + PageField.Value
-        + "' class='form-control' data-parsley-trigger=\"change\" " );
+      sbHtml.AppendLine ( "<div " + stFieldValueStyling + " > " );
+
+      sbHtml.AppendFormat ( "<select id='{0}' name='{0}' tabindex = '{1}' value='{2}' class='form-control' data-parsley-trigger=\"change\"  ",
+       PageField.FieldId, this._TabIndex,PageField.Value);
 
       if ( PageField.Mandatory == true && PageField.EditAccess != false )
       {
@@ -3094,15 +3096,16 @@ namespace Evado.UniForm.AdminClient
          */
         sbHtml.Append ( " <option value=\"" + option.Value + "\" " );
 
-        if ( option.containsValue ( PageField.Value ) == true )
+        if ( option.Value == PageField.Value )
         {
+          this.LogDebug ( "option.Value: {0} IS SELECTED ", option.Value );
           sbHtml.Append ( " selected='selected' " );
         }
         sbHtml.Append ( ">" + option.Description + "</option>\r\n" );
       }
-      sbHtml.Append ( " </select>\r\n" );
+      sbHtml.AppendLine ( " </select>\r\n" );
 
-      sbHtml.Append ( "</div>\r\n" );
+      sbHtml.AppendLine ( "</div>\r\n" );
 
       this._TabIndex += 2;
 
@@ -3600,7 +3603,6 @@ namespace Evado.UniForm.AdminClient
               sbHtml.AppendLine ( "<input "
                   + "id='" + cellId + "' "
                   + "name='" + cellId + "' "
-                  + "tabindex = '" + _TabIndex + "' "
                   + "maxlength='10' "
                   + "size='10' "
                   + "type='text' "
@@ -3666,12 +3668,10 @@ namespace Evado.UniForm.AdminClient
               }
 
               //this.LogDebug ( "EditAccess = Enabled." );
-              sbHtml.AppendLine ( "<td class='data'>" );
+              sbHtml.AppendLine ( "<td class='checkbox-table'>" );
               //
               // display the boolean value if there is a value 'true' or 'false'.
               //
-              sbHtml.AppendLine ( "<div class='checkbox-table'>" );
-              sbHtml.AppendLine ( "<label >" );
               sbHtml.Append ( "<input "
                + "type='checkbox' "
                + "id='" + cellId + "' "
@@ -3687,8 +3687,6 @@ namespace Evado.UniForm.AdminClient
               sbHtml.AppendLine ( "/>" );
 
               sbHtml.AppendLine ( "<span class='label' >" + buttonValue + "</span>" );
-              sbHtml.AppendLine ( "</label>" );
-              sbHtml.AppendLine ( "</div>" );
 
               this._TabIndex++;
 
