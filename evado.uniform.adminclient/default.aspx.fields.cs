@@ -3357,11 +3357,6 @@ namespace Evado.UniForm.AdminClient
         return;
       }
 
-      //
-      // initialise the methods variables and objects.
-      //
-      bool dateStampRows = PageField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
-
       // 
       // Open the fieldtable data cells
       // 
@@ -3941,7 +3936,7 @@ namespace Evado.UniForm.AdminClient
 
       }//END column iteration loop,
 
-      if ( dateStampRows == true )
+      if ( PageField.Table.DateStampTableValues == true )
       {
         sbHtml.Append ( "<td class='data'>" );
         sbHtml.Append ( row.DateStamp );
