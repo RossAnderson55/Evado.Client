@@ -784,7 +784,6 @@ namespace Evado.UniForm.AdminClient
          + "id='" + PageField.FieldId + "' "
          + "name='" + PageField.FieldId + "' "
          + "value='" + PageField.Value + "' "
-         + "tabindex = '" + _TabIndex + "' "
          + "maxlength='" + stWidth + "' "
          + "size='" + stWidth + "' "
          + "class='form-control' " );
@@ -797,8 +796,6 @@ namespace Evado.UniForm.AdminClient
       sbHtml.AppendLine ( "/>" );
       sbHtml.AppendLine ( "</span>" );
       sbHtml.AppendLine ( "</div>" );
-
-      this._TabIndex += 2;
 
       //
       // Insert the field footer elemements
@@ -3152,9 +3149,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="Html">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createTableField(
-      StringBuilder Html,
-      Evado.UniForm.Model.EuField PageField )
+    private void createTableField( StringBuilder Html, EuField PageField )
     {
       this.LogMethod ( "createTableField" );
       this.LogDebug ( "PageField.Layout: {0}, Edit Access: {1}.",
@@ -3230,16 +3225,12 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // --------------------------------------------------------------------------------
-    private void getTableFieldHeader(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void getTableFieldHeader( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "getFormFieldTableHeader" );
       // 
       // Initialise local variables.
       // 
-      bool dateStampRows = PageField.GetParameterBoolean ( EuFieldParameters.Date_Stamp_Table_Rows );
-      this.LogDebug ( "dateStampRows: {0}.", dateStampRows );
 
       sbHtml.Append ( "<tr>" );
       // 
@@ -3321,7 +3312,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Add date stamp column.
       //
-      if ( dateStampRows == true )
+      if ( PageField.Table.DateStampTableValues == true )
       {
         this.LogDebug ( "Adding Date Stamp Columns" );
         sbHtml.Append ( "<td style='width:5%;text-align:center;'>" );
@@ -3341,10 +3332,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="PageField">Field object.</param>
     /// <param name="Row">Integer: table row.</param>
     // --------------------------------------------------------------------------------
-    private void getTableFieldDataRow(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField,
-      int Row )
+    private void getTableFieldDataRow( StringBuilder sbHtml, EuField PageField, int Row )
     {
       this.LogMethod ( "getTableFieldDataRow" );
       this.LogDebug ( "Row: {0}. ColumnCount: {1}.", Row, PageField.Table.ColumnCount );
