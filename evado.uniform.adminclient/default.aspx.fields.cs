@@ -2548,7 +2548,7 @@ namespace Evado.UniForm.AdminClient
 
         if ( PageField.Mandatory == true && PageField.EditAccess != false )
         {
-          sbHtml.Append ( " required " );
+         // sbHtml.Append ( " required " );
         }
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
@@ -2591,7 +2591,7 @@ namespace Evado.UniForm.AdminClient
 
         if ( PageField.Mandatory == true && PageField.EditAccess != false )
         {
-          sbHtml.Append ( " required " );
+         // sbHtml.Append ( " required " );
         }
 
         //this.addMandatoryIfAttribute ( sbHtml, PageField );
