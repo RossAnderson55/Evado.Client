@@ -2314,14 +2314,7 @@ input[type="date"] {
 
 .radio .label-20,
 .checkbox .label-20 {
-  margin: 0px;
-  padding: 10px;
-  text-align: left;
-  display: inline-block;
   width: 80%;
-  font-weight: normal;
-  background-color: #F8F8F8;
-  color: #000000;
 }
 
 .radio-inline .label,

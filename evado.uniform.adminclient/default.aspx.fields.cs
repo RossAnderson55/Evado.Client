@@ -28,18 +28,16 @@ namespace Evado.UniForm.AdminClient
     /// This method add the manadatory field if value attributes to teh field element.
     /// </summary>
     /// <param name="sbHtml">StringBuilder containing the page html.</param>
-    /// <param name="PageField">Evado.UniForm.Model.EuField object</param>
+    /// <param name="PageField">EuField object</param>
     //-----------------------------------------------------------------------------------
-    private void addMandatoryIfAttribute(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void addMandatoryIfAttribute( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "addMandatoryIfAttribute" );
       //
       // initialise method variables and objects.
       //
-      string stMandatoryIfFieldId = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Mandatory_If_Field_Id );
-      string stMandatoryIfFieldValue = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Mandatory_If_Value );
+      string stMandatoryIfFieldId = PageField.GetParameter ( EuFieldParameters.Mandatory_If_Field_Id );
+      string stMandatoryIfFieldValue = PageField.GetParameter ( EuFieldParameters.Mandatory_If_Value );
 
       if ( stMandatoryIfFieldId.Length > 0 )
       {
@@ -62,7 +60,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createFieldHeader(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField,
+      EuField PageField,
       int TitleWidth,
       bool TitleFullWidth )
     {
@@ -80,7 +78,7 @@ namespace Evado.UniForm.AdminClient
       String stFieldTitleStyling = String.Empty;
       String stField_Suffix = String.Empty;
       String stDescription = String.Empty;
-      String stAnnotation = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Annotation );
+      String stAnnotation = PageField.GetParameter ( EuFieldParameters.Annotation );
 
       stFieldRowStyling = "class='group-row field " + stLayout + " cf " + this.UserSession.FieldBackgroundColorClass ( PageField ) + "' ";
       stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
@@ -123,23 +121,23 @@ namespace Evado.UniForm.AdminClient
       //
       switch ( PageField.Layout )
       {
-        case Evado.UniForm.Model.EuFieldLayoutCodes.Default:
+        case EuFieldLayoutCodes.Default:
         {
           stLayout = "layout-normal";
           break;
         }
-        case Evado.UniForm.Model.EuFieldLayoutCodes.Center_Justified:
+        case EuFieldLayoutCodes.Center_Justified:
         {
           stLayout = "layout-center-justified";
           break;
         }
-        case Evado.UniForm.Model.EuFieldLayoutCodes.Column_Layout:
+        case EuFieldLayoutCodes.Column_Layout:
         {
           stLayout = "layout-column";
           stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
           break;
         }
-        case Evado.UniForm.Model.EuFieldLayoutCodes.Left_Justified:
+        case EuFieldLayoutCodes.Left_Justified:
         {
           stLayout = "layout-left-justified";
           break;
@@ -153,7 +151,7 @@ namespace Evado.UniForm.AdminClient
       {
         stFieldTitleStyling = "style='width: 98%; ' class='cell title cell-display-text-title'";
 
-        if ( PageField.Layout != Evado.UniForm.Model.EuFieldLayoutCodes.Column_Layout )
+        if ( PageField.Layout != EuFieldLayoutCodes.Column_Layout )
         {
           stFieldTitleStyling = "style='width:" + TitleWidth + "%; ' class='cell title cell-display-text-title'";
         }
@@ -251,8 +249,8 @@ namespace Evado.UniForm.AdminClient
         //
         // Display the annotatin if it exists.
         //
-        if ( this.UserSession.CurrentGroup.GroupType != Evado.UniForm.Model.EuGroupTypes.Annotated_Fields
-          && this.UserSession.CurrentGroup.GroupType != Evado.UniForm.Model.EuGroupTypes.Review_Fields
+        if ( this.UserSession.CurrentGroup.GroupType != EuGroupTypes.Annotated_Fields
+          && this.UserSession.CurrentGroup.GroupType != EuGroupTypes.Review_Fields
           && stAnnotation != String.Empty )
         {
           sbHtml.Append ( "<div class='description'>" + stAnnotation + "</div>" );
@@ -261,12 +259,12 @@ namespace Evado.UniForm.AdminClient
         //
         // Display the annotation field
         //
-        else if ( this.UserSession.CurrentGroup.GroupType == Evado.UniForm.Model.EuGroupTypes.Annotated_Fields )
+        else if ( this.UserSession.CurrentGroup.GroupType == EuGroupTypes.Annotated_Fields )
         {
           sbHtml.Append ( "<div class='description'>" + stAnnotation
            + "<input type='text' "
-           + "id='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_FIELD_ANNOTATION_SUFFIX + "' "
-           + "name='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_FIELD_ANNOTATION_SUFFIX + "' "
+           + "id='" + PageField.FieldId + EuField.CONST_FIELD_ANNOTATION_SUFFIX + "' "
+           + "name='" + PageField.FieldId + EuField.CONST_FIELD_ANNOTATION_SUFFIX + "' "
            + "tabindex = '" + this._TabIndex + "' "
            + "maxlength='200' "
            + "size='70' "
@@ -279,20 +277,20 @@ namespace Evado.UniForm.AdminClient
         //
         // Display the review fields.
         //
-        else if ( this.UserSession.CurrentGroup.GroupType == Evado.UniForm.Model.EuGroupTypes.Review_Fields )
+        else if ( this.UserSession.CurrentGroup.GroupType == EuGroupTypes.Review_Fields )
         {
           sbHtml.Append ( "<div class='description'>" + stAnnotation
            + "<br/> Query: "
            + "<input type='checkbox' "
-           + "id='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_FIELD_QUERY_SUFFIX + "' "
-           + "name='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_FIELD_QUERY_SUFFIX + "' "
+           + "id='" + PageField.FieldId + EuField.CONST_FIELD_QUERY_SUFFIX + "' "
+           + "name='" + PageField.FieldId + EuField.CONST_FIELD_QUERY_SUFFIX + "' "
            + "tabindex = '" + this._TabIndex + "' />\r\n" );
 
           this._TabIndex++;
 
           sbHtml.Append ( "<input type='text' "
-         + "id='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_FIELD_ANNOTATION_SUFFIX + "' "
-         + "name='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_FIELD_ANNOTATION_SUFFIX + "' "
+         + "id='" + PageField.FieldId + EuField.CONST_FIELD_ANNOTATION_SUFFIX + "' "
+         + "name='" + PageField.FieldId + EuField.CONST_FIELD_ANNOTATION_SUFFIX + "' "
          + "tabindex = '" + this._TabIndex + "' "
          + "maxlength='200' "
          + "size='70' class='form-control' />\r\n"
@@ -319,9 +317,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="PageField">Field object.</param>
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
-    private void createFieldFooter(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createFieldFooter( StringBuilder sbHtml, EuField PageField )
     {
       sbHtml.Append ( "</div>" );
 
@@ -349,18 +345,18 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
+        EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Width ) == true )
       {
-        stWidth = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
+        stWidth = PageField.GetParameterInt ( EuFieldParameters.Width );
       }
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Height ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Height ) == true )
       {
-        stHeight = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Height );
+        stHeight = PageField.GetParameterInt ( EuFieldParameters.Height );
       }
 
       String stFieldValueStyling = String.Format ( "style='width:{0}%; padding-top:10px; ' class='cell value cell-display-text-title' ", valueColumnWidth );
@@ -543,9 +539,9 @@ namespace Evado.UniForm.AdminClient
       this.TestFileUpload.Visible = true;
       bool fullWidth = false;
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Width ) == true )
       {
-        iWidth = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
+        iWidth = PageField.GetParameterInt ( EuFieldParameters.Width );
       }
 
       // 
@@ -659,9 +655,9 @@ namespace Evado.UniForm.AdminClient
       int titleColumnWidth = 100 - valueColumnWidth;
       int maxLength = 20;
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Width ) == true )
       {
-        maxLength = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
+        maxLength = PageField.GetParameterInt ( EuFieldParameters.Width );
       }
 
       //
@@ -685,7 +681,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
+        EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -758,8 +754,8 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stWidth = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
-      String stRows = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height );
+      String stWidth = PageField.GetParameter ( EuFieldParameters.Width );
+      String stRows = PageField.GetParameter ( EuFieldParameters.Height );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-text-value cf' ";
       PageField.EditAccess = false;
       //
@@ -835,20 +831,20 @@ namespace Evado.UniForm.AdminClient
       int width = 40;
       int height = 5;
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Width ) == true )
       {
-        width = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
+        width = PageField.GetParameterInt ( EuFieldParameters.Width );
       }
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Height ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Height ) == true )
       {
-        height = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Height );
+        height = PageField.GetParameterInt ( EuFieldParameters.Height );
       }
 
       int maxLength = ( int ) ( width * height * 2 );
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Max_Value ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Max_Value ) == true )
       {
-        maxLength = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Max_Value );
+        maxLength = PageField.GetParameterInt ( EuFieldParameters.Max_Value );
       }
 
       //
@@ -920,8 +916,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder object.</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createNumericField(
-      StringBuilder sbHtml, EuField PageField )
+    private void createNumericField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createNumericField" );
       //
@@ -931,15 +926,15 @@ namespace Evado.UniForm.AdminClient
       int titleColumnWidth = 100 - valueColumnWidth;
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-number-value cf' ";
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
-      String stUnit = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Unit );
-      String stMinValue = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Min_Value );
-      String stMaxValue = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Max_Value );
-      String stMinAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Min_Alert );
-      String stMaxAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Max_Alert );
-      String stCssValid = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Validation );
-      String stCssAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Alert );
-      String stCssNormal = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Normal );
+      String stSize = PageField.GetParameter ( EuFieldParameters.Width );
+      String stUnit = PageField.GetParameter ( EuFieldParameters.Unit );
+      String stMinValue = PageField.GetParameter ( EuFieldParameters.Min_Value );
+      String stMaxValue = PageField.GetParameter ( EuFieldParameters.Max_Value );
+      String stMinAlert = PageField.GetParameter ( EuFieldParameters.Min_Alert );
+      String stMaxAlert = PageField.GetParameter ( EuFieldParameters.Max_Alert );
+      String stCssValid = PageField.GetParameter ( EuFieldParameters.BG_Validation );
+      String stCssAlert = PageField.GetParameter ( EuFieldParameters.BG_Alert );
+      String stCssNormal = PageField.GetParameter ( EuFieldParameters.BG_Normal );
 
       if ( stMinAlert != String.Empty
         && stMaxAlert == String.Empty )
@@ -1075,45 +1070,45 @@ namespace Evado.UniForm.AdminClient
       String value = String.Empty;
 
       #region numeric range values
-      String stUnit = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Unit );
+      String stUnit = PageField.GetParameter ( EuFieldParameters.Unit );
       String stMinValue = "-1000000";
       String stMaxValue = "1000000";
       String stMinAlert = "-1000000";
       String stMaxAlert = "1000000";
       String stMinNorm = "-1000000";
       String stMaxNorm = "1000000";
-      String stCssValid = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Validation );
-      String stCssAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Alert );
-      String stCssNormal = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Normal );
+      String stCssValid = PageField.GetParameter ( EuFieldParameters.BG_Validation );
+      String stCssAlert = PageField.GetParameter ( EuFieldParameters.BG_Alert );
+      String stCssNormal = PageField.GetParameter ( EuFieldParameters.BG_Normal );
 
 
-      value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Min_Value );
+      value = PageField.GetParameter ( EuFieldParameters.Min_Value );
       if ( value != String.Empty )
       {
         stMinValue = value;
       }
-      value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Max_Value );
+      value = PageField.GetParameter ( EuFieldParameters.Max_Value );
       if ( value != String.Empty )
       {
         stMaxValue = value;
       }
-      value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Min_Alert );
+      value = PageField.GetParameter ( EuFieldParameters.Min_Alert );
       if ( value != String.Empty )
       {
         stMinAlert = value;
       }
-      value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Max_Alert );
+      value = PageField.GetParameter ( EuFieldParameters.Max_Alert );
       if ( value != String.Empty )
       {
         stMaxAlert = value;
       }
-      value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Min_Normal );
+      value = PageField.GetParameter ( EuFieldParameters.Min_Normal );
       if ( value != String.Empty )
       {
         stMinNorm = value;
       }
 
-      value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Max_Normal );
+      value = PageField.GetParameter ( EuFieldParameters.Max_Normal );
       if ( value != String.Empty )
       {
         stMaxNorm = value;
@@ -1269,10 +1264,10 @@ namespace Evado.UniForm.AdminClient
       int titleColumnWidth = 100 - valueColumnWidth;
 
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-date-value ' "; //cf
-      int minYear = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Min_Value );
-      int maxYear = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Max_Value );
-      String stCssValid = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Validation );
-      String stCssAlert = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.BG_Alert );
+      int minYear = PageField.GetParameterInt ( EuFieldParameters.Min_Value );
+      int maxYear = PageField.GetParameterInt ( EuFieldParameters.Max_Value );
+      String stCssValid = PageField.GetParameter ( EuFieldParameters.BG_Validation );
+      String stCssAlert = PageField.GetParameter ( EuFieldParameters.BG_Alert );
 
       String stdateSelection = String.Empty;
       String stDate = PageField.Value;
@@ -1302,9 +1297,9 @@ namespace Evado.UniForm.AdminClient
       }
       else
       {
-        if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Format ) )
+        if ( PageField.hasParameter ( EuFieldParameters.Format ) )
         {
-          string value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Format );
+          string value = PageField.GetParameter ( EuFieldParameters.Format );
           value = value.ToLower ( );
 
           if ( value.Length <= 8 )
@@ -1429,9 +1424,9 @@ namespace Evado.UniForm.AdminClient
       int titleColumnWidth = 100 - valueColumnWidth;
       int maxLength = 20;
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Width ) == true )
       {
-        maxLength = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
+        maxLength = PageField.GetParameterInt ( EuFieldParameters.Width );
       }
 
       //
@@ -1463,7 +1458,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
+        EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -1545,8 +1540,8 @@ namespace Evado.UniForm.AdminClient
 
       String stFormat = "dd - MMM - yyyy";
 
-      int minYear = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Min_Value );
-      int maxYear = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Max_Value );
+      int minYear = PageField.GetParameterInt ( EuFieldParameters.Min_Value );
+      int maxYear = PageField.GetParameterInt ( EuFieldParameters.Max_Value );
 
       if ( PageField.Type == Evado.Model.EvDataTypes.Year )
       {
@@ -1554,9 +1549,9 @@ namespace Evado.UniForm.AdminClient
       }
       else
       {
-        if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Format ) )
+        if ( PageField.hasParameter ( EuFieldParameters.Format ) )
         {
-          string parmmeter = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Format );
+          string parmmeter = PageField.GetParameter ( EuFieldParameters.Format );
           parmmeter = parmmeter.ToLower ( );
 
           if ( parmmeter.Length <= 8 )
@@ -1854,13 +1849,13 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      String stSize = PageField.GetParameter ( EuFieldParameters.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-date-value ' "; //cf
       String stFormat = "HH : MM : SS";
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Format ) )
+      if ( PageField.hasParameter ( EuFieldParameters.Format ) )
       {
-        string value = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Format );
+        string value = PageField.GetParameter ( EuFieldParameters.Format );
         value = value.ToLower ( );
 
         if ( value.Length <= 5 )
@@ -2123,10 +2118,10 @@ namespace Evado.UniForm.AdminClient
       //
       // Initialise the methods variables and objects.
       //
-      Evado.UniForm.Model.EuFieldValueWidths widthValue = EuFieldValueWidths.Default;
+      EuFieldValueWidths widthValue = EuFieldValueWidths.Default;
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
+      String stValueLegend = PageField.GetParameter ( EuFieldParameters.Field_Value_Legend );
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
@@ -2324,8 +2319,8 @@ namespace Evado.UniForm.AdminClient
         int valueColumnWidth = this.UserSession.GroupFieldWidth;
         int titleColumnWidth = 100 - valueColumnWidth;
         String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-radio-value cf' ";
-        String stQuizValue = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Quiz_Value );
-        String stQuizAnswer = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Quiz_Answer );
+        String stQuizValue = PageField.GetParameter ( EuFieldParameters.Quiz_Value );
+        String stQuizAnswer = PageField.GetParameter ( EuFieldParameters.Quiz_Answer );
 
         //
         // Set the normal validation parameters.
@@ -2634,7 +2629,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createYesNoField( StringBuilder sbHtml, EuField PageField )
+    private void createYesNoField( StringBuilder sbHtml, EuField PageField ) 
     {
       this.LogMethod ( "createYesNoField" );
       //
@@ -2642,7 +2637,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
+      String stValueLegend = PageField.GetParameter ( EuFieldParameters.Field_Value_Legend );
 
       //
       // Set the normal validation parameters.
@@ -2651,7 +2646,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
+        EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -2684,13 +2679,13 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.AppendLine ( "<div class='radio-inline'>" );
       sbHtml.AppendLine ( "<label>" );
-      sbHtml.Append ( "<input "
+      sbHtml.AppendFormat ( "<input "
        + "type='radio' "
-       + "id='" + PageField.FieldId + "_Y' "
-       + "name='" + PageField.FieldId + "' "
-       + "tabindex = '" + _TabIndex + "' "
+       + "id='{0}_Y' "
+       + "name='{0}' "
+       + "tabindex = '{1}' "
        + "value=\"Yes\" "
-       + "data-parsley-trigger=\"change\" " );
+       + "data-parsley-trigger=\"change\" ", PageField.FieldId, _TabIndex );
 
       /*
       if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EditCodes.Edit_Disabled )
@@ -2729,13 +2724,13 @@ namespace Evado.UniForm.AdminClient
       //
       sbHtml.Append ( "<div class='radio-inline'>" );
       sbHtml.AppendLine ( "<label>" );
-      sbHtml.AppendLine ( "<input "
+      sbHtml.AppendFormat ( "<input "
        + "type='radio' "
-       + "id='" + PageField.FieldId + "_N' "
-       + "name='" + PageField.FieldId + "' "
-       + "value=\"No\" "
-       + "tabindex = '" + _TabIndex + "' "
-       + "data-parsley-trigger=\"change\" " );
+       + "id='{0}_N' "
+       + "name='{0}' "
+       + "tabindex = '{1}' "
+       + "value=\"Yes\" "
+       + "data-parsley-trigger=\"change\" ", PageField.FieldId, _TabIndex );
 
       /*
       if ( PageField.Mandatory == true &&  PageField.EditAccess != Evado.UniForm.Model.EditCodes.Edit_Disabled )
@@ -2798,7 +2793,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
+      String stValueLegend = PageField.GetParameter ( EuFieldParameters.Field_Value_Legend );
 
       //
       // Set the normal validation parameters.
@@ -2807,7 +2802,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
+        EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -2888,10 +2883,10 @@ namespace Evado.UniForm.AdminClient
       //
       // Initialise the methods variables and objects.
       //
-      Evado.UniForm.Model.EuFieldValueWidths widthValue = EuFieldValueWidths.Default;
+      EuFieldValueWidths widthValue = EuFieldValueWidths.Default;
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stValueLegend = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Field_Value_Legend );
+      String stValueLegend = PageField.GetParameter ( EuFieldParameters.Field_Value_Legend );
 
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
@@ -2946,16 +2941,17 @@ namespace Evado.UniForm.AdminClient
         this.LogDebug ( "V: {0}, D {1}, {2}.", option.Value, option.Description, option.containsValue ( PageField.Value ) );
 
         int count = i + 1;
+        string itemId = PageField.FieldId + "_" + count;
 
         sbHtml.AppendLine ( "<div class='checkbox'>" );
         sbHtml.AppendLine ( "<label>" );
 
-        sbHtml.AppendLine ( "<input "
+        sbHtml.AppendFormat ( "<input "
          + "type='checkbox' "
-         + "id='" + PageField.FieldId + "_" + count + "' "
-         + "name='" + PageField.FieldId + "' "
-         + "tabindex = '" + _TabIndex + "' "
-         + "value='" + option.Value + "' " ); // + "style='visibility: hidden;' " );
+         + "id='{0}_{1}' "
+         + "name='{0}' "
+         + "tabindex = '{2}' "
+         + "value='{3}' ", PageField.FieldId, count, _TabIndex, option.Value ); // + "style='visibility: hidden;' " );
 
 
         if ( PageField.Value.Contains( option.Value) == true )
@@ -2980,7 +2976,7 @@ namespace Evado.UniForm.AdminClient
         sbHtml.AppendLine ( "/>" );
         if ( valueColumnWidth < 40 )
         {
-          sbHtml.AppendLine ( "<span class='label-20' >" + option.Description + "</span>" );
+          sbHtml.AppendLine ( "<label class='label, label-20' >" + option.Description + "</label>" );
         }
         else
         {
@@ -3013,9 +3009,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder:  containing html string content</param>
     /// <param name="PageField">Field object.</param>
     // ----------------------------------------------------------------------------------
-    private void createSelectionListField(
-      StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+    private void createSelectionListField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createSelectionListField" );
       this.LogDebug ( "PageField: Title: " + PageField.Title );
@@ -3028,7 +3022,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
+        EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -3134,7 +3128,7 @@ namespace Evado.UniForm.AdminClient
       //
       if ( this.UserSession.CurrentGroup.CommandList.Count > 0 )
       {
-        Evado.UniForm.Model.EuCommand command = this.UserSession.CurrentGroup.CommandList [ 0 ];
+        EuCommand command = this.UserSession.CurrentGroup.CommandList [ 0 ];
 
         return "onchange=\"javascript:onPostBack('" + command.Id + "')\"";
       }
@@ -3362,7 +3356,7 @@ namespace Evado.UniForm.AdminClient
           rowReadOnly = true;
         }
 
-        this.LogDebug ( "column: {0}, Text: {1}, DataType: {2}.", column, header.Text, cellDataType );
+        this.LogDebug ( "column: {0}, Text: {1}, DataType: {2}, rowReadOnly {3}.", column, header.Text, cellDataType, rowReadOnly );
         try
         {
           // 
@@ -3611,12 +3605,12 @@ namespace Evado.UniForm.AdminClient
                 buttonValue = header.OptionsOrUnit;
               }
 
-              //this.LogDebug ( "Row ReadOnly: {0}, Boolean (checkbox), cellId: {1}, buttonValue: {2}, colValue: {3}.",
-              //rowReadOnly, cellId, buttonValue, colValue );
+              this.LogDebug ( "Row ReadOnly: {0}, Boolean (checkbox), cellId: {1}, buttonValue: {2}, colValue: {3}.",
+              rowReadOnly, cellId, buttonValue, colValue );
 
               if ( rowReadOnly == true )
               {
-                //this.LogDebug ( "EditAccess = Disabled." );
+                this.LogDebug ( "EditAccess = Disabled." );
                 sbHtml.Append ( "<td class='data' style='text-align:center;'>" );
 
                 var bValue = EvStatics.getBool ( colValue );
@@ -3650,17 +3644,17 @@ namespace Evado.UniForm.AdminClient
                 break;
               }
 
-              //this.LogDebug ( "EditAccess = Enabled." );
+              this.LogDebug ( "EditAccess = Enabled." );
               sbHtml.AppendLine ( "<td class='checkbox-table'>" );
               //
               // display the boolean value if there is a value 'true' or 'false'.
               //
-              sbHtml.Append ( "<input "
+              sbHtml.AppendFormat ( "<input "
                + "type='checkbox' "
-               + "id='" + cellId + "' "
-               + "name='" + cellId + "' "
-               + "tabindex = '" + _TabIndex + "' "
-               + "value='true' " );
+               + "id='{0}' "
+               + "name='{0}' "
+               + "tabindex = '{1}' "
+               + "value='true' ", cellId, _TabIndex );
 
               if ( colValue == "true" )
               {
@@ -3669,13 +3663,13 @@ namespace Evado.UniForm.AdminClient
 
               sbHtml.AppendLine ( "/>" );
 
-              sbHtml.AppendLine ( "<span class='label' >" + buttonValue + "</span>" );
+              sbHtml.AppendFormat ( "<label for='{0}' class='label' >{1}</label>", cellId, buttonValue );
 
               this._TabIndex++;
 
-              sbHtml.AppendLine ( "</td>" );
+                sbHtml.AppendLine ( "</td>" );
 
-              break;
+                break;
             }//END Boolean  Case.
 
             case Evado.Model.EvDataTypes.Yes_No:
@@ -4032,7 +4026,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createSoundField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createSoundField" );
       //
@@ -4073,7 +4067,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createCurrencyField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createCurrencyField" );
       //
@@ -4081,7 +4075,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      String stSize = PageField.GetParameter ( EuFieldParameters.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-currency-value cf' ";
 
       if ( stSize == String.Empty )
@@ -4140,7 +4134,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createEmailAddressField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createEmailAddressField" );
       //
@@ -4148,7 +4142,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      String stSize = PageField.GetParameter ( EuFieldParameters.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-email-value cf' ";
 
       //
@@ -4210,7 +4204,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createTelephoneNumberField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createTelephoneNumberField" );
       //
@@ -4218,7 +4212,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+      String stSize = PageField.GetParameter ( EuFieldParameters.Width );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-telephones-value cf' ";
 
       //
@@ -4281,7 +4275,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createAnalogueField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createAnalogueField" );
       //
@@ -4306,7 +4300,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Set the column layout to display the analogue scale below the field title and instructions.
       //
-      PageField.Layout = Evado.UniForm.Model.EuFieldLayoutCodes.Column_Layout;
+      PageField.Layout = EuFieldLayoutCodes.Column_Layout;
 
       //
       // Ineert the field header
@@ -4403,7 +4397,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createNameField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createNameField" );
       //
@@ -4411,7 +4405,7 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stFormat = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Format );
+      String stFormat = PageField.GetParameter ( EuFieldParameters.Format );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-name-value cf' ";
       EvName name = new EvName ( PageField.Value );
 
@@ -4552,7 +4546,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createAddressField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createAddressField" );
       //
@@ -4564,9 +4558,9 @@ namespace Evado.UniForm.AdminClient
       EvAddress address = new EvAddress ( PageField.Value );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell value cell-input-address-value cf' ";
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Format ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Format ) == true )
       {
-        displayPrompts = PageField.GetParameterBoolean ( Evado.UniForm.Model.EuFieldParameters.Format );
+        displayPrompts = PageField.GetParameterBoolean ( EuFieldParameters.Format );
       }
       //
       // Ineert the field header
@@ -4795,7 +4789,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createSignatureField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createSignatureField" );
       this.LogStandard ( "Field.Status: " + PageField.EditAccess );
@@ -4823,14 +4817,14 @@ namespace Evado.UniForm.AdminClient
       //
       // Set the canvas width and height
       //
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Width ) == true )
       {
-        canvasWidth = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
+        canvasWidth = PageField.GetParameter ( EuFieldParameters.Width );
       }
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Height ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Height ) == true )
       {
-        canvasHeight = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height );
+        canvasHeight = PageField.GetParameter ( EuFieldParameters.Height );
       }
 
       this.LogStandard ( "Field Value: " + PageField.Value );
@@ -4984,7 +4978,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createRastorGraphicField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createRastorGraphicField" );
       this.LogStandard ( "Field.Status: " + PageField.EditAccess );
@@ -5013,19 +5007,19 @@ namespace Evado.UniForm.AdminClient
       //
       // Set the canvas width and height
       //
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Width ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Width ) == true )
       {
-        canvasWidth = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
+        canvasWidth = PageField.GetParameterInt ( EuFieldParameters.Width );
       }
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Height ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Height ) == true )
       {
-        canvasHeight = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Height );
+        canvasHeight = PageField.GetParameterInt ( EuFieldParameters.Height );
       }
 
-      if ( PageField.hasParameter ( Evado.UniForm.Model.EuFieldParameters.Background_Image_URL ) == true )
+      if ( PageField.hasParameter ( EuFieldParameters.Background_Image_URL ) == true )
       {
-        backgroundImageURL = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Background_Image_URL );
+        backgroundImageURL = PageField.GetParameter ( EuFieldParameters.Background_Image_URL );
       }
 
       this.LogStandard ( "Parameters:  Width: {0}, Height: {1}, Backgroun URL {2}.",
@@ -5186,7 +5180,7 @@ namespace Evado.UniForm.AdminClient
     /// <param name="sbHtml">StringBuilder containing the page html</param>
     /// <param name="PageField">Field object.</param
     // ----------------------------------------------------------------------------------
-    private void createPasswordField( StringBuilder sbHtml, Evado.UniForm.Model.EuField PageField )
+    private void createPasswordField( StringBuilder sbHtml, EuField PageField )
     {
       this.LogMethod ( "createPasswordField" );
       //
@@ -5194,8 +5188,8 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      String stSize = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
-      String stRows = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height );
+      String stSize = PageField.GetParameter ( EuFieldParameters.Width );
+      String stRows = PageField.GetParameter ( EuFieldParameters.Height );
       String stFieldValueStyling = "style='' class='cell value cell-input-text-value cf' ";
 
       //
@@ -5262,7 +5256,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createHttpLinkField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createHttpLinkField" );
       //
@@ -5274,7 +5268,7 @@ namespace Evado.UniForm.AdminClient
 
       if ( PageField.hasParameter ( EuFieldParameters.Field_Value_Column_Width ) == true )
       {
-        Evado.UniForm.Model.EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
+        EuFieldValueWidths widthValue = PageField.ValueColumnWidth;
         valueColumnWidth = ( int ) widthValue;
         titleColumnWidth = 100 - valueColumnWidth;
       }
@@ -5341,8 +5335,8 @@ namespace Evado.UniForm.AdminClient
         sbHtml.AppendLine ( "</td>" );
         sbHtml.AppendLine ( "<td>" );
         sbHtml.AppendLine ( "<input type='text' "
-           + "id='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_HTTP_URL_FIELD_SUFFIX + "' "
-           + "name='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_HTTP_URL_FIELD_SUFFIX + "' "
+           + "id='" + PageField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX + "' "
+           + "name='" + PageField.FieldId + EuField.CONST_HTTP_URL_FIELD_SUFFIX + "' "
            + "value='" + stLinkUrl + "' "
            + "tabindex = '" + _TabIndex + "' "
            + "maxlength='100' "
@@ -5355,8 +5349,8 @@ namespace Evado.UniForm.AdminClient
         sbHtml.AppendLine ( "</td>" );
         sbHtml.AppendLine ( "<td>" );
         sbHtml.AppendLine ( "<input type='text' "
-           + "id='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_HTTP_TITLE_FIELD_SUFFIX + "' "
-           + "name='" + PageField.FieldId + Evado.UniForm.Model.EuField.CONST_HTTP_TITLE_FIELD_SUFFIX + "' "
+           + "id='" + PageField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX + "' "
+           + "name='" + PageField.FieldId + EuField.CONST_HTTP_TITLE_FIELD_SUFFIX + "' "
            + "value='" + stLinkTitle + "' "
            + "tabindex = '" + _TabIndex + "' "
            + "maxlength='100' "
@@ -5394,7 +5388,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createStreamedVideoField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createStreamedVideoField" );
       //
@@ -5403,9 +5397,9 @@ namespace Evado.UniForm.AdminClient
       string value = PageField.Value.ToLower ( );
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      int width = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
-      int height = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Height );
-      String videoTitle = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Value_Label );
+      int width = PageField.GetParameterInt ( EuFieldParameters.Width );
+      int height = PageField.GetParameterInt ( EuFieldParameters.Height );
+      String videoTitle = PageField.GetParameter ( EuFieldParameters.Value_Label );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell cell-display-text-value cf' ";
       String stVideoStreamParameters = String.Empty;
       String stVideoSource = String.Empty;
@@ -5483,7 +5477,7 @@ namespace Evado.UniForm.AdminClient
     /// <returns>String html</returns>
     // ----------------------------------------------------------------------------------
     private String getVideoIFrame(
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "getVideoIFrame" );
       //
@@ -5491,9 +5485,9 @@ namespace Evado.UniForm.AdminClient
       //
       StringBuilder sbHtml = new StringBuilder ( );
       string value = PageField.Value.ToLower ( );
-      int width = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Width );
-      int height = PageField.GetParameterInt ( Evado.UniForm.Model.EuFieldParameters.Height );
-      String videoTitle = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Value_Label );
+      int width = PageField.GetParameterInt ( EuFieldParameters.Width );
+      int height = PageField.GetParameterInt ( EuFieldParameters.Height );
+      String videoTitle = PageField.GetParameter ( EuFieldParameters.Value_Label );
       String stVideoStreamParameters = String.Empty;
       String stVideoSource = String.Empty;
 
@@ -5581,7 +5575,7 @@ namespace Evado.UniForm.AdminClient
     // ----------------------------------------------------------------------------------
     private void createExternalImageField(
       StringBuilder sbHtml,
-      Evado.UniForm.Model.EuField PageField )
+      EuField PageField )
     {
       this.LogMethod ( "createExternalImageField" );
       //
@@ -5589,9 +5583,9 @@ namespace Evado.UniForm.AdminClient
       //
       int valueColumnWidth = this.UserSession.GroupFieldWidth;
       int titleColumnWidth = 100 - valueColumnWidth;
-      string sWidth = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
-      string height = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height );
-      String stRatio = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height_Width_ratio );
+      string sWidth = PageField.GetParameter ( EuFieldParameters.Width );
+      string height = PageField.GetParameter ( EuFieldParameters.Height );
+      String stRatio = PageField.GetParameter ( EuFieldParameters.Height_Width_ratio );
       String stFieldValueStyling = "style='width:" + valueColumnWidth + "%' class='cell cell-display-text-value cf' ";
       String stVideoStreamParameters = String.Empty;
       String stImageUrl = PageField.Value.ToLower ( );
@@ -5670,8 +5664,8 @@ namespace Evado.UniForm.AdminClient
       int titleColumnWidth = 100 - valueColumnWidth;
       string placeHolder = PageField.FieldId.ToLower ( );
       string chartJs = PageField.Chart.GetJsData ( );
-      String stWidth = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Width );
-      String stRatio = PageField.GetParameter ( Evado.UniForm.Model.EuFieldParameters.Height_Width_ratio );
+      String stWidth = PageField.GetParameter ( EuFieldParameters.Width );
+      String stRatio = PageField.GetParameter ( EuFieldParameters.Height_Width_ratio );
       if ( PageField.Layout == EuFieldLayoutCodes.Column_Layout )
       {
         valueColumnWidth = 98;

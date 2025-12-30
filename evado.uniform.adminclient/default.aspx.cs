@@ -1633,7 +1633,7 @@ namespace Evado.UniForm.AdminClient
       //
       // Create a page object.
       //
-      this.UserSession.PageCommand = new Evado.UniForm.Model.EuCommand ( "Login",
+      this.UserSession.PageCommand = EuCommand.NewCommand ( "Login",
         Evado.UniForm.Model.EuCommandTypes.Network_Login_Command,
         "Default",
         "Default",
@@ -1685,7 +1685,7 @@ namespace Evado.UniForm.AdminClient
       //
       if ( this.UserSession.PageCommand.Type != Evado.UniForm.Model.EuCommandTypes.Login_Command )
       {
-        this.UserSession.PageCommand = new Evado.UniForm.Model.EuCommand ( "Login",
+        this.UserSession.PageCommand = EuCommand.NewCommand ( Evado.UniForm.Model.EuLabels.Default_Login_Command_Title,
           Evado.UniForm.Model.EuCommandTypes.Login_Command,
           "Default",
           "Default",
@@ -1772,7 +1772,8 @@ namespace Evado.UniForm.AdminClient
       //
       // Create a page object.
       //
-      this.UserSession.PageCommand = new Evado.UniForm.Model.EuCommand ( "Logout",
+      this.UserSession.PageCommand = EuCommand.NewCommand (
+        Evado.UniForm.Model.EuLabels.Default_Logout_Command_Title,
         Evado.UniForm.Model.EuCommandTypes.Logout_Command,
         "Default",
         "Default",
